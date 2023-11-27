@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root{
+
+        /*green colors*/
+        --color-az-lime-green-100: 160, 248, 73 ;
+        --color-az-lime-green-400: 126, 194, 93 ;
+        --color-az-sea-green-900: 77, 117, 111 ;
+        --color-az-winter-green-dream: 103, 146, 137 ;
+        --color-az-myrtle-green: 29, 120, 116 ;
+        --color-az-com-blue: 157, 190, 187 ;
+        --color-az-sheen-green: 119, 172, 162 ;
+        --color-az-teal-blue: 70, 129, 137 ;
+
+        /*purple colors*/
+        --color-az-purple-600: 32, 40, 107 ;
+        --color-az-purple-800: 30, 35, 78 ;
+
+        /*dark colors*/
+        --color-az-dark-green: 7, 19, 34 ;
+        --color-az-dark-blue: 3, 25, 38 ;
+        --color-az-dark-purple: 28, 28, 28 ;
+
+        /*other colors*/
+        --color-az-red: 238, 46, 49 ;
+        --color-az-yellow: 244, 233, 205 ;
+        --color-az-peach: 244, 192, 149 ;
+
+
+
+    }
+}
