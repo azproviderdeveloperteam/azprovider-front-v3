@@ -9,7 +9,7 @@ const Header = () => {
     const text = texts.eng.main.header
     return (
         <header className='w-full fixed top-0 left-0 px-3 backdrop-blur-md '>
-            <div className='max-w-[96.25rem] m-auto w-[full] h-20 flex flex-row item-center justify-between'>
+            <div className='max-w-[96.25rem] m-auto w-full h-20 flex flex-row item-center justify-between'>
                 <Link href={'/'} className={'flex flex-row items-center justify-center'}>
                     <MainLogoImg className={'w-[10rem]'}/>
                 </Link>
