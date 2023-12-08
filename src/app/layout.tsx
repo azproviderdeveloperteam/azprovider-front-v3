@@ -20,10 +20,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
   return (
     <html lang="en">
         <body className={roboto.className}>
             <Toaster position="top-center" />
+
                 <ReactQueryProvider>
                     <AuthProvider>
                         <RouteLoader />
