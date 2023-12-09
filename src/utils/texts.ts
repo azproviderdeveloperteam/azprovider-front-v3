@@ -33,6 +33,9 @@ export const texts = {
             products:{
                 title:"Products",
                 more:"Show More"
+            },
+            services:{
+                title:"Services",
             }
         }
     }

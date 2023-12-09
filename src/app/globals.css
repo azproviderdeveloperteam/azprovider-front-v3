@@ -33,3 +33,13 @@
 
     }
 }
+
+::-webkit-scrollbar {
+    display: none;
+    width: 0px !important;
+}
+
+* {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

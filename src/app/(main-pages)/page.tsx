@@ -3,6 +3,7 @@ import AboutAzLanding from "@/components/mainPages/landing/AboutAzLanding";
 import OurResponsive from "@/components/mainPages/landing/OurResponsive";
 import SuggestedCarouselProvider from "@/components/mainPages/landing/SuggestedCarouselProvider";
 import ProductsListLanding from "@/components/mainPages/landing/ProductsListLanding";
+import ServicesListLandingPage from "@/components/mainPages/landing/ServicesListLandingPage";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
         <OurResponsive />
         <SuggestedCarouselProvider />
         <ProductsListLanding />
+        <ServicesListLandingPage />
     </main>
   )
 }
