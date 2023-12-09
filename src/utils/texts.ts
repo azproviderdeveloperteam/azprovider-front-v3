@@ -29,6 +29,10 @@ export const texts = {
                 title:"Use Our Responsive With All Features" ,
                 desc:"Dui pretium sed sed facilisis quis integer. Est ac cras urna tellus nullam. Magna mi dolor nibh elementum aliquam ullamcorper elit est feugiat. Curabitur vel malesuada vel aliquam nunc duis dolor. Ac fermentum mattis suscipit sed augue.",
                 analytics:["Companies" , "Products" , "Services"]
+            },
+            products:{
+                title:"Products",
+                more:"Show More"
             }
         }
     }

@@ -2,6 +2,7 @@ import WelcomeCard from "@/components/mainPages/landing/WelcomeCard";
 import AboutAzLanding from "@/components/mainPages/landing/AboutAzLanding";
 import OurResponsive from "@/components/mainPages/landing/OurResponsive";
 import SuggestedCarouselProvider from "@/components/mainPages/landing/SuggestedCarouselProvider";
+import ProductsListLanding from "@/components/mainPages/landing/ProductsListLanding";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
         <AboutAzLanding />
         <OurResponsive />
         <SuggestedCarouselProvider />
+        <ProductsListLanding />
     </main>
   )
 }
