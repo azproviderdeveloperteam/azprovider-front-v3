@@ -40,6 +40,10 @@ export const texts = {
             hotDeals:{
                 title:"Hot Deals",
                 more:"Show All"
+            },
+            onSale:{
+                title:"On Sale",
+                more:"Show All"
             }
         }
     }

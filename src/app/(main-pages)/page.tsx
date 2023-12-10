@@ -5,6 +5,7 @@ import SuggestedCarouselProvider from "@/components/mainPages/landing/SuggestedC
 import ProductsListLanding from "@/components/mainPages/landing/ProductsListLanding";
 import ServicesListLandingPage from "@/components/mainPages/landing/ServicesListLandingPage";
 import HotDealsLandingPage from "@/components/mainPages/landing/HotDealsLandingPage";
+import OnSaleLandingPage from "@/components/mainPages/landing/OnSaleLandingPage";
 
 export default function Home() {
   return (
@@ -16,6 +17,8 @@ export default function Home() {
         <ProductsListLanding />
         <ServicesListLandingPage />
         <HotDealsLandingPage />
+
+        <OnSaleLandingPage />
     </main>
   )
 }

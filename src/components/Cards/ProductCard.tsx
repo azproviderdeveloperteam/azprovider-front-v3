@@ -17,7 +17,7 @@ const ProductCard = ({item , theme} : any) => {
         }
     ]
     return (
-        <div className={`w-full aspect-[0.7334] flex flex-col items-center justify-between rounded-[1.6rem] ${theme==='dark' ?'bg-primary-dark-b shadow-[0px_12px_20px_0px_#062940]' : 'bg-white' } `}>
+        <div className={`w-full aspect-[0.7334] flex flex-col items-center justify-between rounded-[1.6rem] ${theme==='dark' ?'bg-primary-dark-b shadow-[0px_12px_20px_0px_#062940]' : 'bg-white shadow-[0px_12px_20px_0px_rgba(0,_0,_0,_0.10)]' } `}>
             <div className='w-full flex flex-col items-center justify-start'>
                 <div className='relative w-full aspect-[1.4268] h-auto' >
                     <Carousel
@@ -107,7 +107,7 @@ const ProductCard = ({item , theme} : any) => {
                         <span className='font-bold'>120,123,000 IRR </span> <span className='ml-1'> /Cash</span>
                     </div>
                 </div>
-                <div className={`flex flex-row items-center justify-start ${theme === 'dark' ? 'text-white' : ''} `}>
+                <div className={`flex flex-row items-center justify-start ${theme === 'dark' ? 'text-white' : 'text-primary-dark-b'} `}>
                     <Image src={'/location.svg'} alt={'location-az-provider'} width={10} height={10} />
                     <div className='ml-1'>
                         Hamedan, Iran
