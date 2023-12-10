@@ -41,6 +41,29 @@ export const texts = {
                 title:"Hot Deals",
                 more:"Show All"
             },
+            ourBenefits :{
+                title:"Looks Our Benefits" ,
+                desc:"Dui pretium sed sed facilisis quis integer. Est ac cras urna tellus nullam. Magna mi dolor nibh elementum aliquam ullamcorper elit est feugiat.",
+                btn:"Start 14 Order Free",
+                options:[
+                    {
+                        title:"Safest Transfer",
+                        desc:"Massa hendrerit sit mauris non theu nec velit cras ornare",
+                    },
+                    {
+                        title:"Safest Transfer",
+                        desc:"Massa hendrerit sit mauris non theu nec velit cras ornare",
+                    },
+                    {
+                        title:"Safest Transfer",
+                        desc:"Massa hendrerit sit mauris non theu nec velit cras ornare",
+                    },
+                    {
+                        title:"Safest Transfer",
+                        desc:"Massa hendrerit sit mauris non theu nec velit cras ornare",
+                    }
+                ]
+            },
             onSale:{
                 title:"On Sale",
                 more:"Show All"
