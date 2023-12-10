@@ -36,6 +36,10 @@ export const texts = {
             },
             services:{
                 title:"Services",
+            },
+            hotDeals:{
+                title:"Hot Deals",
+                more:"Show All"
             }
         }
     }

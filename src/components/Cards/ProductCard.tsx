@@ -1,0 +1,124 @@
+'use client'
+import React from 'react';
+import {Carousel} from "@material-tailwind/react";
+import hexagon from '@/public/red-hexagon.svg'
+import Image from "next/image";
+const ProductCard = ({item , theme} : any) => {
+
+    const fakeData = [
+        {
+            img :"https://www.oorchinfile.com/wp-content/uploads/2023/06/red-cherries-plate_-crc0f484db6-_size17.20mb_7360x4912.jpg" ,
+        },
+        {
+            img :"https://www.oorchinfile.com/wp-content/uploads/2023/06/mixture-fresh-nuts-spilled-from-linen-bag-onto-gr_-crc9e130893-_size5.34mb_3775x2517.jpg" ,
+        },
+        {
+            img :"https://www.oorchinfile.com/wp-content/uploads/2023/06/mixture-fresh-nuts-spilled-from-linen-bag-onto-gr_-crc9e130893-_size5.34mb_3775x2517.jpg" ,
+        }
+    ]
+    return (
+        <div className={`w-full aspect-[0.7334] flex flex-col items-center justify-between rounded-[1.6rem] ${theme==='dark' ?'bg-primary-dark-b shadow-[0px_12px_20px_0px_#062940]' : 'bg-white' } `}>
+            <div className='w-full flex flex-col items-center justify-start'>
+                <div className='relative w-full aspect-[1.4268] h-auto' >
+                    <Carousel
+                        transition={{ duration: 1 }} className="font-roboto rounded-[1.6rem] w-full h-full "
+                        autoplay={true}
+                        autoplayDelay={5000}
+                        loop={true}
+                        prevArrow={({ handlePrev }:any) => (null) }
+                        nextArrow={({ handleNext }) => (null)}
+                        navigation={({ setActiveIndex, activeIndex, length }) => (
+                            <div className="absolute bottom-2 left-[46%] z-1 flex -translate-x-2/4 gap-2">
+                                {fakeData?.map((_, i) => (
+                                    <span
+                                        key={i}
+                                        className={`block  h-[2vw] md:h-[1vw] xl:h-2 cursor-pointer rounded-full transition-all content-[''] ${
+                                            activeIndex === i ? "w-[4vw] md:w-[4vw] xl:w-10 bg-[#D7D7D7]" : "w-[4vw] md:w-[1vw] xl:w-2 bg-[#D7D7D7]"
+                                        }`}
+                                        onClick={() => setActiveIndex(i)}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    >
+                        {
+                            fakeData.map((item , index)=>{
+                                return(
+                                    <img src={item.img} key={index+1} className='w-full h-full object-center object-cover'/>
+                                )
+                            })
+                        }
+                    </Carousel>
+
+                    <div className='absolute w-full h-full top-0 left-0'>
+                        <div className='w-full flex flex-row items-center justify-between pt-3 px-[5%]'>
+                            <div className='w-1/2 flex flex-row items-center justify-start text-[0.8rem]'>
+                                <div className='bg-white px-2 text-primary-dark-b rounded-[5px]'>
+                                    #1231243
+                                </div>
+
+                                <div className='bg-primary-dark-b  px-2 text-white rounded-[5px] ml-[5px]'>
+                                    100N
+                                </div>
+                            </div>
+                            <div className={'w-1/2 flex flex-row items-center justify-center text-[0.8rem]'}>
+                                <div className='bg-[#FF4A23] pl-2 pr-[16px]  translate-x-[12px] text-white rounded-[5px]'>
+                                    47:24:15
+                                </div>
+                                <div style={{backgroundImage:`url(${hexagon.src})`}} className='relative z-10 w-[30%] bg-center bg-cover aspect-square flex flex-row items-center justify-center text-white font-bold'>
+                                    15%
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div className='w-full flex flex-row items-center justify-start mt-2 px-[5%]'>
+                    <Image src={'/dark-medal.svg'} alt={'dark-medal'} width={20} height={20} />
+                    <div className={`${theme === 'dark' ? 'text-white' : 'text-primary-dark-b' } text-[0.7rem] ml-1 mt-1`}>
+                        Normal-Good
+                    </div>
+                </div>
+                <h4 className={`${theme === 'dark' ? 'text-white' : 'text-primary-dark-b' } w-full text-left text-[1.2rem] font-bold px-[5%] truncate`}>
+                    Tesla C40 Large Cabin
+                </h4>
+                <div className='w-full px-[5%] flex flex-row items-center justify-start'>
+                    <div className='bg-[#A1A1A1]     px-2 text-[0.7rem] text-primary-dark-b rounded-[0.3rem] flex flex-row items-center justify-start'>
+                        <Image src={'/star.svg'} alt={'star'} width={11} height={11} />
+                        <div className='ml-1 font-bold mt-1'>
+                            4.7
+                        </div>
+                    </div>
+                    <div className='text-[#A1A1A1] ml-1 truncate'>
+                        Azimi Persian Car
+                    </div>
+                </div>
+                <p className={`w-full mt-2 px-[5%] text-[0.8rem] text-justify ${theme === 'dark' ? 'text-white' : 'text-primary-dark-b' } line-clamp`}>
+                    Dui pretium sed sed facilisis quis integer. Est active cras urna tellus nullam. Magna mi dolor nibh thire’s elementum aliquam ullamcorper elit est
+                </p>
+            </div>
+
+            <div className='w-full px-[5%] pb-3 text-[0.7rem]'>
+                <div className='flex flex-row items-center justify-start'>
+                    <Image src={'/union.svg'} alt={'union'} width={10} height={10} />
+                    <div className='ml-1 text-[#FF4B23]  '>
+                        <span className='font-bold'>120,123,000 IRR </span> <span className='ml-1'> /Cash</span>
+                    </div>
+                </div>
+                <div className={`flex flex-row items-center justify-start ${theme === 'dark' ? 'text-white' : ''} `}>
+                    <Image src={'/location.svg'} alt={'location-az-provider'} width={10} height={10} />
+                    <div className='ml-1'>
+                        Hamedan, Iran
+                    </div>
+                    <div className='font-thin text-[0.7rem] ml-1'>
+                        Exp 18 Jun 2023
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default ProductCard;

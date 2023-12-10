@@ -34,11 +34,16 @@
     }
 }
 
-::-webkit-scrollbar {
+div::-webkit-scrollbar {
     display: none;
     width: 0px !important;
 }
-
+.line-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
 * {
     -ms-overflow-style: none;
     scrollbar-width: none;
