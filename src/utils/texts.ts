@@ -44,6 +44,10 @@ export const texts = {
             onSale:{
                 title:"On Sale",
                 more:"Show All"
+            },
+            preInvoice:{
+                title:"Pre-invoice ",
+
             }
         }
     }
