@@ -71,6 +71,12 @@ export const texts = {
             preInvoice:{
                 title:"Pre-invoice ",
 
+            },
+            comments:{
+                title:"Some Clients Comments",
+                sub:"Velit cras ornare venenatis elementum netus amet. Volutpat nec facilisis netus lorem enim pulvinar.",
+
+
             }
         }
     }

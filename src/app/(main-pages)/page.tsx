@@ -8,6 +8,7 @@ import HotDealsLandingPage from "@/components/mainPages/landing/HotDealsLandingP
 import OnSaleLandingPage from "@/components/mainPages/landing/OnSaleLandingPage";
 import PreInvoiceLanding from "@/components/mainPages/landing/PreInvoiceLanding";
 import LooksOurBenefitsLanding from "@/components/mainPages/landing/LookOurBenefitslanding";
+import CommentsLanding from "@/components/mainPages/landing/CommentsLanding";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
         <LooksOurBenefitsLanding />
         <OnSaleLandingPage />
         <PreInvoiceLanding />
+        <CommentsLanding />
     </main>
   )
 }
