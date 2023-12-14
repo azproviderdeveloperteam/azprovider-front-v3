@@ -18,7 +18,7 @@ import Image from "next/image";
                     {
                         myTexts.subtitles.map((item , index) =>{
                             return(
-                                <div className='flex flex-row items-center justify-center text-secondary-yellow mr-5 mt-4'>
+                                <div key={index+1} className='flex flex-row items-center justify-center text-secondary-yellow mr-5 mt-4'>
                                     <div className='w-[1rem] aspect-square rounded-full bg-secondary-yellow mr-2'/>
                                     <h4>
                                         {item}

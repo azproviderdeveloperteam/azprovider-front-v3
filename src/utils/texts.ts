@@ -7,8 +7,73 @@ export const texts = {
                 companies:"Companies" ,
                 products:"Products",
                 services:"Services"
-            }
+            },
+            footer:{
+                afterLogo:"Imports and Exports Platform",
+                input:{
+                    label:"Subscribe For Our News",
+                    placeholder:"Email Address",
+                    btn:"Send"
+                },
+                copyRight:"Copyright © AZ Provider 2023 - All Rights Reserved.",
+                links:[
+                    {
+                        title:"Problem Report",
+                        href:"/"
+                    },
+                    {
+                        title:"Job Operations",
+                        href:"/"
+                    },
+                    {
+                        title:"Branches and Offices",
+                        href:"/"
+                    },
+                    {
+                        title:"Join Us",
+                        href:"/"
+                    },
+                    {
+                        title:"Blog and News",
+                        href:"/"
+                    },
+                    {
+                        title:"Privacy and Policy",
+                        href:"/"
+                    },
+                    {
+                        title:"Terms and Conditions",
+                        href:"/"
+                    },
+                    {
+                        title:"Products",
+                        href:"/"
+                    },
+                    {
+                        title:"Services",
+                        href:"/"
+                    },
+                    {
+                        title:"Companies",
+                        href:"/"
+                    },
+                    {
+                        title:"Order and Requests",
+                        href:"/"
+                    },
+                    {
+                        title:"Hot Deals",
+                        href:"/"
+                    },
+                    {
+                        title:"On Sales",
+                        href:"/"
+                    },
+
+                ],
+            },
         },
+
         homePage:{
             welcomeCard:{
                 title:"Implement Your Business Path Powerful and Easy",

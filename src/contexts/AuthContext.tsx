@@ -16,7 +16,7 @@ const initialState = {
 
 }
 
-const reducer = (state , action ):any=>{
+const reducer = (state :any, action:any ):any=>{
     switch (action.type){
         case "SIGNIN" :
             return {login:true , userData:action.value}
@@ -26,7 +26,7 @@ const reducer = (state , action ):any=>{
     }
 }
 
-const AuthProvider = ({children})=>{
+const AuthProvider = ({children}:any)=>{
     const [user , dispatch] = useReducer<any>(reducer,initialState)
     return(
         <AuthContext.Provider value={{user}}>
