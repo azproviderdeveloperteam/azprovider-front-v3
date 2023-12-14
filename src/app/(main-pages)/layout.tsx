@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import React, { Suspense } from "react";
 import Header from "@/components/mainPages/Header";
+import Footer from "@/components/mainPages/Footer";
 
 
 
@@ -18,7 +19,7 @@ export default function RootLayout({
         <Suspense fallback={<></>}>
             <Header />
             {children}
-
+            <Footer />
         </Suspense>
     );
 }
