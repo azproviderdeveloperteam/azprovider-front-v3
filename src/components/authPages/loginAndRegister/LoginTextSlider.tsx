@@ -2,7 +2,7 @@
 import React from 'react';
 import {Carousel} from "@material-tailwind/react";
 
-const LoginTextSlider = () => {
+const LoginTextSlider = ({theme}:any) => {
 
     const fakeData = [
         {
@@ -41,7 +41,7 @@ const LoginTextSlider = () => {
                 {
                     fakeData.map((item , index)=>{
                         return(
-                            <p className='text-white text-[1.4rem] py-[50px]'>
+                            <p className={`${theme === 'dark' ?"text-primary-dark-b" :"text-white" }  text-[1.4rem] py-[50px]`}>
                                 {item.text}
                             </p>
                         )

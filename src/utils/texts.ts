@@ -145,7 +145,45 @@ export const texts = {
             }
         },
         login:{
-            sayWelcome:"Say a pleasure welcome"
+            sayWelcome:"Say a pleasure welcome",
+            otp:{
+                title:"OTP code",
+                sendCode:"Send Code",
+                confirm:"Confirm",
+                loginWith:"Login With",
+                loginWithPhone:"phone number",
+                loginWithMail:"Email address",
+                havAcc:"You haven’t an account? ",
+                register:"create an account",
+                phoneInput:{
+                    title:"Phone Number"
+                },
+                emailInput:{
+                    title:"Email address"
+                },
+                verificationInput:{
+                    title:"verification code"
+                }
+            },
+            password:{
+                title:"privet password",
+                sendCode:"Send Code",
+                confirm:"Confirm",
+                loginWith:"Login With",
+                loginWithPhone:"phone number",
+                loginWithMail:"Email address",
+                havAcc:"You haven’t an account? ",
+                register:"create an account",
+                phoneInput:{
+                    title:"Phone Number"
+                },
+                emailInput:{
+                    title:"Email address"
+                },
+                verificationInput:{
+                    title:"verification code"
+                }
+            }
         },
         register:{
             sayWelcome:"Say a pleasure welcome",
