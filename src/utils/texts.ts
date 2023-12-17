@@ -143,6 +143,35 @@ export const texts = {
 
 
             }
+        },
+        login:{
+            sayWelcome:"Say a pleasure welcome"
+        },
+        register:{
+            sayWelcome:"Say a pleasure welcome",
+            title:"Register Account",
+            emailOrPhone:"Email Or phone",
+            sendCode:"Send Code",
+            subText:'You already have an account? ',
+            login:"Login",
+            privacy:"Privacy and Policy",
+            terms:"Terms and Conditions ",
+            copyRight:"Copyright © AZ Provider 2023 - All Rights Reserved.",
+            verificationCode:"Verification Code",
+            confirm:"Confirm",
+            kycTitle:"KYC Account",
+            firstName:"First name",
+            lastName:"Last name",
+            businessRegisterCode:"business register code",
+            businessRole:"business role",
+            cityCountry:"city | country",
+            iAgreeAll:"I agree all",
+            register:"Register",
+            password:"Password",
+            confirmPass:"confirm password",
+            skip:"skip and Complete later"
+
+
         }
     }
 }
