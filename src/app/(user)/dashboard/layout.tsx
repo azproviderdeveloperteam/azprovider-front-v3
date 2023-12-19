@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import React, { Suspense } from "react";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import DashboardMainLayout from "@/components/dashboard/DashboardMainLayout";
 
 
 
 export const metadata: Metadata = {
-    title: "Az Provider",
+    title: "Az Provider Dashboard",
     description: "Az Provider Website",
 };
 
@@ -16,8 +17,10 @@ export default function RootLayout({
 }) {
     return (
         <Suspense fallback={<></>}>
-            <DashboardHeader/>
-            {children}
+           <DashboardMainLayout>
+               {children}
+           </DashboardMainLayout>
+
 
         </Suspense>
     );

@@ -210,6 +210,82 @@ export const texts = {
             skip:"skip and Complete later"
 
 
-        }
+        },
+        dashboard:{
+            main:{
+                sidebar:{
+                    items:[
+                        {
+                            icon : '/dashboard.svg',
+                            title:"Dashboard",
+                            alt:"dashboard-icon",
+                            href:'/dashboard'
+                        },
+                        {
+                            icon : '/profile.svg',
+                            title:"Profile",
+                            alt:"profile-icon",
+                            href:'/dashboard/profile'
+                        },
+                        {
+                            icon : '/products.svg',
+                            title:"Products",
+                            alt:"products-icon",
+                            href:'/dashboard/products'
+                        },
+                        {
+                            icon : '/services.svg',
+                            title:"services",
+                            alt:"services-icon",
+                            href:'/dashboard/services'
+                        },
+                        {
+                            icon : '/pre-invoices.svg',
+                            title:"pre-invoice",
+                            alt:"services-icon",
+                            href:'/dashboard/pre-invoice'
+                        },
+                        {
+                            icon : '/hot-deals.svg',
+                            title:"Hot deals",
+                            alt:"pre-invoices-icon",
+                            href:'/dashboard/hot-deals'
+                        },
+                        {
+                            icon : '/services.svg',
+                            title:"on sale",
+                            alt:"hot-deals-icon",
+                            href:'/dashboard/on-sale'
+                        },
+                        {
+                            icon : '/inovations.svg',
+                            title:"inovations",
+                            alt:"inovations-icon",
+                            href:'/dashboard/inovations'
+
+                        },
+                        {
+                            icon : '/history.svg',
+                            title:"History",
+                            alt:"history-icon",
+                            href:'/dashboard/history'
+                        },
+                        {
+                            icon : '/settings.svg',
+                            title:"setting",
+                            alt:"settings-icon",
+                            href: '/dashboard/settings'
+                        },
+                        {
+                            icon : '/logout.svg',
+                            title:"log out",
+                            alt:"logout-icon",
+                            href:''
+                        },
+
+                    ]
+                }
+            },
+        },
     }
 }
