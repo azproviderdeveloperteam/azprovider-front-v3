@@ -13,10 +13,10 @@ const CircleChart = () => {
 
     const dataa = {
         labels: [
-            'a',
-            'b',
-            'c',
-            'd',
+            // 'a',
+            // 'b',
+            // 'c',
+            // 'd',
         ],
         datasets: [{
             label: 'a',

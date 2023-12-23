@@ -18,7 +18,7 @@ const DashboardPage = () => {
             <div className='w-full flex flex-row items-start justify-between min-h-full'>
                 <div className={`${rightBig ? 'w-[71%]' :''}`}>
                     <DashboardWidgets />
-                    <div className='w-full flex flex-row items-center justify-between mt-4'>
+                    <div className='w-full flex flex-row items-start justify-between mt-4'>
                         <div className={`${rightBig ? 'w-[32%]' :'w-full'}`}>
                             <CircleChart />
                         </div>
