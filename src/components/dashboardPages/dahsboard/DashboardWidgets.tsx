@@ -12,7 +12,7 @@ const DashboardWidgets = () => {
 
     const [filter , setFilter] = useState<any>('products')
 
-    console.log(filter)
+
     return (
         <div className='w-full bg-primary-gray-100 p-5 rounded-[1.5rem]'>
             <div className='w-full flex flex-row items-center justify-between '>
@@ -72,7 +72,7 @@ const DashboardWidgets = () => {
                     {
                         [...Array(3)].map((item , index)=>{
                             return(
-                                <tr className='w-full bg-primary-gray-400 py-2 my-1  border-[15px] border-primary-gray-100 rounded-[1.5rem] !shadow-md' style={{boxShadow: '0px 4px 6px 0px rgba(0, 0, 0, 0.10)'}}>
+                                <tr key={index+1} className='w-full bg-primary-gray-400 py-2 my-1  border-[15px] border-primary-gray-100 rounded-[1.5rem] !shadow-md' style={{boxShadow: '0px 4px 6px 0px rgba(0, 0, 0, 0.10)'}}>
                                     <td className='w-[25%] max-w-[16rem] !font-normal text-primary-dark-b text-left rounded-l-full px-2' >
                                         <span className='font-bold'> Tesla C40 Large Cabin </span>
                                     </td>
