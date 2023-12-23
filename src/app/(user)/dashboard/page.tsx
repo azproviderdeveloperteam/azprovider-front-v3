@@ -4,6 +4,7 @@ import UpgradeComponents from "@/components/dashboardPages/dahsboard/UpgradeComp
 import DashboardWidgets from "@/components/dashboardPages/dahsboard/DashboardWidgets";
 import CircleChart from "@/components/dashboardPages/dahsboard/CircleChart";
 import ActivityChart from "@/components/dashboardPages/dahsboard/ActivityChart";
+import UserCard from "@/components/dashboardPages/dahsboard/UserCard";
 
 const DashboardPage = () => {
 
@@ -27,8 +28,8 @@ const DashboardPage = () => {
                         </div>
                     </div>
                 </div>
-                <div className={`${rightBig ? 'w-[26%]' :''}`}>
-
+                <div className={`${rightBig ? 'w-[28%]' :''} pr-[1%]`}>
+                    <UserCard />
                 </div>
             </div>
         </div>
