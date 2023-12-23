@@ -16,8 +16,13 @@
         --color-az-teal-blue: 70, 129, 137 ;
 
         /*purple colors*/
+        --color-az-purple-300: 0, 56, 255 ;
         --color-az-purple-600: 32, 40, 107 ;
         --color-az-purple-800: 30, 35, 78 ;
+
+        /* gray colors */
+        --color-az-gray-100: 248, 248, 248 ;
+        --color-az-gray-400: 235, 235, 235 ;
 
         /*dark colors*/
         --color-az-dark-green: 7, 19, 34 ;
@@ -28,6 +33,7 @@
         --color-az-red: 238, 46, 49 ;
         --color-az-yellow: 244, 233, 205 ;
         --color-az-peach: 244, 192, 149 ;
+
 
 
 

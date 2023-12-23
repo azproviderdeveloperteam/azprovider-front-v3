@@ -35,8 +35,13 @@ module.exports = withMT({
             tb: withOpacity("--color-az-teal-blue"),
           } ,
           purple : {
+            300:withOpacity('--color-az-purple-300'),
             600:withOpacity('--color-az-purple-600'),
             800:withOpacity('--color-az-purple-800'),
+          },
+          gray:{
+            100:withOpacity('--color-az-gray-100'),
+            400:withOpacity('--color-az-gray-400')
           },
           dark : {
             g:withOpacity('--color-az-dark-green'),
