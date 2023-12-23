@@ -20,6 +20,8 @@ const RegisterThirdStep = ({nextStep}:any) => {
 
         }).shape({
             code:Yup.string().min(6),
+            email:Yup.string().required('')
+
         })
         .required()
     const {

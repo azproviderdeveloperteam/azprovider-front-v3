@@ -28,7 +28,7 @@ const LoginTextSlider = ({theme}:any) => {
                     <div className="absolute !z-10 bottom-[0px] left-[50px] z-1 flex -translate-x-2/4 gap-2">
                         {fakeData?.map((_, i) => (
                             <span
-                                key={i}
+                                key={i+1}
                                 className={`block  h-[2vw] md:h-[1vw] xl:h-2 cursor-pointer rounded-full transition-all content-[''] ${
                                     activeIndex === i ? "w-[4vw] md:w-[4vw] xl:w-10 bg-[#D7D7D7]" : "w-[4vw] md:w-[1vw] xl:w-2 bg-[#D7D7D7]"
                                 }`}
@@ -41,7 +41,7 @@ const LoginTextSlider = ({theme}:any) => {
                 {
                     fakeData.map((item , index)=>{
                         return(
-                            <p className={`${theme === 'dark' ?"text-primary-dark-b" :"text-white" }  text-[1.4rem] py-[50px]`}>
+                            <p   key={index+1} className={`${theme === 'dark' ?"text-primary-dark-b" :"text-white" }  text-[1.4rem] py-[50px]`}>
                                 {item.text}
                             </p>
                         )

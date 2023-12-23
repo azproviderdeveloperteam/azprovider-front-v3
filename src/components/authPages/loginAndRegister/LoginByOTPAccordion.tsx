@@ -18,7 +18,7 @@ const LoginByOtpAccordion = () => {
 
     const [open, setOpen] = React.useState(0);
 
-    const handleOpen = (value) => setOpen(open === value ? 0 : value);
+    const handleOpen = (value : any) => setOpen(open === value ? 0 : value);
 
     const [step , setStep ] = useState(0)
     const [loginWithEmail , setLoginWithEmail] = useState(true)

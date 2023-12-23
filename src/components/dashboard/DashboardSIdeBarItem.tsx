@@ -5,7 +5,7 @@ import {Button} from "@material-tailwind/react";
 import {usePathname} from "next/navigation";
 import Link from "next/link";
 
-const DashboardSIdeBarItem = ({icon , title , alt , href}) => {
+const DashboardSIdeBarItem = ({icon , title , alt , href}  :any) => {
 
     const pathname = usePathname()
 

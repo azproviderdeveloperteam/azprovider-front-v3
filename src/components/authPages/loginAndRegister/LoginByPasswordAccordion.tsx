@@ -20,7 +20,7 @@ const LoginByPasswordAccordion = () => {
     const [step , setStep ] = useState(0)
     const [loginWithEmail , setLoginWithEmail] = useState(true)
 
-    const handleOpen = (value) => setOpen(open === value ? 0 : value);
+    const handleOpen = (value : any) => setOpen(open === value ? 0 : value);
 
 
 
@@ -30,6 +30,7 @@ const LoginByPasswordAccordion = () => {
 
         }).shape({
             email:Yup.string().required('Email is required').email('Email is invalid !ِ'),
+            phone:Yup.string().required('Email is required')
         })
         .required()
     const {

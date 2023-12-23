@@ -5,7 +5,7 @@ import LightBtn from "@/components/Buttons/LightBtn";
 import Link from "next/link";
 import {texts} from "@/utils/texts";
 
-const Header = () => {
+const Header = ({theme}:any) => {
     const text = texts.eng.main.header
     return (
         <header className='w-full fixed top-0 left-0 px-3 backdrop-blur-md z-50 bg-primary-dark-b/30'>

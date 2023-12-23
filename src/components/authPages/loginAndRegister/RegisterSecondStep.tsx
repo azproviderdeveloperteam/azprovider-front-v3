@@ -10,7 +10,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import MainInput from "@/components/inputs/MainInput";
 import Link from "next/link";
 
-const RegisterSecondStep = ({nextStep}) => {
+const RegisterSecondStep = ({nextStep} : any) => {
 
     const text = texts.eng
     const myTexts = text.register
@@ -20,6 +20,7 @@ const RegisterSecondStep = ({nextStep}) => {
 
         }).shape({
             code:Yup.string().min(6),
+            email:Yup.string().required('')
         })
         .required()
     const {

@@ -10,7 +10,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import MainInput from "@/components/inputs/MainInput";
 import Link from "next/link";
 
-const RegisterFirstStep = ({nextStep }) => {
+const RegisterFirstStep = ({nextStep } : any) => {
     const text = texts.eng
     const myTexts = text.register
 

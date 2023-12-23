@@ -65,7 +65,7 @@ const Footer = () => {
                             {
                                 myTexts.links.slice(0,7).map((item , index)=>{
                                     return(
-                                        <Link href={item.href} key={index+1} key={index+1} className={'mt-10'}>
+                                        <Link href={item.href} key={index+1}  className={'mt-10'}>
                                             <WhiteBtn>
                                                 {item.title}
                                             </WhiteBtn>
@@ -79,7 +79,7 @@ const Footer = () => {
                             {
                                 myTexts.links.slice(7).map((item , index)=>{
                                     return(
-                                        <Link href={item.href} key={index+1} key={index+1} className={'mt-10'}>
+                                        <Link href={item.href} key={index+1}   className={'mt-10'}>
                                             <WhiteBtn>
                                                 {item.title}
                                             </WhiteBtn>

@@ -3,7 +3,7 @@ import React from 'react';
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import DashboardSideBar from "@/components/dashboard/DashboardSideBar";
 
-const DashboardMainLayout = ({children}) => {
+const DashboardMainLayout = ({children}:any) => {
     return (
         <div className={'w-full'}>
             <div className={`hidden md:inline-block w-[20%] max-w-[17.5rem] min-h-max transition transition-all ease-in delay-150 duration-1500 mx-[16px] my-[16px] `}

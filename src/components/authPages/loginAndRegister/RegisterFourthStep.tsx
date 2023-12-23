@@ -6,8 +6,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import MainInput from "@/components/inputs/MainInput";
-import {Checkbox} from "@material-tailwind/react";
-import Link from "next/link";
+
 import RegisterBtn from "@/components/Buttons/RegisterBtn";
 
 const RegisterFourthStep = ({nextStep}: any) => {
@@ -20,6 +19,7 @@ const RegisterFourthStep = ({nextStep}: any) => {
 
         }).shape({
             code:Yup.string().min(6),
+            email:Yup.string().required('Email is required')
         })
         .required()
     const {
