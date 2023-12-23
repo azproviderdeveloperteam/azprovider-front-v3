@@ -294,7 +294,15 @@ export const texts = {
                       addPost:"create a post +",
                       filters:['Products' , 'services' , 'pre-invoices' ,'on sale' , 'hot deal' , 'inovations'] ,
                       tableHeaders:['Post Informations Sum' , 'Price' ,'Create/Expire Date' , 'Massages' , 'Saved' , 'Deals'] ,
-                  }
+                  },
+                    circleChart:{
+                        title:"Shared Data",
+                        afterTitle:"Short explain about this card ",
+                    },
+                    activityChart:{
+                        title:"Activity",
+                        afterTitle:"Short explain about this card ",
+                    }
                 },
             }
         },
