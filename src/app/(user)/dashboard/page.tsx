@@ -5,7 +5,8 @@ import DashboardWidgets from "@/components/dashboardPages/dahsboard/DashboardWid
 import CircleChart from "@/components/dashboardPages/dahsboard/CircleChart";
 import ActivityChart from "@/components/dashboardPages/dahsboard/ActivityChart";
 import UserCard from "@/components/dashboardPages/dahsboard/UserCard";
-
+import Notifications from "@/components/dashboardPages/dahsboard/Notifications";
+import ChatDashboard from "@/components/dashboardPages/dahsboard/ChatDashboard";
 const DashboardPage = () => {
 
     const [viewUpgrade ,setViewUpgrade ] = useState(true)
@@ -30,6 +31,8 @@ const DashboardPage = () => {
                 </div>
                 <div className={`${rightBig ? 'w-[28%]' :''} pr-[1%]`}>
                     <UserCard />
+                    <Notifications />
+                    <ChatDashboard />
                 </div>
             </div>
         </div>
