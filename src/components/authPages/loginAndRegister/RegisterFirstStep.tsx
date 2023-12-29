@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, {useEffect} from 'react';
 import LoginTextSlider from "@/components/authPages/loginAndRegister/LoginTextSlider";
 import {texts} from "@/utils/texts";
 import Image from "next/image";
@@ -9,8 +9,12 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import MainInput from "@/components/inputs/MainInput";
 import Link from "next/link";
-
-const RegisterFirstStep = ({nextStep } : any) => {
+import {useMutation, useQuery} from "@tanstack/react-query";
+import {getHsCodes, getHscodes, registerSendOtp} from "@/services/authServices";
+import axios, {AxiosError} from "axios";
+import toast from "react-hot-toast";
+import ThreeDotsLoader from "@/components/loaders/ThreeDotsLoader";
+const RegisterFirstStep =  ({nextStep } : any) => {
     const text = texts.eng
     const myTexts = text.register
 
@@ -29,10 +33,32 @@ const RegisterFirstStep = ({nextStep } : any) => {
     } = useForm({ resolver: yupResolver(schema), mode:'onChange'})
 
 
-    const submit = () =>{
-        nextStep(1)
+    const {data  , isLoading , error  , mutateAsync} =useMutation({
+        mutationFn : registerSendOtp
+    })
+
+
+
+    // const {data : fetBankAccountsData, isLoading:fetBankAccountsIsLoading, error:fetBankAccountsError} = useQuery({
+    //     queryKey: 'getHscodes',
+    //     queryFn: getHsCodes,
+    //     retry:false,
+    // })
+    const submit = async (d : any) =>{
+        const formData = {
+            email:d?.email
+        }
+       try{
+           const d = await mutateAsync(formData)
+       }catch (err){
+            if(err instanceof AxiosError){
+                toast.error(err?.response?.error)
+            }
+       }
     }
 
+
+    console.log(isLoading , data)
 
 
     return (
@@ -83,7 +109,7 @@ const RegisterFirstStep = ({nextStep } : any) => {
                             </div>
 
                             <div className='w-1/4'>
-                                <RegisterBtn type={'submit'} disabled={getValues()?.email?.length < 1}>
+                                <RegisterBtn loading={isLoading} type={'submit'} disabled={getValues()?.email?.length < 1} otherClass={'w-full'}>
                                     {myTexts.sendCode}
                                 </RegisterBtn>
                             </div>
