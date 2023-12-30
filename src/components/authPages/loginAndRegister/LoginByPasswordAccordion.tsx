@@ -165,7 +165,7 @@ const LoginByPasswordAccordion = () => {
                                             </div>
 
                                             <div className='w-1/4'>
-                                                <RegisterBtn loading={isPending} type={'submit'} disabled={getValues()?.email?.length < 1}  otherClass={'!w-full'}>
+                                                <RegisterBtn loading={isPending} type={'submit'} disabled={false}  otherClass={'!w-full'}>
                                                     {myTexts.next}
                                                 </RegisterBtn>
                                             </div>
@@ -187,7 +187,7 @@ const LoginByPasswordAccordion = () => {
                                             </div>
 
                                             <div className='w-1/4'>
-                                                <RegisterBtn loading={isPending} type={'submit'} disabled={getValues()?.phone?.length < 1} otherClass={'!w-full'}>
+                                                <RegisterBtn loading={isPending} type={'submit'} disabled={false} otherClass={'!w-full'}>
                                                     {myTexts.next}
                                                 </RegisterBtn>
                                             </div>
@@ -215,7 +215,7 @@ const LoginByPasswordAccordion = () => {
                                     </div>
 
                                     <div className='w-1/4'>
-                                        <RegisterBtn loading={isPending} type={'submit'} disabled={getValues()?.password?.length < 1} otherClass={'!w-full'}>
+                                        <RegisterBtn loading={isPending} type={'submit'} disabled={false} otherClass={'!w-full'}>
                                             {myTexts.confirm}
                                         </RegisterBtn>
                                     </div>

@@ -47,7 +47,7 @@ const RegisterFourthStep = ({nextStep , email}: any) => {
 
 
 
-    const submit = async (d) =>{
+    const submit = async (d : any) =>{
 
         const formData = {
             current_password:null,

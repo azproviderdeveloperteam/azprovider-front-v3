@@ -45,7 +45,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
 
 
 
-    const submit = async (d) =>{
+    const submit = async (d : any) =>{
 
         const formData = {
                 first_name:d?.firstName,
@@ -161,7 +161,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
 
 
                 <div className='w-full flex flex-row items-center justify-start mt-10'>
-                    <Checkbox color="green" name={'acceptTerms'} {...register('acceptTerms')}/>
+                    <Checkbox color="green" {...register('acceptTerms')}/>
                     <span>
                         {myTexts.iAgreeAll}
                     </span>

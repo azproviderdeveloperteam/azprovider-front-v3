@@ -41,7 +41,6 @@ const RegisterSecondStep = ({nextStep , email} : any) => {
 
 
     const submit = async (d : any) =>{
-        console.log('d' , data)
 
         const formData = {
             // email:email,

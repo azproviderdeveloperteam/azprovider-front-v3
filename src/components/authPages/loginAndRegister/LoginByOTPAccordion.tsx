@@ -10,11 +10,11 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import Link from "next/link";
 import {useMutation} from "@tanstack/react-query";
-import {loginUser} from "@/services/authServices";
+import {loginSendOtp, loginUser} from "@/services/authServices";
 import {AxiosError} from "axios";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
-
+import { useRouter } from 'next/navigation'
 
 const LoginByOtpAccordion = () => {
 
@@ -28,13 +28,15 @@ const LoginByOtpAccordion = () => {
     const [step , setStep ] = useState(0)
     const [loginWithEmail , setLoginWithEmail] = useState(true)
 
+    const router = useRouter()
 
     const schema = Yup
         .object({
 
         }).shape({
             email:Yup.string().email('Email is invalid !ِ'),
-            phone:Yup.string()
+            phone:Yup.string(),
+            otp:Yup.string(),
         })
         .required()
     const {
@@ -50,10 +52,43 @@ const LoginByOtpAccordion = () => {
     })
 
 
+    const {data:vData  , isPending :vPending , error:vError  , mutateAsync :vMutateAsync} =useMutation({
+        mutationFn : loginSendOtp
+    })
+
+
+
+    const sendVerification = async (d : any) =>{
+        const formData =loginWithEmail ? {
+            email:d?.email
+        } :{
+            phone:d?.phone
+        }
+        try{
+            const da = await vMutateAsync(formData)
+            const token = da.data?.token?.access;
+            const refresh = da?.data?.token?.refresh
+            Cookies.set('accessJwt', token);
+            Cookies.set('refreshJwt', refresh);
+            setStep(1)
+
+        }catch (err){
+            if(err instanceof AxiosError){
+                if(err?.response?.data?.msg){
+                    toast.error(err?.response?.data?.msg)
+                }else {
+                    toast.error('An Error occurred')
+                }
+            }
+        }
+    }
+
+
 
     const submitWithPhone = async (d : any) =>{
         const formData = {
-            email:d?.email
+            email:d?.email,
+            otp:d?.otp
         }
         try{
             const da = await mutateAsync(formData)
@@ -61,7 +96,8 @@ const LoginByOtpAccordion = () => {
             const refresh = da?.data?.token?.refresh
             Cookies.set('accessJwt', token);
             Cookies.set('refreshJwt', refresh);
-            setStep(1)
+            toast.success('Login Successfully !')
+            router.push('/dashboard')
 
         }catch (err){
             if(err instanceof AxiosError){
@@ -76,7 +112,8 @@ const LoginByOtpAccordion = () => {
 
     const submitWithEmail = async (d : any) =>{
         const formData = {
-            email:d?.email
+            email:d?.email,
+            otp:d?.otp
         }
         try{
             const da = await mutateAsync(formData)
@@ -84,7 +121,8 @@ const LoginByOtpAccordion = () => {
             const refresh = da?.data?.token?.refresh
             Cookies.set('accessJwt', token);
             Cookies.set('refreshJwt', refresh);
-            setStep(1)
+            toast.success('Login Successfully !')
+            router.push('/dashboard')
 
         }catch (err){
             if(err instanceof AxiosError){
@@ -98,6 +136,7 @@ const LoginByOtpAccordion = () => {
     }
 
 
+    console.log(getValues()?.phone === '')
 
     return (
         <Accordion className={'text-primary-dark-b bg-[#F8F8F8] rounded-[1.4rem] py-4 px-10 font-roboto'} open={open === 1} icon={<Image src={'/carousel-arrow.svg'} alt={'acc-otp-arrow'} width={10} height={10} className={`${open === 1 ? 'rotate-[-90deg]' :'rotate-90'} transition duration-500`} />  }>
@@ -138,7 +177,7 @@ const LoginByOtpAccordion = () => {
                               {
                                   loginWithEmail  ?
 
-                                      <form className='w-full flex flex-row items-start justify-between mt-2' onSubmit={handleSubmit(submitWithEmail)}>
+                                      <form className='w-full flex flex-row items-start justify-between mt-2' onSubmit={handleSubmit(sendVerification)}>
                                           <div className='w-3/4 pr-3 h-full'>
                                               <MainInput
                                                   register={register}
@@ -152,7 +191,7 @@ const LoginByOtpAccordion = () => {
                                           </div>
 
                                           <div className='w-1/4'>
-                                              <RegisterBtn type={'submit'} disabled={getValues()?.email?.length < 1}  otherClass={'!w-full'}>
+                                              <RegisterBtn type={'submit'} loading={vPending} disabled={false}  otherClass={'!w-full'}>
                                                   {myTexts.sendCode}
                                               </RegisterBtn>
                                           </div>
@@ -160,7 +199,7 @@ const LoginByOtpAccordion = () => {
 
                                       :
 
-                                      <form className='w-full flex flex-row items-start justify-between mt-2' onSubmit={handleSubmit(submitWithPhone)}>
+                                      <form className='w-full flex flex-row items-start justify-between mt-2' onSubmit={handleSubmit(sendVerification)}>
                                           <div className='w-3/4 pr-3 h-full'>
                                               <MainInput
                                                   register={register}
@@ -174,7 +213,7 @@ const LoginByOtpAccordion = () => {
                                           </div>
 
                                           <div className='w-1/4'>
-                                              <RegisterBtn type={'submit'} disabled={getValues()?.phone?.length < 1}  otherClass={'!w-full'}>
+                                              <RegisterBtn type={'submit'}  loading={vPending} disabled={false}  otherClass={'!w-full'}>
                                                   {myTexts.sendCode}
                                               </RegisterBtn>
                                           </div>
@@ -188,21 +227,21 @@ const LoginByOtpAccordion = () => {
                                   {myTexts.verificationInput.title}
 
                               </div>
-                              <form className='w-full flex flex-row items-start justify-between mt-2' onSubmit={handleSubmit(submitWithPhone)}>
+                              <form className='w-full flex flex-row items-start justify-between mt-2' onSubmit={handleSubmit(loginWithEmail ? submitWithEmail : submitWithPhone)}>
                                   <div className='w-3/4 pr-3 h-full'>
                                       <MainInput
                                           register={register}
-                                          label={'Your phone'}
-                                          error={errors?.phone?.message}
-                                          name={'phone'}
+                                          label={'OTP'}
+                                          error={errors?.otp?.message}
+                                          name={'otp'}
                                           // type={'password'}
-                                          placeholder={'*********'}
+                                          placeholder={'******'}
 
                                       />
                                   </div>
 
                                   <div className='w-1/4'>
-                                      <RegisterBtn type={'submit'} disabled={getValues()?.phone?.length < 1 }  otherClass={'!w-full'}>
+                                      <RegisterBtn type={'submit'} loading={isPending} disabled={false}  otherClass={'!w-full'}>
                                           {myTexts.confirm}
                                       </RegisterBtn>
                                   </div>

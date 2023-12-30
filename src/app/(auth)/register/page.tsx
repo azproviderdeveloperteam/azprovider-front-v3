@@ -22,7 +22,7 @@ const Register = () => {
     //     queryFn: checkAuthUser,
     //     retry:false,
     // })
-    //
+
 
     return (
         <div className='w-full min-h-[100svh] bg-primary-dark-b'>

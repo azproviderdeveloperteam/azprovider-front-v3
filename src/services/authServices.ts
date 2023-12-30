@@ -22,7 +22,17 @@ export async function  registerSetPassword(data : any){
 export async function  loginUser(data : any){
     return await  instance.post('user/login/' ,data )
 }
+export async function  loginSendOtp(data : any){
+    return await  instance.post('user/send-otp/' ,data , {
+        headers:{
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+            Accept:'application/json',
 
+
+        }
+    })
+}
 export async function getHsCodes(){
     return await instance.get('hscodes/get-data/')
 }
