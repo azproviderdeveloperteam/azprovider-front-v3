@@ -9,6 +9,10 @@ import MainInput from "@/components/inputs/MainInput";
 import {Checkbox} from "@material-tailwind/react";
 import Link from "next/link";
 import RegisterBtn from "@/components/Buttons/RegisterBtn";
+import {registerCompleteProfile} from "@/services/authServices";
+import {useMutation} from "@tanstack/react-query";
+import {AxiosError} from "axios";
+import toast from "react-hot-toast";
 
 const RegisterThirdStep = ({nextStep}:any) => {
 
@@ -19,8 +23,12 @@ const RegisterThirdStep = ({nextStep}:any) => {
         .object({
 
         }).shape({
-            code:Yup.string().min(6),
-            email:Yup.string().required('')
+            firstName:Yup.string().required('Enter Your First Name'),
+            lastName:Yup.string().required('Enter Your Last Name'),
+            businessCode:Yup.string().required('Enter Business Code'),
+            businessRole:Yup.string().required('Enter Business Role'),
+            cityOrCountry:Yup.string().required('Enter City Or Country'),
+            acceptTerms:Yup.bool().oneOf([true]).required('')
 
         })
         .required()
@@ -31,9 +39,33 @@ const RegisterThirdStep = ({nextStep}:any) => {
         getValues
     } = useForm({ resolver: yupResolver(schema), mode:'onChange'})
 
+    const {data  , isPending  , error  , mutateAsync} =useMutation({
+        mutationFn : registerCompleteProfile
+    })
 
-    const submit = () =>{
-        nextStep(3)
+
+
+    const submit = async (d) =>{
+
+        const formData = {
+                first_name:d?.firstName,
+                last_name:d?.lastName,
+                business_register_code:d?.businessCode,
+                business_role:d?.businessRole,
+                city_country:d?.cityOrCountry,
+        }
+        try {
+            const d = await mutateAsync(formData)
+            nextStep(3)
+        }catch (err) {
+            if(err instanceof AxiosError){
+                if(err?.response?.data?.msg){
+                    toast.error(err?.response?.data?.msg)
+                }else {
+                    toast.error('An Error occurred')
+                }
+            }
+        }
     }
 
     return (
@@ -60,12 +92,11 @@ const RegisterThirdStep = ({nextStep}:any) => {
                         </div>
                         <MainInput
                             register={register}
-                            label={'******'}
-                            error={errors?.email?.message}
-                            name={'code'}
-                            type={'code'}
-                            placeholder={'******'}
-                            otherClass={'!tracking-[1rem]'}
+                            label={'First name'}
+                            error={errors?.firstName?.message}
+                            name={'firstName'}
+                            type={'text'}
+                            placeholder={'First name'}
                         />
                     </div>
 
@@ -75,12 +106,11 @@ const RegisterThirdStep = ({nextStep}:any) => {
                         </div>
                         <MainInput
                             register={register}
-                            label={'******'}
-                            error={errors?.email?.message}
-                            name={'code'}
-                            type={'code'}
-                            placeholder={'******'}
-                            otherClass={'!tracking-[1rem]'}
+                            label={'Last Name'}
+                            error={errors?.lastName?.message}
+                            name={'lastName'}
+                            type={'text'}
+                            placeholder={'Last Name'}
                         />
                     </div>
 
@@ -91,12 +121,12 @@ const RegisterThirdStep = ({nextStep}:any) => {
                         </div>
                         <MainInput
                             register={register}
-                            label={'******'}
-                            error={errors?.email?.message}
-                            name={'code'}
-                            type={'code'}
-                            placeholder={'******'}
-                            otherClass={'!tracking-[1rem]'}
+                            label={'businessCode'}
+                            error={errors?.businessCode?.message}
+                            name={'businessCode'}
+                            type={'text'}
+                            placeholder={'Business Code'}
+
                         />
                     </div>
 
@@ -106,13 +136,12 @@ const RegisterThirdStep = ({nextStep}:any) => {
                         </div>
                         <MainInput
                             register={register}
-                            label={'******'}
-                            error={errors?.email?.message}
-                            name={'code'}
-                            type={'code'}
-                            placeholder={'******'}
-                            otherClass={'!tracking-[1rem]'}
-                        />
+                            label={'Business Role'}
+                            error={errors?.businessRole?.message}
+                            name={'businessRole'}
+                            type={'text'}
+                            placeholder={'Business Role'}
+                         />
                     </div>
 
                     <div className='max-w-[29%] min-w-[22.5rem] pr-2 h-full mt-7'>
@@ -121,19 +150,18 @@ const RegisterThirdStep = ({nextStep}:any) => {
                         </div>
                         <MainInput
                             register={register}
-                            label={'******'}
-                            error={errors?.email?.message}
-                            name={'code'}
-                            type={'code'}
-                            placeholder={'******'}
-                            otherClass={'!tracking-[1rem]'}
-                        />
+                            label={'City Or Country'}
+                            error={errors?.cityOrCountry?.message}
+                            name={'cityOrCountry'}
+                            type={'text'}
+                            placeholder={'City Or Country'}
+                         />
                     </div>
 
 
 
                 <div className='w-full flex flex-row items-center justify-start mt-10'>
-                    <Checkbox color="green" />
+                    <Checkbox color="green" name={'acceptTerms'} {...register('acceptTerms')}/>
                     <span>
                         {myTexts.iAgreeAll}
                     </span>
@@ -141,9 +169,15 @@ const RegisterThirdStep = ({nextStep}:any) => {
                         {myTexts.terms}
                     </Link>
                 </div>
+                    {
+                        errors?.acceptTerms?.message &&
+                        <div className='w-full text-[0.8rem] text-secondary-red px-4 mt-2'>
+                            {'Accept Our terms'}
+                        </div>
+                    }
 
                     <div className='w-full mt-5 px-3'>
-                        <RegisterBtn type={'submit'}>
+                        <RegisterBtn type={'submit'} loading={isPending} disabled={JSON.stringify(errors) !== '{}'} otherClass={'min-w-[10rem]'}>
                             {myTexts.register}
                         </RegisterBtn>
                     </div>

@@ -14,7 +14,7 @@ const app =  axios.create({
         accept: 'application/json',
         'Content-Type': 'application/json',
         Accept:'application/json',
-      'Authorization': `Bearer ${accessJwt}`
+     ...(accessJwt && {'Authorization': `Bearer ${accessJwt}`})
     }
 })
 

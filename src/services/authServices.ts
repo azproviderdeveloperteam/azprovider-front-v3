@@ -11,6 +11,13 @@ export async function  checkAuthUser(){
     return await  instance.post('user/check-auth/' ,{token:'s'})
 }
 
+export async function  registerCompleteProfile(data : any){
+    return await  instance.post('user-profile/update-info/' ,data )
+}
+
+export async function  registerSetPassword(data : any){
+    return await  instance.post('user/change-password/' ,data )
+}
 export async function getHsCodes(){
     return await instance.get('hscodes/get-data/')
 }

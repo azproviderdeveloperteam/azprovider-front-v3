@@ -52,7 +52,11 @@ const RegisterSecondStep = ({nextStep , email} : any) => {
             nextStep()
         }catch (err){
             if(err instanceof AxiosError){
-                toast.error(err?.response?.error)
+                if(err?.response?.data?.msg){
+                    toast.error(err?.response?.data?.msg)
+                }else {
+                    toast.error('An Error occurred')
+                }
             }
         }
     }

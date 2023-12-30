@@ -17,12 +17,12 @@ const Register = () => {
     const text = texts.eng
     const myTexts = text.register
 
-    const {data, isPending, error} = useQuery({
-        queryKey: 'aas',
-        queryFn: checkAuthUser,
-        retry:false,
-    })
-
+    // const {data, isPending, error} = useQuery({
+    //     queryKey: 'aas',
+    //     queryFn: checkAuthUser,
+    //     retry:false,
+    // })
+    //
 
     return (
         <div className='w-full min-h-[100svh] bg-primary-dark-b'>

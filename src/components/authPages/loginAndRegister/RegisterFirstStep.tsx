@@ -35,7 +35,7 @@ const RegisterFirstStep =  ({nextStep } : any) => {
     } = useForm({ resolver: yupResolver(schema), mode:'onChange'})
 
 
-    const {data  , isPending : isLoading , error  , mutateAsync} =useMutation({
+    const {data  , isPending  , error  , mutateAsync} =useMutation({
         mutationFn : registerSendOtp
     })
 
@@ -55,14 +55,17 @@ const RegisterFirstStep =  ({nextStep } : any) => {
            nextStep(d?.email)
        }catch (err){
             if(err instanceof AxiosError){
-                toast.error(err?.response?.error)
+                if(err?.response?.data?.msg){
+                    toast.error(err?.response?.data?.msg)
+                }else {
+                    toast.error('An Error occurred')
+                }
             }
        }
     }
 
 
 
-    console.log(isLoading , data)
 
 
     return (
@@ -114,7 +117,7 @@ const RegisterFirstStep =  ({nextStep } : any) => {
                             </div>
 
                             <div className='w-1/4'>
-                                <RegisterBtn loading={isLoading} type={'submit'} disabled={getValues()?.email?.length < 1} otherClass={'w-full'}>
+                                <RegisterBtn loading={isPending} type={'submit'} disabled={getValues()?.email?.length < 1} otherClass={'w-full'}>
                                     {myTexts.sendCode}
                                 </RegisterBtn>
                             </div>

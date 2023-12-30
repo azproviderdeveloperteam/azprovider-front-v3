@@ -8,18 +8,29 @@ import * as Yup from "yup";
 import MainInput from "@/components/inputs/MainInput";
 
 import RegisterBtn from "@/components/Buttons/RegisterBtn";
+import {useMutation} from "@tanstack/react-query";
+import {registerSetPassword} from "@/services/authServices";
+import {AxiosError} from "axios";
+import toast from "react-hot-toast";
 
-const RegisterFourthStep = ({nextStep}: any) => {
+const RegisterFourthStep = ({nextStep , email}: any) => {
 
     const text = texts.eng
     const myTexts = text.register
+    const errorStrPsss='Password must have contain at least one of the following : upper case letter, lower case letter, number and symbols'
 
     const schema = Yup
         .object({
 
         }).shape({
-            code:Yup.string().min(6),
-            email:Yup.string().required('Email is required')
+            password:Yup.string().required('password is required')
+                .min(10,'Password should be more than 9 characters')
+                .matches(/^(?=.*[a-z])/, errorStrPsss)
+                .matches(/^(?=.*[A-Z])/, errorStrPsss)
+                .matches(/^(?=.*[0-9])/, errorStrPsss)
+                .matches(/^(?=.*[!@#%&])/, errorStrPsss),
+            confirmPassword:Yup.string().required('Confirm password is required')
+                .oneOf([Yup.ref('password')] ,'Password and confirm password does not match !')
         })
         .required()
     const {
@@ -30,8 +41,31 @@ const RegisterFourthStep = ({nextStep}: any) => {
     } = useForm({ resolver: yupResolver(schema), mode:'onChange'})
 
 
-    const submit = () =>{
-        nextStep(3)
+    const {data  , isPending  , error  , mutateAsync} =useMutation({
+        mutationFn : registerSetPassword
+    })
+
+
+
+    const submit = async (d) =>{
+
+        const formData = {
+            current_password:null,
+            new_password:d?.password,
+
+        }
+        try {
+            const d = await mutateAsync(formData)
+            // nextStep(3)
+        }catch (err) {
+            if(err instanceof AxiosError){
+                if(err?.response?.data?.msg){
+                    toast.error(err?.response?.data?.msg)
+                }else {
+                    toast.error('An Error occurred')
+                }
+            }
+        }
     }
 
 
@@ -52,19 +86,16 @@ const RegisterFourthStep = ({nextStep}: any) => {
                 </div>
                 <form className='w-full flex flex-row items-start justify-start flex-wrap mt-4' onSubmit={handleSubmit(submit)}>
 
-                    <div className='max-w-[29%] min-w-[22.5rem] pr-2 h-full mt-10'>
+                    <div className='max-w-[29%] min-w-[22.5rem] pr-2 h-full mt-7'>
                         <div className=' text-[1.3rem]'>
                             {myTexts.emailOrPhone} <span className='text-secondary-red'>*</span>
                         </div>
-                        <MainInput
-                            register={register}
-                            label={'******'}
-                            error={errors?.email?.message}
-                            name={'code'}
-                            type={'code'}
-                            placeholder={'******'}
-                            otherClass={'!tracking-[1rem]'}
-                        />
+                        <input  className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
+                               placeholder={email}
+                                disabled
+                        >
+
+                        </input>
                     </div>
 
                     <div className='max-w-[29%] min-w-[22.5rem] pr-2 h-full mt-7'>
@@ -73,13 +104,12 @@ const RegisterFourthStep = ({nextStep}: any) => {
                         </div>
                         <MainInput
                             register={register}
-                            label={'******'}
-                            error={errors?.email?.message}
-                            name={'code'}
-                            type={'code'}
-                            placeholder={'******'}
-                            otherClass={'!tracking-[1rem]'}
-                        />
+                            label={'password'}
+                            error={errors?.password?.message}
+                            name={'password'}
+                            type={'password'}
+                            placeholder={'password'}
+                         />
                     </div>
 
 
@@ -89,13 +119,12 @@ const RegisterFourthStep = ({nextStep}: any) => {
                         </div>
                         <MainInput
                             register={register}
-                            label={'******'}
-                            error={errors?.email?.message}
-                            name={'code'}
-                            type={'code'}
-                            placeholder={'******'}
-                            otherClass={'!tracking-[1rem]'}
-                        />
+                            label={'confirmPassword'}
+                            error={errors?.confirmPassword?.message}
+                            name={'confirmPassword'}
+                            type={'password'}
+                            placeholder={'confirmPassword'}
+                         />
                     </div>
 
 
@@ -106,7 +135,7 @@ const RegisterFourthStep = ({nextStep}: any) => {
                         <div className='cursor-pointer text-primary-green-cb'>
                             {myTexts.skip}
                         </div>
-                        <RegisterBtn type={'submit'}>
+                        <RegisterBtn type={'submit'} disabled={JSON.stringify(errors) !== '{}'} otherClass={'min-w-[10rem]'}>
                             {myTexts.register}
                         </RegisterBtn>
                     </div>
