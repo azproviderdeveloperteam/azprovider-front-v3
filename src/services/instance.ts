@@ -1,14 +1,20 @@
 import axios from "axios";
 import {baseUrl} from "@/utils/config";
 // axios.defaults.withCredentials = true
+import Cookies from "js-cookie";
+
+const accessJwt = Cookies.get('accessJwt');
+const refreshJwt = Cookies.get('refreshJwt');
+
 const app =  axios.create({
-    withCredentials:true,
+    // withCredentials:true,
     baseURL:`https://${baseUrl}`,
 
     headers:{
         accept: 'application/json',
         'Content-Type': 'application/json',
         Accept:'application/json',
+      'Authorization': `Bearer ${accessJwt}`
     }
 })
 
@@ -24,29 +30,29 @@ app.interceptors.response.use(
     async (error)=>{
         const originalConfig = error.config
 
-        if(error.response.status === 401 && !originalConfig._retry){
-            originalConfig._retry = true
-            try{
-                const data = await axios.post(`https://${baseUrl}/user/refresh-jwt`,
-                    {'refresh':localStorage.getItem('CFRToken')}
-                    ,
-                    {
-                        withCredentials : true,
-                        headers:{
-                            Authorization :`Bearer ${localStorage.getItem('CFAToken')}`,
-                        }
-                    })
-                localStorage.setItem('CFAToken' , data?.data?.access)
-                if(data) return app(originalConfig)
-            }
-            catch (err){
-                if(!originalConfig.url.toString().includes('user')){
-                }
-                return Promise.reject(error)
-            }
-
-
-        }
+        // if(error.response.status === 401 && !originalConfig._retry){
+        //     originalConfig._retry = true
+        //     try{
+        //         const data = await axios.post(`https://${baseUrl}/user/refresh-jwt`,
+        //             {'refresh':localStorage.getItem('CFRToken')}
+        //             ,
+        //             {
+        //                 withCredentials : true,
+        //                 headers:{
+        //                     Authorization :`Bearer ${localStorage.getItem('CFAToken')}`,
+        //                 }
+        //             })
+        //         localStorage.setItem('CFAToken' , data?.data?.access)
+        //         if(data) return app(originalConfig)
+        //     }
+        //     catch (err){
+        //         if(!originalConfig.url.toString().includes('user')){
+        //         }
+        //         return Promise.reject(error)
+        //     }
+        //
+        //
+        // }
         return Promise.reject(error)
     }
 

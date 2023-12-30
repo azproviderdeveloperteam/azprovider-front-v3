@@ -9,10 +9,12 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import MainInput from "@/components/inputs/MainInput";
 import Link from "next/link";
-import {useMutation, useQuery} from "@tanstack/react-query";
-import {getHsCodes, getHscodes, registerSendOtp} from "@/services/authServices";
-import axios, {AxiosError} from "axios";
+import {useMutation} from "@tanstack/react-query";
+import { registerSendOtp} from "@/services/authServices";
+import {AxiosError} from "axios";
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
+
 import ThreeDotsLoader from "@/components/loaders/ThreeDotsLoader";
 const RegisterFirstStep =  ({nextStep } : any) => {
     const text = texts.eng
@@ -33,23 +35,24 @@ const RegisterFirstStep =  ({nextStep } : any) => {
     } = useForm({ resolver: yupResolver(schema), mode:'onChange'})
 
 
-    const {data  , isLoading , error  , mutateAsync} =useMutation({
+    const {data  , isPending : isLoading , error  , mutateAsync} =useMutation({
         mutationFn : registerSendOtp
     })
 
 
 
-    // const {data : fetBankAccountsData, isLoading:fetBankAccountsIsLoading, error:fetBankAccountsError} = useQuery({
-    //     queryKey: 'getHscodes',
-    //     queryFn: getHsCodes,
-    //     retry:false,
-    // })
     const submit = async (d : any) =>{
         const formData = {
             email:d?.email
         }
        try{
-           const d = await mutateAsync(formData)
+           const da = await mutateAsync(formData)
+           const token = da.data?.token?.access;
+           const refresh = da?.data?.token?.refresh
+           Cookies.set('accessJwt', token);
+           Cookies.set('refreshJwt', refresh);
+
+           nextStep(d?.email)
        }catch (err){
             if(err instanceof AxiosError){
                 toast.error(err?.response?.error)
@@ -58,16 +61,18 @@ const RegisterFirstStep =  ({nextStep } : any) => {
     }
 
 
+
     console.log(isLoading , data)
 
 
     return (
         <>
-            <Image src={'/pink-vector.svg'} alt={'pink-vector'} width={350} height={350} className={'!absolute top-[60svh] left-[-10%] z-[0]'}/>
-            <Image src={'/gray-vector.svg'} alt={'gray-vector'} width={250} height={250} className={'!absolute top-[45svh] left-[40%] z-[0]'}/>
-            <Image src={'/purple-vector.svg'} alt={'purple-vector'} width={550} height={550} className={'!absolute top-[20svh] left-[0%] z-[10]'}/>
 
-            <div className='w-[45%]'>
+
+            <div className='w-[45%] relative'>
+                <Image src={'/pink-vector.svg'} alt={'pink-vector'} width={350} height={350} className={'!absolute top-[44%] left-[-35%] z-[0]'}/>
+                <Image src={'/gray-vector.svg'} alt={'gray-vector'} width={250} height={250} className={'!absolute top-[-2%] left-[82%] z-[0]'}/>
+                <Image src={'/purple-vector.svg'} alt={'purple-vector'} width={550} height={550} className={'!absolute top-[-95%] left-[0%] z-[10]'}/>
                 <div className='w-full flex flex-col items-start justify-center'>
                     <h1 className='w-full text-left capitalize leading-none	 text-transparent bg-clip-text font-bold text-[3.5rem]' style={{backgroundImage:"linear-gradient(88deg, #AE88FF 7.72%, #FFA3F7 48.06%, #FFCB8E 91.92%)"}}>
                         {myTexts.sayWelcome}

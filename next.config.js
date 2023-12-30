@@ -4,7 +4,7 @@ const nextConfig = {
         domains: [' ' ,' '],
     },
     env:{
-        BACKEND_URL:'api.azp.com'
+        BACKEND_URL:'api.azprovider.com/api/'
     },
 }
 

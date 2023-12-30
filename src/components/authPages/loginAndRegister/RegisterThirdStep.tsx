@@ -38,11 +38,12 @@ const RegisterThirdStep = ({nextStep}:any) => {
 
     return (
         <>
-            <Image src={'/pink-vector.svg'} alt={'pink-vector'} width={350} height={350} className={'!absolute top-[60svh] left-[-0] z-[0]'}/>
-            <Image src={'/gray-vector.svg'} alt={'gray-vector'} width={250} height={250} className={'!absolute top-[45svh] left-[100%] z-[0]'}/>
-            <Image src={'/purple-vector.svg'} alt={'purple-vector'} width={550} height={550} className={'!absolute top-[-150px] left-[0%] z-[99999]'}/>
 
-            <div className='w-full  p-6 rounded-[1.5rem] bg-[#02131E] text-white relative z-[10]'>
+
+            <div className='w-full  p-6 rounded-[1.5rem] bg-[#02131E] text-white relative z-[10] relative'>
+                <Image src={'/pink-vector.svg'} alt={'pink-vector'} width={350} height={350} className={'!absolute top-[50%] left-[-20%] z-[0]'}/>
+                <Image src={'/gray-vector.svg'} alt={'gray-vector'} width={250} height={250} className={'!absolute top-[10%] left-[90%]  rotate-180  '}/>
+                <Image src={'/purple-vector.svg'} alt={'purple-vector'} width={550} height={550} className={'!absolute top-[-90%] left-[0%] z-[99999]'}/>
                 <div className={'w-full flex flex-row items-center justify-start'}>
                     <Image src={'/register-title.svg'} alt={'register-title'} width={35} height={35} />
 
@@ -51,7 +52,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
                     </h1>
 
                 </div>
-                <form className='w-full flex flex-row items-start justify-start flex-wrap mt-4' onSubmit={handleSubmit(submit)}>
+                <form className='w-full flex flex-row items-start justify-start flex-wrap mt-4 relative z-10' onSubmit={handleSubmit(submit)}>
 
                     <div className='max-w-[29%] min-w-[22.5rem] pr-2 h-full mt-7'>
                         <div className=' text-[1.3rem]'>
