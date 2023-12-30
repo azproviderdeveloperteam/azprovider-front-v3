@@ -15,10 +15,10 @@ const Login = () => {
     return (
         <div className='w-full min-h-[100svh] bg-white text-primary-dark-b'>
 
-            <div className='relative !h-full min-h-[100svh] max-w-[71.2125rem] lg:w-[71.3125rem] m-auto w-full flex flex-row items-center justify-between'>
-                <Image src={'/pink-vector.svg'} alt={'pink-vector'} width={350} height={350} className={'!absolute top-[60svh] left-[-10%] z-[0]'}/>
-                <Image src={'/gray-vector.svg'} alt={'gray-vector'} width={250} height={250} className={'!absolute top-[45svh] left-[30%] z-[0]'}/>
-                <Image src={'/purple-vector.svg'} alt={'purple-vector'} width={550} height={550} className={'!absolute top-[20svh] left-[0%] z-[10]'}/>
+            <div className='!relative !h-full min-h-[100svh] max-w-[71.2125rem] lg:w-[71.3125rem] m-auto w-full flex flex-row items-center justify-between'>
+                <Image src={'/pink-vector.svg'} alt={'pink-vector'} width={350} height={350} className={'!absolute top-[60%] left-[-10%] z-[0]'}/>
+                <Image src={'/gray-vector.svg'} alt={'gray-vector'} width={250} height={250} className={'!absolute top-[35%] left-[25%] z-[0]'}/>
+                <Image src={'/purple-vector.svg'} alt={'purple-vector'} width={550} height={550} className={'!absolute top-[-0%] left-[0%] z-[10]'}/>
 
                 <div className='w-1/3'>
                     <div className='w-full flex flex-col items-start justify-center'>

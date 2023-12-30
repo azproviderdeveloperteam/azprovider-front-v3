@@ -168,6 +168,7 @@ export const texts = {
             password:{
                 title:"privet password",
                 sendCode:"Send Code",
+                next:"Next",
                 confirm:"Confirm",
                 loginWith:"Login With",
                 loginWithPhone:"phone number",

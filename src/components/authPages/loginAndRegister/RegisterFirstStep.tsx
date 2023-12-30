@@ -24,7 +24,7 @@ const RegisterFirstStep =  ({nextStep } : any) => {
         .object({
 
         }).shape({
-            email:Yup.string().required('Email is required').email('Email is invalid !ِ'),
+            email:Yup.string().required('Email Or Phone is required')
         })
         .required()
     const {

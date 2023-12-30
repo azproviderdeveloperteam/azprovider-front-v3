@@ -9,6 +9,11 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import Link from "next/link";
+import {useMutation} from "@tanstack/react-query";
+import {loginUser} from "@/services/authServices";
+import {AxiosError} from "axios";
+import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 
 
 const LoginByOtpAccordion = () => {
@@ -28,8 +33,8 @@ const LoginByOtpAccordion = () => {
         .object({
 
         }).shape({
-            email:Yup.string().required('Email is required').email('Email is invalid !ِ'),
-            phone:Yup.string().required('Phone is required')
+            email:Yup.string().email('Email is invalid !ِ'),
+            phone:Yup.string()
         })
         .required()
     const {
@@ -40,15 +45,58 @@ const LoginByOtpAccordion = () => {
     } = useForm({ resolver: yupResolver(schema), mode:'onChange'})
 
 
-    const submitWithPhone = () =>{
-         setStep(1)
+    const {data  , isPending  , error  , mutateAsync} =useMutation({
+        mutationFn : loginUser
+    })
+
+
+
+    const submitWithPhone = async (d : any) =>{
+        const formData = {
+            email:d?.email
+        }
+        try{
+            const da = await mutateAsync(formData)
+            const token = da.data?.token?.access;
+            const refresh = da?.data?.token?.refresh
+            Cookies.set('accessJwt', token);
+            Cookies.set('refreshJwt', refresh);
+            setStep(1)
+
+        }catch (err){
+            if(err instanceof AxiosError){
+                if(err?.response?.data?.msg){
+                    toast.error(err?.response?.data?.msg)
+                }else {
+                    toast.error('An Error occurred')
+                }
+            }
+        }
     }
 
+    const submitWithEmail = async (d : any) =>{
+        const formData = {
+            email:d?.email
+        }
+        try{
+            const da = await mutateAsync(formData)
+            const token = da.data?.token?.access;
+            const refresh = da?.data?.token?.refresh
+            Cookies.set('accessJwt', token);
+            Cookies.set('refreshJwt', refresh);
+            setStep(1)
 
-    const submitWithEmail = () =>{
-        setStep(1)
-
+        }catch (err){
+            if(err instanceof AxiosError){
+                if(err?.response?.data?.msg){
+                    toast.error(err?.response?.data?.msg)
+                }else {
+                    toast.error('An Error occurred')
+                }
+            }
+        }
     }
+
 
 
     return (
@@ -104,7 +152,7 @@ const LoginByOtpAccordion = () => {
                                           </div>
 
                                           <div className='w-1/4'>
-                                              <RegisterBtn type={'submit'} disabled={getValues()?.email?.length < 1}>
+                                              <RegisterBtn type={'submit'} disabled={getValues()?.email?.length < 1}  otherClass={'!w-full'}>
                                                   {myTexts.sendCode}
                                               </RegisterBtn>
                                           </div>
@@ -126,7 +174,7 @@ const LoginByOtpAccordion = () => {
                                           </div>
 
                                           <div className='w-1/4'>
-                                              <RegisterBtn type={'submit'} disabled={getValues()?.phone?.length < 1}>
+                                              <RegisterBtn type={'submit'} disabled={getValues()?.phone?.length < 1}  otherClass={'!w-full'}>
                                                   {myTexts.sendCode}
                                               </RegisterBtn>
                                           </div>
@@ -147,14 +195,14 @@ const LoginByOtpAccordion = () => {
                                           label={'Your phone'}
                                           error={errors?.phone?.message}
                                           name={'phone'}
-                                          type={'tell'}
-                                          placeholder={'+98 9123456789'}
+                                          // type={'password'}
+                                          placeholder={'*********'}
 
                                       />
                                   </div>
 
                                   <div className='w-1/4'>
-                                      <RegisterBtn type={'submit'} disabled={getValues()?.phone?.length < 1}>
+                                      <RegisterBtn type={'submit'} disabled={getValues()?.phone?.length < 1 }  otherClass={'!w-full'}>
                                           {myTexts.confirm}
                                       </RegisterBtn>
                                   </div>

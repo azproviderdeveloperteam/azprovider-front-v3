@@ -9,6 +9,11 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import Link from "next/link";
+import {loginUser} from "@/services/authServices";
+import {AxiosError} from "axios";
+import toast from "react-hot-toast";
+import {useMutation} from "@tanstack/react-query";
+import Cookies from "js-cookie";
 
 
 const LoginByPasswordAccordion = () => {
@@ -23,14 +28,21 @@ const LoginByPasswordAccordion = () => {
     const handleOpen = (value : any) => setOpen(open === value ? 0 : value);
 
 
+    const errorStrPsss='Password must have contain at least one of the following : upper case letter, lower case letter, number and symbols'
 
 
     const schema = Yup
         .object({
 
         }).shape({
-            email:Yup.string().required('Email is required').email('Email is invalid !ِ'),
-            phone:Yup.string().required('Email is required')
+            email:Yup.string().email('Email is invalid !ِ'),
+            phone:Yup.string(),
+            password : Yup.string()
+                .min(10,'Password should be more than 9 characters')
+                .matches(/^(?=.*[a-z])/, errorStrPsss)
+                .matches(/^(?=.*[A-Z])/, errorStrPsss)
+                .matches(/^(?=.*[0-9])/, errorStrPsss)
+                .matches(/^(?=.*[!@#%&])/, errorStrPsss),
         })
         .required()
     const {
@@ -40,14 +52,61 @@ const LoginByPasswordAccordion = () => {
         getValues
     } = useForm({ resolver: yupResolver(schema), mode:'onChange'})
 
-    const submitWithPhone = () =>{
+
+    const {data  , isPending  , error  , mutateAsync} =useMutation({
+        mutationFn : loginUser
+    })
+
+
+    const nextStep = () =>{
         setStep(1)
     }
+    const submitWithEmail = async (d : any) =>{
+        const formData = {
+            email:d?.email,
+            password:d?.password
+        }
+        try{
+            const da = await mutateAsync(formData)
+            const token = da.data?.token?.access;
+            const refresh = da?.data?.token?.refresh
+            Cookies.set('accessJwt', token);
+            Cookies.set('refreshJwt', refresh);
+            setStep(1)
 
+        }catch (err){
+            if(err instanceof AxiosError){
+                if(err?.response?.data?.msg){
+                    toast.error(err?.response?.data?.msg)
+                }else {
+                    toast.error('An Error occurred')
+                }
+            }
+        }
+    }
 
-    const submitWithEmail = () =>{
-        setStep(1)
+    const submitWithPhone = async (d : any) =>{
+        const formData = {
+            phone:d?.phone,
+            password:d?.password
+        }
+        try{
+            const da = await mutateAsync(formData)
+            const token = da.data?.token?.access;
+            const refresh = da?.data?.token?.refresh
+            Cookies.set('accessJwt', token);
+            Cookies.set('refreshJwt', refresh);
+            setStep(1)
 
+        }catch (err){
+            if(err instanceof AxiosError){
+                if(err?.response?.data?.msg){
+                    toast.error(err?.response?.data?.msg)
+                }else {
+                    toast.error('An Error occurred')
+                }
+            }
+        }
     }
 
 
@@ -92,7 +151,7 @@ const LoginByPasswordAccordion = () => {
                                 {
                                     loginWithEmail  ?
 
-                                        <form className='w-full flex flex-row items-start justify-between mt-2' onSubmit={handleSubmit(submitWithEmail)}>
+                                        <form className='w-full flex flex-row items-start justify-between mt-2' onSubmit={handleSubmit(nextStep)}>
                                             <div className='w-3/4 pr-3 h-full'>
                                                 <MainInput
                                                     register={register}
@@ -106,15 +165,15 @@ const LoginByPasswordAccordion = () => {
                                             </div>
 
                                             <div className='w-1/4'>
-                                                <RegisterBtn type={'submit'} disabled={getValues()?.email?.length < 1}>
-                                                    {myTexts.sendCode}
+                                                <RegisterBtn loading={isPending} type={'submit'} disabled={getValues()?.email?.length < 1}  otherClass={'!w-full'}>
+                                                    {myTexts.next}
                                                 </RegisterBtn>
                                             </div>
                                         </form>
 
                                         :
 
-                                        <form className='w-full flex flex-row items-start justify-between mt-2' onSubmit={handleSubmit(submitWithPhone)}>
+                                        <form className='w-full flex flex-row items-start justify-between mt-2' onSubmit={handleSubmit(nextStep)}>
                                             <div className='w-3/4 pr-3 h-full'>
                                                 <MainInput
                                                     register={register}
@@ -128,8 +187,8 @@ const LoginByPasswordAccordion = () => {
                                             </div>
 
                                             <div className='w-1/4'>
-                                                <RegisterBtn type={'submit'} disabled={getValues()?.phone?.length < 1}>
-                                                    {myTexts.sendCode}
+                                                <RegisterBtn loading={isPending} type={'submit'} disabled={getValues()?.phone?.length < 1} otherClass={'!w-full'}>
+                                                    {myTexts.next}
                                                 </RegisterBtn>
                                             </div>
                                         </form>
@@ -142,21 +201,21 @@ const LoginByPasswordAccordion = () => {
                                     {myTexts.verificationInput.title}
 
                                 </div>
-                                <form className='w-full flex flex-row items-start justify-between mt-2' onSubmit={handleSubmit(submitWithPhone)}>
+                                <form className='w-full flex flex-row items-start justify-between mt-2' onSubmit={handleSubmit(loginWithEmail ? submitWithEmail : submitWithPhone)}>
                                     <div className='w-3/4 pr-3 h-full'>
                                         <MainInput
                                             register={register}
-                                            label={'Your phone'}
-                                            error={errors?.phone?.message}
-                                            name={'phone'}
-                                            type={'tell'}
-                                            placeholder={'+98 9123456789'}
+                                            label={'Password'}
+                                            error={errors?.password?.message}
+                                            name={'password'}
+                                            type={'password'}
+                                            placeholder={'* * * * * * * *'}
 
                                         />
                                     </div>
 
                                     <div className='w-1/4'>
-                                        <RegisterBtn type={'submit'} disabled={getValues()?.phone?.length < 1}>
+                                        <RegisterBtn loading={isPending} type={'submit'} disabled={getValues()?.password?.length < 1} otherClass={'!w-full'}>
                                             {myTexts.confirm}
                                         </RegisterBtn>
                                     </div>

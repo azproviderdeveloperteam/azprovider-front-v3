@@ -18,6 +18,11 @@ export async function  registerCompleteProfile(data : any){
 export async function  registerSetPassword(data : any){
     return await  instance.post('user/change-password/' ,data )
 }
+
+export async function  loginUser(data : any){
+    return await  instance.post('user/login/' ,data )
+}
+
 export async function getHsCodes(){
     return await instance.get('hscodes/get-data/')
 }
