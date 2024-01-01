@@ -334,6 +334,15 @@ export const texts = {
                         zipCode:"zip code",
                         save:"save",
 
+                    },
+                    certificate:{
+                        title:"Title",
+                        grade:"Grade",
+                        type:"type",
+                        source:"source link",
+                        save:"save",
+                        uploadLogo:"upload Image",
+
                     }
                 }
             }
