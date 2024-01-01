@@ -317,6 +317,23 @@ export const texts = {
                         localName:"local name",
                         contactPerson:"contact person",
                         email:"Email",
+                        save:"save",
+                    },
+                    contact:{
+                        tell:"Tell",
+                        faxL:'Fax',
+                        websiteAddress:"Website Address",
+                        socialMedia:"",
+                        advanceDataInformation:"Advance data information",
+                        locationTitle:"location Title",
+                        cityCountry: 'city / country ',
+                        provinceState:"province / state",
+                        streetAllay:"street / allay",
+                        building:"building",
+                        number:"number",
+                        zipCode:"zip code",
+                        save:"save",
+
                     }
                 }
             }

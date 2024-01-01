@@ -58,7 +58,6 @@ const ProfileBInfo = ({bInfoData} : any) => {
 
     },[bInfoData])
 
-    console.log(getValues() , bInfoData)
     const submit = async (d : any) =>{
         console.log(d)
         const formData = {

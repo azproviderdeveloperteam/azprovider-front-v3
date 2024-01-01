@@ -121,9 +121,9 @@ const ProfilePage = () => {
                         : activeTab === 'Business Information' ?
                          <ProfileBInfo bInfoData={bInfoData?.data}/>
                             : activeTab === 'Contact' ?
-                                <ProfileContact />
+                                <ProfileContact contactData={contactData?.data}/>
                                 : activeTab === 'certificates' ?
-                                    <ProfileCertificates />
+                                    <ProfileCertificates  certificateData={certificateData?.data}/>
                                     : activeTab === 'projects' ?
                                         <ProfileProjects />
                                         : activeTab === 'membership' ?

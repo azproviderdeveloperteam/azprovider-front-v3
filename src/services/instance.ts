@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 
 const accessJwt = Cookies.get('accessJwt');
 const refreshJwt = Cookies.get('refreshJwt');
-
+console.log('asdasd')
 const app =  axios.create({
     // withCredentials:true,
     baseURL:`https://${baseUrl}`,
@@ -14,7 +14,7 @@ const app =  axios.create({
         accept: 'application/json',
         'Content-Type': 'application/json',
         Accept:'application/json',
-        ...(accessJwt?.toString() != "undefined" && {Authorization: `Bearer ${accessJwt}`})
+        ...( accessJwt?.toString()?.length > 12  && {Authorization: `Bearer ${accessJwt}`})
 
     }
 })
