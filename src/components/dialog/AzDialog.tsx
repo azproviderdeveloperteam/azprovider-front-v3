@@ -2,7 +2,7 @@ import React from 'react';
 import {Dialog} from "@material-tailwind/react";
 import { ThemeProvider } from "@material-tailwind/react";
 
-const AzDialog = ({children , open , handler , size}) => {
+const AzDialog = ({children , open , handler , size} : any) => {
 
 
     const theme = {

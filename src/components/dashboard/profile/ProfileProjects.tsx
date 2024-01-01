@@ -147,7 +147,11 @@ const ProfileProjects = ({projectsData} : any) => {
                             className='bg-transparent text-primary-purple-300 font-bold normal-case ml-3 capitalize  flex flex-row items-center justify-start'>
                             <Image src={'/upload-svg.svg'} alt={'upload-svg.svg'} width={20} height={20} className={'mr-1'} />    {myTexts.upload}
                         </Button>
-                        <input className='hidden' ref={inputRef} type={'file'} onChange={(e)=>setFile(e?.target?.files[0])}/>
+                        <input className='hidden' ref={inputRef} type={'file'} onChange={(e)=>{
+                            if(e.target.files){
+                                setFile(e?.target?.files[0])
+                            }
+                        }}/>
 
 
 

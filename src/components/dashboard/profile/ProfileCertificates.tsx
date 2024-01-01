@@ -41,7 +41,7 @@ const ProfileCertificates = ({certificateData}: any) => {
     })
 
 
- 
+
 
     const submit = async (d : any) =>{
 
@@ -67,7 +67,7 @@ const ProfileCertificates = ({certificateData}: any) => {
         }
     }
 
-    const hasError = errors?.brandName?.message || errors?.interName?.message || errors?.cellPhone?.message || errors?.localName?.message || errors?.contactPerson?.message || errors?.email?.message
+    const hasError =false
     return (
         <div className='w-full pt-4'>
             <div className='w-full bg-[#F8F8F8] p-5 lg:p-8 rounded-[1rem]'>
@@ -92,7 +92,11 @@ const ProfileCertificates = ({certificateData}: any) => {
                         className='bg-transparent text-primary-purple-300 font-bold normal-case ml-3 capitalize  flex flex-row items-center justify-start'>
                         <Image src={'/upload-svg.svg'} alt={'upload-svg.svg'} width={20} height={20} className={'mr-1'} />    {myTexts.uploadLogo}
                     </Button>
-                    <input className='hidden' ref={inputRef} type={'file'} onChange={(e)=>setImg(e?.target?.files[0])}/>
+                    <input className='hidden' ref={inputRef} type={'file'} onChange={(e)=>{
+                        if(e.target.files){
+                            setImg(e?.target?.files[0])
+                        }
+                    }}/>
                 </div>
 
 

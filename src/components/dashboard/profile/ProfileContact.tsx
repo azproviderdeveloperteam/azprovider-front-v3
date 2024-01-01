@@ -29,21 +29,21 @@ const ProfileContact = ({contactData} : any) => {
             tell:Yup.string(),
             fax:Yup.string(),
             websiteAddress:Yup.string(),
-            instagram:'',
-            youtube:'',
-            linkedin:'',
-            x:'',
-            whatsapp:'',
-            facebook:'',
-            telegram:'',
+            instagram:Yup.string().default('').nullable(),
+            youtube:Yup.string().default('').nullable(),
+            linkedin:Yup.string().default('').nullable(),
+            x:Yup.string().default('').nullable(),
+            whatsapp:Yup.string().default('').nullable(),
+            facebook:Yup.string().default('').nullable(),
+            telegram:Yup.string().default('').nullable(),
 
-            cityCountry:'',
-            locationTitle:'',
-            provinceState:'',
-            streetAllay:'',
-            building:'',
-            number:'',
-            zipCode:'',
+            cityCountry:Yup.string().default('').nullable(),
+            locationTitle:Yup.string().default('').nullable(),
+            provinceState:Yup.string().default('').nullable(),
+            streetAllay:Yup.string().default('').nullable(),
+            building:Yup.string().default('').nullable(),
+            number:Yup.string().default('').nullable(),
+            zipCode:Yup.string().default('').nullable(),
         })
         .required()
     const {
@@ -137,12 +137,12 @@ const ProfileContact = ({contactData} : any) => {
                    {
                        options.map((item ,index)=>{
                            return (
-                               <div className='w-[15rem] flex flex-row items-center justify-start text-primary-dark-b'>
-                                   <Checkbox color="green" checked={socials?.filter(e=>e.value === item?.value)?.length > 0} onChange={(e)=>{
+                               <div key={index+1} className='w-[15rem] flex flex-row items-center justify-start text-primary-dark-b'>
+                                   <Checkbox color="green" checked={socials?.filter((e :any) =>e.value === item?.value)?.length > 0} onChange={(e)=>{
                                        if(e.target.checked){
                                            setSocials(socials.concat(item))
                                        }else{
-                                           setSocials(socials.filter(e=>e.value != item?.value))
+                                           setSocials(socials.filter((e :any) =>e.value != item?.value))
                                        }
 
                                    }}/>
@@ -164,8 +164,8 @@ const ProfileContact = ({contactData} : any) => {
                         </div>
                         <MainInput
                             register={register}
-                            label={'interName'}
-                            error={errors?.interName?.message}
+                            label={'tell'}
+                            error={errors?.tell?.message}
                             name={'tell'}
                             type={'text'}
                             placeholder={myTexts.tell}
@@ -177,8 +177,8 @@ const ProfileContact = ({contactData} : any) => {
                         </div>
                         <MainInput
                             register={register}
-                            label={'interName'}
-                            error={errors?.faxL?.message}
+                            label={'fax'}
+                            error={errors?.fax?.message}
                             name={'fax'}
                             type={'text'}
                             placeholder={myTexts.faxL}
@@ -191,7 +191,7 @@ const ProfileContact = ({contactData} : any) => {
                         </div>
                         <MainInput
                             register={register}
-                            label={'interName'}
+                            label={'websiteAddress'}
                             error={errors?.websiteAddress?.message}
                             name={'websiteAddress'}
                             type={'text'}
@@ -201,9 +201,9 @@ const ProfileContact = ({contactData} : any) => {
 
 
                     {
-                        socials.map((item ,index)=>{
+                        socials.map((item : any ,index : number)=>{
                             return(
-                                <div className='w-full lg:w-[31%] pr-5 h-full mt-7'>
+                                <div key={index+1} className='w-full lg:w-[31%] pr-5 h-full mt-7'>
                                     <div className=' text-[1.3rem] capitalize'>
                                         {item?.label}
                                     </div>
@@ -271,7 +271,7 @@ const ProfileContact = ({contactData} : any) => {
                                 <MainInput
                                     register={register}
                                     label={'cityCountry'}
-                                    error={errors?.faxL?.message}
+                                    error={errors?.cityCountry?.message}
                                     name={'cityCountry'}
                                     type={'text'}
                                     placeholder={myTexts.cityCountry}

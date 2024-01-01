@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 
-const ProfileAll = () => {
+const ProfileAll = ({data}:any) => {
 
 
     return (
@@ -10,7 +10,7 @@ const ProfileAll = () => {
                 {
                     [...Array(5)].map((item ,index)=>{
                         return(
-                            <div className='w-[40.5%] min-w-[40rem] snap-start '>
+                            <div key={index+1} className='w-[40.5%] min-w-[40rem] snap-start '>
                                 {index * 123213}
                             </div>
                         )
