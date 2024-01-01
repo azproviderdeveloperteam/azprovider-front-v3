@@ -305,6 +305,20 @@ export const texts = {
                         afterTitle:"Short explain about this card ",
                     }
                 },
+                profile:{
+                    all:{
+
+                    },
+                    bInfo:{
+                        uploadLogo:"upload logo",
+                        interName:"international name",
+                        brandName:"brand name",
+                        cellPhone:"Cell Phone",
+                        localName:"local name",
+                        contactPerson:"contact person",
+                        email:"Email",
+                    }
+                }
             }
         },
     }

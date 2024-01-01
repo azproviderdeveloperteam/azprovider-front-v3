@@ -1,11 +1,11 @@
 import instance from "@/services/instance";
 
 export async function  getBInfo(){
-    return await  instance.get('advanced-business-information/get-data/')
+    return await  instance.get('business-information/get-data/')
 }
 
 export async function  postBInfo(data : any){
-    return await  instance.post('advanced-business-information/update-info/' ,data)
+    return await  instance.post('business-information/update-info/' ,data)
 }
 
 export async function  getContact(){
