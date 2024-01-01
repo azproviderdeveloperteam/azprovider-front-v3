@@ -343,6 +343,14 @@ export const texts = {
                         save:"save",
                         uploadLogo:"upload Image",
 
+                    },
+                    projects:{
+                        title:"title",
+                        date:"date",
+                        customerProjectName:"customer project name",
+                        description:"description",
+                        upload:"upload satisfaction later",
+                        save:"save"
                     }
                 }
             }

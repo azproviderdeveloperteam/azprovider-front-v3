@@ -125,9 +125,9 @@ const ProfilePage = () => {
                                 : activeTab === 'certificates' ?
                                     <ProfileCertificates  certificateData={certificateData?.data}/>
                                     : activeTab === 'projects' ?
-                                        <ProfileProjects />
+                                        <ProfileProjects  projectsData={projectsData?.data}/>
                                         : activeTab === 'membership' ?
-                                            <ProfileMembership /> : null
+                                            <ProfileMembership  membershipData={membershipData?.data}/> : null
                 }
             </div>
         </div>
