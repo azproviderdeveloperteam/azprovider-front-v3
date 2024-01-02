@@ -135,7 +135,7 @@ const RegisterFourthStep = ({nextStep , email}: any) => {
                         <div className='cursor-pointer text-primary-green-cb'>
                             {myTexts.skip}
                         </div>
-                        <RegisterBtn type={'submit'} disabled={JSON.stringify(errors) !== '{}'} otherClass={'min-w-[10rem]'}>
+                        <RegisterBtn type={'submit'}  otherClass={'min-w-[10rem]'}>
                             {myTexts.register}
                         </RegisterBtn>
                     </div>

@@ -13,6 +13,7 @@ import {registerVerify} from "@/services/authServices";
 import {useMutation} from "@tanstack/react-query";
 import {AxiosError} from "axios";
 import toast from "react-hot-toast";
+import {useAuth} from "../../../contexts/AuthContext";
 
 const RegisterSecondStep = ({nextStep , email} : any) => {
 
@@ -39,15 +40,17 @@ const RegisterSecondStep = ({nextStep , email} : any) => {
         mutationFn : registerVerify
     })
 
-
+    const {user}= useAuth()
+     const token = user?.token
     const submit = async (d : any) =>{
+
 
         const formData = {
             // email:email,
             verification_code:d?.code
         }
         try{
-            const da = await mutateAsync(formData)
+            const da = await mutateAsync({data:formData , token : token} )
             nextStep()
         }catch (err){
             if(err instanceof AxiosError){

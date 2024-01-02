@@ -3,8 +3,16 @@ import instance from "@/services/instance";
 export async function  registerSendOtp(data : any){
     return await  instance.post('user/send-verification-code/' ,data)
 }
-export async function  registerVerify(data : any){
-    return await  instance.post('user/verify-account/' ,data )
+export async function  registerVerify(data:any){
+    return await  instance.post('user/verify-account/' ,data?.data  ,{
+        headers:{
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+            Accept:'application/json',
+            Authorization: `Bearer ${data?.token}`
+
+        }
+    })
 }
 
 export async function  checkAuthUser(){
@@ -12,7 +20,14 @@ export async function  checkAuthUser(){
 }
 
 export async function  registerCompleteProfile(data : any){
-    return await  instance.post('user-profile/update-info/' ,data )
+    return await  instance.post('user-profile/update-info/' ,data?.data  ,{
+        headers:{
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+            Accept:'application/json',
+            Authorization: `Bearer ${data?.token}`
+
+        } })
 }
 
 export async function  registerSetPassword(data : any){

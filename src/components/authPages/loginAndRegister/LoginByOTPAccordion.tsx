@@ -15,6 +15,7 @@ import {AxiosError} from "axios";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation'
+import {useAuth, useAuthActions} from "../../../contexts/AuthContext";
 
 const LoginByOtpAccordion = () => {
 
@@ -27,7 +28,8 @@ const LoginByOtpAccordion = () => {
 
     const [step , setStep ] = useState(0)
     const [loginWithEmail , setLoginWithEmail] = useState(true)
-
+    const {user}= useAuth()
+    const token = user?.token
     const router = useRouter()
 
     const schema = Yup
@@ -56,19 +58,22 @@ const LoginByOtpAccordion = () => {
         mutationFn : loginSendOtp
     })
 
+    const dispatch = useAuthActions()
 
 
     const sendVerification = async (d : any) =>{
         const formData =loginWithEmail ? {
             email:d?.email
         } :{
-            phone:d?.phone
+            mobile:d?.phone
         }
         try{
-            const da = await vMutateAsync(formData)
+            const da = await vMutateAsync(formData )
             const token = da.data?.token?.access;
             const refresh = da?.data?.token?.refresh
-            Cookies.set('accessJwt', token);
+            dispatch({type:"SET_TOKEN" , value:token})
+
+            Cookies.set('cookieToken', token);
             Cookies.set('refreshJwt', refresh);
             setStep(1)
 
@@ -87,14 +92,14 @@ const LoginByOtpAccordion = () => {
 
     const submitWithPhone = async (d : any) =>{
         const formData = {
-            email:d?.email,
+            mobile:d?.phone,
             otp:d?.otp
         }
         try{
             const da = await mutateAsync(formData)
             const token = da.data?.token?.access;
             const refresh = da?.data?.token?.refresh
-            Cookies.set('accessJwt', token);
+            Cookies.set('cookieToken', token);
             Cookies.set('refreshJwt', refresh);
             toast.success('Login Successfully !')
             router.push('/dashboard')
@@ -119,7 +124,7 @@ const LoginByOtpAccordion = () => {
             const da = await mutateAsync(formData)
             const token = da.data?.token?.access;
             const refresh = da?.data?.token?.refresh
-            Cookies.set('accessJwt', token);
+            Cookies.set('cookieToken', token);
             Cookies.set('refreshJwt', refresh);
             toast.success('Login Successfully !')
             router.push('/dashboard')
@@ -136,7 +141,7 @@ const LoginByOtpAccordion = () => {
     }
 
 
-    console.log(getValues()?.phone === '')
+
 
     return (
         <Accordion className={'text-primary-dark-b bg-[#F8F8F8] rounded-[1.4rem] py-4 px-10 font-roboto'} open={open === 1} icon={<Image src={'/carousel-arrow.svg'} alt={'acc-otp-arrow'} width={10} height={10} className={`${open === 1 ? 'rotate-[-90deg]' :'rotate-90'} transition duration-500`} />  }>

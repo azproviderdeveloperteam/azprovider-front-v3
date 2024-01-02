@@ -3,20 +3,19 @@ import {baseUrl} from "@/utils/config";
 // axios.defaults.withCredentials = true
 import Cookies from "js-cookie";
 
-const accessJwt = Cookies.get('accessJwt');
+const cookieToken = Cookies.get('cookieToken');
 const refreshJwt = Cookies.get('refreshJwt');
-console.log('asdasd')
-const app =  axios.create({
+ const app =  axios.create({
     // withCredentials:true,
     baseURL:`https://${baseUrl}`,
 
-    headers:{
-        accept: 'application/json',
-        'Content-Type': 'application/json',
-        Accept:'application/json',
-        ...( (accessJwt ?  accessJwt?.toString()?.length > 12 : false)  && {Authorization: `Bearer ${accessJwt}`})
-
-    }
+    // headers:{
+    //     accept: 'application/json',
+    //     'Content-Type': 'application/json',
+    //     Accept:'application/json',
+    //     ...( (cookieToken ?  cookieToken?.toString()?.length > 12 : false)  && {Authorization: `Bearer ${cookieToken}`})
+    //
+    // }
 })
 
 app.interceptors.request.use(

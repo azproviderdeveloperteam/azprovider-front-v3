@@ -5,7 +5,7 @@ import {texts} from "@/utils/texts";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useMutation} from "@tanstack/react-query";
-import {postBInfo} from "@/services/profileServices";
+import {postBInfo, postCertificate} from "@/services/profileServices";
 import toast from "react-hot-toast";
 import {AxiosError} from "axios";
 import * as Yup from "yup";
@@ -37,7 +37,7 @@ const ProfileCertificates = ({certificateData}: any) => {
     } = useForm({ resolver: yupResolver(schema), mode:'onChange'})
 
     const {data  , isPending  , error  , mutateAsync} =useMutation({
-        mutationFn : postBInfo
+        mutationFn : postCertificate
     })
 
 

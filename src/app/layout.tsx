@@ -5,6 +5,7 @@ import AuthProvider from "../contexts/AuthContext";
 import ReactQueryProvider from "@/utils/ReactQueryProvider";
 import { Toaster } from "react-hot-toast";
 import RouteLoader from "@/components/loaders/RouteLoader";
+import {CookiesProvider} from "next-client-cookies/server";
 
  const roboto = Roboto({
      weight: [ "100","300","400", "500", "700", "900"] ,
@@ -25,13 +26,16 @@ export default function RootLayout({
     <html lang="en">
         <body className={roboto.className}>
             <Toaster position="top-center" />
+            <CookiesProvider>
 
-                <ReactQueryProvider>
                     <AuthProvider>
+                        <ReactQueryProvider>
                         <RouteLoader />
                        {children}
+                        </ReactQueryProvider>
                     </AuthProvider>
-                </ReactQueryProvider>
+
+            </CookiesProvider>
         </body>
     </html>
   )

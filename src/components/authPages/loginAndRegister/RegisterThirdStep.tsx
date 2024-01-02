@@ -13,6 +13,7 @@ import {registerCompleteProfile} from "@/services/authServices";
 import {useMutation} from "@tanstack/react-query";
 import {AxiosError} from "axios";
 import toast from "react-hot-toast";
+import {useAuth} from "../../../contexts/AuthContext";
 
 const RegisterThirdStep = ({nextStep}:any) => {
 
@@ -43,7 +44,8 @@ const RegisterThirdStep = ({nextStep}:any) => {
         mutationFn : registerCompleteProfile
     })
 
-
+    const {user}= useAuth()
+    const token = user?.token
 
     const submit = async (d : any) =>{
 
@@ -55,7 +57,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
                 city_country:d?.cityOrCountry,
         }
         try {
-            const d = await mutateAsync(formData)
+            const d = await mutateAsync({data:formData , token :token})
             nextStep(3)
         }catch (err) {
             if(err instanceof AxiosError){

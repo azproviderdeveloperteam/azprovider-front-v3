@@ -1,5 +1,5 @@
 'use client'
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import LoginTextSlider from "@/components/authPages/loginAndRegister/LoginTextSlider";
 import {texts} from "@/utils/texts";
 import Image from "next/image";
@@ -11,14 +11,21 @@ import MainInput from "@/components/inputs/MainInput";
 import Link from "next/link";
 import {useMutation} from "@tanstack/react-query";
 import { registerSendOtp} from "@/services/authServices";
-import {AxiosError} from "axios";
+import axios, {AxiosError} from "axios";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 
 import ThreeDotsLoader from "@/components/loaders/ThreeDotsLoader";
-const RegisterFirstStep =  ({nextStep } : any) => {
+import {Button} from "@material-tailwind/react";
+import {useAuth, useAuthActions} from "../../../contexts/AuthContext";
+import {useRouter} from "next/navigation";
+import { useCookies } from 'next-client-cookies';
+
+const  RegisterFirstStep =   ({nextStep } : any) => {
     const text = texts.eng
     const myTexts = text.register
+    const [loginWithEmail , setLoginWithEmail] = useState(true)
+    const dispatch = useAuthActions()
 
     const schema = Yup
         .object({
@@ -34,23 +41,30 @@ const RegisterFirstStep =  ({nextStep } : any) => {
         getValues
     } = useForm({ resolver: yupResolver(schema), mode:'onChange'})
 
+    const cookies = useCookies();
 
     const {data  , isPending  , error  , mutateAsync} =useMutation({
         mutationFn : registerSendOtp
     })
 
 
-
+     const router = useRouter()
     const submit = async (d : any) =>{
         const formData = {
-            email:d?.email
+            ...(loginWithEmail && { email:d?.email}),
+            ...(!loginWithEmail && { mobile:d?.email}),
+
         }
        try{
            const da = await mutateAsync(formData)
            const token = da.data?.token?.access;
            const refresh = da?.data?.token?.refresh
-           Cookies.set('accessJwt', token);
-           Cookies.set('refreshJwt', refresh);
+           // Cookies.set('cookieToken', token);
+           // Cookies.set('refreshJwt', refresh);
+           dispatch({type:"SET_TOKEN" , value:token})
+           cookies.set('cookieToken', token)
+           cookies.set('refreshJwt', refresh)
+
 
            nextStep(d?.email)
        }catch (err){
@@ -65,9 +79,14 @@ const RegisterFirstStep =  ({nextStep } : any) => {
     }
 
 
+    useEffect(()=>{
 
-
-
+        // fetch('https://api.ipify.org?format=json').then(response => {
+        //     return response.json();
+        // }).then((res: any) => {
+        //      console.log(res?.ip)
+        // }).catch((err: any) => console.error('Problem fetching my IP', err))
+    },[])
     return (
         <>
 
@@ -99,6 +118,19 @@ const RegisterFirstStep =  ({nextStep } : any) => {
 
                         </div>
 
+                        <div className='w-full flex flex-row items-center justify-start'>
+                            <div className='font-bold !text-[1rem] text-[#A1A1A1]'>
+                                {text.login.otp.loginWith + ' :'}
+                            </div>
+
+                            <Button className={`px-4 py-2 rounded-full ml-2 font-normal normal-case capitalize !text-[1rem] ${loginWithEmail ? 'bg-primary-green-tb text-white' : 'bg-transparent text-[#A1A1A1] border-[1px] border-[#A1A1A1]'}` } onClick={()=>setLoginWithEmail(true)}>
+                                {text.login.otp.loginWithMail}
+                            </Button>
+
+                            <Button className={`px-4 py-2 rounded-full ml-2 font-normal normal-case capitalize !text-[1rem] ${!loginWithEmail ? 'bg-primary-green-tb text-white' : 'bg-transparent text-[#A1A1A1] border-[1px] border-[#A1A1A1]'}` } onClick={()=>setLoginWithEmail(false)}>
+                                {text.login.otp.loginWithPhone}
+                            </Button>
+                        </div>
                         <h3 className={'mt-4 text-[1.2rem]'}>
                             {myTexts.emailOrPhone}
                         </h3>

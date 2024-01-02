@@ -166,7 +166,7 @@ export const texts = {
                 }
             },
             password:{
-                title:"privet password",
+                title:"private password",
                 sendCode:"Send Code",
                 next:"Next",
                 confirm:"Confirm",
@@ -182,7 +182,7 @@ export const texts = {
                     title:"Email address"
                 },
                 verificationInput:{
-                    title:"verification code"
+                    title:"Password"
                 }
             }
         },

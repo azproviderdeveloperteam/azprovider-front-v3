@@ -14,6 +14,7 @@ import {AxiosError} from "axios";
 import toast from "react-hot-toast";
 import {useMutation} from "@tanstack/react-query";
 import Cookies from "js-cookie";
+import {useAuthActions} from "../../../contexts/AuthContext";
 
 
 const LoginByPasswordAccordion = () => {
@@ -38,13 +39,13 @@ const LoginByPasswordAccordion = () => {
             email:Yup.string().email('Email is invalid !ِ'),
             phone:Yup.string(),
             password : Yup.string()
-                .min(10,'Password should be more than 9 characters')
-                .matches(/^(?=.*[a-z])/, errorStrPsss)
-                .matches(/^(?=.*[A-Z])/, errorStrPsss)
-                .matches(/^(?=.*[0-9])/, errorStrPsss)
-                .matches(/^(?=.*[!@#%&])/, errorStrPsss),
+                // .min(10,'Password should be more than 9 characters')
+                // .matches(/^(?=.*[a-z])/, errorStrPsss)
+                // .matches(/^(?=.*[A-Z])/, errorStrPsss)
+                // .matches(/^(?=.*[0-9])/, errorStrPsss)
+                // .matches(/^(?=.*[!@#%&])/, errorStrPsss),
         })
-        .required()
+
     const {
         register,
         handleSubmit,
@@ -70,7 +71,7 @@ const LoginByPasswordAccordion = () => {
             const da = await mutateAsync(formData)
             const token = da.data?.token?.access;
             const refresh = da?.data?.token?.refresh
-            Cookies.set('accessJwt', token);
+            Cookies.set('cookieToken', token);
             Cookies.set('refreshJwt', refresh);
             setStep(1)
 
@@ -84,17 +85,20 @@ const LoginByPasswordAccordion = () => {
             }
         }
     }
+    const dispatch = useAuthActions()
 
     const submitWithPhone = async (d : any) =>{
         const formData = {
-            phone:d?.phone,
+            mobile:d?.phone,
             password:d?.password
         }
         try{
             const da = await mutateAsync(formData)
             const token = da.data?.token?.access;
             const refresh = da?.data?.token?.refresh
-            Cookies.set('accessJwt', token);
+            dispatch({type:"SET_TOKEN" , value:token})
+
+            Cookies.set('cookieToken', token);
             Cookies.set('refreshJwt', refresh);
             setStep(1)
 
