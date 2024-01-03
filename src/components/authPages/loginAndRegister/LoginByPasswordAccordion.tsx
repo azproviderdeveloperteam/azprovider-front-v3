@@ -15,6 +15,7 @@ import toast from "react-hot-toast";
 import {useMutation} from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import {useAuthActions} from "../../../contexts/AuthContext";
+import {useRouter} from "next/navigation";
 
 
 const LoginByPasswordAccordion = () => {
@@ -58,6 +59,7 @@ const LoginByPasswordAccordion = () => {
         mutationFn : loginUser
     })
 
+    const router = useRouter()
 
     const nextStep = () =>{
         setStep(1)
@@ -73,7 +75,8 @@ const LoginByPasswordAccordion = () => {
             const refresh = da?.data?.token?.refresh
             Cookies.set('cookieToken', token);
             Cookies.set('refreshJwt', refresh);
-            setStep(1)
+            toast.success('Login Successfully !')
+            router.push('/dashboard')
 
         }catch (err){
             if(err instanceof AxiosError){
@@ -100,7 +103,8 @@ const LoginByPasswordAccordion = () => {
 
             Cookies.set('cookieToken', token);
             Cookies.set('refreshJwt', refresh);
-            setStep(1)
+            toast.success('Login Successfully !')
+            router.push('/dashboard')
 
         }catch (err){
             if(err instanceof AxiosError){

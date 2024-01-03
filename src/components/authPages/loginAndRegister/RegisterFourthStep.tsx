@@ -142,7 +142,10 @@ const RegisterFourthStep = ({nextStep , email}: any) => {
 
 
                     <div className='w-full mt-10 px-3 flex flex-row items-center justify-between capitalize'>
-                        <div className='cursor-pointer text-primary-green-cb'>
+                        <div className='cursor-pointer text-primary-green-cb' onClick={()=>{
+                            toast.success('Register Successfully !')
+                            router.push('/dashboard')
+                        }}>
                             {myTexts.skip}
                         </div>
                         <RegisterBtn type={'submit'}  otherClass={'min-w-[10rem]'}>

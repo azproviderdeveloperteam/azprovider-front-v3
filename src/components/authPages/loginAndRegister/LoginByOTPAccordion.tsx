@@ -36,7 +36,7 @@ const LoginByOtpAccordion = () => {
         .object({
 
         }).shape({
-            email:Yup.string().email('Email is invalid !ِ'),
+            email:Yup.string(),
             phone:Yup.string(),
             otp:Yup.string(),
         })
