@@ -12,6 +12,8 @@ import {useMutation} from "@tanstack/react-query";
 import {registerSetPassword} from "@/services/authServices";
 import {AxiosError} from "axios";
 import toast from "react-hot-toast";
+import {useAuth} from "../../../contexts/AuthContext";
+import {useRouter} from "next/navigation";
 
 const RegisterFourthStep = ({nextStep , email}: any) => {
 
@@ -47,6 +49,12 @@ const RegisterFourthStep = ({nextStep , email}: any) => {
 
 
 
+    const {user}= useAuth()
+    const token = user?.token
+    const router = useRouter()
+
+
+
     const submit = async (d : any) =>{
 
         const formData = {
@@ -55,7 +63,9 @@ const RegisterFourthStep = ({nextStep , email}: any) => {
 
         }
         try {
-            const d = await mutateAsync(formData)
+            const d = await mutateAsync({data:formData , token : token})
+            toast.success('Register Successfully !')
+            router.push('/dashboard')
             // nextStep(3)
         }catch (err) {
             if(err instanceof AxiosError){

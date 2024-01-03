@@ -72,7 +72,6 @@ const LoginByOtpAccordion = () => {
             const token = da.data?.token?.access;
             const refresh = da?.data?.token?.refresh
             dispatch({type:"SET_TOKEN" , value:token})
-
             Cookies.set('cookieToken', token);
             Cookies.set('refreshJwt', refresh);
             setStep(1)

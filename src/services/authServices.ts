@@ -31,7 +31,14 @@ export async function  registerCompleteProfile(data : any){
 }
 
 export async function  registerSetPassword(data : any){
-    return await  instance.post('user/change-password/' ,data )
+    return await  instance.post('user/change-password/' ,data?.data  ,{
+        headers:{
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+            Accept:'application/json',
+            Authorization: `Bearer ${data?.token}`
+
+        } })
 }
 
 export async function  loginUser(data : any){

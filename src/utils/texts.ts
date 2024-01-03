@@ -153,7 +153,7 @@ export const texts = {
                 loginWith:"Login With",
                 loginWithPhone:"phone number",
                 loginWithMail:"Email address",
-                havAcc:"You haven’t an account? ",
+                havAcc:"haven’t an account? ",
                 register:"create an account",
                 phoneInput:{
                     title:"Phone Number"
@@ -208,7 +208,7 @@ export const texts = {
             register:"Register",
             password:"Password",
             confirmPass:"confirm password",
-            skip:"skip and Complete later"
+            skip:"skip and Login just with otp"
 
 
         },
