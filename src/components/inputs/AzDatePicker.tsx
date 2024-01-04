@@ -18,7 +18,7 @@ const AzDatePicker = ({borderNone , otherClass ,date , setDate} :any) => {
             <Popover placement="bottom">
                 <PopoverHandler>
                     <input   className={`${borderNone ? '' : 'border border-1 border-slate-700'} w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1] ${otherClass ? otherClass :''}`}
-                        label="Date"
+
                         onChange={() => null}
                         value={date ? format(date, "PPP") : ""}
                     />

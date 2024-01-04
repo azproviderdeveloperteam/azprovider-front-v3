@@ -8,50 +8,52 @@ const ProfileAll = ({data , children}:any) => {
     const text = texts.eng
     const myTexts = text.dashboard.pages.profile.all
 
-        const ourRef = useRef(null);
-        const [isMouseDown, setIsMouseDown] = useState(false);
-        const mouseCoords = useRef({
-            startX: 0,
-            startY: 0,
-            scrollLeft: 0,
-            scrollTop: 0
-        });
-
-        const [isScrolling, setIsScrolling] = useState(false);
-        const handleDragStart = (e : any) => {
-            if (!ourRef.current) return
-            const slider = ourRef.current.children[0];
-            const startX = e.pageX - slider.offsetLeft;
-            const startY = e.pageY - slider.offsetTop;
-            const scrollLeft = slider.scrollLeft;
-            const scrollTop = slider.scrollTop;
-            mouseCoords.current = {startX, startY, scrollLeft, scrollTop}
-            setIsMouseDown(true)
-            document.body.style.cursor = "grabbing"
-        }
-        const handleDragEnd = () => {
-            setIsMouseDown(false)
-            if (!ourRef.current) return
-            document.body.style.cursor = "default"
-        }
-        const handleDrag = (e : any) => {
-            if (!isMouseDown || !ourRef.current) return;
-            e.preventDefault();
-            const slider = ourRef.current.children[0];
-            console.log(slider)
-            const x = e.pageX - slider.offsetLeft;
-            const y = e.pageY - slider.offsetTop;
-            const walkX = (x - mouseCoords.current.startX) * 1.5;
-            const walkY = (y - mouseCoords.current.startY) * 1.5;
-            slider.scrollLeft = mouseCoords.current.scrollLeft - walkX;
-            slider.scrollTop = 0;
-            console.log(walkX, walkY ,  slider.scrollLeft ,  (x - mouseCoords.current.startX) * 1.5)
-        }
-
-        console.log(data)
+        // const ourRef = useRef(null);
+        // const [isMouseDown, setIsMouseDown] = useState(false);
+        // const mouseCoords = useRef({
+        //     startX: 0,
+        //     startY: 0,
+        //     scrollLeft: 0,
+        //     scrollTop: 0
+        // });
+        //
+        // const [isScrolling, setIsScrolling] = useState(false);
+        // const handleDragStart = (e : any) => {
+        //     if (!ourRef.current) return
+        //     const slider = ourRef.current.children[0];
+        //     const startX = e.pageX - slider.offsetLeft;
+        //     const startY = e.pageY - slider.offsetTop;
+        //     const scrollLeft = slider.scrollLeft;
+        //     const scrollTop = slider.scrollTop;
+        //     mouseCoords.current = {startX, startY, scrollLeft, scrollTop}
+        //     setIsMouseDown(true)
+        //     document.body.style.cursor = "grabbing"
+        // }
+        // const handleDragEnd = () => {
+        //     setIsMouseDown(false)
+        //     if (!ourRef.current) return
+        //     document.body.style.cursor = "default"
+        // }
+        // const handleDrag = (e : any) => {
+        //     if (!isMouseDown || !ourRef.current) return;
+        //     e.preventDefault();
+        //     const slider = ourRef.current.children[0];
+        //     console.log(slider)
+        //     const x = e.pageX - slider.offsetLeft;
+        //     const y = e.pageY - slider.offsetTop;
+        //     const walkX = (x - mouseCoords.current.startX) * 1.5;
+        //     const walkY = (y - mouseCoords.current.startY) * 1.5;
+        //     slider.scrollLeft = mouseCoords.current.scrollLeft - walkX;
+        //     slider.scrollTop = 0;
+        //     console.log(walkX, walkY ,  slider.scrollLeft ,  (x - mouseCoords.current.startX) * 1.5)
+        // }
+        //
+        // console.log(data)
 
     return (
-             <div ref={ourRef} onMouseDown={handleDragStart} onMouseUp={handleDragEnd} onMouseMove={handleDrag}  className='w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory pt-5'>
+        <div   className='w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory pt-5'>
+
+        {/*<div ref={ourRef} onMouseDown={handleDragStart} onMouseUp={handleDragEnd} onMouseMove={handleDrag}  className='w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory pt-5'>*/}
                 {
                    bInfoData &&
 
@@ -61,9 +63,9 @@ const ProfileAll = ({data , children}:any) => {
                         </div>
                         {
                             bInfoData?.logo
-                             ? <Image src={`${process.env.MEDIA_URL}${bInfoData?.logo}`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
+                             ? <Image alt={'aaa'} src={`${process.env.MEDIA_URL}${bInfoData?.logo}`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
                                 :
-                                <Image src={`/no-image.svg`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
+                                <Image alt={'aaa'} src={`/no-image.svg`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
                         }
                         {
                             bInfoData?.international_name &&
@@ -308,14 +310,14 @@ const ProfileAll = ({data , children}:any) => {
                          </div>
                          <div className='w-full'>
                              {
-                                 certificateData?.map((item , index)=>{
+                                 certificateData?.map((item : any , index : number)=>{
                                      return(
-                                         <div className='w-full flex flex-col items-start justify-start border-b-[1px] border-dashed border-[#898989]'>
+                                         <div key={index+1} className='w-full flex flex-col items-start justify-start border-b-[1px] border-dashed border-[#898989]'>
                                              {
                                                  item?.file
-                                                     ? <Image src={`${process.env.MEDIA_URL}${item?.file}`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
+                                                     ? <Image alt={item?.title ? item?.title : 'aa'} src={`${process.env.MEDIA_URL}${item?.file}`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
                                                      :
-                                                     <Image src={`/no-image.svg`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
+                                                     <Image alt={item?.title ? item?.title : 'aa'} src={`/no-image.svg`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
                                              }
                                              {
                                                  item?.title &&
