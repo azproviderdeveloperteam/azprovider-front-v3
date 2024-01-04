@@ -158,7 +158,7 @@ const ProfileContact = ({contactData} : any) => {
             </AzDialog>
             <div className='w-full bg-[#F8F8F8] p-3 rounded-[1rem] p-8'>
                 <form className='w-full flex flex-row items-start justify-start flex-wrap mt-4 relative z-10' onSubmit={handleSubmit(submit)}>
-                    <div className='w-full lg:w-[31%] pr-5 h-full mt-7'>
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.tell} <span className='text-secondary-red'>*</span>
                         </div>
@@ -171,7 +171,7 @@ const ProfileContact = ({contactData} : any) => {
                             placeholder={myTexts.tell}
                         />
                     </div>
-                    <div className='w-full lg:w-[31%] pr-5 h-full mt-7'>
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.faxL} <span className='text-secondary-red'>*</span>
                         </div>
@@ -185,7 +185,7 @@ const ProfileContact = ({contactData} : any) => {
                         />
                     </div>
 
-                    <div className='w-full lg:w-[31%] pr-5 h-full mt-7'>
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.websiteAddress} <span className='text-secondary-red'>*</span>
                         </div>
@@ -203,7 +203,7 @@ const ProfileContact = ({contactData} : any) => {
                     {
                         socials.map((item : any ,index : number)=>{
                             return(
-                                <div key={index+1} className='w-full lg:w-[31%] pr-5 h-full mt-7'>
+                                <div key={index+1} className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                                     <div className=' text-[1.3rem] capitalize'>
                                         {item?.label}
                                     </div>

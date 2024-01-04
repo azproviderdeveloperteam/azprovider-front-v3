@@ -53,30 +53,30 @@ const ProfilePage = () => {
     ];
 
     const {data : bInfoData, isPending :bInfoPending, error : bInfoError} = useQuery({
-        queryKey: ['get-b-info'],
+        queryKey: ['get-b-info',activeTab === 'All'],
         queryFn: getBInfo,
         retry:false,
     })
 
     const {data : contactData, isPending :contactPending, error : contactError} = useQuery({
-        queryKey: ['get-contact'],
+        queryKey: ['get-contact',activeTab === 'All'],
         queryFn: getContact,
         retry:false,
     })
 
     const {data : certificateData, isPending :certificatePending, error : certificateError} = useQuery({
-        queryKey: ['get-certificate'],
+        queryKey: ['get-certificate',activeTab === 'All'],
         queryFn: getCertificate,
         retry:false,
     })
 
     const {data : projectsData, isPending :projectsPending, error : projectsError} = useQuery({
-        queryKey: ['get-projects'],
+        queryKey: ['get-projects',activeTab === 'All'],
         queryFn: getProjects,
         retry:false,
     })
     const {data : membershipData, isPending :membershipPending, error : membershipError} = useQuery({
-        queryKey: ['get-membership'],
+        queryKey: ['get-membership' ,activeTab === 'All'],
         queryFn: getMembership,
         retry:false,
     })

@@ -5,7 +5,7 @@ export async function  getBInfo(){
 }
 
 export async function  postBInfo(data : any){
-    return await  instance.post('business-information/update-info/' ,data)
+    return await  instance.post('business-information/update-info/' ,data ,{headers:{'Content-Type': 'multipart/form-data',}})
 }
 
 export async function  getContact(){
@@ -13,7 +13,7 @@ export async function  getContact(){
 }
 
 export async function  postContact(data : any){
-    return await  instance.post('contact-information/update-info/' ,data)
+    return await  instance.post('contact-information/update-info/' ,data  , {headers:{'Content-Type': 'multipart/form-data',}})
 }
 
 
@@ -23,16 +23,16 @@ export async function  getCertificate(){
 }
 
 export async function  postCertificate(data : any){
-    return await  instance.post('certificates/create/' ,data)
+    return await  instance.post('certificates/create/' ,data , {headers:{'Content-Type': 'multipart/form-data',}})
 }
 
 
 export async function  getProjects(){
-    return await  instance.get('projects/get-data/')
+    return await  instance.get('projects/get-user-projects/')
 }
 
 export async function  postProjects(data : any){
-    return await  instance.post('projects/create/' ,data)
+    return await  instance.post('projects/create/' ,data  , {headers:{'Content-Type': 'multipart/form-data',}})
 }
 
 
@@ -41,6 +41,6 @@ export async function  getMembership(){
 }
 
 export async function  postMembership(data : any){
-    return await  instance.post('membership/update-info/' ,data)
+    return await  instance.post('membership/update-info/' ,data  , {headers:{'Content-Type': 'multipart/form-data',}})
 }
 

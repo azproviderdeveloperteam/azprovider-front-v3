@@ -11,9 +11,11 @@ import {AxiosError} from "axios";
 import * as Yup from "yup";
 import MainInput from "@/components/inputs/MainInput";
 import RegisterBtn from "@/components/Buttons/RegisterBtn";
+import AzDatePicker from "@/components/inputs/AzDatePicker";
 
 const ProfileProjects = ({projectsData} : any) => {
     const [file ,setFile] = useState<any>(null)
+    const [date, setDate] = React.useState<Date>();
 
 
     const text = texts.eng
@@ -26,8 +28,8 @@ const ProfileProjects = ({projectsData} : any) => {
         }).shape({
             title:Yup.string().required('Enter title'),
             customerProjectName:Yup.string().required('Enter customer project name'),
-            date:Yup.string(),
-            description:Yup.string().required('Enter Local Name'),
+
+            description:Yup.string().required('Enter Description'),
         })
         .required()
     const {
@@ -54,7 +56,8 @@ const ProfileProjects = ({projectsData} : any) => {
             title : d?.title,
             customer_name:d?.customerProjectName,
             description:d?.description,
-            // date:d?.date,
+            date:date,
+            file:file
 
         }
         try {
@@ -73,13 +76,32 @@ const ProfileProjects = ({projectsData} : any) => {
     }
 
 
+    const uploadLogo = async (e : any) =>{
+        const formData = new FormData()
+        formData.append('file' , e)
+        try {
+            const d = await mutateAsync(formData)
+            toast.success("Logo Uploaded Successfully !")
 
+        }catch (err) {
+            if(err instanceof AxiosError){
+                if(err?.response?.data?.msg){
+                    toast.error(err?.response?.data?.msg)
+                }else {
+                    toast.error('An Error occurred')
+                    setFile(null)
+
+                }
+            }
+        }
+
+    }
     return (
         <div className='w-full pt-4'>
             <div className='w-full bg-[#F8F8F8] p-5 lg:p-8 rounded-[1rem]'>
                 <form className='w-full flex flex-row items-start justify-start flex-wrap mt-4 relative z-10' onSubmit={handleSubmit(submit)}>
 
-                    <div className='w-full lg:w-[32%] pr-2 h-full mt-7'>
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.title} <span className='text-secondary-red'>*</span>
                         </div>
@@ -93,7 +115,7 @@ const ProfileProjects = ({projectsData} : any) => {
                         />
                     </div>
 
-                    <div className='w-full lg:w-[32%] pr-2 h-full mt-7'>
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%]  h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.customerProjectName} <span className='text-secondary-red'>*</span>
                         </div>
@@ -107,35 +129,38 @@ const ProfileProjects = ({projectsData} : any) => {
                         />
                     </div>
 
-                    <div className='w-full lg:w-[32%] pr-2 h-full mt-7'>
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%]  h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.date}
                         </div>
-                        <MainInput
-                            register={register}
-                            label={'date'}
-                            error={errors?.date?.message}
-                            name={'date'}
-                            type={'text'}
-                            placeholder={myTexts.date}
-                        />
+                        {/*<MainInput*/}
+                        {/*    register={register}*/}
+                        {/*    label={'date'}*/}
+                        {/*    error={errors?.date?.message}*/}
+                        {/*    name={'date'}*/}
+                        {/*    type={'text'}*/}
+                        {/*    placeholder={myTexts.date}*/}
+                        {/*/>*/}
+                        <AzDatePicker   date={date} setDate={setDate}/>
                     </div>
 
-                    <div className='w-full lg:w-[32%] pr-2 h-full mt-7'>
+                    <div className='w-full pr-2 mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.description} <span className='text-secondary-red'>*</span>
                         </div>
                         <MainInput
                             register={register}
-                            label={'description'}
+                            label={'type description...'}
                             error={errors?.description?.message}
                             name={'description'}
                             type={'text'}
-                            placeholder={myTexts.description}
+                            placeholder={'type description...'}
+                            textarea={true}
                         />
                     </div>
 
-                    <div className='w-full mt-3'>
+                    <div className='w-full mt-3 flex flex-row items-center justify-start'>
+
                         <Button
                             onClick={()=>{
                                 if(inputRef){
@@ -150,9 +175,15 @@ const ProfileProjects = ({projectsData} : any) => {
                         <input className='hidden' ref={inputRef} type={'file'} onChange={(e)=>{
                             if(e.target.files){
                                 setFile(e?.target?.files[0])
+                                // uploadLogo(e?.target?.files[0])
                             }
                         }}/>
 
+                        {
+                            file &&  <div className='ml-2'>
+                                {file?.name}
+                            </div>
+                        }
 
 
                     </div>

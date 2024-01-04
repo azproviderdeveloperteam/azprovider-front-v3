@@ -16,6 +16,8 @@ import RegisterBtn from "@/components/Buttons/RegisterBtn";
 const ProfileBInfo = ({bInfoData} : any) => {
 
     const [img ,setImg] = useState<any>(null)
+    const [imgView ,setImgView] = useState<any>(null)
+
     const text = texts.eng
     const myTexts = text.dashboard.pages.profile.bInfo
     const inputRef = useRef<any>(null)
@@ -49,6 +51,9 @@ const ProfileBInfo = ({bInfoData} : any) => {
 
 
     useEffect(()=>{
+        setImgView(`${process.env.MEDIA_URL}${bInfoData?.logo}`)
+        setImg(bInfoData?.logo)
+
         setValue('interName',bInfoData?.international_name)
         setValue('brandName',bInfoData?.brand_name)
         setValue('cellPhone',bInfoData?.cell_phone)
@@ -59,7 +64,7 @@ const ProfileBInfo = ({bInfoData} : any) => {
     },[bInfoData])
 
     const submit = async (d : any) =>{
-        console.log(d)
+
         const formData = {
             local_name : d?.localName,
             brand_name:d?.brandName,
@@ -86,6 +91,26 @@ const ProfileBInfo = ({bInfoData} : any) => {
         }
     }
 
+    const uploadLogo = async (e : any) =>{
+         const formData = new FormData()
+        formData.append('logo' , e)
+        try {
+            const d = await mutateAsync(formData)
+            toast.success("Logo Uploaded Successfully !")
+
+        }catch (err) {
+            if(err instanceof AxiosError){
+                if(err?.response?.data?.msg){
+                    toast.error(err?.response?.data?.msg)
+                }else {
+                    toast.error('An Error occurred')
+                    setImg(null)
+
+                }
+            }
+        }
+
+    }
     const hasError = errors?.brandName?.message || errors?.interName?.message || errors?.cellPhone?.message || errors?.localName?.message || errors?.contactPerson?.message || errors?.email?.message
     return (
         <div className='w-full pt-4'>
@@ -94,9 +119,9 @@ const ProfileBInfo = ({bInfoData} : any) => {
                     {
                         img  ?
 
-                            <img src={URL.createObjectURL(img)} alt={'no-image.svg'} width={100} height={100} />
+                            <Image src={imgView} alt={'no-image.svg'} width={100} height={100}  className={'rounded-full object-cover aspect-square'}/>
 
-                            :<Image src={'/no-image.svg'} alt={'no-image.svg'} width={100} height={100} />
+                            :<Image src={'/no-image.svg'} alt={'no-image.svg'} width={100} height={100} className={'rounded-full object-cover aspect-square'}/>
 
                     }
 
@@ -114,13 +139,15 @@ const ProfileBInfo = ({bInfoData} : any) => {
                     <input className='hidden' ref={inputRef} type={'file'} onChange={(e)=>{
                         if(e.target.files){
                             setImg(e.target?.files[0])
+                            setImgView(URL.createObjectURL(e.target?.files[0]))
+                            uploadLogo(e.target?.files[0])
                         }
                     }}/>
                 </div>
 
 
                 <form className='w-full flex flex-row items-start justify-start flex-wrap mt-4 relative z-10' onSubmit={handleSubmit(submit)}>
-                    <div className='w-full lg:w-[32%] pr-2 h-full mt-7'>
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.interName} <span className='text-secondary-red'>*</span>
                         </div>
@@ -134,7 +161,7 @@ const ProfileBInfo = ({bInfoData} : any) => {
                         />
                     </div>
 
-                    <div className='w-full lg:w-[32%] pr-2 h-full mt-7'>
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.brandName} <span className='text-secondary-red'>*</span>
                         </div>
@@ -149,7 +176,7 @@ const ProfileBInfo = ({bInfoData} : any) => {
                     </div>
 
 
-                    <div className='w-full lg:w-[32%] pr-2 h-full mt-7'>
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.cellPhone} <span className='text-secondary-red'>*</span>
                         </div>
@@ -164,7 +191,7 @@ const ProfileBInfo = ({bInfoData} : any) => {
                     </div>
 
 
-                    <div className='w-full lg:w-[32%] pr-2 h-full mt-7'>
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.localName} <span className='text-secondary-red'>*</span>
                         </div>
@@ -179,7 +206,7 @@ const ProfileBInfo = ({bInfoData} : any) => {
                     </div>
 
 
-                    <div className='w-full lg:w-[32%] pr-2 h-full mt-7'>
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.contactPerson} <span className='text-secondary-red'>*</span>
                         </div>
@@ -193,7 +220,7 @@ const ProfileBInfo = ({bInfoData} : any) => {
                         />
                     </div>
 
-                    <div className='w-full lg:w-[32%] pr-2 h-full mt-7'>
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.email} <span className='text-secondary-red'>*</span>
                         </div>
