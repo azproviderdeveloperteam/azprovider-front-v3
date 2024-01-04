@@ -307,7 +307,21 @@ export const texts = {
                 },
                 profile:{
                     all:{
-
+                        bInfo: {
+                            title:"Business information",
+                        },
+                        contact: {
+                            title:"contact",
+                        },
+                        certificate: {
+                            title:"certificates",
+                        },
+                        projects: {
+                            title:"projects",
+                        },
+                        memberShip: {
+                            title:"membership",
+                        }
                     },
                     bInfo:{
                         uploadLogo:"upload logo",

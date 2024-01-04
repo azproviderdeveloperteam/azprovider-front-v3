@@ -117,7 +117,7 @@ const ProfilePage = () => {
             <div className='w-full h-auto'>
                 {
                     activeTab === 'All' ?
-                        <ProfileAll data={{projectsData , membershipData , bInfoData ,contactData , certificateData}} />
+                        <ProfileAll data={{projectsData :projectsData?.data, membershipData  :membershipData?.data , bInfoData : bInfoData?.data ,contactData :contactData?.data, certificateData  :certificateData?.data}} />
                         : activeTab === 'Business Information' ?
                          <ProfileBInfo bInfoData={bInfoData?.data}/>
                             : activeTab === 'Contact' ?

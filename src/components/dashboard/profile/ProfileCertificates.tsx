@@ -52,6 +52,7 @@ const ProfileCertificates = ({certificateData}: any) => {
             grade:d?.grade,
             type:d?.type,
             source:d?.source,
+            file:img
 
         }
         try {
@@ -71,21 +72,21 @@ const ProfileCertificates = ({certificateData}: any) => {
     }
 
     const uploadLogo = async (e : any) =>{
-        const formData = new FormData()
-        formData.append('logo' , e)
-        try {
-            const d = await mutateAsync(formData)
-            toast.success("Logo Uploaded Successfully !")
-
-        }catch (err) {
-            if(err instanceof AxiosError){
-                if(err?.response?.data?.msg){
-                    toast.error(err?.response?.data?.msg)
-                }else {
-                    toast.error('An Error occurred')
-                }
-            }
-        }
+        // const formData = new FormData()
+        // formData.append('logo' , e)
+        // try {
+        //     const d = await mutateAsync(formData)
+        //     toast.success("Logo Uploaded Successfully !")
+        //
+        // }catch (err) {
+        //     if(err instanceof AxiosError){
+        //         if(err?.response?.data?.msg){
+        //             toast.error(err?.response?.data?.msg)
+        //         }else {
+        //             toast.error('An Error occurred')
+        //         }
+        //     }
+        // }
 
     }
 
