@@ -133,14 +133,6 @@ const ProfileProjects = ({projectsData} : any) => {
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.date}
                         </div>
-                        {/*<MainInput*/}
-                        {/*    register={register}*/}
-                        {/*    label={'date'}*/}
-                        {/*    error={errors?.date?.message}*/}
-                        {/*    name={'date'}*/}
-                        {/*    type={'text'}*/}
-                        {/*    placeholder={myTexts.date}*/}
-                        {/*/>*/}
                         <AzDatePicker   date={date} setDate={setDate}/>
                     </div>
 

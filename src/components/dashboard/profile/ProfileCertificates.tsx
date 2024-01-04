@@ -97,9 +97,9 @@ const ProfileCertificates = ({certificateData}: any) => {
                     {
                         img  ?
 
-                            <Image src={imgView} alt={'no-image.svg'} width={100} height={100}  className={'rounded-full object-cover aspect-square'}/>
+                            <Image src={imgView} alt={'no-image.svg'} width={100} height={100}  className={'rounded-[1rem] object-cover aspect-square'}/>
 
-                            :<Image src={'/no-image.svg'} alt={'no-image.svg'} width={100} height={100} className={'rounded-full object-cover aspect-square'}/>
+                            :<Image src={'/no-image.svg'} alt={'no-image.svg'} width={100} height={100} className={'rounded-[1rem] object-cover aspect-square'}/>
 
                     }
 

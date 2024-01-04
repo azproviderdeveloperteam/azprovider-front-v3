@@ -10,7 +10,7 @@ const MainInput = ({textarea, label ,type,placeholder, onBlur ,name ,value ,onCh
                     <textarea
 
                         rows="4"
-                    {...register(name)} className={`${borderNone ? '' : 'border border-1 border-slate-700'} w-full   flex px-3 py-2 flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1] ${otherClass ? otherClass :''}`}
+                    {...register(name)} className={`${borderNone ? '' : 'border border-1 border-slate-700'} w-full resize-none  flex px-3 py-2 flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1] ${otherClass ? otherClass :''}`}
                         placeholder={placeholder}
                     />
                     :

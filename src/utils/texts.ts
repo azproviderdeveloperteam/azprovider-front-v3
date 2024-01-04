@@ -351,6 +351,15 @@ export const texts = {
                         description:"description",
                         upload:"upload satisfaction later",
                         save:"save"
+                    },
+                    memberShip:{
+                        type:"Type",
+                        expireDate:"Expire date",
+                        serialNumber:"Serial Number",
+                        description: "description",
+                        save:"save",
+                        uploadLogo:"upload Image",
+
                     }
                 }
             }
