@@ -14,6 +14,7 @@ import {array} from "yup";
 import RegisterBtn from "@/components/Buttons/RegisterBtn";
 import toast from "react-hot-toast";
 import {AxiosError} from "axios";
+import Image from "next/image";
 
 const ProfileContact = ({contactData} : any) => {
     const text = texts.eng
@@ -238,8 +239,10 @@ const ProfileContact = ({contactData} : any) => {
                             {myTexts.save}
                         </RegisterBtn>
 
-                        <Button className={'font-roboto font-normal normal-case shadow-none hover:shadow-none text-[1.1rem] mt-12 bg-transparent text-primary-green-tb'} onClick={()=>setMoreData(!moreData)} disabled={false}>
+                        <Button className={'flex flex-row items-center justify-center font-roboto font-normal normal-case shadow-none hover:shadow-none text-[1.1rem] mt-12 bg-transparent text-primary-green-tb'} onClick={()=>setMoreData(!moreData)} disabled={false}>
                             {myTexts.advanceDataInformation}
+                            <Image src={'/green-tb-arrow.svg'} alt={'arrow-carousel-az-provider'} width={40} height={40} className={moreData ? 'transition duration-500' : 'rotate-180 transition duration-500'}/>
+
                         </Button>
                     </div>
 
@@ -251,7 +254,7 @@ const ProfileContact = ({contactData} : any) => {
                 moreData ?
                     <div className='w-full bg-[#F8F8F8] p-3 rounded-[1rem] p-8 mt-5'>
                         <form className='w-full flex flex-row items-start justify-start flex-wrap mt-4 relative z-10' onSubmit={handleSubmit(submit)}>
-                            <div className='w-full lg:w-[31%] pr-5 h-full mt-7'>
+                            <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                                 <div className=' text-[1.3rem] capitalize'>
                                     {myTexts.locationTitle} <span className='text-secondary-red'>*</span>
                                 </div>
@@ -264,7 +267,7 @@ const ProfileContact = ({contactData} : any) => {
                                     placeholder={myTexts.locationTitle}
                                 />
                             </div>
-                            <div className='w-full lg:w-[31%] pr-5 h-full mt-7'>
+                            <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                                 <div className=' text-[1.3rem] capitalize'>
                                     {myTexts.cityCountry} <span className='text-secondary-red'>*</span>
                                 </div>
@@ -278,7 +281,7 @@ const ProfileContact = ({contactData} : any) => {
                                 />
                             </div>
 
-                            <div className='w-full lg:w-[31%] pr-5 h-full mt-7'>
+                            <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                                 <div className=' text-[1.3rem] capitalize'>
                                     {myTexts.provinceState} <span className='text-secondary-red'>*</span>
                                 </div>
@@ -293,7 +296,7 @@ const ProfileContact = ({contactData} : any) => {
                             </div>
 
 
-                            <div className='w-full lg:w-[31%] pr-5 h-full mt-7'>
+                            <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                                 <div className=' text-[1.3rem] capitalize'>
                                     {myTexts.streetAllay} <span className='text-secondary-red'>*</span>
                                 </div>
@@ -307,7 +310,7 @@ const ProfileContact = ({contactData} : any) => {
                                 />
                             </div>
 
-                            <div className='w-full lg:w-[31%] pr-5 h-full mt-7'>
+                            <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                                 <div className=' text-[1.3rem] capitalize'>
                                     {myTexts.building} <span className='text-secondary-red'>*</span>
                                 </div>
@@ -321,7 +324,7 @@ const ProfileContact = ({contactData} : any) => {
                                 />
                             </div>
 
-                            <div className='w-full lg:w-[31%] pr-5 h-full mt-7'>
+                            <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                                 <div className=' text-[1.3rem] capitalize'>
                                     {myTexts.number} <span className='text-secondary-red'>*</span>
                                 </div>
@@ -335,7 +338,7 @@ const ProfileContact = ({contactData} : any) => {
                                 />
                             </div>
 
-                            <div className='w-full lg:w-[31%] pr-5 h-full mt-7'>
+                            <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                                 <div className=' text-[1.3rem] capitalize'>
                                     {myTexts.zipCode} <span className='text-secondary-red'>*</span>
                                 </div>
