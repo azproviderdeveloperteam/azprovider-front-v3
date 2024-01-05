@@ -385,6 +385,71 @@ const ProfileAll = ({data , children}:any) => {
                          <div className='w-full text-left font-bold text-primary-dark-b capitalize'>
                              {myTexts.projects.title}
                          </div>
+                         {
+                             projectsData?.map((item : any , index : number)=>{
+                                 return(
+                                     <div key={index+1} className='w-full flex flex-col items-start justify-start border-b-[1px] border-dashed border-[#898989]'>
+                                         {
+                                             item?.file
+                                                 ? <Image alt={item?.title ? item?.title : 'aa'} src={`${process.env.MEDIA_URL}${item?.file}`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
+                                                 :
+                                                 <Image alt={item?.title ? item?.title : 'aa'} src={`/no-image.svg`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
+                                         }
+                                         {
+                                             item?.title &&
+                                             <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                 <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                     {`Title:`}
+                                                 </div>
+
+                                                 <div className='w-3/5 text-[1rem] truncate'>
+                                                     { item?.title}
+                                                 </div>
+                                             </div>
+                                         }
+
+                                         {
+                                             item?.customer_name &&
+                                             <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                 <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                     {`Customer Name:`}
+                                                 </div>
+
+                                                 <div className='w-3/5 text-[1rem] truncate'>
+                                                     { item?.customer_name}
+                                                 </div>
+                                             </div>
+                                         }
+
+                                         {
+                                             item?.date &&
+                                             <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                 <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                     {`Date:`}
+                                                 </div>
+
+                                                 <div className='w-3/5 text-[1rem] truncate'>
+                                                     { item?.date?.toString()?.split('T')[0]}
+                                                 </div>
+                                             </div>
+                                         }
+
+                                         {
+                                             item?.description &&
+                                             <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                 <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                     {`Description:`}
+                                                 </div>
+
+                                                 <div className='w-3/5 text-[1rem] truncate'>
+                                                     { item?.description}
+                                                 </div>
+                                             </div>
+                                         }
+                                     </div>
+                                 )
+                             })
+                         }
                      </div>
                  }
 
@@ -395,11 +460,73 @@ const ProfileAll = ({data , children}:any) => {
                          <div className='w-full text-left font-bold text-primary-dark-b capitalize'>
                              {myTexts.memberShip.title}
                          </div>
+
+                         <div className='w-full'>
+
+                                         <div   className='w-full flex flex-col items-start justify-start border-b-[1px] border-dashed border-[#898989]'>
+                                             {
+                                                 membershipData?.file
+                                                     ? <Image alt={membershipData?.title ? membershipData?.title : 'aa'} src={`${process.env.MEDIA_URL}${membershipData?.file}`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
+                                                     :
+                                                     <Image alt={membershipData?.title ? membershipData?.title : 'aa'} src={`/no-image.svg`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
+                                             }
+                                             {
+                                                 membershipData?.type &&
+                                                 <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                     <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                         {`Type:`}
+                                                     </div>
+
+                                                     <div className='w-3/5 text-[1rem] truncate'>
+                                                         { membershipData?.type}
+                                                     </div>
+                                                 </div>
+                                             }
+
+                                             {
+                                                 membershipData?.serial_number &&
+                                                 <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                     <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                         {`Serial Number:`}
+                                                     </div>
+
+                                                     <div className='w-3/5 text-[1rem] truncate'>
+                                                         { membershipData?.serial_number}
+                                                     </div>
+                                                 </div>
+                                             }
+
+                                             {
+                                                 membershipData?.expire_date &&
+                                                 <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                     <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                         {`Expire Date:`}
+                                                     </div>
+
+                                                     <div className='w-3/5 text-[1rem] truncate'>
+                                                         { membershipData?.expire_date?.toString()?.split('T')[0]}
+                                                     </div>
+                                                 </div>
+                                             }
+
+                                             {
+                                                 membershipData?.description &&
+                                                 <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                     <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                         {`Description:`}
+                                                     </div>
+
+                                                     <div className='w-3/5 text-[1rem] truncate'>
+                                                         { membershipData?.description}
+                                                     </div>
+                                                 </div>
+                                             }
+                                         </div>
+                         </div>
                      </div>
                  }
 
              </div>
      );
 };
-
 export default ProfileAll;

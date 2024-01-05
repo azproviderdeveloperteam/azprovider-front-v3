@@ -49,10 +49,11 @@ const ProfileMembership = ({membershipData} : any) => {
     const submit = async (d : any) =>{
 
         const formData = {
-            title : d?.title,
-            grade:d?.grade,
+            serial_number : d?.serialNumber,
             type:d?.type,
-            source:d?.source,
+            description:d?.description,
+            expire_date: date ,
+            file : img
 
         }
         try {
@@ -72,21 +73,21 @@ const ProfileMembership = ({membershipData} : any) => {
     }
 
     const uploadLogo = async (e : any) =>{
-        const formData = new FormData()
-        formData.append('logo' , e)
-        try {
-            const d = await mutateAsync(formData)
-            toast.success("Logo Uploaded Successfully !")
-
-        }catch (err) {
-            if(err instanceof AxiosError){
-                if(err?.response?.data?.msg){
-                    toast.error(err?.response?.data?.msg)
-                }else {
-                    toast.error('An Error occurred')
-                }
-            }
-        }
+        // const formData = new FormData()
+        // formData.append('logo' , e)
+        // try {
+        //     const d = await mutateAsync(formData)
+        //     toast.success("Logo Uploaded Successfully !")
+        //
+        // }catch (err) {
+        //     if(err instanceof AxiosError){
+        //         if(err?.response?.data?.msg){
+        //             toast.error(err?.response?.data?.msg)
+        //         }else {
+        //             toast.error('An Error occurred')
+        //         }
+        //     }
+        // }
 
     }
 
