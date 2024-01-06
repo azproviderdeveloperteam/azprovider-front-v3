@@ -375,6 +375,18 @@ export const texts = {
                         uploadLogo:"upload Image",
 
                     }
+                },
+                product:{
+                    form:{
+                        uploadLogo:"upload Image",
+                        productCode:"product code / category",
+                        capacity:"capacity",
+                        publishedDate:"published date",
+                        grantedOrganization:"choose / type granted organization",
+                        typeCertification:"choose / type certification",
+                        description:"description",
+                        save:"save"
+                    }
                 }
             }
         },
