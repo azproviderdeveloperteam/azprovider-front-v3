@@ -1,9 +1,8 @@
 'use client'
 import React, {useEffect, useRef, useState} from 'react';
-import {Button, IconButton} from "@material-tailwind/react";
+import {Button, IconButton, Tooltip} from "@material-tailwind/react";
 import Image from "next/image";
 import {texts} from "@/utils/texts";
-import {getMembership, postBInfo} from "@/services/profileServices";
 import {useMutation} from "@tanstack/react-query";
 import {AxiosError} from "axios";
 import toast from "react-hot-toast";
@@ -16,13 +15,22 @@ import AzDatePicker from "@/components/inputs/AzDatePicker";
 import Select from "react-select";
 import {useQuery} from "@tanstack/react-query";
 import {getAllHsCodes, getRandomHsCodes, getSearchInThirdLevel} from "@/services/hsCodeServices";
+import ThreeDotsLoaderGreen from "@/components/loaders/ThreeDotsLoaderGreen";
+import {createProduct, createProductUploadImage} from "@/services/dashboardProductsServices";
 const AddProductForm = ({exitKey , onClose} : any) => {
 
     const [img ,setImg] = useState<any>(null)
     const [imgView ,setImgView] = useState<any>(null)
     const [date, setDate] = React.useState<Date>();
-    const [productInput ,setProductInput] = useState('')
+    const [productInput ,setProductInput] = useState<any>(
+        {value:"" , code:"" , label:"",
+                title:"",
+                input :"",
+            id:''
+    })
     const [options , setOptions] = useState([])
+    const [openDrop ,setOpenDrop] = useState(false)
+
     const text = texts.eng
     const myTexts = text.dashboard.pages.product.form
     const inputRef = useRef<any>(null)
@@ -31,9 +39,9 @@ const AddProductForm = ({exitKey , onClose} : any) => {
         .object({
 
         }).shape({
-            productCode:Yup.string().required('Enter Your International Name'),
+
             capacity:Yup.string().required('Enter Your Brand Name'),
-            publishedDate:Yup.string().required('Enter Cell Phone'),
+
             grantedOrganization:Yup.string().required('Enter Local Name'),
             typeCertification:Yup.string().required('Enter Contact Person'),
             description:Yup.string().required('Enter Email'),
@@ -47,6 +55,7 @@ const AddProductForm = ({exitKey , onClose} : any) => {
         getValues
     } = useForm({ resolver: yupResolver(schema), mode:'onChange'})
 
+
     const {data  , isPending  , error  , mutateAsync} =useMutation({
         mutationFn : getSearchInThirdLevel
     })
@@ -56,48 +65,143 @@ const AddProductForm = ({exitKey , onClose} : any) => {
         retry:false,
     })
 
+    const {data : createData  , isPending : createPending , error :createError , mutateAsync : createMutateAsync } =useMutation({
+        mutationFn : createProduct
+    })
+
+    const {data : uploadImageData  , isPending : uploadImagePending , error :uploadImageError , mutateAsync : uploadImageMutateAsync } =useMutation({
+        mutationFn : createProductUploadImage
+    })
+
+
+    useEffect(()=>{
+        if(randomHsData?.data){
+            const hsCodes = randomHsData?.data?.map((item:any)=>(
+                {
+                    label:<div className='flex flex-row items-center justify-start md:text-[14px] text-[3.1vw]'>
+                        {
+                            item?.image ?
+                                <img src={item?.image} alt={item?.title} className='mr-3 w-[45px] rounded-full'/>
+                                :
+                                <Image src={'/no-image.svg'} alt={item?.title} width={30} height={30}  className='mr-3 w-[45px] rounded-full' />
+
+                        }
+                        <div className='w-[calc(100%-60px)] flex flex-col items-start justify-between'>
+                            <div>
+                                {`#${item?.code}`}
+                            </div>
+                            <Tooltip content={item?.title} placement="top">
+                                <div className='text-primary-dark-b w-[95%] truncate font-bold'>
+                                    {item?.title }
+                                </div>
+                            </Tooltip>
+
+                        </div>
+                    </div>,
+                    code : item?.code ,
+                    value:item?.code ,
+                    title:item?.title ,
+                    input :`#${item?.code} - ${item?.title}`,
+                    id : item?.id
+                }
+            ))
+            setOptions(hsCodes)
+        }
+    },[randomHsData])
+
 
     const submit = async (d : any) =>{
 
         const formData = {
-            local_name : d?.localName,
-            brand_name:d?.brandName,
-            international_name:d?.interName,
-            contact_person:d?.contactPerson,
-            email:d?.email,
-            cell_phone:d?.cellPhone,
+            title : productInput?.title,
+            short_description:d?.description,
+            published_date:date,
+            granted_organization:d?.grantedOrganization,
+            certification:d?.typeCertification,
+            size:d?.capacity,
+            hs_codes:[productInput?.id],
+            hs_code_third_levels:[productInput?.code]
+
             // number_of_employees:"",
             // national_code:"",
             // establishment_date:""
         }
-        // try {
-        //     const d = await mutateAsync(formData)
-        //     toast.success("Data Saved Successfully !")
-        //
-        // }catch (err) {
-        //     if(err instanceof AxiosError){
-        //         if(err?.response?.data?.msg){
-        //             toast.error(err?.response?.data?.msg)
-        //         }else {
-        //             toast.error('An Error occurred')
-        //         }
-        //     }
-        // }
+        try {
+            const d = await createMutateAsync(formData)
+            toast.success("Your Product Added Successfully!")
+            onClose()
+        }catch (err) {
+            if(err instanceof AxiosError){
+                if(err?.response?.data?.msg){
+                    toast.error(err?.response?.data?.msg)
+                }else {
+                    toast.error('An Error occurred')
+                }
+            }
+        }
+    }
+
+    const uploadImage = async (e : any) =>{
+        const formData = new FormData()
+        formData.append('image' , e)
+
+        try {
+            const d = await uploadImageMutateAsync(formData)
+        }catch (err) {
+            if(err instanceof AxiosError){
+                if(err?.response?.data?.msg){
+                    toast.error(err?.response?.data?.msg)
+                }else {
+                    toast.error('An Error occurred')
+                }
+            }
+        }
     }
 
     const searchProduct = async (e : any) =>{
         if(e?.length > 3) {
+            try {
+                const s = await mutateAsync(e)
 
+                const hsCodes = s?.data?.data?.splice(0,100).map((item:any)=>(
+                    {
+                        label:<div className='flex flex-row items-center justify-start md:text-[14px] text-[3.1vw]'>
+                            {
+                                item?.image ?
+                                    <img src={item?.image} alt={item?.title} className='mr-3 w-[45px] rounded-full'/>
+                                    :
+                                    <Image src={'/no-image.svg'} alt={item?.title} width={30} height={30}  className='mr-3 w-[45px] rounded-full' />
+
+                            }
+                            <div className='w-[calc(100%-60px)] flex flex-col items-start justify-between'>
+                                <div>
+                                    {`#${item?.code}`}
+                                </div>
+                                <Tooltip content={item?.title} placement="top">
+                                    <div className='text-primary-dark-b w-[95%] truncate font-bold'>
+                                        {item?.title }
+                                    </div>
+                                </Tooltip>
+                            </div>
+                        </div>,
+                        code : item?.code ,
+                        value:item?.code ,
+                        title:item?.title ,
+                        input :`#${item?.code} - ${item?.title}`,
+                        id : item?.id
+                    }
+                ))
+                setOptions(hsCodes)
+                setOpenDrop(true)
+
+            }catch (err) {
+
+            }
         }
     }
 
-    useEffect(()=>{
-        if(randomHsData?.data){
-            console.log(randomHsData?.data)
-        }
 
-        },[randomHsData])
-    return (
+     return (
         <div className='w-full pt-4'>
             <div className='w-full bg-[#F8F8F8] p-5 lg:p-8 rounded-[1rem] relative'>
                 {
@@ -133,6 +237,7 @@ const AddProductForm = ({exitKey , onClose} : any) => {
                         if(e.target.files){
                             if(e.target?.files[0]){
                                 setImg(e.target?.files[0])
+                                uploadImage(e.target?.files[0])
                                 setImgView(URL.createObjectURL(e.target?.files[0]))
                             }else {
                                 setImg(null)
@@ -148,55 +253,89 @@ const AddProductForm = ({exitKey , onClose} : any) => {
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.productCode} <span className='text-secondary-red'>*</span>
                         </div>
-                        <Select
-                            className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
+                        {/*<Select*/}
+                        {/*    className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}*/}
 
-                            onChange={(e)=>{
+                        {/*    onChange={(e)=>{*/}
 
-                                // setFormData({...formData , fCurrency : e})
-                                // getToCurrenciesFunc(e?.value)
-                            }}
-                            // value={formData?.fCurrency}
-                            options={options}
-                            unstyled
-                            styles={{
-                                input: (base) => ({
-                                    ...base,
-                                    base: " hover:cursor-pointer",
-                                    fontSize:"9px",
-                                    "input:focus": {
-                                        boxShadow: "none",
-                                    },
-                                }),
-                                multiValueLabel: (base) => ({
-                                    ...base,
-                                    whiteSpace: "normal",
-                                    overflow: "visible",
-                                }),
-                                control: (base) => ({
-                                    ...base,
-                                    transition: "none",
-                                }),
-                            }}
+                        {/*        // setFormData({...formData , fCurrency : e})*/}
+                        {/*        // getToCurrenciesFunc(e?.value)*/}
+                        {/*    }}*/}
+                        {/*    // value={formData?.fCurrency}*/}
+                        {/*    options={hsCodes}*/}
+                        {/*    unstyled*/}
+                        {/*    styles={{*/}
+                        {/*        input: (base) => ({*/}
+                        {/*            ...base,*/}
+                        {/*            base: " hover:cursor-pointer",*/}
+                        {/*            fontSize:"9px",*/}
+                        {/*            "input:focus": {*/}
+                        {/*                boxShadow: "none",*/}
+                        {/*            },*/}
+                        {/*        }),*/}
+                        {/*        multiValueLabel: (base) => ({*/}
+                        {/*            ...base,*/}
+                        {/*            whiteSpace: "normal",*/}
+                        {/*            overflow: "visible",*/}
+                        {/*        }),*/}
+                        {/*        control: (base) => ({*/}
+                        {/*            ...base,*/}
+                        {/*            transition: "none",*/}
+                        {/*        }),*/}
+                        {/*    }}*/}
 
-                            classNames={{
-                                control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
-                                multiValueLabel: () => 'bg-[#1C1D27] rounded-xl',
-                                option: ({ isFocused, isSelected }) =>'bg-[#1C1D27] px-4 py-1',
-                            }}
-                        />
-                        {/*<div className='w-full flex flex-col items-start justify-start'>*/}
-                        {/*    <input  name={'productCode'}*/}
-                        {/*            type={'text'}*/}
-                        {/*            className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}*/}
-                        {/*            placeholder={myTexts.productCode}*/}
-                        {/*            value={productInput}*/}
-                        {/*            onChange={(event :any)=>{*/}
-                        {/*                setProductInput(event.target.value)*/}
-                        {/*                searchProduct(event.target.value)*/}
-                        {/*            }}*/}
-                        {/*    />*/}
-                        {/*</div>*/}
+                        {/*    classNames={{*/}
+                        {/*        control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',*/}
+                        {/*        multiValueLabel: () => 'bg-white rounded-xl',*/}
+                        {/*        option: ({ isFocused, isSelected }) =>'bg-white px-4 py-1',*/}
+                        {/*    }}*/}
+                        {/*/>*/}
+                        <div className='w-full flex flex-col items-start justify-start relative'>
+                            <input  name={'productCode'}
+                                    type={'text'}
+                                    className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
+                                    placeholder={myTexts.productCode}
+                                    value={productInput?.input}
+                                    // onBlur={()=>setOpenDrop(false)}
+                                    onChange={(event :any)=>{
+                                        setOpenDrop(true)
+                                        setProductInput(event.target.value)
+                                        searchProduct(event.target.value)
+                                    }}
+                            />
+                            {
+                                openDrop &&
+                                <>
+                                    <div className='w-full top-[3.85rem] absolute max-h-[30rem] z-10 bg-white flex flex-vol items-center justify-start p-2 rounded-[1rem] shadow-[0px_12px_20px_0px_rgba(0,_0,_0,_0.10)]'>
+                                        { isPending ?
+                                            <div className='w-full h-[25rem] flex flex-row items-center justify-center'>
+                                                <ThreeDotsLoaderGreen />
+                                            </div>
+                                            :
+
+                                            <div className='max-h-[25rem] overflow-auto'>
+                                                { options?.length > 0 ?
+                                                    options?.map((item :any,index : number)=>{
+                                                        return(
+                                                            <div key={index+1} className='w-full py-2 my-1 cursor-pointer' onClick={()=>setProductInput(item)}>
+                                                                {item?.label}
+                                                            </div>
+                                                        )
+                                                    })
+                                                    :
+                                                    <div className='w-full h-[25rem] flex flex-row items-center justify-center'>
+                                                        No Product
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                    <div className={'fixed bg-red-100 opacity-0 w-[100vw] h-[100svh] top-0 left-0 z-5 '} onClick={()=>setOpenDrop(false)} />
+                                </>
+
+                            }
+
+                        </div>
                         {/*<MainInput*/}
                         {/*    register={register}*/}
                         {/*    label={'productCode'}*/}
@@ -205,9 +344,7 @@ const AddProductForm = ({exitKey , onClose} : any) => {
                         {/*    type={'text'}*/}
                         {/*    placeholder={myTexts.productCode}*/}
                         {/*/>*/}
-                        {/*<div className='w-[97%] absolute max-h-[30rem] bg-white flex flex-vol items-center justify-start p-2 rounded-[1rem] shadow-[0px_12px_20px_0px_rgba(0,_0,_0,_0.10)]'>*/}
 
-                        {/*</div>*/}
                     </div>
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>

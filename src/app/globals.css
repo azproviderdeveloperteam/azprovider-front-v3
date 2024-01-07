@@ -58,6 +58,61 @@ div::-webkit-scrollbar {
     filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(2%) hue-rotate(308deg) brightness(105%) contrast(101%);
 }
 
+.dot-flashing-green{
+    position: relative;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #468189;
+    color: #468189;
+    animation: dot-flashing 1s infinite linear alternate;
+    animation-delay: 0.5s;
+}
+.dot-flashing-green::before, .dot-flashing-green::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 0;
+}
+.dot-flashing-green::before {
+    left: -18px;
+    top:-1px;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color:#468189;
+    color: #468189;
+    animation: dot-flashing 1s infinite alternate;
+    animation-delay: 0s;
+}
+.dot-flashing-green::after {
+    left: 18px;
+    top:-1px;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color:#468189;
+    color:#468189;
+    animation: dot-flashing-green 1s infinite alternate;
+    animation-delay: 1s;
+}
+
+@keyframes dot-flashing-green {
+    0% {
+        background-color: #468189;
+    }
+    50%, 100% {
+        background-color: transparent;
+        border: 1px solid #468189;
+    }
+}
+
+
+
+
+
+
+
 
 .dot-flashing {
     position: relative;
