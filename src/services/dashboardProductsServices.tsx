@@ -9,5 +9,5 @@ export async function  createProduct(data : any){
 }
 
 export async function  createProductUploadImage(data : any){
-    return await  instance.post('products/upload-image/',data)
+    return await  instance.post('products/upload-image/',data , {headers:{"Content-Type":"multipart/form-data"}})
 }

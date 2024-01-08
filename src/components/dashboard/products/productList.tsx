@@ -4,8 +4,7 @@ import ProductCard from "@/components/Cards/ProductCard";
 
 const ProductList = ({productsData} : any) => {
     return (
-        <div>
-            {
+
                 productsData?.map((item : any ,index : number)=>{
                     return(
                         <div className={`${index===0 ? ' ' :''}  w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`} key={index+1}>
@@ -13,9 +12,8 @@ const ProductList = ({productsData} : any) => {
                         </div>
                     )
                 })
-            }
-        </div>
-    );
+
+     );
 };
 
 export default ProductList;

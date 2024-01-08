@@ -119,8 +119,8 @@ const AddProductForm = ({exitKey , onClose} : any) => {
             granted_organization:d?.grantedOrganization,
             certification:d?.typeCertification,
             size:d?.capacity,
-            hs_codes:[productInput?.id],
-            hs_code_third_levels:[productInput?.code]
+            // hs_codes:[productInput?.id],
+            hs_code_third_levels:[productInput?.id]
 
             // number_of_employees:"",
             // national_code:"",
