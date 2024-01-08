@@ -34,7 +34,7 @@ const ProductsPage = () => {
             }}/>
 
             :
-            <>
+            <div className='w-full overflow-x-hidden'>
                 <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
                     <ProductList productsData={productsData?.data} />
 
@@ -43,7 +43,7 @@ const ProductsPage = () => {
                     <AddProductCard setViewForm={()=>setViewAddProductForm(true)}/>
 
                 </div>
-            </>
+            </div>
 
     );
 };
