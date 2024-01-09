@@ -5,6 +5,12 @@ import {Tab, Tabs, TabsHeader} from "@material-tailwind/react";
 import {useQuery} from "@tanstack/react-query";
 import {getDashboardProducts} from "@/services/dashboardProductsServices";
 import ProductList from "@/components/dashboard/products/productList";
+import ProfileAll from "@/components/dashboard/profile/ProfileAll";
+import ProfileBInfo from "@/components/dashboard/profile/ProfileBInfo";
+import ProfileContact from "@/components/dashboard/profile/ProfileContact";
+import ProfileCertificates from "@/components/dashboard/profile/ProfileCertificates";
+import ProfileProjects from "@/components/dashboard/profile/ProfileProjects";
+import ProfileMembership from "@/components/dashboard/profile/ProfileMembership";
 const OnSalePage = () => {
     const [activeTab, setActiveTab] = useState<any>('All');
 
@@ -69,10 +75,26 @@ const OnSalePage = () => {
                 </Tabs>
             </div>
             <div className='w-full overflow-x-hidden'>
-                <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
-                    <ProductList productsData={productsData?.data} />
 
-                </div>
+                {
+                    activeTab === 'All' ?
+                        <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
+                            <ProductList productsData={productsData?.data} />
+
+                        </div>
+                        : activeTab === 'Products' ?
+                            <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
+                                <ProductList productsData={productsData?.data} />
+
+                            </div>
+                            : activeTab === 'Services' ?
+                                <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
+
+                                </div>
+                                 : null
+                }
+
+
             </div>
         </div>
 

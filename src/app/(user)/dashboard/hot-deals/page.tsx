@@ -71,10 +71,26 @@ const HotDealsPage = () => {
                 </Tabs>
             </div>
             <div className='w-full overflow-x-hidden'>
-                <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
-                    <ProductList productsData={productsData?.data} />
 
-                </div>
+                {
+                    activeTab === 'All' ?
+                        <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
+                            <ProductList productsData={productsData?.data} />
+
+                        </div>
+                        : activeTab === 'Products' ?
+                            <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
+                                <ProductList productsData={productsData?.data} />
+
+                            </div>
+                            : activeTab === 'Services' ?
+                                <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
+
+                                </div>
+                                : null
+                }
+
+
             </div>
         </div>
     );
