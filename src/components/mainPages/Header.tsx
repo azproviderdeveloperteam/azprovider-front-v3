@@ -21,7 +21,7 @@ const Header = ({theme}:any) => {
                         </LightBtn>
                     </Link>
 
-                    <Link href={'/products'}>
+                    <Link href={'/products?sort=date'}>
                         <LightBtn border={false} otherClass={'mr-2'}>
                             {text.products}
                         </LightBtn>

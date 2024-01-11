@@ -1,5 +1,4 @@
 import instance from "@/services/instance";
-import {param} from "ts-interface-checker";
 export async function  getAllHsCodes(){
     return await  instance.get('hscodes/get-data/')
 }
