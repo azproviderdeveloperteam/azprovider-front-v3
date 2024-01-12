@@ -52,7 +52,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData} : any) => {
         }).shape({
 
             capacity:Yup.number().required('Enter capacity in number'),
-            price:Yup.number('Enter capacity in number'),
+            price:Yup.number(),
             // grantedOrganization:Yup.string().required('Enter Local Name'),
             typeCertification:Yup.string().required('Enter certification type'),
             description:Yup.string().required('Enter description'),
@@ -89,10 +89,10 @@ const AddProductForm = ({exitKey , onClose , allMeasureData} : any) => {
 
 
     useEffect(()=>{
-        let mo = []
+        let mo :any[] = []
 
         if(allMeasureData?.data){
-            allMeasureData?.data?.map((x)=>mo.push({value:x?.title , label : x?.title}))
+            allMeasureData?.data?.map((x:any)=>mo.push({value:x?.title , label : x?.title}))
         }
         setMeasureOptions(mo)
     },[allMeasureData])
