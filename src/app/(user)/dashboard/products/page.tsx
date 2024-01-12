@@ -5,6 +5,7 @@ import React, {useEffect, useState} from 'react';
 import ProductList from "@/components/dashboard/products/productList";
 import AddProductForm from "@/components/dashboard/products/AddProductForm";
 import AddProductCard from "@/components/dashboard/products/AddProductCard";
+import {getAllMeasure} from "@/services/measurementServices";
 
 const ProductsPage = () => {
 
@@ -15,10 +16,16 @@ const ProductsPage = () => {
         queryFn: getDashboardProducts,
         retry:false,
     })
+    const {data : allMeasureData, isPending :allMeasurePending, error : allMeasureError} = useQuery({
+        queryKey: ['get-all-measure' , submit],
+        queryFn: getAllMeasure,
+        retry:false,
+    })
+
 
     useEffect(()=>{
         if(productsData?.data){
-            if (productsData?.data?.length > 0){
+            if (productsData?.data?.results?.length > 0){
                 setViewAddProductForm(false)
             }else {
                 setViewAddProductForm(true)
@@ -28,7 +35,7 @@ const ProductsPage = () => {
     },[productsData])
     return (
         viewAddProductForm ?
-            <AddProductForm exitKey={productsData?.data ? productsData?.data?.length > 0 ? true : false : false} onClose={()=>{
+            <AddProductForm allMeasureData={allMeasureData} exitKey={productsData?.data?.results ? productsData?.data?.results?.length > 0 ? true : false : false} onClose={()=>{
                 setViewAddProductForm(false)
                 setSubmit(submit + 1)
             }}/>
@@ -36,7 +43,7 @@ const ProductsPage = () => {
             :
             <div className='w-full overflow-x-hidden'>
                 <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
-                    <ProductList productsData={productsData?.data} />
+                    <ProductList productsData={productsData?.data?.results} />
 
                 </div>
                 <div className={'py-8 px-5'}>

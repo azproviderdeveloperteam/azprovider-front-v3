@@ -381,9 +381,15 @@ export const texts = {
                         uploadLogo:"upload Image",
                         productCode:"product code / category",
                         capacity:"capacity",
+                        measure:"measure",
+                        brandName:"brand Name",
                         publishedDate:"published date",
+                        publishedDateFrom:"published date from",
+                        publishedDateTo:"published date to",
+
                         grantedOrganization:"choose / type granted organization",
                         typeCertification:"choose / type certification",
+                        price:"price",
                         description:"description",
                         save:"save"
                     }

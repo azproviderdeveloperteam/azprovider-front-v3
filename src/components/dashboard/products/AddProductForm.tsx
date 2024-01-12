@@ -17,11 +17,22 @@ import {useQuery} from "@tanstack/react-query";
 import {getAllHsCodes, getRandomHsCodes, getSearchInThirdLevel} from "@/services/hsCodeServices";
 import ThreeDotsLoaderGreen from "@/components/loaders/ThreeDotsLoaderGreen";
 import {createProduct, createProductUploadImage} from "@/services/dashboardProductsServices";
-const AddProductForm = ({exitKey , onClose} : any) => {
+
+type GrantedOgType = {
+    value : string | undefined ,
+    label :string | undefined ,
+}
+const AddProductForm = ({exitKey , onClose , allMeasureData} : any) => {
 
     const [img ,setImg] = useState<any>(null)
     const [imgView ,setImgView] = useState<any>(null)
-    const [date, setDate] = React.useState<Date>();
+    const [dateFrom, setDateFrom] = React.useState<Date>();
+    const [dateTo, setDateTo] = React.useState<Date>();
+    const [grantedOg , setGrantedOg] = useState<any>({value:"Normal" , label:"Normal"} )
+    const [selectedMeasure , setSelectedMeasure] = useState<any>({value:"Normal" , label:"Normal"} )
+    const [measureOptions , setMeasureOptions] = useState<any>([{value:'kilogram', label : 'kilogram'}] )
+
+
     const [productInput ,setProductInput] = useState<any>(
         {value:"" , code:"" , label:"",
                 title:"",
@@ -40,11 +51,12 @@ const AddProductForm = ({exitKey , onClose} : any) => {
 
         }).shape({
 
-            capacity:Yup.string().required('Enter Your Brand Name'),
-
-            grantedOrganization:Yup.string().required('Enter Local Name'),
-            typeCertification:Yup.string().required('Enter Contact Person'),
-            description:Yup.string().required('Enter Email'),
+            capacity:Yup.number().required('Enter capacity in number'),
+            price:Yup.number('Enter capacity in number'),
+            // grantedOrganization:Yup.string().required('Enter Local Name'),
+            typeCertification:Yup.string().required('Enter certification type'),
+            description:Yup.string().required('Enter description'),
+            brandName:Yup.string(),
         })
         .required()
     const {
@@ -74,7 +86,19 @@ const AddProductForm = ({exitKey , onClose} : any) => {
     })
 
 
+
+
     useEffect(()=>{
+        let mo = []
+
+        if(allMeasureData?.data){
+            allMeasureData?.data?.map((x)=>mo.push({value:x?.title , label : x?.title}))
+        }
+        setMeasureOptions(mo)
+    },[allMeasureData])
+    useEffect(()=>{
+
+
         if(randomHsData?.data){
             const hsCodes = randomHsData?.data?.map((item:any)=>(
                 {
@@ -114,14 +138,18 @@ const AddProductForm = ({exitKey , onClose} : any) => {
 
         const formData = {
             title : productInput?.title,
-            short_description:d?.description,
-            published_date:date,
-            granted_organization:d?.grantedOrganization,
-            certification:d?.typeCertification,
             size:d?.capacity,
-            // hs_codes:[productInput?.id],
-            hs_code_third_levels:[productInput?.id]
+            measure:selectedMeasure?.label,
+            brand_name : d?.brandName,
+            published_date_from:dateFrom,
+            published_date_to:dateTo,
+            granted_organization:grantedOg?.label,
+            certification:d?.typeCertification,
+            hs_code_third_levels:[productInput?.id],
+            price:d?.price,
+            short_description:d?.description,
 
+            // hs_codes:[productInput?.id],
             // number_of_employees:"",
             // national_code:"",
             // establishment_date:""
@@ -163,7 +191,7 @@ const AddProductForm = ({exitKey , onClose} : any) => {
             try {
                 const s = await mutateAsync(e)
 
-                const hsCodes = s?.data?.data?.splice(0,100).map((item:any)=>(
+                const hsCodes = s?.data?.results?.data?.splice(0,100).map((item:any)=>(
                     {
                         label:<div className='flex flex-row items-center justify-start md:text-[14px] text-[3.1vw]'>
                             {
@@ -253,43 +281,7 @@ const AddProductForm = ({exitKey , onClose} : any) => {
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.productCode} <span className='text-secondary-red'>*</span>
                         </div>
-                        {/*<Select*/}
-                        {/*    className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}*/}
 
-                        {/*    onChange={(e)=>{*/}
-
-                        {/*        // setFormData({...formData , fCurrency : e})*/}
-                        {/*        // getToCurrenciesFunc(e?.value)*/}
-                        {/*    }}*/}
-                        {/*    // value={formData?.fCurrency}*/}
-                        {/*    options={hsCodes}*/}
-                        {/*    unstyled*/}
-                        {/*    styles={{*/}
-                        {/*        input: (base) => ({*/}
-                        {/*            ...base,*/}
-                        {/*            base: " hover:cursor-pointer",*/}
-                        {/*            fontSize:"9px",*/}
-                        {/*            "input:focus": {*/}
-                        {/*                boxShadow: "none",*/}
-                        {/*            },*/}
-                        {/*        }),*/}
-                        {/*        multiValueLabel: (base) => ({*/}
-                        {/*            ...base,*/}
-                        {/*            whiteSpace: "normal",*/}
-                        {/*            overflow: "visible",*/}
-                        {/*        }),*/}
-                        {/*        control: (base) => ({*/}
-                        {/*            ...base,*/}
-                        {/*            transition: "none",*/}
-                        {/*        }),*/}
-                        {/*    }}*/}
-
-                        {/*    classNames={{*/}
-                        {/*        control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',*/}
-                        {/*        multiValueLabel: () => 'bg-white rounded-xl',*/}
-                        {/*        option: ({ isFocused, isSelected }) =>'bg-white px-4 py-1',*/}
-                        {/*    }}*/}
-                        {/*/>*/}
                         <div className='w-full flex flex-col items-start justify-start relative'>
                             <input  name={'productCode'}
                                     type={'text'}
@@ -356,30 +348,133 @@ const AddProductForm = ({exitKey , onClose} : any) => {
                             label={'capacity'}
                             error={errors?.capacity?.message}
                             name={'capacity'}
-                            type={'text'}
+                            type={'number'}
                             placeholder={myTexts.capacity}
                         />
                     </div>
 
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
+                        <div className=' text-[1.3rem] capitalize'>
+                            {myTexts.measure} <span className='text-secondary-red'>*</span>
+                        </div>
+                        <Select
+                            className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
+
+                            onChange={(e)=>{
+
+                                setSelectedMeasure( e)
+                                // getToCurrenciesFunc(e?.value)
+                            }}
+                            value={selectedMeasure}
+                            options={measureOptions}
+                            unstyled
+                            styles={{
+                                input: (base) => ({
+                                    ...base,
+                                    base: " hover:cursor-pointer",
+                                    fontSize:"9px",
+                                    "input:focus": {
+                                        boxShadow: "none",
+                                    },
+                                }),
+                                multiValueLabel: (base) => ({
+                                    ...base,
+                                    whiteSpace: "normal",
+                                    overflow: "visible",
+                                }),
+                                control: (base) => ({
+                                    ...base,
+                                    transition: "none",
+                                }),
+                            }}
+
+                            classNames={{
+                                control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
+                                multiValueLabel: () => 'bg-white rounded-xl ',
+                                option: ({ isFocused, isSelected }) =>'bg-white px-4 py-1',
+                            }}
+                        />
+                    </div>
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
+                        <div className=' text-[1.3rem] capitalize'>
+                            {myTexts.brandName} <span className='text-secondary-red'>*</span>
+                        </div>
+                        <MainInput
+                            register={register}
+                            label={'brandName'}
+                            error={errors?.brandName?.message}
+                            name={'brandName'}
+                            type={'text'}
+                            placeholder={myTexts.brandName}
+                        />
+                    </div>
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%]  h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.publishedDate}
+                            {myTexts.publishedDateFrom}
                         </div>
-                        <AzDatePicker   date={date} setDate={setDate}/>
+                        <AzDatePicker   date={dateFrom} setDate={setDateFrom}/>
+                    </div>
+
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%]  h-full mt-7'>
+                        <div className=' text-[1.3rem] capitalize'>
+                            {myTexts.publishedDateTo}
+                        </div>
+                        <AzDatePicker   date={dateTo} setDate={setDateTo}/>
                     </div>
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.grantedOrganization} <span className='text-secondary-red'>*</span>
                         </div>
-                        <MainInput
-                            register={register}
-                            label={'grantedOrganization'}
-                            error={errors?.grantedOrganization?.message}
-                            name={'grantedOrganization'}
-                            type={'text'}
-                            placeholder={myTexts.grantedOrganization}
+                        {/*<MainInput*/}
+                        {/*    register={register}*/}
+                        {/*    label={'grantedOrganization'}*/}
+                        {/*    error={errors?.grantedOrganization?.message}*/}
+                        {/*    name={'grantedOrganization'}*/}
+                        {/*    type={'text'}*/}
+                        {/*    placeholder={myTexts.grantedOrganization}*/}
+                        {/*/>*/}
+                        <Select
+                            className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
+
+                            onChange={(e)=>{
+
+                                setGrantedOg( e)
+                                // getToCurrenciesFunc(e?.value)
+                            }}
+                            value={grantedOg}
+                            options={[
+                                {value:"Good" , label:"Good"} ,
+                                {value:"Normal" , label:"Normal"} ,
+                                {value:"Bad" , label:"Bad"} ,
+                            ]}
+                            unstyled
+                            styles={{
+                                input: (base) => ({
+                                    ...base,
+                                    base: " hover:cursor-pointer",
+                                    fontSize:"9px",
+                                    "input:focus": {
+                                        boxShadow: "none",
+                                    },
+                                }),
+                                multiValueLabel: (base) => ({
+                                    ...base,
+                                    whiteSpace: "normal",
+                                    overflow: "visible",
+                                }),
+                                control: (base) => ({
+                                    ...base,
+                                    transition: "none",
+                                }),
+                            }}
+
+                            classNames={{
+                                control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
+                                multiValueLabel: () => 'bg-white rounded-xl ',
+                                option: ({ isFocused, isSelected }) =>'bg-white px-4 py-1',
+                            }}
                         />
                     </div>
 
@@ -394,6 +489,19 @@ const AddProductForm = ({exitKey , onClose} : any) => {
                             name={'typeCertification'}
                             type={'text'}
                             placeholder={myTexts.typeCertification}
+                        />
+                    </div>
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
+                        <div className=' text-[1.3rem] capitalize'>
+                            {myTexts.price} <span className='text-secondary-red'>*</span>
+                        </div>
+                        <MainInput
+                            register={register}
+                            label={'price'}
+                            error={errors?.price?.message}
+                            name={'price'}
+                            type={'number'}
+                            placeholder={myTexts.price}
                         />
                     </div>
 
@@ -411,7 +519,7 @@ const AddProductForm = ({exitKey , onClose} : any) => {
                             textarea={true}
                         />
                     </div>
-                    <RegisterBtn loading={isPending} otherClass={'w-full lg:w-[12rem] mt-12'} type={'submit'} disabled={false}>
+                    <RegisterBtn loading={createPending} otherClass={'w-full lg:w-[12rem] mt-12'} type={'submit'} disabled={false}>
                         Save
                     </RegisterBtn>
                 </form>
