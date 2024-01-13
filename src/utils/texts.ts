@@ -393,6 +393,20 @@ export const texts = {
                         description:"description",
                         save:"save"
                     }
+                },
+                onSale: {
+                    addForm:{
+                        onSalePrice:"on sale price",
+                        onSaleSize:"on sale size",
+                        onSaleMeasure : 'on sale measure'
+                    }
+                },
+                hotDeal: {
+                    addForm:{
+                        hotDealPrice:"hot deal price",
+                        hotDealSize:"hot deal size",
+                        hotDealMeasure : 'hot deal measure'
+                    }
                 }
             }
         },

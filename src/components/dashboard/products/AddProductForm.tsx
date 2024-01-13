@@ -29,7 +29,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData} : any) => {
     const [dateFrom, setDateFrom] = React.useState<Date>();
     const [dateTo, setDateTo] = React.useState<Date>();
     const [grantedOg , setGrantedOg] = useState<any>({value:"Normal" , label:"Normal"} )
-    const [selectedMeasure , setSelectedMeasure] = useState<any>({value:"Normal" , label:"Normal"} )
+    const [selectedMeasure , setSelectedMeasure] = useState<any>({value:'kilogram', label : 'kilogram'} )
     const [measureOptions , setMeasureOptions] = useState<any>([{value:'kilogram', label : 'kilogram'}] )
 
 

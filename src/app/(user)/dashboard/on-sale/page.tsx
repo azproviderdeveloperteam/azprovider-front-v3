@@ -1,19 +1,13 @@
 'use client'
-import React, {useState} from 'react';
-import ProductCard from "@/components/Cards/ProductCard";
+import React, {useEffect, useState} from 'react';
 import {Tab, Tabs, TabsHeader} from "@material-tailwind/react";
 import {useQuery} from "@tanstack/react-query";
 import {getDashboardProducts} from "@/services/dashboardProductsServices";
-import ProductList from "@/components/dashboard/products/productList";
-import ProfileAll from "@/components/dashboard/profile/ProfileAll";
-import ProfileBInfo from "@/components/dashboard/profile/ProfileBInfo";
-import ProfileContact from "@/components/dashboard/profile/ProfileContact";
-import ProfileCertificates from "@/components/dashboard/profile/ProfileCertificates";
-import ProfileProjects from "@/components/dashboard/profile/ProfileProjects";
-import ProfileMembership from "@/components/dashboard/profile/ProfileMembership";
+import ProductCardOnSale from "@/components/Cards/ProductCardOnSale";
+import {getAllMeasure} from "@/services/measurementServices";
 const OnSalePage = () => {
     const [activeTab, setActiveTab] = useState<any>('All');
-
+    const [measureOptions , setMeasureOptions] = useState<any>([{value:'kilogram', label : 'kilogram'}] )
     const data = [
         {
             label: "All",
@@ -41,6 +35,22 @@ const OnSalePage = () => {
         queryFn: getDashboardProducts,
         retry:false,
     })
+
+
+    const {data : allMeasureData, isPending :allMeasurePending, error : allMeasureError} = useQuery({
+        queryKey: ['get-all-measure' ],
+        queryFn: getAllMeasure,
+        retry:false,
+    })
+    useEffect(()=>{
+        let mo :any[] = []
+
+        if(allMeasureData?.data){
+            allMeasureData?.data?.map((x:any)=>mo.push({value:x?.title , label : x?.title}))
+        }
+        setMeasureOptions(mo)
+    },[allMeasureData])
+
 
     return (
         <div className='w-full'>
@@ -79,14 +89,42 @@ const OnSalePage = () => {
                 {
                     activeTab === 'All' ?
                         <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
-                            <ProductList productsData={productsData?.data?.results} />
-
+                            <>
+                                {
+                                    productsData?.data?.results?.map((item : any ,index : number)=>{
+                                        return(
+                                            <div className={`${index===0 ? ' ' :''}  w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`} key={index+1}>
+                                                <ProductCardOnSale item={item} theme={'light'} measureOptions={measureOptions}/>
+                                            </div>
+                                        )
+                                    })
+                                }
+                                <div className={`   w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`}  >
+                                    <div className={`w-full aspect-[0.7334] flex flex-col items-center justify-between rounded-[1.6rem] opacity-0 `}>
+                                    </div>
+                                </div>
+                            </>
                         </div>
                         : activeTab === 'Products' ?
                             <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
-                                <ProductList productsData={productsData?.data?.results} />
+                                <>
+                                    {
+                                        productsData?.data?.results?.map((item : any ,index : number)=>{
+                                            return(
+                                                <div className={`${index===0 ? ' ' :''}  w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`} key={index+1}>
+                                                    <ProductCardOnSale item={item} theme={'light'} measureOptions={measureOptions}/>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                    <div className={`   w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`}  >
+                                        <div className={`w-full aspect-[0.7334] flex flex-col items-center justify-between rounded-[1.6rem] opacity-0 `}>
+                                        </div>
+                                    </div>
+                                </>
 
-                            </div>
+
+                        </div>
                             : activeTab === 'Services' ?
                                 <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
 
