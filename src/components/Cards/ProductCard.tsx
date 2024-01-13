@@ -146,8 +146,8 @@ const ProductCard = ({item , theme} : any) => {
                     </div>
                     <div className='font-thin text-[0.7rem] ml-1'>
                         {
-                            item?.published_date ?
-                                `Exp ${new Date(item?.published_date)?.getUTCDate()} ${monthNames[new Date(item?.published_date)?.getUTCMonth()] } ${new Date(item?.published_date)?.getUTCFullYear()}`
+                            item?.publish_date_from ?
+                                `${new Date(item?.publish_date_from)?.getUTCDate()} ${monthNames[new Date(item?.publish_date_from)?.getUTCMonth()] } ${new Date(item?.publish_date_from)?.getUTCFullYear()} - ${new Date(item?.publish_date_to)?.getUTCDate()} ${monthNames[new Date(item?.publish_date_to)?.getUTCMonth()] } ${new Date(item?.publish_date_to)?.getUTCFullYear()}`
                                 :
                                 ' - '
                         }

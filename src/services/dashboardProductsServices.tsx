@@ -1,7 +1,7 @@
 import instance from "@/services/instance";
 
 export async function  getDashboardProducts(){
-    return await  instance.get('products/get-user-products/')
+    return await  instance.get('products/get-user-products/' ,{params:{page_size:1000} })
 }
 
 export async function  createProduct(data : any){
