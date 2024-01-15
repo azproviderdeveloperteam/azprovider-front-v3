@@ -1,6 +1,6 @@
 'use client'
 import React from 'react';
-import {Avatar} from "@material-tailwind/react";
+import {Avatar, IconButton} from "@material-tailwind/react";
 import noImage from '../../../public/no-image.svg'
 import Image from "next/image";
 const CompanyCard = ({item} : any) => {
@@ -48,10 +48,21 @@ const CompanyCard = ({item} : any) => {
                 {`${item?.contact_information?.country ? item?.contact_information?.country : ''} , ${item?.contact_information?.city ? item?.contact_information?.city : ''}`}
             </div>
             <div className='w-2/12  px-2 flex flex-row items-center justify-end'>
-                <Image src={'/call-company.svg'} alt={'call-company.svg'} width={21} height={21} />
+                {
+                    // item?.mobile &&
+                    <IconButton className={'bg-transparent shadow-none focus:shadow-none'}>
+                        <Image src={'/call-company.svg'} alt={'call-company.svg'} width={21} height={21} />
+                    </IconButton>
+                }
 
-                <Image src={'/send-message-company.svg'} alt={'send-message-company.svg'} width={21} height={21} />
-                <Image src={'/bookmark-not-fill.svg'} alt={'bookmark-not-fill.svg'} width={21} height={21} />
+                <IconButton className={'bg-transparent shadow-none focus:shadow-none'}>
+                    <Image src={'/send-message-company.svg'} alt={'send-message-company.svg'} width={21} height={21} />
+
+                </IconButton>
+                <IconButton className={'bg-transparent shadow-none focus:shadow-none'}>
+                    <Image src={'/bookmark-not-fill.svg'} alt={'bookmark-not-fill.svg'} width={21} height={21} />
+
+                </IconButton>
 
 
             </div>
