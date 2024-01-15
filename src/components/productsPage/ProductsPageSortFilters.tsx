@@ -6,7 +6,7 @@ type sort = {
     title :string ,
     href :string
 }
-const ProductsPageSortFilters = ({productsLength    , sort } : any ) => {
+const ProductsPageSortFilters = ({productsLength ,companies   , sort } : any ) => {
     const sorts = [
         {title :"Price", href : "price"} ,
         {title :"On Sale", href : "onSale"} ,
@@ -30,7 +30,7 @@ const ProductsPageSortFilters = ({productsLength    , sort } : any ) => {
                             <Link
                                 key={index+1}
                                 href={{
-                                    pathname: '/products',
+                                    pathname:companies ? '/companies' : '/products',
                                     query: { sort: item.href },
                                 }}
                             >
