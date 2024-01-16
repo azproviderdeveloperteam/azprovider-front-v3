@@ -29,7 +29,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
             businessCode:Yup.string().required('Enter Business Code'),
             businessRole:Yup.string().required('Enter Business Role'),
             cityOrCountry:Yup.string().required('Enter City Or Country'),
-            acceptTerms:Yup.bool().oneOf([true]).required('')
+            acceptTerms:Yup.bool().required('')
 
         })
         .required()
@@ -70,6 +70,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
         }
     }
 
+    console.log(errors , getValues())
     return (
         <>
 
@@ -179,7 +180,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
                     }
 
                     <div className='w-full mt-5 px-3'>
-                        <RegisterBtn type={'submit'} loading={isPending} disabled={JSON.stringify(errors) !== '{}'} otherClass={'min-w-[10rem]'}>
+                        <RegisterBtn type={'submit'} loading={isPending} disabled={false} otherClass={'min-w-[10rem]'}>
                             {myTexts.register}
                         </RegisterBtn>
                     </div>

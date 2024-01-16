@@ -3,6 +3,7 @@ import React from 'react';
 import {Avatar, IconButton} from "@material-tailwind/react";
 import noImage from '../../../public/no-image.svg'
 import Image from "next/image";
+import Link from "next/link";
 const CompanyCard = ({item} : any) => {
 
     const monthNamesFull = [ "January", "February", "March", "April", "May", "June",
@@ -12,10 +13,10 @@ const CompanyCard = ({item} : any) => {
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
 
-    console.log(item)
+
     return (
         <div className='w-full bg-[#F8F8F8] min-h-[5.3rem] py-3 rounded-[1.2rem] shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.10)] flex flex-row items-center justify-between px-4'>
-            <div className='w-3/12  px-2 flex flex-row items-center justify-start'>
+            <Link href={`/companies/${item?.id}`} className='w-3/12  px-2 flex flex-row items-center justify-start cursor-pointer'>
                 <Avatar src={item?.business_information?.logo ? `${process.env.MEDIA_URL}${item?.business_information?.logo}` : noImage.src} />
                 <div className={'flex flex-col items-start justify-center h-full ml-2'}>
                     <h2 className='text-[1.1rem] font-bold'>
@@ -35,7 +36,7 @@ const CompanyCard = ({item} : any) => {
                         </h3>
                     </div>
                 </div>
-            </div>
+            </Link>
             <div className='w-3/12 px-2'>
                 Electronic Product | Company Equipment
             </div>
