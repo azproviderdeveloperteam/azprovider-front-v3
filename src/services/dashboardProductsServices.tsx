@@ -9,7 +9,7 @@ export async function  createProduct(data : any){
 }
 
 export async function  editProduct(data : any){
-    return await  instance.put(`products/edit/${data?.id}`,data?.formData)
+    return await  instance.put(`products/edit/${data?.id}/`,data?.formData)
 }
 
 
