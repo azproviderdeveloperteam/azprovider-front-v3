@@ -1,17 +1,36 @@
 'use client'
-import React from 'react';
-import {getCompanyDetails} from "@/services/companyServices";
+import React, {useEffect, useState} from 'react';
+import {getAllCompanies, getCompanyDetails} from "@/services/companyServices";
 import Image from "next/image";
 import noImage from '@/public/no-image.svg'
 import {Avatar} from "@material-tailwind/react";
 import SsrIconBtn from "@/components/Buttons/SsrIconBtn";
-import ProductList from "@/components/dashboard/products/productList";
 import ProductCard from "@/components/Cards/ProductCard";
+//
+// export const dynamicParams = false
+// export const dynamic = 'force-static'
+// export async function generateStaticParams() {
+//     return [{slug:'32'}]
+// }
 const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
 
-    const {data} = await getCompanyDetails(params?.slug)
+    const [data , setData] = useState<any>({})
 
-    console.log(data)
+    const getD = async () =>{
+        try {
+            const {data} = await getCompanyDetails(params?.slug)
+            setData(data)
+        }catch (err){
+
+        }
+
+
+    }
+    useEffect(()=>{
+        getD()
+    },[])
+
+
     const monthNamesFull = [ "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December" ];
 
@@ -140,3 +159,4 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
 };
 
 export default CompanyDetailPage;
+

@@ -9,7 +9,7 @@ const CompaniesPage = async ({searchParams} : any) => {
     const sort = searchParams?.sort
     const data = await getAllCompanies({})
 
-    console.log(data?.data)
+
     return (
         <div className='w-full py-28 '>
             <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full '>
