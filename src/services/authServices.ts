@@ -16,7 +16,7 @@ export async function  registerVerify(data:any){
 }
 
 export async function  checkAuthUser(){
-    return await  instance.post('user/check-auth/' ,{token:'s'})
+    return await  instance.post('user/check-auth/' )
 }
 
 export async function  registerCompleteProfile(data : any){
@@ -54,6 +54,12 @@ export async function  loginSendOtp(data : any){
 
         }
     })
+}
+
+
+
+export async function getProfile(){
+    return await instance.get('user/get-data/')
 }
 export async function getHsCodes(){
     return await instance.get('hscodes/get-data/')

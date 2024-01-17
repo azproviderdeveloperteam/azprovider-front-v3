@@ -4,6 +4,7 @@ import MegaMenu from "@/components/megaMenu/MegaMenu";
 import LightBtn from "@/components/Buttons/LightBtn";
 import Link from "next/link";
 import {texts} from "@/utils/texts";
+import HeaderCheckUserLogin from "@/components/mainPages/HeaderCheckUserLogin";
 
 const Header = ({theme}:any) => {
     const text = texts.eng.main.header
@@ -36,16 +37,8 @@ const Header = ({theme}:any) => {
                 </div>
 
                 <div className='flex flex-row items-center justify-end'>
-                    <Link href={'/register'}>
-                        <LightBtn border={false} otherClass={'mr-3'}>
-                            {text.register}
-                        </LightBtn>
-                    </Link>
-                    <Link href={'/login'}>
-                        <LightBtn border={true} otherClass={'mr-6'}>
-                            {text.login}
-                        </LightBtn>
-                    </Link>
+                    <HeaderCheckUserLogin text={text}/>
+
 
 
                     <MegaMenu className={'w-[1.6rem] cursor-pointer'}/>
