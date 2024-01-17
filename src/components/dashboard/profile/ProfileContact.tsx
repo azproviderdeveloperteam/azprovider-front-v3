@@ -92,7 +92,9 @@ const ProfileContact = ({contactData} : any) => {
             if(err instanceof AxiosError){
                 if(err?.response?.data?.msg){
                     toast.error(err?.response?.data?.msg)
-                }else {
+                }else if(err?.response?.data?.message){
+                    toast.error(err?.response?.data?.message)
+                } else {
                     toast.error('An Error occurred')
                 }
             }

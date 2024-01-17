@@ -68,13 +68,15 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
 
            nextStep(d?.email)
        }catch (err){
-            if(err instanceof AxiosError){
-                if(err?.response?.data?.msg){
-                    toast.error(err?.response?.data?.msg)
-                }else {
-                    toast.error('An Error occurred')
-                }
-            }
+           if(err instanceof AxiosError){
+               if(err?.response?.data?.msg){
+                   toast.error(err?.response?.data?.msg)
+               }else if(err?.response?.data?.message){
+                   toast.error(err?.response?.data?.message)
+               } else {
+                   toast.error('An Error occurred')
+               }
+           }
        }
     }
 
