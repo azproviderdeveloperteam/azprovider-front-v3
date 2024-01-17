@@ -7,7 +7,7 @@ import ProductCard from "@/components/Cards/ProductCard";
 
 const ProductsPage = async ({searchParams} : any) => {
     const sort = searchParams?.sort
-    const data = await getAllProducts({sort})
+    const data = await getAllProducts({sort , page_size:1000})
 
 
     return (
@@ -23,7 +23,7 @@ const ProductsPage = async ({searchParams} : any) => {
                 </div>
 
                 <div className={`inline-block transition transition-all w-full    lg:w-[calc(100%-11rem)] ease-in delay-150 duration-1500  min-h-[calc(100vh-0px)]`}>
-                    <div className={`sticky z-[1] top-12 md:h-[112px] w-full  mx-3]`}>
+                    <div className={`sticky z-[1] top-[5rem] md:h-[112px] w-full  mx-3]`}>
                         <div className='w-full h-full md:px-0   lg:rounded-[15px]'>
                             <ProductsPageSortFilters sort={searchParams?.sort} productsLength={data?.data?.results?.length}/>
                         </div>
