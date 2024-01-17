@@ -4,7 +4,7 @@ import {useGetUser} from "@/hooks/useAuth";
 import LightBtn from "@/components/Buttons/LightBtn";
 import Link from "next/link";
 
-const HeaderCheckUserLogin = ({text , black} : string) => {
+const HeaderCheckUserLogin = ({text , black} : any) => {
     const {data , isLoading , error} = useGetUser()
 
     return (

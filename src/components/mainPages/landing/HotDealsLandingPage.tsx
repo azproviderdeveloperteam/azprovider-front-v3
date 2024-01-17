@@ -28,7 +28,7 @@ const HotDealsLandingPage = async () => {
             </div>
             <div className='mt-5 max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
                 {
-                    data?.map((item ,index)=>{
+                    data?.map((item :any ,index : number)=>{
                         return(
                             <div className={`${index===0 ? ' ' :''}  w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`} key={index+1}>
                                 <ProductCard item={item} theme={'dark'}/>
