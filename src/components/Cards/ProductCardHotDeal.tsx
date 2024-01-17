@@ -1,6 +1,6 @@
 'use client'
 import React, {useEffect, useState} from 'react';
-import {Button, Carousel, IconButton, Tooltip} from "@material-tailwind/react";
+import {Button, Carousel, DialogFooter, DialogHeader, IconButton, Tooltip} from "@material-tailwind/react";
 import hexagon from '@/public/red-hexagon.svg'
 import Image from "next/image";
 import {useMutation, useQuery} from "@tanstack/react-query";
@@ -20,6 +20,7 @@ import {AxiosError} from "axios";
 const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , submitting} : any) => {
     const [dialog ,setDialog] = useState(false)
     const [selectedMeasure , setSelectedMeasure] = useState<any>({value:'kilogram', label : 'kilogram'} )
+    const [cancelDialog , setCancelDialog] = useState(false)
 
 
     const fakeData = [
@@ -72,7 +73,8 @@ const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , sub
         try {
             const d = await createMutateAsync({formData , id : item?.id})
             setDialog(false)
-            toast.success("Your Product Added To Az Provider On Sales successfully!")
+            toast.success("Your Product Added To Az Provider Hot Deals successfully!")
+            setSubmitting(submitting+1)
         }catch (err) {
             setDialog(false)
             if(err instanceof AxiosError){
@@ -88,10 +90,35 @@ const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , sub
     }
 
 
+    const cancelHotDeal = async () =>{
+        const formData = {
+            hot_deal	:false ,
+        }
+        try {
+            const d = await createMutateAsync({formData , id : item?.id})
+            setDialog(false)
+            setCancelDialog(false)
+            toast.success("Your Product Removed From Az Provider Hot Deals successfully!")
+            setSubmitting(submitting+1)
+
+        }catch (err) {
+            setDialog(false)
+            setCancelDialog(false)
+            if(err instanceof AxiosError){
+                if(err?.response?.data?.msg){
+                    toast.error(err?.response?.data?.msg)
+                }else if(err?.response?.data?.message){
+                    toast.error(err?.response?.data?.message)
+                } else {
+                    toast.error('An Error occurred')
+                }
+            }
+        }
+    }
     return (
         <>
 
-            <div className={`${item?.hot_deal ?"" :"opacity-70"} w-full flex flex-col items-center justify start`}>
+            <div className={`${item?.hot_deal ?"" :"opacity-50"} w-full flex flex-col items-center justify start`}>
 
                 <div className={` w-full aspect-[0.7334] flex flex-col items-center justify-between rounded-[1.6rem] ${theme==='dark' ?'bg-primary-dark-b shadow-[0px_12px_20px_0px_#062940]' : 'bg-white shadow-[0px_12px_20px_0px_rgba(0,_0,_0,_0.10)]' } `}>
                     <div className='w-full flex flex-col items-center justify-start'>
@@ -234,7 +261,7 @@ const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , sub
                 <Button
                     onClick={()=>{
                         if(item?.hot_deal ){
-                            setDialog(true)
+                            setCancelDialog(true)
                         }else  setDialog(true)
                     }}
 
@@ -332,6 +359,24 @@ const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , sub
 
                     </form>
                 </div>
+            </AzDialog>
+
+            <AzDialog open={cancelDialog} handler={()=>setCancelDialog(false)} size={'sm'}>
+                <DialogHeader>
+                    <div className={'text-[1rem]'}> Are you sure to cancel Hot Deal ?</div>
+                </DialogHeader>
+                <DialogFooter>
+                    <div>
+
+                    </div>
+                    <RegisterBtn loading={createPending} otherClass={'bg-[#3F3F3F]/50 text-white lg:w-[8rem] mt-3 mx-1'} onClick={cancelHotDeal}>
+                        Yes
+                    </RegisterBtn>
+                    <RegisterBtn   otherClass={'lg:w-[8rem] mt-3 mx-1'}  onClick={()=>setCancelDialog(false)}>
+                        No
+                    </RegisterBtn>
+                </DialogFooter>
+
             </AzDialog>
         </>
     );

@@ -1,6 +1,6 @@
 'use client'
 import React, {useEffect, useState} from 'react';
-import {Button, Carousel, IconButton, Tooltip} from "@material-tailwind/react";
+import {Button, Carousel, DialogFooter, DialogHeader, IconButton, Tooltip} from "@material-tailwind/react";
 import hexagon from '@/public/red-hexagon.svg'
 import Image from "next/image";
 import {useMutation, useQuery} from "@tanstack/react-query";
@@ -16,9 +16,11 @@ import Select from "react-select";
 import RegisterBtn from "@/components/Buttons/RegisterBtn";
 import toast from "react-hot-toast";
 import {AxiosError} from "axios";
+import GreenGrayBtn from "@/components/Buttons/GreenGrayBtn";
 
 const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , submitting} : any) => {
     const [dialog ,setDialog] = useState(false)
+    const [cancelDialog , setCancelDialog] = useState(false)
     const [selectedMeasure , setSelectedMeasure] = useState<any>({value:'kilogram', label : 'kilogram'} )
 
 
@@ -89,10 +91,37 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
     }
 
 
+    const cancelOnSale = async () =>{
+        const formData = {
+            on_sale	:false ,
+        }
+        try {
+            const d = await createMutateAsync({formData , id : item?.id})
+            setDialog(false)
+            setCancelDialog(false)
+
+            toast.success("Your Product Removed From To Az Provider On Sales successfully!")
+            setSubmitting(submitting + 1)
+        }catch (err) {
+            setDialog(false)
+            setCancelDialog(false)
+
+            if(err instanceof AxiosError){
+                if(err?.response?.data?.msg){
+                    toast.error(err?.response?.data?.msg)
+                }else if(err?.response?.data?.message){
+                    toast.error(err?.response?.data?.message)
+                } else {
+                    toast.error('An Error occurred')
+                }
+            }
+        }
+    }
+
     return (
         <>
 
-        <div className={`${item?.on_sale ?"" :"opacity-70"} w-full flex flex-col items-center justify start`}>
+        <div className={`${item?.on_sale ?"" :"opacity-50"} w-full flex flex-col items-center justify start`}>
 
                 <div className={` w-full aspect-[0.7334] flex flex-col items-center justify-between rounded-[1.6rem] ${theme==='dark' ?'bg-primary-dark-b shadow-[0px_12px_20px_0px_#062940]' : 'bg-white shadow-[0px_12px_20px_0px_rgba(0,_0,_0,_0.10)]' } `}>
                     <div className='w-full flex flex-col items-center justify-start'>
@@ -234,7 +263,7 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
                     <Button
                         onClick={()=>{
                             if(item?.on_sale ){
-                                setDialog(true)
+                                setCancelDialog(true)
                             }else  setDialog(true)
                         }}
 
@@ -333,6 +362,24 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
             </form>
         </div>
     </AzDialog>
+
+            <AzDialog open={cancelDialog} handler={()=>setCancelDialog(false)} size={'sm'}>
+                <DialogHeader>
+                   <div className={'text-[1rem]'}> Are you sure to cancel On Sale ?</div>
+                </DialogHeader>
+                <DialogFooter>
+                    <div>
+
+                    </div>
+                    <RegisterBtn loading={createPending} otherClass={'bg-[#3F3F3F]/50 text-white lg:w-[8rem] mt-3 mx-1'} onClick={cancelOnSale}>
+                        Yes
+                    </RegisterBtn>
+                    <RegisterBtn   otherClass={'lg:w-[8rem] mt-3 mx-1'}  onClick={()=>setCancelDialog(false)}>
+                        No
+                    </RegisterBtn>
+                </DialogFooter>
+
+            </AzDialog>
   </>
     );
 };
