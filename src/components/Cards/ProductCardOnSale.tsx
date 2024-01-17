@@ -17,7 +17,7 @@ import RegisterBtn from "@/components/Buttons/RegisterBtn";
 import toast from "react-hot-toast";
 import {AxiosError} from "axios";
 
-const ProductCardOnSale = ({item , theme , measureOptions} : any) => {
+const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , submitting} : any) => {
     const [dialog ,setDialog] = useState(false)
     const [selectedMeasure , setSelectedMeasure] = useState<any>({value:'kilogram', label : 'kilogram'} )
 
@@ -73,6 +73,7 @@ const ProductCardOnSale = ({item , theme , measureOptions} : any) => {
             const d = await createMutateAsync({formData , id : item?.id})
             setDialog(false)
             toast.success("Your Product Added To Az Provider On Sales successfully!")
+            setSubmitting(submitting + 1)
         }catch (err) {
             setDialog(false)
             if(err instanceof AxiosError){
@@ -206,7 +207,9 @@ const ProductCardOnSale = ({item , theme , measureOptions} : any) => {
                         <div className='flex flex-row items-center justify-start'>
                             <Image src={'/union.svg'} alt={'union'} width={10} height={10} />
                             <div className='ml-1 text-[#FF4B23]  '>
-                                <span className='font-bold'> { item?.price  ? item?.price : ' - '} </span> <span className='ml-1'> /Cash</span>
+                                <span className='text-[0.6rem] absolute translate-y-[-0.6rem] line-through text-[#A1A1A1]'> { item?.on_sale_price ? item?.price  : ''} </span>
+
+                                <span className='font-bold'> { item?.on_sale_price  ? item?.on_sale_price : item?.price ? item?.price  : ' - '} </span> <span className='ml-1'> /Cash</span>
                             </div>
                         </div>
                         <div className={`flex flex-row items-center justify-start ${theme === 'dark' ? 'text-white' : 'text-primary-dark-b'} `}>

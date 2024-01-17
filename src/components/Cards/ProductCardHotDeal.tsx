@@ -17,7 +17,7 @@ import RegisterBtn from "@/components/Buttons/RegisterBtn";
 import toast from "react-hot-toast";
 import {AxiosError} from "axios";
 
-const ProductCardHotDeal = ({item , theme , measureOptions} : any) => {
+const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , submitting} : any) => {
     const [dialog ,setDialog] = useState(false)
     const [selectedMeasure , setSelectedMeasure] = useState<any>({value:'kilogram', label : 'kilogram'} )
 
@@ -206,7 +206,10 @@ const ProductCardHotDeal = ({item , theme , measureOptions} : any) => {
                         <div className='flex flex-row items-center justify-start'>
                             <Image src={'/union.svg'} alt={'union'} width={10} height={10} />
                             <div className='ml-1 text-[#FF4B23]  '>
-                                <span className='font-bold'> { item?.price  ? item?.price : ' - '} </span> <span className='ml-1'> /Cash</span>
+
+                                <span className='text-[0.6rem] absolute translate-y-[-0.6rem] line-through text-[#A1A1A1]'> { item?.hot_deal_price ? item?.price  : ''} </span>
+
+                                <span className='font-bold'> { item?.on_sale_pricehot_deal_price  ? item?.hot_deal_price : item?.price ? item?.price  : ' - '} </span> <span className='ml-1'> /Cash</span>
                             </div>
                         </div>
                         <div className={`flex flex-row items-center justify-start ${theme === 'dark' ? 'text-white' : 'text-primary-dark-b'} `}>

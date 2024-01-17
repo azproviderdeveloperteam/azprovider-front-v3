@@ -7,6 +7,7 @@ import ProductCardOnSale from "@/components/Cards/ProductCardOnSale";
 import {getAllMeasure} from "@/services/measurementServices";
 const OnSalePage = () => {
     const [activeTab, setActiveTab] = useState<any>('All');
+    const [submitting , setSubmitting]= useState<any>(0)
     const [measureOptions , setMeasureOptions] = useState<any>([{value:'kilogram', label : 'kilogram'}] )
     const data = [
         {
@@ -31,7 +32,7 @@ const OnSalePage = () => {
     ]
 
     const {data : productsData, isPending :productsPending, error : productsError} = useQuery({
-        queryKey: ['get-dashboard-products' ],
+        queryKey: ['get-dashboard-products' ,submitting],
         queryFn: getDashboardProducts,
         retry:false,
     })
@@ -94,7 +95,7 @@ const OnSalePage = () => {
                                     productsData?.data?.results?.map((item : any ,index : number)=>{
                                         return(
                                             <div className={`${index===0 ? ' ' :''}  w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`} key={index+1}>
-                                                <ProductCardOnSale item={item} theme={'light'} measureOptions={measureOptions}/>
+                                                <ProductCardOnSale item={item} theme={'light'} measureOptions={measureOptions} setSubmitting={setSubmitting} submitting={submitting}/>
                                             </div>
                                         )
                                     })
@@ -112,7 +113,7 @@ const OnSalePage = () => {
                                         productsData?.data?.results?.map((item : any ,index : number)=>{
                                             return(
                                                 <div className={`${index===0 ? ' ' :''}  w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`} key={index+1}>
-                                                    <ProductCardOnSale item={item} theme={'light'} measureOptions={measureOptions}/>
+                                                    <ProductCardOnSale item={item} theme={'light'} measureOptions={measureOptions} setSubmitting={setSubmitting} submitting={submitting}/>
                                                 </div>
                                             )
                                         })

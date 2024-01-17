@@ -12,6 +12,7 @@ const HotDealsPage = () => {
 
     const [activeTab, setActiveTab] = useState<any>('All');
     const [measureOptions , setMeasureOptions] = useState<any>([{value:'kilogram', label : 'kilogram'}] )
+    const [submitting , setSubmitting]= useState<any>(0)
 
     const data = [
         {
@@ -41,7 +42,7 @@ const HotDealsPage = () => {
         retry:false,
     })
     const {data : productsData, isPending :productsPending, error : productsError} = useQuery({
-        queryKey: ['get-dashboard-products' ],
+        queryKey: ['get-dashboard-products',submitting ],
         queryFn: getDashboardProducts,
         retry:false,
     })
