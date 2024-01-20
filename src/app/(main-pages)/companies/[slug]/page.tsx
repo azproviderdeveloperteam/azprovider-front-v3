@@ -1,11 +1,11 @@
- import React from 'react';
+import React from 'react';
 import { getCompanyDetails} from "@/services/companyServices";
 import Image from "next/image";
 import noImage from '@/public/no-image.svg'
 import SsrIconBtn from "@/components/Buttons/SsrIconBtn";
 import ProductCard from "@/components/Cards/ProductCard";
  import AvatarSsr from "@/components/Cards/AvatarSsr";
-//
+
 export const dynamicParams = false
 export const dynamic = 'force-static'
 export async function generateStaticParams() {
@@ -25,7 +25,7 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
 
     return (
         <div className='w-full py-28 '>
-            <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full '>
+            <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full  px-[5%] lg:px-0'>
                 <Image src={data?.business_information?.logo ? `${process.env.MEDIA_URL}${data?.business_information?.logo}` : noImage?.src} alt={data?.business_information?.name} height={200} width={500} className={'w-full h-[17rem] object-cover rounded-[1.3rem]'} />
                 <AvatarSsr src={data?.business_information?.logo ? `${process.env.MEDIA_URL}${data?.business_information?.logo}` : noImage?.src} alt={data?.business_information?.name} className={'w-[7rem] h-[7rem] object-cover rounded-[1.3rem] translate-x-[4rem] translate-y-[-4.5rem] shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.24)]'} />
 
@@ -107,6 +107,57 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
                                     ' - '
                             }
                         </div>
+                    </div>
+
+                    <h3 className='mt-5 font-bold text-[1.1rem] text-primary-dark-b'>
+                        Certificates
+                    </h3>
+                    <div className='w-full grid grid-cols-1 md:grid-cols-2 gap-4 my-4'>
+                        {
+                            data?.certificates?.map((item: any ,index : number)=>{
+                                return(
+                                    <div key={index+1} className='flex flex-row items-center justify-start'>
+                                        <Image src={item?.file ? `${process.env.MEDIA_URL}${item?.file}` : noImage?.src} alt={item?.title} height={80} width={80} className={'object-cover rounded-[0.6rem'} />
+                                        <div className='flex flex-col items-start justify-start ml-2'>
+                                            <h4>
+                                                {item?.title}
+                                            </h4>
+                                            <p>
+                                                {item?.grade}
+                                            </p>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+
+
+                    </div>
+
+
+
+                    <h3 className='mt-5 font-bold text-[1.1rem] text-primary-dark-b'>
+                        Membership
+                    </h3>
+                    <div className='w-full grid grid-cols-1 md:grid-cols-2 gap-4 my-4'>
+
+
+                                    <div  className='flex flex-row items-center justify-start'>
+                                        <Image src={data?.membership?.file ? `${process.env.MEDIA_URL}${data?.membership?.file}` : noImage?.src} alt={data?.membership?.title} height={80} width={80} className={'object-cover rounded-[0.6rem'} />
+                                        <div className='flex flex-col items-start justify-start ml-2'>
+                                            <h4>
+                                                {data?.membership?.serial_number}
+                                            </h4>
+                                            <p>
+                                                {data?.membership?.description}
+                                            </p>
+                                        </div>
+                                    </div>
+
+
+
+
+
                     </div>
 
                     {
