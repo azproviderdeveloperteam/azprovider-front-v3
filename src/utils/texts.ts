@@ -76,8 +76,8 @@ export const texts = {
 
         homePage:{
             welcomeCard:{
-                title:"Implement Your Business Path Powerful and Easy",
-                subtitles:['Search Engine Source','Search Engine Document Number','Search Engine Support'],
+                title:"Global wholesale market",
+                subtitles:['One Hot Deal at a Time','Quest in HS Code','Get the best On sale'],
                 searchBox:{
                     placeholder:"Find Your Product or Service",
                     btn:'Search Everything',
@@ -87,12 +87,19 @@ export const texts = {
             } ,
             aboutUs : {
                 title:"About AZ Provider",
-                desc:"Lorem ipsum dolor sit amet consectetur. Non non lorem tellus feugiat dui gravida fermentum facilisi feugiat. Diam dignissim lectus lacinia aliquam sollicitudin sagittis auctor tellus. Dui amet arcu adipiscing rhoncus. Adipiscing augue tempus pellentesque venenatis tempus laoreet. Egestas mauris eget enim id sed interdum. Eget tortor quam viverra adipiscing hac. Velit nunc nunc suspendisse nunc vestibulum vitae. Ullamcorper nibh metus elit non vel dictum volutpat venenatis ipsum. Aliquam leo penatibus interdum magna erat nec. Non augue urna phasellus lectus pellentesque. Vitae amet nibh ultrices sed lectus pretium nulla eleifend. Lorem commodo pharetra et orci interdum nisi neque pretium. Volutpat imperdiet ultrices arcu eget. Dui mattis odio scelerisque sit sed non.\n" +
-                    "Dui pretium sed sed facilisis quis integer. Est ac cras urna tellus nullam. Magna mi dolor nibh elementum aliquam ullamcorper elit est feugiat. Curabitur vel malesuada vel aliquam nunc duis dolor. Ac fermentum mattis suscipit sed augue. Maecenas at elementum diam massa nullam. Hac suspendisse dapibus sit viverra et mi facilisi quis ullamcorper. Tristique vestibulum neque lectus id et eros metus nunc enim. Interdum ullamcorper felis magna dignissim molestie ut. Aliquam pharetra purus nibh facilisis maecenas urna. Dictumst sed nulla penatibus fames faucibus et et."
+                desc: "With a history dating back to 2010, We began as a supply chain company and have since expanded our range of services to include a digital platform, providing greater accessibility and convenience to our clients. Our platform offers a diverse selection of products, enabling buyers to efficiently source raw materials and finished goods from a variety of reliable suppliers across the globe based on HS Codes, Our suppliers are carefully selected to ensure that they meet our high standards for quality, reliability, and affordability. Whether you're a small business owner or a large corporation, our platform has everything you need to succeed in today's competitive marketplace. We are committed to providing a seamless and efficient experience, ensuring that our clients can focus on expanding their businesses without the added stress of supply chain management. We strive to continuously improve our platform to meet the ever-changing needs of our clients. We invite you to experience the benefits of Azprovider.com and explore our platform to discover how we can assist you in your business endeavors\n" +
+                    "We pride ourselves on our professional and knowledgeable team members who possess a deep understanding of the industry. We are dedicated to providing our clients with the highest level of service and support. Our team is always available to answer your questions and help you find the products or services you need\n"
             },
             ourResponsive:{
                 title:"Use Our Responsive With All Features" ,
-                desc:"Dui pretium sed sed facilisis quis integer. Est ac cras urna tellus nullam. Magna mi dolor nibh elementum aliquam ullamcorper elit est feugiat. Curabitur vel malesuada vel aliquam nunc duis dolor. Ac fermentum mattis suscipit sed augue.",
+                desc:["Free registration and login to portal\n" ,
+                    "Full access after free login \n",
+                    "Hide your details and communicate by internal Chat service\n",
+                    "No limitation to access companies details and products properties after login\n" ,
+                    "Incredible discount in On Sale based on HSCode every moment \n" ,
+                    "Wonderful price in Hot Deal based on HSCode\n",
+                    "Amazing Offers in Pri Invoice based on HSCode\n",
+                    "Pay 0.1% after deal"],
                 analytics:["Companies" , "Products" , "Services"]
             },
             products:{
@@ -145,7 +152,7 @@ export const texts = {
             }
         },
         login:{
-            sayWelcome:"Say a pleasure welcome",
+            sayWelcome:"Yes I know!!!",
             otp:{
                 title:"OTP code",
                 sendCode:"Send Code",
@@ -187,7 +194,7 @@ export const texts = {
             }
         },
         register:{
-            sayWelcome:"Say a pleasure welcome",
+            sayWelcome:"Yes I know!!!",
             title:"Register Account",
             emailOrPhone:"Email Or phone",
             sendCode:"Send Code",

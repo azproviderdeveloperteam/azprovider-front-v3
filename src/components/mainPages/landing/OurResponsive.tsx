@@ -13,9 +13,15 @@ const OurResponsive = () => {
                     <h2 className='w-full font-bold text-[3.5rem]  text-left text-primary-dark-b'>
                         {myTexts.title}
                     </h2>
-                    <p className='w-full text-[1rem] text-justify text-primary-dark-b'>
-                        {myTexts.desc}
-                    </p>
+                    <div className='w-full text-[1rem] text-justify text-primary-dark-b'>
+                        {myTexts.desc.map((item:string ,index:number)=>{
+                            return(
+                                <li key={index+1}>
+                                    {item}
+                                </li>
+                            )
+                        })}
+                    </div>
 
                     <div className='w-full flex flex-row item-center justify-between flex-wrap'>
                         {

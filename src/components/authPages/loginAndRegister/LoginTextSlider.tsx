@@ -6,13 +6,13 @@ const LoginTextSlider = ({theme}:any) => {
 
     const fakeData = [
         {
-            text:"Lorem ipsum dolor sit amet consectetur. Non non lorem tellus feugiat dui gravida feanitume facilisi feugiat."
+            text:"Looking for high-quality products and service at competitive prices"
         },
         {
-            text:"Lorem ipsum dolor sit amet consectetur. Non non lorem tellus feugiat dui gravida feanitume facilisi feugiat."
+            text:"You are in the wholesale Hub and we are facilitating connections between trusted buyers and suppliers"
         },
         {
-            text:"Lorem ipsum dolor sit amet consectetur. Non non lorem tellus feugiat dui gravida feanitume facilisi feugiat."
+            text:"Global supply chain. ” Take best price on Hot Deal & Grab the best On Sale “"
         },
     ]
     return (
