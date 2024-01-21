@@ -4,6 +4,7 @@ import {getAllProducts} from "@/services/productSevices";
 import ProductsPageFilters from "@/components/productsPage/ProductsPageFilters";
 import ProductsPageSortFilters from "@/components/productsPage/ProductsPageSortFilters";
 import ProductCard from "@/components/Cards/ProductCard";
+import Link from "next/link";
 
 const ProductsPage = async ({searchParams} : any) => {
     const sort = searchParams?.sort
@@ -33,9 +34,9 @@ const ProductsPage = async ({searchParams} : any) => {
                         {
                             data?.data?.results?.map((item : any , index:number)=>{
                                return  (
-                                   <div className={`${index===0 ? ' ' :''}  w-[20%] min-w-[21rem] snap-start overflow-visible pt-4 pb-7 px-4`} key={index+1}>
+                                   <Link href={`/products/${item?.id}`} className={`${index===0 ? ' ' :''}  w-[20%] min-w-[21rem] snap-start overflow-visible pt-4 pb-7 px-4`} key={index+1}>
                                        <ProductCard item={item} theme={'light'}/>
-                                   </div>
+                                   </Link>
                                )
                             })
                         }

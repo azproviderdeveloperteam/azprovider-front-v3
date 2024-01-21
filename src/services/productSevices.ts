@@ -10,3 +10,7 @@ export async function  getNewestHotDealProducts(){
 export async function  getNewestOnSaleProducts(){
     return await  instance.get('products/get-newest-on-sales/')
 }
+
+export async function  getProductDetails(id : any){
+    return await  instance.get(`products/get-product-details/${id}`, )
+}
