@@ -5,19 +5,10 @@ import LightBtn from "@/components/Buttons/LightBtn";
 import Link from "next/link";
 import {texts} from "@/utils/texts";
 import HeaderCheckUserLogin from "@/components/mainPages/HeaderCheckUserLogin";
-import { headers } from "next/headers";
 
 
 const Header = ({theme}:any) => {
     const text = texts.eng.main.header
-
-    const headersList = headers();
-    const domain = headersList.get("x-forwarded-host") || "";
-    const protocol = headersList.get("x-forwarded-proto") || "";
-    const pathname = headersList.get("x-invoke-path") || "";
-
-
-
     return (
         <header className='w-full fixed top-0 left-0 px-3 backdrop-blur-md z-50 b mix-blend-difference'>
             <div className='max-w-[98vw] m-auto w-full h-20 flex flex-row item-center justify-between'>
