@@ -11,25 +11,29 @@ import LooksOurBenefitsLanding from "@/components/mainPages/landing/LookOurBenef
 import CommentsLanding from "@/components/mainPages/landing/CommentsLanding";
 import Header from "@/components/mainPages/Header";
 import Footer from "@/components/mainPages/Footer";
-import React from "react";
+import React , { Suspense }from "react";
 
 export default function Home() {
   return (
-    <main className="text-primary-green-lg100 bg-secondary-red">
-        <Header theme={'white-black'}/>
-        <WelcomeCard />
-        <AboutAzLanding />
-        <OurResponsive />
-        <SuggestedCarouselProvider />
-        <ProductsListLanding />
-        <ServicesListLandingPage />
-        <HotDealsLandingPage />
-        <LooksOurBenefitsLanding />
-        <OnSaleLandingPage />
-        <PreInvoiceLanding />
-        <CommentsLanding />
+      <Suspense fallback={<></>} >
 
-        <Footer />
-    </main>
+
+                <main className="text-primary-green-lg100 bg-secondary-red">
+                    <Header theme={'white-black'}/>
+                    <WelcomeCard />
+                    <AboutAzLanding />
+                    <OurResponsive />
+                    <SuggestedCarouselProvider />
+                    <ProductsListLanding />
+                    <ServicesListLandingPage />
+                    <HotDealsLandingPage />
+                    <LooksOurBenefitsLanding />
+                    <OnSaleLandingPage />
+                    <PreInvoiceLanding />
+                    <CommentsLanding />
+
+                    <Footer />
+                </main>
+      </Suspense>
   )
 }
