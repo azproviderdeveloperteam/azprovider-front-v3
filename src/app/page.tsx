@@ -9,10 +9,14 @@ import OnSaleLandingPage from "@/components/mainPages/landing/OnSaleLandingPage"
 import PreInvoiceLanding from "@/components/mainPages/landing/PreInvoiceLanding";
 import LooksOurBenefitsLanding from "@/components/mainPages/landing/LookOurBenefitslanding";
 import CommentsLanding from "@/components/mainPages/landing/CommentsLanding";
+import Header from "@/components/mainPages/Header";
+import Footer from "@/components/mainPages/Footer";
+import React from "react";
 
 export default function Home() {
   return (
     <main className="text-primary-green-lg100 bg-secondary-red">
+        <Header theme={'white-black'}/>
         <WelcomeCard />
         <AboutAzLanding />
         <OurResponsive />
@@ -24,6 +28,8 @@ export default function Home() {
         <OnSaleLandingPage />
         <PreInvoiceLanding />
         <CommentsLanding />
+
+        <Footer />
     </main>
   )
 }
