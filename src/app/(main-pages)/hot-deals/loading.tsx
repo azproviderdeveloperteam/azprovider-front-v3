@@ -2,10 +2,10 @@
 import React from 'react';
 import FullPageLoading from "@/components/loaders/FullPageLoading";
 
-const ProductsLoading = () => {
+const ProductsHotDealLoading = () => {
     return (
         <FullPageLoading/>
     );
 };
 
-export default ProductsLoading;
+export default ProductsHotDealLoading;
