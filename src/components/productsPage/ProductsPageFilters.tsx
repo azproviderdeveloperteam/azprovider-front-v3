@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ProductsPageFilters = () => {
+const ProductsPageFilters = ({page} : any) => {
     return (
         <div className='w-full flex flex-row items-center justify-between'>
 
