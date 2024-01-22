@@ -16,7 +16,7 @@ const HotDealsPage =async ({searchParams} : any) => {
                 >
                     <div className={`fixed top-24 pt-[1rem] h-[calc(100vh-6.5rem)] rounded-[15px]    min-w-[4.8rem] max-w-[10.8rem] transition transition-all ease-in delay-150 duration-1500 `}>
                         <div className='h-[122rem]'>
-                            <ProductsPageFilters page={'on-sales'}/>
+                            <ProductsPageFilters page={'hot-deals'}/>
                         </div>
                     </div>
                 </div>
@@ -24,7 +24,7 @@ const HotDealsPage =async ({searchParams} : any) => {
                 <div className={`inline-block transition transition-all w-full    lg:w-[calc(100%-11rem)] ease-in delay-150 duration-1500  min-h-[calc(100vh-0px)]`}>
                     <div className={`sticky z-[1] top-[5rem] md:h-[112px] w-full  mx-3]`}>
                         <div className='w-full h-full md:px-0   lg:rounded-[15px]'>
-                            <ProductsPageSortFilters page={'on-sales'} sort={searchParams?.sort} productsLength={data?.data?.results?.length}/>
+                            <ProductsPageSortFilters page={'hot-deals'} sort={searchParams?.sort} productsLength={data?.data?.results?.length}/>
                         </div>
                     </div>
 
