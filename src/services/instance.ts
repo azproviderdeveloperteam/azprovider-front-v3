@@ -1,11 +1,11 @@
 import axios from "axios";
 import {baseUrl} from "@/utils/config";
-// axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true
 import Cookies from "js-cookie";
 
 const cookieToken = Cookies.get('cookieToken');
 const refreshJwt = Cookies.get('refreshJwt');
- const app =  axios.create({
+export const app =  axios.create({
     withCredentials:true,
     baseURL:`https://${baseUrl}`,
 
@@ -13,7 +13,7 @@ const refreshJwt = Cookies.get('refreshJwt');
         accept: 'application/json',
         'Content-Type': 'application/json',
         Accept:'application/json',
-        ...( (cookieToken ?  cookieToken?.toString()?.length > 12 : false)  && {Authorization: `Bearer ${cookieToken}`})
+        // ...( (cookieToken ?  cookieToken?.toString()?.length > 12 : false)  && {Authorization: `Bearer ${cookieToken}`})
     }
 })
 

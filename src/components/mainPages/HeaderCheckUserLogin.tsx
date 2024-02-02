@@ -1,13 +1,18 @@
 'use client'
 import React from 'react';
-import {useGetUser} from "@/hooks/useAuth";
 import LightBtn from "@/components/Buttons/LightBtn";
 import Link from "next/link";
+import {useQuery} from "@tanstack/react-query";
+import {getProfile} from "@/services/userProfileServices";
 
 const HeaderCheckUserLogin = ({text , black} : any) => {
-    const {data , isLoading , error} = useGetUser()
-
-    return (
+    const {data , isLoading , error} = useQuery({
+        queryKey:['get-user-profile-header'],
+        queryFn:getProfile,
+        retry:false ,
+        refetchOnWindowFocus: true
+    })
+     return (
         isLoading ? null :
         data?.data?.az_account_type === 'user' ?
             <Link href={'/dashboard'}>

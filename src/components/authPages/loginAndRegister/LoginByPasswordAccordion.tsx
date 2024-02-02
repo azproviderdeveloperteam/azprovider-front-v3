@@ -16,7 +16,7 @@ import {useMutation} from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import {useAuthActions} from "../../../contexts/AuthContext";
 import {useRouter} from "next/navigation";
-
+import { app } from "@/services/instance";
 
 const LoginByPasswordAccordion = () => {
 
@@ -76,6 +76,7 @@ const LoginByPasswordAccordion = () => {
             Cookies.set('cookieToken', token);
             Cookies.set('refreshJwt', refresh);
             toast.success('Login Successfully !')
+            app.defaults.headers.Authorization = `Bearer ${token}`;
             router.push('/dashboard')
 
         }catch (err){
@@ -106,6 +107,7 @@ const LoginByPasswordAccordion = () => {
             Cookies.set('cookieToken', token);
             Cookies.set('refreshJwt', refresh);
             toast.success('Login Successfully !')
+            app.defaults.headers.Authorization = `Bearer ${token}`;
             router.push('/dashboard')
 
         }catch (err){

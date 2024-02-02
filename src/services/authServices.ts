@@ -1,5 +1,6 @@
 import instance from "@/services/instance";
-
+import {getJWT} from "@/utils/helpers";
+const jwt = getJWT('from getMeService')
 export async function  registerSendOtp(data : any){
     return await  instance.post('user/send-verification-code/' ,data)
 }
@@ -58,9 +59,16 @@ export async function  loginSendOtp(data : any){
 
 
 
-export async function getProfile(){
-    return await instance.get('user/get-data/')
-}
+// export async function getProfile(){
+//     return await instance.get('user/get-data/',{
+//         headers:{
+//             accept: 'application/json',
+//             'Content-Type': 'application/json',
+//             Accept:'application/json',
+//             Authorization: `Bearer ${jwt}`
+//         }
+//     })
+// }
 export async function getHsCodes(){
     return await instance.get('hscodes/get-data/')
 }

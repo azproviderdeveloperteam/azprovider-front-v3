@@ -8,9 +8,9 @@ import ProductCard from "@/components/Cards/ProductCard";
 
 export const dynamicParams = false
 export const dynamic = 'force-static'
-export async function generateStaticParams() {
-    return [{slug:'32'}]
-}
+// export async function generateStaticParams() {
+//     return [{slug:'32'}]
+// }
 const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
 
             const {data} = await getCompanyDetails(params?.slug)
