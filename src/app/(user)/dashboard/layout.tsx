@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import React, { Suspense } from "react";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import DashboardMainLayout from "@/components/dashboard/DashboardMainLayout";
+import ChatProvider from "../../../contexts/ChatContext";
 
 
 
@@ -17,10 +18,11 @@ export default function RootLayout({
 }) {
     return (
         <Suspense fallback={<></>}>
+            <ChatProvider>
            <DashboardMainLayout>
                {children}
            </DashboardMainLayout>
-
+            </ChatProvider>
 
         </Suspense>
     );

@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation'
 import {useAuth, useAuthActions} from "../../../contexts/AuthContext";
+import {app} from "@/services/instance";
 
 const LoginByOtpAccordion = () => {
 
@@ -73,6 +74,7 @@ const LoginByOtpAccordion = () => {
             const refresh = da?.data?.token?.refresh
             Cookies.set('cookieToken', token);
             Cookies.set('refreshJwt', refresh);
+            app.defaults.headers.Authorization = `Bearer ${token}`;
             dispatch({type:"SET_TOKEN" , value:token})
             setStep(1)
 
@@ -131,6 +133,7 @@ const LoginByOtpAccordion = () => {
             Cookies.set('cookieToken', token);
             Cookies.set('refreshJwt', refresh);
             dispatch({type:"SET_TOKEN" , value:token})
+            app.defaults.headers.Authorization = `Bearer ${token}`;
             toast.success('Login Successfully !')
             router.push('/dashboard')
 

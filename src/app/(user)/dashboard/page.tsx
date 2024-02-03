@@ -7,10 +7,15 @@ import ActivityChart from "@/components/dashboardPages/dahsboard/ActivityChart";
 import UserCard from "@/components/dashboardPages/dahsboard/UserCard";
 import Notifications from "@/components/dashboardPages/dahsboard/Notifications";
 import ChatDashboard from "@/components/dashboardPages/dahsboard/ChatDashboard";
+import {useChat, useChatAction} from "../../../contexts/ChatContext";
 const DashboardPage = () => {
+    const chatDispatch = useChatAction()
+    const {chatData} = useChat()
 
     const [viewUpgrade ,setViewUpgrade ] = useState(true)
     const [rightBig , setRightBig] = useState(true)
+
+    console.log(chatData)
     return (
         <div className='w-full overflow-y-auto px-5'>
             {
