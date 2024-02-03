@@ -1,8 +1,9 @@
 'use client'
 
-import {createContext, useContext, useEffect, useReducer, useState} from "react";
+import {createContext, useContext, useEffect, useLayoutEffect, useReducer, useState} from "react";
 import Cookies from "js-cookie";
 import {app} from "@/services/instance";
+import { useRouter } from 'next/navigation'
 
 
 const AuthContext = createContext({})
@@ -33,11 +34,11 @@ const reducer = (state :any, action:any ):any=>{
 
 const AuthProvider = ({children}:any)=>{
     const [user , dispatch] = useReducer<any>(reducer,initialState)
-
+    const router = useRouter()
     const [loading ,setLoading] = useState(true)
-    useEffect(()=>{
+    useLayoutEffect(()=>{
         setLoading(true)
-
+        console.log(window?.location?.pathname)
         const cookieToken = Cookies.get('cookieToken');
         const refreshJwt = Cookies.get('refreshJwt');
         if(cookieToken){
@@ -47,6 +48,9 @@ const AuthProvider = ({children}:any)=>{
         }else {
             delete app.defaults.headers.Authorization
             setLoading(false)
+            if(window?.location?.pathname?.includes('/dashboard')){
+                router.push('/login')
+            }
 
         }
     },[])
