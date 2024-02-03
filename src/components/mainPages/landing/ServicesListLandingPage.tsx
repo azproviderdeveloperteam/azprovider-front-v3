@@ -78,6 +78,7 @@ const ServicesListLandingPage = () => {
                 </div>
 
                 <div className='mt-5 w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
+
                     {
                         fakeData.map((item ,index)=>{
                             return(
