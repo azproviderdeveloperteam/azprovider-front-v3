@@ -104,7 +104,7 @@ const reducer = (state : any , action : any ):any=> {
 }
 
 
-const ChatProvider = ({children})=>{
+const ChatProvider = ({children} : any)=>{
     const [chatData , dispatch ] = useReducer(reducer,initialState)
     const {data , isLoading , error} = useQuery({
         queryKey:['get-user-profile-header'],

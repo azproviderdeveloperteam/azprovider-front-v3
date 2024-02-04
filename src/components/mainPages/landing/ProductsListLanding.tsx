@@ -89,7 +89,7 @@ const ProductsListLanding = () => {
                 </div>
                 <div className='w-full mt-5 flex flex-row items-start justify-start flex-wrap'>
                     {
-                        fakeData.map((item ,index)=>{
+                        fakeData.map((item:any ,index:number)=>{
                             return(
                                 <div className={'w-[10.5%] min-w-[7.2rem] mr-[2%] mt-3'} key={index+1}>
                                     <ProductCategoryCard src={item.src} title={item.title} color={'light'}/>

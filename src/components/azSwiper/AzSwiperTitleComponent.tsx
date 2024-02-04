@@ -12,6 +12,8 @@ interface propsType {
     children: ReactNode;
     allLink: string;
     threeSlides?: boolean;
+    countMobile?: number ,
+    countDesktop? : number
 }
 
 // Creating and exporting category game with titles component as default

@@ -41,7 +41,7 @@ const OnSaleLandingPage = async () => {
             <div className={'md:hidden'}>
                 <AzResponsiveSwiper countDesktop={4} countMobile={2} title={''} count={data.length} allLink={'#'}>
                     {
-                        data.map((item, index) => (
+                        data.map((item:any ,index:number) => (
                             <SwiperSlide key={index}>
                                 <div className={`${index===0 ? ' ' :''} pb-7 px-2`} key={index+1}>
                                     <ProductCard item={item} theme={'dark'}/>
@@ -56,7 +56,7 @@ const OnSaleLandingPage = async () => {
                     data?.length > 4  ?
                         <AzSwiperTitleComponent countDesktop={4} countMobile={2} title={''} count={data.length} allLink={'#'}>
                             {
-                                data.map((item, index) => (
+                                data.map((item:any ,index:number) => (
                                     <SwiperSlide key={index}>
                                         <div className={`${index===0 ? ' ' :''} pb-7 px-2`} key={index+1}>
                                             <ProductCard item={item} theme={'dark'}/>
