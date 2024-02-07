@@ -4,6 +4,7 @@ import Image from "next/image";
  import SsrIconBtn from "@/components/Buttons/SsrIconBtn";
 import ProductCard from "@/components/Cards/ProductCard";
  import {getProductDetails} from "@/services/productSevices";
+import SendRequestProductPage from "@/components/dialog/SendRequestProductPage";
 
 export const dynamicParams = false
 export const dynamic = 'force-static'
@@ -26,7 +27,7 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
 
     return (
         <div className='w-full py-28 '>
-            <div className='2xl:max-w-[95rem] 2xl:w-[95rem] m-auto w-full  px-[5%] 2xl:px-0'>
+            <div className='  m-auto w-full  px-[5%]  '>
 
                 <div className='w-full grid grid-cols-12 gap-4'>
 
@@ -103,6 +104,15 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
                                 {`${data?.size} ${data?.measure}`}
                             </div>
                         </div>
+
+                        <div className='flex flex-row items-center justify-start text-[1rem] mt-5'>
+                            <div className='w-2/5  text-[#8E8E8E] font-bold'>
+                                <SendRequestProductPage data={data}/>
+                            </div>
+
+
+                        </div>
+
                     </div>
                     <div className='col-span-11  lg:col-span-6'>
                         <Image src={'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'w-full aspect-[1.333] object-cover rounded-[2rem]'}/>

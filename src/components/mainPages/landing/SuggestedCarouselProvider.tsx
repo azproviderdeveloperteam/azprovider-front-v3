@@ -4,7 +4,7 @@ import { ThemeProvider } from "@material-tailwind/react";
 import SuggestedCarousel from "@/components/mainPages/landing/SuggestedCarousel";
 
 
-const SuggestedCarouselProvider = async () => {
+const SuggestedCarouselProvider = () => {
     const theme = {}
 
 

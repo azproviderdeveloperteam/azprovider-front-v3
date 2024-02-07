@@ -4,6 +4,7 @@ import {baseUrl} from "@/utils/config";
 import Pusher from 'pusher-js';
 import {useQuery} from "@tanstack/react-query";
 import {getProfile} from "@/services/userProfileServices";
+import {getUserChats} from "@/services/chatServices";
 
 //types
 // type chatType = {
@@ -14,7 +15,7 @@ const ChatContext = createContext({})
 const ChatContextDispatcher =createContext({})
 
 const pusher = new Pusher("527a5a80b22f8ace48f1" ,{cluster: "ap2"} )
-
+Pusher.logToConsole = true
 const initialState:any = {
     users : [] ,
     chatBox : [] ,
@@ -113,17 +114,27 @@ const ChatProvider = ({children} : any)=>{
         refetchOnWindowFocus: true
     })
 
-    useEffect(() => {
-        const userId = data?.data?.id
-        const channel = pusher.subscribe(`chat-messages-${userId}`);
+    const getChats = async ()=>{
+        try {
+            const d = await getUserChats()
+        }catch (e) {
 
-        channel.bind(`new-chat-messages-${userId}`, (data : any) => {
+        }
+    }
+
+    useEffect(() => {
+        getChats()
+        const userId = data?.data?.id
+        const channel = pusher.subscribe(`chats-${userId}`);
+        channel.logToConsole = true
+        channel.bind(`new-chat-${userId}`, (data : any) => {
             console.log(`Event received: ${data}`);
-            dispatch({type:"SET_DESK" , value :data})
+            // dispatch({type:"SET_DESK" , value :data})
         });
 
+
         return () => {
-            pusher.unsubscribe('notification-1');
+            pusher.unsubscribe(`chats-${userId}`);
         };
 
     }, [data]);

@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {texts} from "@/utils/texts";
 import ProductCard from "@/components/Cards/ProductCard";
 import {getNewestHotDealProducts} from "@/services/productSevices";
@@ -7,17 +7,32 @@ import Link from "next/link";
 import {SwiperSlide} from "swiper/react";
 import AzSwiperTitleComponent from "@/components/azSwiper/AzSwiperTitleComponent";
 import AzResponsiveSwiper from "@/components/azSwiper/AzResponsiveSwiper";
+import {useQuery} from "@tanstack/react-query";
 
-const HotDealsLandingPage = async () => {
+// const HotDealsLandingPage = async () => {
+const HotDealsLandingPage =  () => {
 
 
     const text = texts.eng
     const myTexts = text.homePage.hotDeals
 
-    const {data} = await getNewestHotDealProducts()
+    // const {data} = await getNewestHotDealProducts()
+    const [data , setData ] = useState<any>([])
+
+    const {data : d  , isLoading , error} = useQuery({
+        queryKey:['getNewestHotDealProducts'],
+        queryFn:getNewestHotDealProducts,
+        retry:false ,
+        refetchOnWindowFocus: true
+    })
+    useEffect(()=>{
+        setData(d?.data)
+    },[d])
 
 
+    console.log(d)
     return (
+
         <div className='w-full bg-primary-dark-b py-28 '>
             <div className='max-w-[71.2125rem] lg:w-[71.3125rem] m-auto w-full flex flex-col items-center justify-start text-white'>
                 <div className='w-full flex flex-row items-end justify-start'>
@@ -32,9 +47,9 @@ const HotDealsLandingPage = async () => {
 
 
             <div className={'md:hidden px-5'}>
-                <AzResponsiveSwiper countDesktop={4} countMobile={2} title={''} count={data.length} allLink={'#'}>
+                <AzResponsiveSwiper countDesktop={4} countMobile={2} title={''} count={data?.length} allLink={'#'}>
                     {
-                        data.map((item:any ,index:number) => (
+                        data?.map((item:any ,index:number) => (
                             <SwiperSlide key={index}>
                                 <div className={`${index===0 ? ' ' :''} pb-7 px-2`} key={index+1}>
                                     <ProductCard item={item} theme={'dark'}/>
@@ -49,9 +64,9 @@ const HotDealsLandingPage = async () => {
             <div className={data?.length > 4 ?  'hidden md:block mt-5 max-w-[95rem] lg:w-[95rem] m-auto overflow-hidden' :'mt-5 max-w-[95rem] lg:w-[95rem] m-auto w-full hidden md:flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory ' }>
                 {
                     data?.length > 4  ?
-                        <AzSwiperTitleComponent countDesktop={4} countMobile={2} title={''} count={data.length} allLink={'#'}>
+                        <AzSwiperTitleComponent countDesktop={4} countMobile={2} title={''} count={data?.length} allLink={'#'}>
                             {
-                                data.map((item:any ,index:number) => (
+                                data?.map((item:any ,index:number) => (
                                     <SwiperSlide key={index}>
                                         <div className={`${index===0 ? ' ' :''} pb-7 px-2`} key={index+1}>
                                         <ProductCard item={item} theme={'dark'}/>
@@ -75,6 +90,7 @@ const HotDealsLandingPage = async () => {
                 }
             </div>
         </div>
+
     );
 };
 
