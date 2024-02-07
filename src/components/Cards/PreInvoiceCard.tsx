@@ -1,6 +1,7 @@
 import React from 'react';
 import hexagon from "@/public/red-hexagon.svg";
 import {Tooltip} from "@material-tailwind/react";
+import Image from "next/image";
 
 const PreInvoiceCard = ({item , theme} : any) => {
 

@@ -126,7 +126,6 @@ const ChatProvider = ({children} : any)=>{
         getChats()
         const userId = data?.data?.id
         const channel = pusher.subscribe(`chats-${userId}`);
-        channel.logToConsole = true
         channel.bind(`new-chat-${userId}`, (data : any) => {
             console.log(`Event received: ${data}`);
             // dispatch({type:"SET_DESK" , value :data})

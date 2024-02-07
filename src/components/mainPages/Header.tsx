@@ -39,9 +39,6 @@ const Header = ({theme}:any) => {
 
                 <div className='flex flex-row items-center justify-end'>
                     <HeaderCheckUserLogin text={text} black={theme === 'white-black' ? false :true}/>
-
-
-
                     <MegaMenu className={'w-[1.6rem] cursor-pointer'} black={theme === 'white-black' ? false :true}/>
 
                 </div>

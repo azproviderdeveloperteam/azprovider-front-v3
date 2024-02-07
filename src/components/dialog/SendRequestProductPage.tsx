@@ -44,7 +44,7 @@ const SendRequestProductPage = ({data} : any) => {
 
 
 
-    const submitForm = async (e)=>{
+    const submitForm = async (e : any)=>{
         const formData = {
             target_user:data?.user?.id,
             quantity :parseInt(e?.quantity)  ,
@@ -195,10 +195,11 @@ const SendRequestProductPage = ({data} : any) => {
                                 </div>
                             </div>
                             {
-                                error &&
+                                error &&  error instanceof AxiosError ?
                                 <div className='w-full text-[0.8rem] text-secondary-red px-4 mt-2'>
                                     {error?.response?.data?.error ? error?.response?.data?.error : 'An Error Occurred'}
                                 </div>
+                                    : null
                             }
                         </div>
 
