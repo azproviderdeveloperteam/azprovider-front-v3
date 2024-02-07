@@ -11,7 +11,7 @@ const Header = ({theme}:any) => {
     const text = texts.eng.main.header
     return (
         <header className='w-full fixed top-0 left-0 px-3 backdrop-blur-md z-50 b mix-blend-difference'>
-            <div className='max-w-[98vw] m-auto w-full h-20 flex flex-row item-center justify-between'>
+            <div className='max-w-[98vw] m-auto w-full h-20 lg:flex flex-row item-center justify-between hidden '>
                 <Link href={'/'} className={'flex flex-row items-center justify-center'}>
                     <MainLogoImg className={'w-[10rem]'} black={theme === 'white-black' ? false : true}/>
                 </Link>

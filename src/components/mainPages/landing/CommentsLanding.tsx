@@ -100,9 +100,9 @@ const CommentsLanding = () => {
                         {
                             fakeData.map((item,index)=>{
                                 return(
-                                    <div key={index+1}  className={`w-1/3  relative  h-full  transition duration-500 flex-shrink-0 ${selectedSlider === index-1 ? '!z-10' : '!z-0'}`} style={{transform:`translate3d(${-selectedSlider * 100}%, 0, 0)`}}>
+                                    <div key={index+1}  className={`w-full lg:w-1/3  relative  h-full  transition duration-500 flex-shrink-0 ${selectedSlider === index-1 ? '!z-10' : '!z-0'}`} style={{transform:`translate3d(${-selectedSlider * 100}%, 0, 0)`}}>
                                        <div className={`w-full h-full flex flex-col items-center justify-end !relative  ` }>
-                                           <div className={`${selectedSlider === index-1 ? 'bg-[#EDA721]  scale-[1.2] ' : 'bg-[#B1B1B1] '} w-full   h-[6.6rem] rounded-[1.1rem]  transition duration-500`}>
+                                           <div className={`${selectedSlider === index-1 ? 'lg:bg-[#EDA721]  lg:scale-[1.2] ' : 'bg-[#B1B1B1] '} w-full   h-[6.6rem] rounded-[1.1rem]  transition duration-500`}>
                                                <p className='h-full w-full p-3 text-justify  text-[0.7rem] text-white'>
                                                    {item.desc}
                                                </p>

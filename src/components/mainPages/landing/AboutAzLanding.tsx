@@ -8,9 +8,9 @@ const AboutAzLanding = () => {
     return (
         <div className='w-full bg-secondary-yellow pt-[28rem] '>
 
-            <div className='max-w-[71.2125rem] lg:w-[71.3125rem] m-auto w-full flex flex-col items-center justify-start'>
+            <div className='max-w-[71.2125rem] lg:w-[71.3125rem] m-auto w-full flex flex-col items-center justify-start px-[5%] lg:px-0'>
 
-                <div className='w-full flex flex-row items-center justify-between'>
+                <div className='w-full flex flex-row items-center justify-between flex-wrap'>
                     <Image src={'/aboutus1.svg'} width={42} height={42} alt={'aboutus1'} className={'!w-[6rem] aspect-square'}/>
                     <Image src={'/aboutus2.svg'} width={42} height={42} alt={'aboutus2'}  className={'!w-[6rem] aspect-square'}/>
                     <Image src={'/aboutus3.svg'} width={42} height={42} alt={'aboutus3'}  className={'!w-[6rem] aspect-square'}/>

@@ -81,7 +81,7 @@ const SuggestedCarousel = () => {
                         return(
                             <div className='w-full bg-cover bg-center h-[41.3rem]' style={{backgroundImage:`url(${item.img})`}} key={index+1}>
                                 <div className='w-full h-full flex flex-row item-center justify-between py-10 px-[8%] text-white'>
-                                    <div className='h-full aspect-[1.2] bg-[rgba(0,0,0,0.34)] rounded-[2rem] backdrop-blur-md py-[1.3%] px-[1.5%] flex flex-col items-start justify-between'>
+                                    <div className='h-full aspect-[0.8] lg:aspect-[1.2] bg-[rgba(0,0,0,0.34)] rounded-[2rem] backdrop-blur-md py-[1.3%] px-[1.5%] flex flex-col items-start justify-between'>
                                         <div className='w-full flex flex-col items-start justify-start'>
                                             <div className='border-[1px] border-white rounded-[0.6rem] px-2 py-1'>
                                                 {`#01${(index+1)*1243}`}

@@ -71,7 +71,7 @@ const PreInvoiceLanding = () => {
     ]
 
     return (
-        <div className='w-full bg-white py-28'>
+        <div className='w-full bg-white py-28 px-[5%] lg:px-0'>
             <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-col items-center justify-start text-primary-dark-b'>
                 <div className='w-full flex flex-row items-end justify-start'>
                     <h2 className='text-left text-[4rem] font-bold leading-none'>
