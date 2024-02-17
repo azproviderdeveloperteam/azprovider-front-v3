@@ -1,7 +1,7 @@
 import type { Config } from 'tailwindcss'
 
-function withOpacity(variableName){
-    return ({ opacityValue }) =>{
+function withOpacity(variableName : any){
+    return ({ opacityValue }:any) =>{
       if(opacityValue !== undefined){
         return `rgba(var(${variableName}), ${opacityValue})`
       }else {
@@ -9,8 +9,12 @@ function withOpacity(variableName){
       }
     }
 }
+const withMT = require("@material-tailwind/react/utils/withMT");
 
-const config: Config = {
+// const config: Config = {
+
+module.exports = withMT({
+
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -31,8 +35,13 @@ const config: Config = {
             tb: withOpacity("--color-az-teal-blue"),
           } ,
           purple : {
+            300:withOpacity('--color-az-purple-300'),
             600:withOpacity('--color-az-purple-600'),
             800:withOpacity('--color-az-purple-800'),
+          },
+          gray:{
+            100:withOpacity('--color-az-gray-100'),
+            400:withOpacity('--color-az-gray-400')
           },
           dark : {
             g:withOpacity('--color-az-dark-green'),
@@ -50,5 +59,5 @@ const config: Config = {
     },
   },
   plugins: [],
-}
-export default config
+})
+// export default config
