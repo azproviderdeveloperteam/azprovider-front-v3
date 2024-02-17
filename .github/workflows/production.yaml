@@ -52,7 +52,7 @@ jobs:
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login ${{ env.DOCKER_HUB_URL }} -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
           echo " ------------- docker build nextjs image -------------"
-          docker-compose build --pull 
+          docker compose build --pull 
           
 
   Deploy:
@@ -70,7 +70,7 @@ jobs:
           cd ${{env.WORK_DIR}}/${{env.PROJECT_NAME}}
           
           echo " ------------- docker up nextjs container --------------"
-          docker-compose -f docker-compose.yml up -d --force-recreate --no-build
+          docker compose -f docker-compose.yml up -d --force-recreate --no-build
     
           echo "------------- docker prune old image ---------------"
           docker container prune --force
