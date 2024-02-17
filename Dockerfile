@@ -6,7 +6,8 @@ WORKDIR /app
 
 # Install dependencies
 COPY package.json ./
-RUN npm install --force
+#RUN npm install --force
+RUN yarn install --force
 
 # Copy app files
 COPY . .
