@@ -38,7 +38,6 @@ const AuthProvider = ({children}:any)=>{
     const [loading ,setLoading] = useState(true)
     useLayoutEffect(()=>{
         setLoading(true)
-        console.log(window?.location?.pathname)
         const cookieToken = Cookies.get('cookieToken');
         const refreshJwt = Cookies.get('refreshJwt');
         if(cookieToken){
