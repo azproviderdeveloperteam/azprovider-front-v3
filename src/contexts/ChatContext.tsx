@@ -19,7 +19,17 @@ Pusher.logToConsole = true
 const initialState:any = {
     users : [] ,
     chatBox : [] ,
-    deskChat : [],
+    deskChat : [
+        {
+            is_read:false ,
+            created_at:new Date(),
+            text:"lorem ipsum lorem  ",
+            chat_with:{
+                first_name:"test1",
+                last_name:""
+            }
+        }
+    ],
     newChat : false,
     timeNow :'',
     searching : false ,
