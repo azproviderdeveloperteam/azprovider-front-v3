@@ -6,7 +6,6 @@ const nextConfig = {
     env:{
         BACKEND_URL:'api.azprovider.com/api/',
         MEDIA_URL:'https://api.azprovider.com'
-
     },
 }
 
