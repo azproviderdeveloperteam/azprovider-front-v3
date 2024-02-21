@@ -34,7 +34,7 @@ const ChatDashboard = () => {
                     :
                     <div className='w-full h-[calc(100%-20px)] overflow-auto '>
                         {
-                            chatData?.deskChat?.map((item , index)=>{
+                            chatData?.deskChat?.map((item : any, index : number)=>{
                                 const r = Math.floor(Math.random() * 69);
                                 const date = new Date(item?.created_at)
                                 return(

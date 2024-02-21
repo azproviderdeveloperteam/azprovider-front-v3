@@ -267,7 +267,7 @@ const MegaMenuOpened = () => {
                                             {
                                                 [...Array(10)].map((itm : any , idx: number)=>{
                                                     return(
-                                                        <Tooltip content={item?.title} placement="top" className={'z-[99999]'}>
+                                                        <Tooltip  key={idx+1} content={item?.title} placement="top" className={'z-[99999]'}>
                                                             <h4 className={`mt-3 text-primary-dark-b/60 w-full text-left text-[0.8rem] font-bold px-[5%] truncate`}>
                                                                 {item?.title}
                                                             </h4>
