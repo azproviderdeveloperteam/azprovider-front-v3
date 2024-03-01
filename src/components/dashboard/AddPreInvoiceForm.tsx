@@ -1,5 +1,5 @@
 'use client'
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Button, IconButton, Tooltip} from "@material-tailwind/react";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -77,6 +77,15 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData} : any) => {
         mutationFn : cretePreInvoiceUploadImage
     })
 
+
+    useEffect(()=>{
+        let mo :any[] = []
+
+        if(allMeasureData?.data){
+            allMeasureData?.data?.map((x:any)=>mo.push({value:x?.title , label : x?.title}))
+        }
+        setMeasureOptions(mo)
+    },[allMeasureData])
 
     const uploadImage = async (e : any) =>{
         const formData = new FormData()
