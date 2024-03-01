@@ -14,7 +14,12 @@ import RegisterBtn from "@/components/Buttons/RegisterBtn";
 import AzDatePicker from "@/components/inputs/AzDatePicker";
 import Select from "react-select";
 import {useQuery} from "@tanstack/react-query";
-import {getAllHsCodes, getRandomHsCodes, getSearchInThirdLevel} from "@/services/hsCodeServices";
+import {
+    getAllHsCodes,
+    getRandomHsCodes,
+    getSearchInFourthLevel,
+    getSearchInThirdLevel
+} from "@/services/hsCodeServices";
 import ThreeDotsLoaderGreen from "@/components/loaders/ThreeDotsLoaderGreen";
 import {createProduct, createProductUploadImage} from "@/services/dashboardProductsServices";
 
@@ -69,7 +74,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData} : any) => {
 
 
     const {data  , isPending  , error  , mutateAsync} =useMutation({
-        mutationFn : getSearchInThirdLevel
+        mutationFn : getSearchInFourthLevel
     })
     const {data : randomHsData, isPending :randomHsPending, error : randomHsError} = useQuery({
         queryKey: ['hs-random-hscode'],

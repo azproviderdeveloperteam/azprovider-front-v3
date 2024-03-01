@@ -45,7 +45,7 @@ const PreInvoicePage = () => {
                 setViewAddProductForm(true)
 
             }
-        }
+        }else  setViewAddProductForm(true)
     },[productsData])
     return (
 
@@ -58,6 +58,9 @@ const PreInvoicePage = () => {
             :
         <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
             <>
+                {/*<div className={`${0===0 ? ' ' :''}  w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`} >*/}
+                {/*    <PreInvoiceCard item={{}} theme={'light'} measureOptions={measureOptions} setSubmitting={setSubmitting} submitting={submitting}/>*/}
+                {/*</div>*/}
                 {
                     productsData?.data?.results?.map((item : any ,index : number)=>{
                         return(

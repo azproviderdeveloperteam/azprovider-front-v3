@@ -4,7 +4,7 @@ import {Button, IconButton, Tooltip} from "@material-tailwind/react";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useMutation} from "@tanstack/react-query";
-import {getSearchInThirdLevel} from "@/services/hsCodeServices";
+import {getSearchInFourthLevel, getSearchInThirdLevel} from "@/services/hsCodeServices";
 import * as Yup from "yup";
 import ThreeDotsLoaderGreen from "@/components/loaders/ThreeDotsLoaderGreen";
 import Image from "next/image";
@@ -66,7 +66,7 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData} : any) => {
 
 
     const {data  , isPending  , error  , mutateAsync} =useMutation({
-        mutationFn : getSearchInThirdLevel
+        mutationFn : getSearchInFourthLevel
     })
 
     const {data : createData  , isPending : createPending , error :createError , mutateAsync : createMutateAsync } =useMutation({
