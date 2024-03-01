@@ -11,3 +11,7 @@ export async function  getRandomHsCodes(){
 export async function  getSearchInThirdLevel(search : string){
     return await  instance.get('hscodes-third-level/search/',{params:{'query' : search}})
 }
+
+export async function  getSearchInFourthLevel(search : string){
+    return await  instance.get('hscodes-fourth-level/search/',{params:{'query' : search}})
+}
