@@ -46,7 +46,7 @@ const ProductsPage = () => {
                     <ProductList productsData={productsData?.data?.results} />
 
                 </div>
-                <div className={'py-8 px-5'}>
+                <div className={'max-w-[95rem] lg:w-[95rem] m-auto w-full  py-8 px-5'}>
                     <AddProductCard setViewForm={()=>setViewAddProductForm(true)}/>
 
                 </div>

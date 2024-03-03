@@ -1,9 +1,9 @@
 'use client'
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Button, IconButton, Tooltip} from "@material-tailwind/react";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {useMutation} from "@tanstack/react-query";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {getSearchInFourthLevel, getSearchInThirdLevel} from "@/services/hsCodeServices";
 import * as Yup from "yup";
 import ThreeDotsLoaderGreen from "@/components/loaders/ThreeDotsLoaderGreen";
@@ -17,15 +17,18 @@ import Select from "react-select";
 import AzDatePicker from "@/components/inputs/AzDatePicker";
 import RegisterBtn from "@/components/Buttons/RegisterBtn";
 import {createProduct} from "@/services/dashboardProductsServices";
+import {uploadV2} from "@/services/uploadService";
+import {date} from "yup";
 
-const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData} : any) => {
+const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList} : any) => {
     const [img ,setImg] = useState<any>(null)
     const [imgView ,setImgView] = useState<any>(null)
     const [dateFrom, setDateFrom] = React.useState<Date>();
     const [dateTo, setDateTo] = React.useState<Date>();
-    const [grantedOg , setGrantedOg] = useState<any>({value:"Normal" , label:"Normal"} )
-    const [selectedMeasure , setSelectedMeasure] = useState<any>({value:'kilogram', label : 'kilogram'} )
-    const [measureOptions , setMeasureOptions] = useState<any>([{value:'kilogram', label : 'kilogram'}] )
+    const [grantedOg , setGrantedOg] = useState<any>()
+    const [grantedOgOptions , setGrantedOgOptions] = useState<any>( )
+    const [selectedMeasure , setSelectedMeasure] = useState<any>( )
+    const [measureOptions , setMeasureOptions] = useState<any>([] )
     const [productInput ,setProductInput] = useState<any>(
         {value:"" , code:"" , label:"",
             title:"",
@@ -73,17 +76,36 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData} : any) => {
         mutationFn : cretePreInvoice
     })
 
-    const {data : uploadImageData  , isPending : uploadImagePending , error :uploadImageError , mutateAsync : uploadImageMutateAsync } =useMutation({
-        mutationFn : cretePreInvoiceUploadImage
-    })
 
+
+    const {data : uploadImageData  , isPending : uploadImagePending , error :uploadImageError , mutateAsync : uploadImageMutateAsync } =useMutation({
+        mutationFn : uploadV2
+    })
+    useEffect(()=>{
+        let mo :any[] = []
+
+        if(allMeasureData?.data){
+            allMeasureData?.data?.map((x:any)=>mo.push({value:x?.id , label : x?.name}))
+        }
+        setMeasureOptions(mo)
+    },[allMeasureData])
+
+
+    useEffect(()=>{
+        let mo :any[] = []
+
+        if(allGrantedList?.data){
+            allGrantedList?.data?.map((x:any)=>mo.push({value:x?.id , label : x?.name}))
+        }
+        setGrantedOgOptions(mo)
+    },[allGrantedList])
 
     const uploadImage = async (e : any) =>{
         const formData = new FormData()
         formData.append('image' , e)
 
         try {
-            const d = await uploadImageMutateAsync(formData)
+            const d = await uploadImageMutateAsync({data:{'image':e} , method:"pre_invoice"})
         }catch (err) {
             if(err instanceof AxiosError){
                 if(err?.response?.data?.msg){
@@ -139,36 +161,42 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData} : any) => {
         }
     }
 
+    const dateToFormatYMD = (d : Date | undefined)=>{
+        if( d instanceof Date){
+            const stingDate = d?.toLocaleDateString()?.split('/')
+            console.log(d , `${stingDate[2]}-${stingDate[0]}-${stingDate[1]}`)
+            return `${stingDate[2]}-${stingDate[0]}-${stingDate[1]}`
+        }
+        return ``
+    }
+
+
+    const  queryClient  =  useQueryClient()
+
     const submit = async (d : any) => {
         const formData = {
-
             title : productInput?.title,
             short_description:d?.description,
-            // "main_description": "string",
-            // "quantity": 2147483647,
+            published_date_from:dateToFormatYMD(dateFrom) ,
+            published_date_to:dateToFormatYMD(dateTo),
+            granted_organisation_id:grantedOg?.value,
+            measure_unit_id:selectedMeasure?.value ,
+            certification:d.typeCertification,
+            description:d?.description ,
+            media_files_id: [
+                uploadImageData?.data?.id
+            ],
             price:d?.price,
-            // "discount_price": "string",
-            // "discount_percentage": 2147483647,
-            // "discount_expire_date": "2024-02-07",
             brand_name : d?.brandName,
-            "model": "string",
-            "color": "string",
-            size:d?.capacity,
-
-
-
-            // measure:selectedMeasure?.label,
-            // publish_date_from:dateFrom,
-            // publish_date_to:dateTo,
-            // granted_organization:grantedOg?.label,
-            // certification:d?.typeCertification,
-            // hs_code_third_levels:[productInput?.id],
-
-
+            // "model": "string",
+            // "color": "string",
+            capacity:d?.capacity,
         }
         try {
             const d = await createMutateAsync(formData)
             toast.success("Your Product Added Successfully!")
+
+            queryClient.setQueryData(['profile'], d?.data)
             onClose()
         }catch (err) {
             if(err instanceof AxiosError){
@@ -183,6 +211,7 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData} : any) => {
         }
 
     }
+
         return (
         <div className='w-full pt-4'>
             <div className='w-full bg-[#F8F8F8] p-5 lg:p-8 rounded-[1rem] relative'>
@@ -385,11 +414,7 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData} : any) => {
                                 // getToCurrenciesFunc(e?.value)
                             }}
                             value={grantedOg}
-                            options={[
-                                {value:"Good" , label:"Good"} ,
-                                {value:"Normal" , label:"Normal"} ,
-                                {value:"Bad" , label:"Bad"} ,
-                            ]}
+                            options={grantedOgOptions}
                             unstyled
                             styles={{
                                 input: (base) => ({
