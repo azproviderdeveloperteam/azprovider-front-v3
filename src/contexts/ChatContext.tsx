@@ -14,8 +14,8 @@ import {getUserChats} from "@/services/chatServices";
 const ChatContext = createContext({})
 const ChatContextDispatcher =createContext({})
 
-const pusher = new Pusher("527a5a80b22f8ace48f1" ,{cluster: "ap2"} )
-Pusher.logToConsole = true
+// const pusher = new Pusher("527a5a80b22f8ace48f1" ,{cluster: "ap2"} )
+// Pusher.logToConsole = true
 const initialState:any = {
     users : [] ,
     chatBox : [] ,
@@ -133,18 +133,18 @@ const ChatProvider = ({children} : any)=>{
     }
 
     useEffect(() => {
-        getChats()
-        const userId = data?.data?.id
-        const channel = pusher.subscribe(`chats-${userId}`);
-        channel.bind(`new-chat-${userId}`, (data : any) => {
-            console.log(`Event received: ${data}`);
-            // dispatch({type:"SET_DESK" , value :data})
-        });
-
-
-        return () => {
-            pusher.unsubscribe(`chats-${userId}`);
-        };
+        // getChats()
+        // const userId = data?.data?.id
+        // const channel = pusher.subscribe(`chats-${userId}`);
+        // channel.bind(`new-chat-${userId}`, (data : any) => {
+        //     console.log(`Event received: ${data}`);
+        //     // dispatch({type:"SET_DESK" , value :data})
+        // });
+        //
+        //
+        // return () => {
+        //     pusher.unsubscribe(`chats-${userId}`);
+        // };
 
     }, [data]);
     return(
