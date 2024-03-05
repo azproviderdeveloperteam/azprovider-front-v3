@@ -45,7 +45,7 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList}
     const inputRefPreInvoice = useRef<any>(null)
 
 
-
+    console.log(productInput)
     const schema = Yup
         .object({
 
@@ -176,6 +176,7 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList}
     const submit = async (d : any) => {
         const formData = {
             title : productInput?.title,
+            hscode_str:productInput?.code,
             short_description:d?.description,
             published_date_from:dateToFormatYMD(dateFrom) ,
             published_date_to:dateToFormatYMD(dateTo),
