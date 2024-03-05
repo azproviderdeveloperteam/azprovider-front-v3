@@ -73,8 +73,9 @@ const LoginByPasswordAccordion = () => {
             const da = await mutateAsync(formData)
             const token = da.data?.token?.access;
             const refresh = da?.data?.token?.refresh
-            Cookies.set('cookieToken', token);
-            Cookies.set('refreshJwt', refresh);
+            const inFifteenMinutes = new Date(new Date().getTime() + 15 * 3600 * 60 * 1000);
+            Cookies.set('cookieToken', token , {expires:inFifteenMinutes});
+            Cookies.set('refreshJwt', refresh  , {expires:inFifteenMinutes});
             toast.success('Login Successfully !')
             app.defaults.headers.Authorization = `Bearer ${token}`;
             router.push('/dashboard')
@@ -104,8 +105,9 @@ const LoginByPasswordAccordion = () => {
             const refresh = da?.data?.token?.refresh
             dispatch({type:"SET_TOKEN" , value:token})
 
-            Cookies.set('cookieToken', token);
-            Cookies.set('refreshJwt', refresh);
+            const inFifteenMinutes = new Date(new Date().getTime() + 15 * 3600 * 60 * 1000);
+            Cookies.set('cookieToken', token , {expires:inFifteenMinutes});
+            Cookies.set('refreshJwt', refresh  , {expires:inFifteenMinutes});
             toast.success('Login Successfully !')
             app.defaults.headers.Authorization = `Bearer ${token}`;
             router.push('/dashboard')

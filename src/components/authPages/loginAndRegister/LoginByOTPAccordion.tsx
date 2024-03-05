@@ -72,8 +72,9 @@ const LoginByOtpAccordion = () => {
             const da = await vMutateAsync(formData )
             const token = da.data?.token?.access;
             const refresh = da?.data?.token?.refresh
-            Cookies.set('cookieToken', token);
-            Cookies.set('refreshJwt', refresh);
+            const inFifteenMinutes = new Date(new Date().getTime() + 15 * 3600 * 60 * 1000);
+            Cookies.set('cookieToken', token , {expires:inFifteenMinutes});
+            Cookies.set('refreshJwt', refresh  , {expires:inFifteenMinutes});
             app.defaults.headers.Authorization = `Bearer ${token}`;
             dispatch({type:"SET_TOKEN" , value:token})
             setStep(1)
@@ -102,8 +103,9 @@ const LoginByOtpAccordion = () => {
             const da = await mutateAsync(formData)
             const token = da.data?.token?.access;
             const refresh = da?.data?.token?.refresh
-            Cookies.set('cookieToken', token);
-            Cookies.set('refreshJwt', refresh);
+            const inFifteenMinutes = new Date(new Date().getTime() + 15 * 3600 * 60 * 1000);
+            Cookies.set('cookieToken', token , {expires:inFifteenMinutes});
+            Cookies.set('refreshJwt', refresh  , {expires:inFifteenMinutes});
             dispatch({type:"SET_TOKEN" , value:token})
             toast.success('Login Successfully !')
             router.push('/dashboard')
@@ -130,8 +132,9 @@ const LoginByOtpAccordion = () => {
             const da = await mutateAsync(formData)
             const token = da.data?.token?.access;
             const refresh = da?.data?.token?.refresh
-            Cookies.set('cookieToken', token);
-            Cookies.set('refreshJwt', refresh);
+            const inFifteenMinutes = new Date(new Date().getTime() + 15 * 3600 * 60 * 1000);
+            Cookies.set('cookieToken', token , {expires:inFifteenMinutes});
+            Cookies.set('refreshJwt', refresh  , {expires:inFifteenMinutes});
             dispatch({type:"SET_TOKEN" , value:token})
             app.defaults.headers.Authorization = `Bearer ${token}`;
             toast.success('Login Successfully !')
