@@ -1,11 +1,11 @@
 import instance from "@/services/instance";
 
 export async function  getDashboardPreInvoice(){
-    return await  instance.get('pre-invoices/all_pre_invoices/' ,{params:{page_size:1000} })
+    return await  instance.get('v2/product/pre-invoice/' )
 }
 
 export async function  cretePreInvoice(data : any){
-    return await  instance.post('pre-invoices/create/',data)
+    return await  instance.post('v2/product/pre-invoice/',data)
 }
 
 

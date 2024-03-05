@@ -62,8 +62,9 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
            // Cookies.set('cookieToken', token);
            // Cookies.set('refreshJwt', refresh);
            dispatch({type:"SET_TOKEN" , value:token})
-           cookies.set('cookieToken', token)
-           cookies.set('refreshJwt', refresh)
+           const inFifteenMinutes = new Date(new Date().getTime() + 15 * 3600 * 60 * 1000);
+           Cookies.set('cookieToken', token , {expires:inFifteenMinutes});
+           Cookies.set('refreshJwt', refresh  , {expires:inFifteenMinutes});
 
 
            nextStep(d?.email)
