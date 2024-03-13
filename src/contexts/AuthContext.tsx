@@ -36,7 +36,7 @@ const AuthProvider = ({children}:any)=>{
     const [user , dispatch] = useReducer<any>(reducer,initialState)
     const router = useRouter()
     const [loading ,setLoading] = useState(true)
-    console.log(Cookies.get('cookieToken'))
+
     useLayoutEffect(()=>{
         setLoading(true)
         const cookieToken = Cookies.get('cookieToken');
