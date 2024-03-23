@@ -75,7 +75,7 @@ const SendRequestProductPage = ({data} : any) => {
 
     }
 
-    console.log(error)
+
     return (
         <>
             <RegisterBtn  onClick={()=>setDialog(true)}>
