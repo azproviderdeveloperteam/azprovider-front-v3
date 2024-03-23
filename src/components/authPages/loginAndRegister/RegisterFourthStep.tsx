@@ -85,9 +85,9 @@ const RegisterFourthStep = ({nextStep , email}: any) => {
     return (
         <>
             <div className='w-full  p-6 rounded-[1.5rem] bg-[#02131E] text-white relative z-[10] relative'>
-                <Image src={'/pink-vector.svg'} alt={'pink-vector'} width={350} height={350} className={'!absolute top-[50%] left-[-20%] z-[0]'}/>
-                <Image src={'/gray-vector.svg'} alt={'gray-vector'} width={250} height={250} className={'!absolute top-[10%] left-[93%]  rotate-180  '}/>
-                <Image src={'/purple-vector.svg'} alt={'purple-vector'} width={550} height={550} className={'!absolute top-[-130%] left-[0%] z-[99999]'}/>
+                <Image src={'/pink-vector.svg'} alt={'pink-vector'} width={350} height={350} className={'hidden lg:block !absolute top-[50%] left-[-20%] z-[0]'}/>
+                <Image src={'/gray-vector.svg'} alt={'gray-vector'} width={250} height={250} className={'hidden lg:block !absolute top-[10%] left-[93%]  rotate-180  '}/>
+                <Image src={'/purple-vector.svg'} alt={'purple-vector'} width={550} height={550} className={'hidden lg:block absolute top-[-130%] left-[0%] z-[99999]'}/>
                 <div className={'w-full flex flex-row items-center justify-start'}>
                     <Image src={'/register-title.svg'} alt={'register-title'} width={35} height={35} />
 
@@ -98,7 +98,7 @@ const RegisterFourthStep = ({nextStep , email}: any) => {
                 </div>
                 <form className='w-full flex flex-row items-start justify-start flex-wrap mt-4' onSubmit={handleSubmit(submit)}>
 
-                    <div className='max-w-[29%] min-w-[22.5rem] pr-2 h-full mt-7'>
+                    <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem]  pr-2 h-full mt-7'>
                         <div className=' text-[1.3rem]'>
                             {myTexts.emailOrPhone} <span className='text-secondary-red'>*</span>
                         </div>
@@ -110,7 +110,7 @@ const RegisterFourthStep = ({nextStep , email}: any) => {
                         </input>
                     </div>
 
-                    <div className='max-w-[29%] min-w-[22.5rem] pr-2 h-full mt-7'>
+                    <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem]  pr-2 h-full mt-7'>
                         <div className=' text-[1.3rem]'>
                             {myTexts.password} <span className='text-secondary-red'>*</span>
                         </div>
@@ -125,7 +125,7 @@ const RegisterFourthStep = ({nextStep , email}: any) => {
                     </div>
 
 
-                    <div className='max-w-[29%] min-w-[22.5rem] pr-2 h-full mt-7'>
+                    <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem]  pr-2 h-full mt-7'>
                         <div className=' text-[1.3rem]'>
                             {myTexts.confirmPass} <span className='text-secondary-red'>*</span>
                         </div>

@@ -94,7 +94,7 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
         <>
 
 
-            <div className='w-[45%] relative'>
+            <div className='hidden lg:block w-[45%] relative'>
                 <Image src={'/pink-vector.svg'} alt={'pink-vector'} width={350} height={350} className={'!absolute top-[44%] left-[-35%] z-[0]'}/>
                 <Image src={'/gray-vector.svg'} alt={'gray-vector'} width={250} height={250} className={'!absolute top-[-2%] left-[82%] z-[0]'}/>
                 <Image src={'/purple-vector.svg'} alt={'purple-vector'} width={550} height={550} className={'!absolute top-[-95%] left-[0%] z-[10]'}/>
@@ -109,7 +109,7 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
                 </div>
             </div>
 
-            <div className='w-1/2 text-white'>
+            <div className='w-full px-5 lg:px-0 lg:w-1/2 text-white'>
                 <div className='w-full flex flex-col items-center justify-center relative z-[1]'>
                     <div className='w-full p-6 rounded-[1.5rem] bg-[#02131E]'>
                         <div className={'w-full flex flex-row items-center justify-start'}>

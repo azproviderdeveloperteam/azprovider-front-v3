@@ -78,6 +78,7 @@ const LoginByPasswordAccordion = () => {
             Cookies.set('refreshJwt', refresh  , {expires:inFifteenMinutes});
             toast.success('Login Successfully !')
             app.defaults.headers.Authorization = `Bearer ${token}`;
+            // dispatch({type:"SIGNIN" , value:{}})
             router.push('/dashboard')
 
         }catch (err){

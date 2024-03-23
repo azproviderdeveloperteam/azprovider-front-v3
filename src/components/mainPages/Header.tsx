@@ -6,6 +6,8 @@ import Link from "next/link";
 import {texts} from "@/utils/texts";
 import HeaderCheckUserLogin from "@/components/mainPages/HeaderCheckUserLogin";
 import MegaMenuOpened from "@/components/megaMenu/MegaMenuOpened";
+import MainSIdeDrawer from "@/components/mainPages/MainSIdeDrawer";
+import ResponsiveMainDrawer from "@/components/mainPages/ResponsiveMainDrawer";
 
 
 const Header = ({theme}:any) => {
@@ -13,11 +15,13 @@ const Header = ({theme}:any) => {
     return (
         <>
             <header className='w-full fixed top-0 left-0 px-3 backdrop-blur-md z-50 b mix-blend-difference'>
-                <div className='max-w-[98vw] m-auto w-full h-20 lg:flex flex-row item-center justify-between hidden '>
+                <div className='max-w-[98vw] m-auto w-full h-20  flex flex-row item-center justify-between  '>
+
+                    <MainSIdeDrawer   black={theme === 'white-black' ? false :true}/>
                     <Link href={'/'} className={'flex flex-row items-center justify-center'}>
                         <MainLogoImg className={'w-[10rem]'} black={theme === 'white-black' ? false : true}/>
                     </Link>
-                    <div className={'grow flex flex-row items-center justify-end pr-12'}>
+                    <div className={'grow lg:flex flex-row items-center justify-end pr-12 hidden'}>
 
                         <Link href={'/services'}>
                             <LightBtn border={false} otherClass={'mr-2'} black={theme === 'white-black' ? false :true}>
@@ -41,12 +45,13 @@ const Header = ({theme}:any) => {
 
                     <div className='flex flex-row items-center justify-end'>
                         <HeaderCheckUserLogin text={text} black={theme === 'white-black' ? false :true}/>
-                        <MegaMenu className={'w-[1.6rem] cursor-pointer'} black={theme === 'white-black' ? false :true}/>
+                        <MegaMenu className={'w-[1.6rem] cursor-pointer hidden lg:block'} black={theme === 'white-black' ? false :true}/>
 
                     </div>
                 </div>
             </header>
             <MegaMenuOpened />
+            <ResponsiveMainDrawer text={text} />
         </>
 
     );
