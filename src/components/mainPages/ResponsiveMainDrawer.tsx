@@ -11,7 +11,7 @@ import LightBtn from "@/components/Buttons/LightBtn";
 import Link from "next/link";
 
 type ResponsiveMainDrawerProps = {
-    text : object
+    text : any
 }
 const ResponsiveMainDrawer = ({text}  :ResponsiveMainDrawerProps) => {
 
@@ -94,13 +94,13 @@ const ResponsiveMainDrawer = ({text}  :ResponsiveMainDrawerProps) => {
 
                     <Link href={'/services'}>
                         <LightBtn border={false} otherClass={'mt-2 '} black={false}>
-                            {text.services}
+                            {text?.services}
                         </LightBtn>
                     </Link>
 
                     <Link href={'/products?sort=date'}>
                         <LightBtn border={false} otherClass={'mt-2'} black={false}>
-                            {text.products}
+                            {text?.products}
                         </LightBtn>
                     </Link>
 
