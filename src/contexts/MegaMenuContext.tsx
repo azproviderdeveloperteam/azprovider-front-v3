@@ -8,7 +8,9 @@ const MegaMenuDispatcher =createContext({})
 
 const initialState = {
     menu:false,
-    responsiveMainDrawer : false
+    responsiveMainDrawer : false,
+    responsiveDashboardDrawer : false
+
 }
 
 const reducer = (state :any, action:any ):any=>{
@@ -25,6 +27,12 @@ const reducer = (state :any, action:any ):any=>{
             return {...state, responsiveMainDrawer:true}
         case "CLOSE_MAIN_DRAWER" :
             return {...state, responsiveMainDrawer:false}
+
+
+        case "OPEN_DASHBOARD_DRAWER" :
+            return {...state, responsiveDashboardDrawer:true}
+        case "CLOSE_DASHBOARD_DRAWER" :
+            return {...state, responsiveDashboardDrawer:false}
 
 
     }

@@ -15,9 +15,7 @@ export default function RootLayout({
 }) {
     return (
         <Suspense fallback={<></>}>
-
             {children}
-
         </Suspense>
     );
 }
