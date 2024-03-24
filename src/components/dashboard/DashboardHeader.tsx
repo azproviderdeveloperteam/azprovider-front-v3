@@ -22,7 +22,7 @@ const DashboardHeader = () => {
                     <Link href={'/'} className={'hidden lg:flex flex-row items-center justify-center'}>
                         <MainLogoImg className={'w-[10rem]'} black={true}/>
                     </Link>
-                    <DashboardOpenMenu className={'w-[1.6rem] cursor-pointer'} black={true}/>
+                    <DashboardOpenMenu className={'lg:hidden w-[1.6rem] cursor-pointer'} black={true}/>
 
                     <div className={'grow hidden lg:flex flex-row items-center justify-end pr-12'}>
 

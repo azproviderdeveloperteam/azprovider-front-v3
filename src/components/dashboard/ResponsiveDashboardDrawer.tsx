@@ -88,7 +88,7 @@ const ResponsiveDashboardDrawer = () => {
                     </IconButton>
                 </div>
 
-                <div className='w-full h-full flex flex-col items-start justify-between px-[1%]' onClick={closeDrawer}>
+                <div className='w-full h-[95%] flex flex-col items-start justify-between px-[1%]' onClick={closeDrawer}>
                     <div className='w-full flex flex-col items-start justify-between pt-4'>
                         {
                             myTexts.items.slice(0,7).map((item , index)=>{
