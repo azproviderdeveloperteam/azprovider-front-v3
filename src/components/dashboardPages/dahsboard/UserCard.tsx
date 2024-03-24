@@ -11,16 +11,14 @@ const UserCard = () => {
 
     const queryClient = useQueryClient()
 
-    const profile = queryClient.getQueryData(['get-user-profile-header'])
+    const profile : any = queryClient.getQueryData(['get-user-profile-header'])
 
     const percentage = 100;
 
-    console.log(profile)
-
-
     return (
+        profile ? profile?.data ?
         <div className='w-full bg-primary-gray-100 p-5 rounded-[1.5rem] relative' style={{boxShadow:'0px 12px 20px 0px rgba(0, 0, 0, 0.08)'}}>
-            <Image src={'/yellow-diamond.svg'} alt={'yellow-diamond'} width={50} height={50} className={'absolute left-0 top-[-17px] !z-[9999]'}/>
+            <Image src={'/yellow-diamond.svg'} alt={'yellow-diamond'} width={50} height={50} className={'absolute left-0 top-[-17px]'}/>
             <div className='w-full flex flex-row items-center justify-start'>
                 <div className=''>
                     <div className='w-[4.3rem] absolute translate-y-[-5px] translate-x-[-5px]'>
@@ -72,6 +70,8 @@ const UserCard = () => {
                 </div>
             </div>
         </div>
+            : null
+            : null
     );
 };
 
