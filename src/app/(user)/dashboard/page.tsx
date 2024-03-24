@@ -15,15 +15,17 @@ const DashboardPage = () => {
     const [viewUpgrade ,setViewUpgrade ] = useState(true)
     const [rightBig , setRightBig] = useState(true)
 
-    console.log(chatData)
     return (
         <div className='w-full overflow-y-auto px-5'>
             {
                 viewUpgrade && <UpgradeComponents setViewUpgradeFalse={()=>setViewUpgrade(false)}/>
             }
 
-            <div className='w-full flex flex-row items-start justify-between min-h-full'>
-                <div className={`${rightBig ? 'w-[71%]' :''}`}>
+            <div className='w-full flex flex-col lg:flex-row items-start justify-between min-h-full'>
+                <div className='w-full lg:hidden my-5'>
+                    <UserCard />
+                </div>
+                <div className={`${rightBig ? 'w-full lg:w-[71%]' :''}`}>
                     <DashboardWidgets />
                     <div className='w-full flex flex-row items-start justify-between mt-4'>
                         <div className={`${rightBig ? 'w-[32%]' :'w-full'}`}>
@@ -34,8 +36,10 @@ const DashboardPage = () => {
                         </div>
                     </div>
                 </div>
-                <div className={`${rightBig ? 'w-[28%]' :''} pr-[1%]`}>
-                    <UserCard />
+                <div className={`${rightBig ? 'w-full lg:w-[28%]' :''} pr-[1%]`}>
+                    <div className='w-full hidden lg:block'>
+                        <UserCard />
+                    </div>
                     <Notifications />
                     <ChatDashboard />
                 </div>
