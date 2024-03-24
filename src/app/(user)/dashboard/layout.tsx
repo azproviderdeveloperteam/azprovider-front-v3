@@ -3,6 +3,7 @@ import React, { Suspense } from "react";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import DashboardMainLayout from "@/components/dashboard/DashboardMainLayout";
 import ChatProvider from "../../../contexts/ChatContext";
+import ResponsiveDashboardDrawer from "@/components/dashboard/ResponsiveDashboardDrawer";
 
 
 
@@ -21,6 +22,7 @@ export default function RootLayout({
             <ChatProvider>
            <DashboardMainLayout>
                {children}
+               <ResponsiveDashboardDrawer />
            </DashboardMainLayout>
             </ChatProvider>
 

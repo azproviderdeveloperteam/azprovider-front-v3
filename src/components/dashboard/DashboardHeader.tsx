@@ -71,7 +71,6 @@ const DashboardHeader = () => {
                 </div>
             </header>
 
-            <ResponsiveDashboardDrawer />
 
         </>
 
