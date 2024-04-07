@@ -1,17 +1,17 @@
 'use client'
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useMegaMenu, useMegaMenuAction} from "../../contexts/MegaMenuContext";
 import {Drawer, IconButton, Input, Tooltip} from "@material-tailwind/react";
 import MainLogoImg from "@/components/Logo/MainLogoImg";
-import LightBtnWithBg from "@/components/Buttons/LightBtnWithBg";
 import {texts} from "@/utils/texts";
 import GreenGrayBtn from "@/components/Buttons/GreenGrayBtn";
 import RegisterBtn from "@/components/Buttons/RegisterBtn";
 import Image from "next/image";
 import {SwiperSlide} from "swiper/react";
-import ProductCard from "@/components/Cards/ProductCard";
 import AzSwiperTitleComponent from "@/components/azSwiper/AzSwiperTitleComponent";
 import ProductCategoryCard from "@/components/Cards/ProductCategoryCard";
+import {useMutation} from "@tanstack/react-query";
+import {getMegaMenu} from "@/services/megaMenuServices";
 type cat = {
     title :string ,
     href :string
@@ -182,6 +182,23 @@ const MegaMenuOpened = () => {
         },
 
     ]
+
+
+    const {data  , isPending  , error  , mutateAsync} =useMutation({
+        mutationFn : getMegaMenu
+    })
+
+
+    const getMenu = async () =>  {
+        try {
+            const a = await mutateAsync({type:"hscode"})
+        }catch (e) {
+
+        }
+    }
+    useEffect(()=>{
+        getMenu()
+    },[])
     return (
         <Drawer
             placement="top"
