@@ -10,11 +10,21 @@ import Image from "next/image";
 import {SwiperSlide} from "swiper/react";
 import AzSwiperTitleComponent from "@/components/azSwiper/AzSwiperTitleComponent";
 import ProductCategoryCard from "@/components/Cards/ProductCategoryCard";
-import {useMutation} from "@tanstack/react-query";
-import {getMegaMenu} from "@/services/megaMenuServices";
+import {useMutation , useQuery} from "@tanstack/react-query";
+import {getCategories, getMegaMenu} from "@/services/megaMenuServices";
+import {getMeasureList} from "@/services/measurementServices";
+import ThreeDotsLoaderGreen from "@/components/loaders/ThreeDotsLoaderGreen";
+import SearchMegaMenu from "@/components/megaMenu/searchMegaMenu";
 type cat = {
     title :string ,
     href :string
+}
+
+type GetMenuType = {
+    type? : string ,
+    category? : string,
+    hscode?:string,
+    title?:string
 }
 const MegaMenuOpened = () => {
     const text = texts.eng
@@ -22,189 +32,92 @@ const MegaMenuOpened = () => {
     const {menu} = useMegaMenu()
     const dispatch = useMegaMenuAction()
 
-    const [search , setSearch] = useState<string | undefined>('')
-    const [filter , setFilter] = useState<string | undefined>('products')
 
+    const [filter , setFilter] = useState<string | undefined>('hscodes')
+    const [selectedCat , setSelectedCat] = useState<string>('')
+    const [downView , setDownView] = useState([])
     const onClose = () =>{
         dispatch({type:"CLOSE_MEGA_MENU"})
     }
 
-    const changeInput = (e : string | undefined)=>{
 
-        setSearch(e)
-    }
 
-    const changeFilters = (e : string) =>{
-        setFilter(e)
-    }
     const categories = [
+        {title :"Hs-Codes", href : "hscodes"} ,
         {title :"Products", href : "products"} ,
-        {title :"Services", href : "services"} ,
-        {title :"Innovations", href : "innovations"} ,
+        // {title :"Services", href : "services"} ,
+        // {title :"Innovations", href : "innovations"} ,
         {title :"Pre-Invoices", href : "preInvoices"} ,
-        {title :"Companies", href : "companies"} ,
+        // {title :"Companies", href : "companies"} ,
     ]
 
-    const fakeData = [
-        {
-            src:"/book.svg",
-            title:"Book &\n" +
-                "Desk Stuf ",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone ",
-        },
-        {
-            src:"/milk.svg",
-            title:"Milk & Animal Protein ",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Digital",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Bazar Industry ",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-        {
-            src:"/mobile.svg",
-            title:"Phone",
-        },
-
-    ]
 
 
     const {data  , isPending  , error  , mutateAsync} =useMutation({
         mutationFn : getMegaMenu
     })
+    const {data : categoriesData, isPending :categoriesPending, error : categoriesError} = useQuery({
+        queryKey: ['get-all-categories' ],
+        queryFn: getCategories,
+        retry:false,
+    })
 
-
-    const getMenu = async () =>  {
+    const getMenu = async (e :GetMenuType) =>  {
         try {
-            const a = await mutateAsync({type:"hscode"})
+            const a = await mutateAsync({
+                ...(e?.type && {type: e.type}) ,
+                ...(e?.category && {category: e.category}),
+                ...(e?.hscode && {hscode: e.hscode}),
+                ...(e?.title && {title: e.title})
+
+            })
+            setDownView(a?.data)
         }catch (e) {
 
         }
     }
     useEffect(()=>{
-        getMenu()
-    },[])
+        if(menu?.menu){
+            getMenu({type:"hscode"})
+        }
+    },[menu])
+
+    const getMenuByCat = (e : any) =>{
+        getMenu({type:"hscode" , category : e?.id})
+        setSelectedCat(e?.id)
+    }
+
+
+    const changeFilters = (e : string) =>{
+        setFilter(e)
+        if(e==='hscodes'){
+            getMenu({type:'hscode'})
+            setSelectedCat('')
+        }else {
+            getMenu({type:e})
+            setSelectedCat(e)
+        }
+    }
+
+    const searchHscode = (e : string) =>{
+        if(e === ''){
+
+        }else if(parseInt(e) > 0){
+            setFilter('hscodes')
+            setSelectedCat('')
+            getMenu({type:'hscode',hscode:e})
+        }else {
+            setFilter('hscodes')
+            setSelectedCat('')
+            getMenu({type:'hscode',title:e})
+        }
+    }
     return (
         <Drawer
             placement="top"
             open={menu?.menu}
             onClose={onClose}
-            className="bg-white rounded-b-[3rem] h-auto"
+            className="bg-white rounded-b-[3rem] h-auto overflow-auto"
             size={1000}
         >
             <div className='w-full '>
@@ -214,17 +127,7 @@ const MegaMenuOpened = () => {
                     </div>
 
                     <div className=' w-full h-20 flex flex-row items-center justify-between px-4'>
-                        <div className='lg:w-2/3 md:w-[85%] w-1/2 max-w-[53rem] border-[1px] border-secondary-yellow h-16  rounded-[1.1rem] flex flex-row items-center justify-between px-1 py-1 '>
-                            <input
-                                value={search}
-                                onChange={(e)=>changeInput(e.target.value)}
-                                className={'grow !h-full border-none outline-0 !outline-transparent !outline-none text-primary-dark-b focus:!outline-none focus:border-none'}
-                                placeholder={'Search By HS Code Or Title'}
-                            />
-                            <RegisterBtn otherClass={'!min-h-full !rounded-[1.1rem] !w-[33%] !p-0'}>
-                                {'Search'}
-                            </RegisterBtn>
-                        </div>
+                        <SearchMegaMenu searchHscode={searchHscode}/>
                         <IconButton className={'bg-transparent focus:shadow-none'} onClick={onClose}>
                             <Image src={'/exit.svg'} alt={'exit.svg'} width={15} height={15} />
                         </IconButton>
@@ -257,12 +160,12 @@ const MegaMenuOpened = () => {
 
                 </div>
                 <div className='max-w-[95vw] m-auto w-full flex flex-row items-center justify-between my-5'>
-                    <AzSwiperTitleComponent countDesktop={15} countMobile={2} title={''} count={fakeData?.length} allLink={'#'}>
+                    <AzSwiperTitleComponent countDesktop={10} countMobile={5} title={''} count={categoriesData?.data} allLink={'#'}>
                         {
-                            fakeData?.map((item:any ,index:number) => (
+                            categoriesData?.data?.map((item:any ,index:number) => (
                                 <SwiperSlide key={index}>
-                                    <div className={`${index===0 ? ' ' :''} pb-7 px-2`} key={index+1}>
-                                        <ProductCategoryCard src={item.src} title={item.title} color={'dark'}/>
+                                    <div className={`${index===0 ? ' ' :''} pb-7 px-2 ${selectedCat === item?.id ? '': selectedCat=== '' ? '' : 'opacity-40'}`} key={index+1} onClick={()=>getMenuByCat(item)}>
+                                        <ProductCategoryCard src={item?.media_files?.[0]} title={item?.title} color={'dark'}/>
                                     </div>
                                 </SwiperSlide>
                             ))
@@ -271,22 +174,60 @@ const MegaMenuOpened = () => {
                 </div>
 
 
-                <div className='max-w-[95vw] m-auto w-full flex flex-row items-center justify-between my-5'>
-                    <AzSwiperTitleComponent countDesktop={10} countMobile={2} title={''} count={fakeData?.length} allLink={'#'}>
-                        {
-                            fakeData?.map((item:any ,index:number) => (
-                                <SwiperSlide key={index}>
+                <div className='max-w-[95vw] m-auto w-full flex flex-row items-start justify-start my-5'>
+                    {
+                        isPending ?
+                            <div className='w-full flex flex-row items-center justify-center py-10'>
+                                <ThreeDotsLoaderGreen />
+                            </div>
+                            :
+
+                            downView?.length > 10 ?
+                            <AzSwiperTitleComponent countDesktop={10} countMobile={5} title={''} count={downView?.length} allLink={'#'}>
+                                {
+                                    downView?.map((item:any ,index:number) => (
+                                        <SwiperSlide key={index}>
+                                            <div className='w-full flex flex-col items-start justify-start'>
+                                                <Tooltip content={item?.title} placement="top" className={'z-[99999]'}>
+                                                    <div className='font-bold text-primary-dark-b text-[1.1rem] w-full truncate'>
+                                                        {`#${item?.hscode} ${item?.title}`}
+                                                    </div>
+                                                </Tooltip>
+                                                <div className='w-full'>
+                                                    {
+                                                        item?.children.map((itm : any , idx: number)=>{
+                                                            return(
+                                                                <Tooltip  key={idx+1} content={itm?.title} placement="top" className={'z-[99999]'}>
+                                                                    <h4 className={`mt-3 text-primary-dark-b/60  text-left text-[0.8rem] font-bold px-[5%] w-full truncate`}>
+                                                                        {`#${itm?.hscode} ${itm?.title}`}
+                                                                    </h4>
+                                                                </Tooltip>
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
+                                            </div>
+                                        </SwiperSlide>
+                                    ))
+                                }
+                            </AzSwiperTitleComponent>
+                            :
+
+                            downView?.map((item:any ,index:number) => (
+                                <div key={index} className='w-1/5 lg:w-[10%] '>
                                     <div className='w-full flex flex-col items-start justify-start'>
-                                        <div className='font-bold text-[1.1rem]'>
-                                            Title
-                                        </div>
+                                        <Tooltip content={item?.title} placement="top" className={'z-[99999]'}>
+                                            <div className='font-bold text-primary-dark-b text-[1.1rem] w-full truncate'>
+                                                {`#${item?.hscode} ${item?.title}`}
+                                            </div>
+                                        </Tooltip>
                                         <div className='w-full'>
                                             {
-                                                [...Array(10)].map((itm : any , idx: number)=>{
+                                                item?.children.map((itm : any , idx: number)=>{
                                                     return(
-                                                        <Tooltip  key={idx+1} content={item?.title} placement="top" className={'z-[99999]'}>
-                                                            <h4 className={`mt-3 text-primary-dark-b/60 w-full text-left text-[0.8rem] font-bold px-[5%] truncate`}>
-                                                                {item?.title}
+                                                        <Tooltip  key={idx+1} content={itm?.title} placement="top" className={'z-[99999]'}>
+                                                            <h4 className={`mt-3 text-primary-dark-b/60  text-left text-[0.8rem] font-bold px-[5%] w-full truncate`}>
+                                                                {`#${itm?.hscode} ${itm?.title}`}
                                                             </h4>
                                                         </Tooltip>
                                                     )
@@ -294,10 +235,10 @@ const MegaMenuOpened = () => {
                                             }
                                         </div>
                                     </div>
-                                </SwiperSlide>
+                                </div>
                             ))
-                        }
-                    </AzSwiperTitleComponent>
+                    }
+
                 </div>
 
 
