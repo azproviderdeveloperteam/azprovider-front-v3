@@ -1,5 +1,5 @@
 import React from 'react';
 
-const ThreeDotsLoaderGreen = () => <div className="dot-flashing-green"></div>;
+const ThreeDotsLoaderGreen = () => <div className="loader"></div>;
 export default ThreeDotsLoaderGreen;
 
