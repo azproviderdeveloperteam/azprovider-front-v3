@@ -39,7 +39,7 @@ const CompleteChatView = ({viewJustChat ,setViewJustChat} : any) => {
         <div className='w-full md:bg-[#F8F8F8] h-[calc(100dvh-136px)] rounded-2xl overflow-hidden'>
             <div className={'w-full h-full flex flex-col md:flex-row items-start justify-between'}>
                 <div className={`${ chatData?.chatBox?.total_messages !== undefined ? 'h-full md:block md:h-full' : 'h-full md:block md:h-full'} w-full md:w-[30%]  `}>
-                    <ChatDashboard viewJustChat={viewJustChat} setViewJustChat={(e)=>setViewJustChat(e)}/>
+                    <ChatDashboard viewJustChat={viewJustChat} setViewJustChat={(e:any)=>setViewJustChat(e)}/>
                     {/*    deskChat={chatData?.deskChat}*/}
                     {/*    setChat={getDirectChat}*/}
                     {/*    searchUsersBySocket={searchUsersBySocket}*/}

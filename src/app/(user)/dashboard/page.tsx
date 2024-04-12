@@ -21,7 +21,7 @@ const DashboardPage = () => {
         viewJustChat ?
 
             <div className='w-full overflow-y-auto px-5'>
-                <CompleteChatView viewJustChat={viewJustChat} setViewJustChat={(e)=>setViewJustChat(e)}/>
+                <CompleteChatView viewJustChat={viewJustChat} setViewJustChat={(e:any)=>setViewJustChat(e)}/>
             </div>
             :
         <div className='w-full overflow-y-auto px-5'>
@@ -49,7 +49,7 @@ const DashboardPage = () => {
                         <UserCard />
                     </div>
                     {/*<Notifications />*/}
-                    <ChatDashboard viewJustChat={viewJustChat} setViewJustChat={(e)=>setViewJustChat(e)}/>
+                    <ChatDashboard viewJustChat={viewJustChat} setViewJustChat={(e:any)=>setViewJustChat(e)}/>
                 </div>
             </div>
         </div>

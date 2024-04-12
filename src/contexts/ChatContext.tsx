@@ -119,7 +119,7 @@ const ChatProvider = ({children} : any)=>{
     const getChats = async ()=>{
         try {
             const d = await getUserChats()
-            dispatch({type:"SET_DESK" , value:d?.data?.map(i=>{return {...i , uuid:uuidv4()}})})
+            dispatch({type:"SET_DESK" , value:d?.data?.map((i:any)=>{return {...i , uuid:uuidv4()}})})
 
         }catch (e) {
 
