@@ -5,7 +5,7 @@ import Pusher from 'pusher-js';
 import {useQuery} from "@tanstack/react-query";
 import {getProfile} from "@/services/userProfileServices";
 import {getUserChats} from "@/services/chatServices";
-
+import { v4 as uuidv4 } from 'uuid';
 //types
 // type chatType = {
 //
@@ -20,15 +20,7 @@ const initialState:any = {
     users : [] ,
     chatBox : [] ,
     deskChat : [
-        {
-            is_read:false ,
-            created_at:new Date(),
-            text:"lorem ipsum lorem  ",
-            chat_with:{
-                first_name:"test1",
-                last_name:""
-            }
-        }
+
     ],
     newChat : false,
     timeNow :'',
@@ -127,13 +119,15 @@ const ChatProvider = ({children} : any)=>{
     const getChats = async ()=>{
         try {
             const d = await getUserChats()
+            dispatch({type:"SET_DESK" , value:d?.data?.map(i=>{return {...i , uuid:uuidv4()}})})
+
         }catch (e) {
 
         }
     }
 
     useEffect(() => {
-        // getChats()
+        getChats()
         // const userId = data?.data?.id
         // const channel = pusher.subscribe(`chats-${userId}`);
         // channel.bind(`new-chat-${userId}`, (data : any) => {

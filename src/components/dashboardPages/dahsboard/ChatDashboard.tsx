@@ -4,20 +4,23 @@ import {useRouter} from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
-const ChatDashboard = () => {
+const ChatDashboard = ({viewJustChat, setViewJustChat} : any) => {
 
     const chatDispatch = useChatAction()
     // const {chatData} = useChat()
     const {chatData} = useChat()
 
-    const router = useRouter()
+
 
     return (
         // <div className='w-full flex flex-col items-center justify-start bg-primary-gray-100 p-5 rounded-[1.5rem] mt-4'>
 
-        <div className='relative w-full mt-2 aspect-[0.9] bg-primary-gray-100 rounded-[15px] px-[1.5vw] xl:px-[20px] py-[1.5vw] xl:py-[14px] text-primary-dark-b'>
-            <h2 className="w-full text-left text-primary-dark-b px-[4vw] md:px-0 text-[2.8vw] md:text-[1.3vw] xl:text-sm font-normal uppercase">
-                Chats
+        <div className={`relative w-full  bg-primary-gray-100 rounded-[15px] px-[1.5vw] xl:px-[20px] py-[1.5vw] xl:py-[14px] text-primary-dark-b ${viewJustChat ? "h-full"  : "aspect-[0.9]  mt-2"}`}>
+            <h2 className="w-full text-left text-primary-dark-b px-[4vw] md:px-0 text-[2.8vw] md:text-[1.3vw] xl:text-sm font-normal uppercase cursor-pointer" onClick={()=>{
+
+                setViewJustChat(!viewJustChat)
+            }}>
+                {!viewJustChat ? 'Request Lists' : 'Back'}
             </h2>
 
             {/*<div className='w-full  flex flex-col items-center justify-start mt-[26%]'>*/}
@@ -35,18 +38,19 @@ const ChatDashboard = () => {
                     <div className='w-full h-[calc(100%-20px)] overflow-auto '>
                         {
                             chatData?.deskChat?.map((item : any, index : number)=>{
+                                console.log(item)
                                 const r = Math.floor(Math.random() * 69);
                                 const date = new Date(item?.created_at)
                                 return(
-                                    <Link
-                                        href={'/dashboard/profile/chat'}
+                                    <div
+                                        // href={'/dashboard/profile/chat'}
                                         key={index+1}
                                         onClick={()=>{
-
-                                            chatDispatch({type:"GET_DIRECT_CHAT" , value:item?.chat_with?.email})
+                                            setViewJustChat(true)
+                                            chatDispatch({type:"SET_CHAT_BOX" , value:item})
                                             // router.push('/dashboard/profile/chat')
                                         }}
-                                        className='w-full cursor-pointer m-auto px-[2vw] md:px-[1px]  py-2 md:py-1 xl:py-4 border-b-[1px] border-[#464C5A] flex flex-row items-center justify-between'>
+                                        className={`${item?.uuid === chatData?.chatBox?.uuid ? 'bg-secondary-yellow' : ''} mt-2 w-full cursor-pointer m-auto px-[2vw] md:px-[1px]  py-2 md:py-1 xl:py-4    flex flex-row items-center justify-between shadow-[0px_2px_6px_0px_#0000001A] my-1 rounded-[1rem]`}>
                                         {/*<div className='w-[20%] xl:w-[50px] md:w-[20%] relative'>*/}
                                         {/*    {item?.chat_with?.avatar ?*/}
                                         {/*        <img src={`${item?.chat_with?.avatar}`}*/}
@@ -65,16 +69,16 @@ const ChatDashboard = () => {
 
                                         <div className='grow ml-[3vw] md:ml-2 xl:ml-3 flex flex-col items-start justify-center'>
                                             <div className='font-bold text-[12px] break-all text-[2.7vw] md:text-[1vw] xl:text-sm'>
-                                                {item?.chat_with?.first_name == null ?  item?.chat_with?.email: `${item?.chat_with?.first_name} ${item?.chat_with?.last_name}`}
+                                                {item?.creator_user?.first_name == null ?  item?.creator_user?.email: `${item?.creator_user?.first_name} ${item?.creator_user?.last_name}`}
                                             </div>
                                             <div className='text-[13px] w-[75%] mt-[1vw] md:mt-[2px] xl:mt-1 truncate overflow-hidden text-[3vw] md:text-[1.1vw] xl:text-sm'>
-                                                {item?.text}
+                                                {item?.description}
                                             </div>
                                         </div>
-                                        <div className='h-[50px] flex flex-col items-center justify-start text-primary-dark-b/40 text-[1.8vw] md:text-[0.9vw] xl:text-sm'>
-                                            {date?.toLocaleTimeString('en-US' ,{hour12:false,hour: '2-digit', minute:'2-digit'})}
-                                        </div>
-                                    </Link>
+                                        {/*<div className='h-[50px] flex flex-col items-center justify-start text-primary-dark-b/40 text-[1.8vw] md:text-[0.9vw] xl:text-sm'>*/}
+                                        {/*    {date?.toLocaleTimeString('en-US' ,{hour12:false,hour: '2-digit', minute:'2-digit'})}*/}
+                                        {/*</div>*/}
+                                    </div>
                                 )
                             })
                         }

@@ -10,6 +10,10 @@ export async function  sendChatMessage(data : any){
     return await  instance.post('chat/start-chat/' ,data )
 }
 
+// export async function  getUserChats() {
+//     return await instance.get('chat/get-user-chats/')
+// }
+
 export async function  getUserChats() {
-    return await instance.get('chat/get-user-chats/')
+    return await instance.get('v2/product/request/')
 }

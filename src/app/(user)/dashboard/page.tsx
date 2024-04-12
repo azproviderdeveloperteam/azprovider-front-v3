@@ -8,6 +8,7 @@ import UserCard from "@/components/dashboardPages/dahsboard/UserCard";
 import Notifications from "@/components/dashboardPages/dahsboard/Notifications";
 import ChatDashboard from "@/components/dashboardPages/dahsboard/ChatDashboard";
 import {useChat, useChatAction} from "../../../contexts/ChatContext";
+import CompleteChatView from "@/components/dashboard/CompleteChatView";
 const DashboardPage = () => {
     const chatDispatch = useChatAction()
     const {chatData} = useChat()
@@ -15,10 +16,17 @@ const DashboardPage = () => {
     const [viewUpgrade ,setViewUpgrade ] = useState(true)
     const [rightBig , setRightBig] = useState(true)
 
+    const [viewJustChat , setViewJustChat] = useState<any>(false)
     return (
+        viewJustChat ?
+
+            <div className='w-full overflow-y-auto px-5'>
+                <CompleteChatView viewJustChat={viewJustChat} setViewJustChat={(e)=>setViewJustChat(e)}/>
+            </div>
+            :
         <div className='w-full overflow-y-auto px-5'>
             {
-                viewUpgrade && <UpgradeComponents setViewUpgradeFalse={()=>setViewUpgrade(false)}/>
+                viewUpgrade && <UpgradeComponents  setViewUpgradeFalse={()=>setViewUpgrade(false)}/>
             }
 
             <div className='w-full flex flex-col lg:flex-row items-start justify-between min-h-full'>
@@ -40,8 +48,8 @@ const DashboardPage = () => {
                     <div className='w-full hidden lg:block'>
                         <UserCard />
                     </div>
-                    <Notifications />
-                    <ChatDashboard />
+                    {/*<Notifications />*/}
+                    <ChatDashboard viewJustChat={viewJustChat} setViewJustChat={(e)=>setViewJustChat(e)}/>
                 </div>
             </div>
         </div>
