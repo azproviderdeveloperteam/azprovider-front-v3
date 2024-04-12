@@ -48,13 +48,27 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
     })
 
 
-     const router = useRouter()
-    const submit = async (d : any) =>{
-        const formData = {
-            ...(loginWithEmail && { email:d?.email}),
-            ...(!loginWithEmail && { mobile:d?.email}),
+    function validatePhone(phone : string)
+    {
+        const re = /^(\+\d{3})?\d{9}$/;
+        return re.test(phone.replace(/\s+/g, ''));
+    }
 
-        }
+    function validateEmail(email: string)
+    {
+        const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
+
+
+
+    const submit = async (d : any) =>{
+
+
+        const formData = validateEmail(d?.email) ?
+            { email:d?.email}
+        :
+            {mobile:d?.email}
        try{
            const da = await mutateAsync(formData)
            const token = da.data?.token?.access;
@@ -121,19 +135,19 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
 
                         </div>
 
-                        <div className='w-full flex flex-row items-center justify-start'>
-                            <div className='font-bold !text-[1rem] text-[#A1A1A1]'>
-                                {text.login.otp.loginWith + ' :'}
-                            </div>
+                        {/*<div className='w-full flex flex-row items-center justify-start'>*/}
+                        {/*    <div className='font-bold !text-[1rem] text-[#A1A1A1]'>*/}
+                        {/*        {text.login.otp.loginWith + ' :'}*/}
+                        {/*    </div>*/}
 
-                            <Button className={`px-4 py-2 rounded-full ml-2 font-normal normal-case capitalize !text-[1rem] ${loginWithEmail ? 'bg-primary-green-tb text-white' : 'bg-transparent text-[#A1A1A1] border-[1px] border-[#A1A1A1]'}` } onClick={()=>setLoginWithEmail(true)}>
-                                {text.login.otp.loginWithMail}
-                            </Button>
+                        {/*    <Button className={`px-4 py-2 rounded-full ml-2 font-normal normal-case capitalize !text-[1rem] ${loginWithEmail ? 'bg-primary-green-tb text-white' : 'bg-transparent text-[#A1A1A1] border-[1px] border-[#A1A1A1]'}` } onClick={()=>setLoginWithEmail(true)}>*/}
+                        {/*        {text.login.otp.loginWithMail}*/}
+                        {/*    </Button>*/}
 
-                            <Button className={`px-4 py-2 rounded-full ml-2 font-normal normal-case capitalize !text-[1rem] ${!loginWithEmail ? 'bg-primary-green-tb text-white' : 'bg-transparent text-[#A1A1A1] border-[1px] border-[#A1A1A1]'}` } onClick={()=>setLoginWithEmail(false)}>
-                                {text.login.otp.loginWithPhone}
-                            </Button>
-                        </div>
+                        {/*    <Button className={`px-4 py-2 rounded-full ml-2 font-normal normal-case capitalize !text-[1rem] ${!loginWithEmail ? 'bg-primary-green-tb text-white' : 'bg-transparent text-[#A1A1A1] border-[1px] border-[#A1A1A1]'}` } onClick={()=>setLoginWithEmail(false)}>*/}
+                        {/*        {text.login.otp.loginWithPhone}*/}
+                        {/*    </Button>*/}
+                        {/*</div>*/}
                         <h3 className={'mt-4 text-[1.2rem]'}>
                             {myTexts.emailOrPhone}
                         </h3>
@@ -146,7 +160,7 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
                                     error={errors?.email?.message}
                                     name={'email'}
                                     type={'mail'}
-                                    placeholder={'example@email.com'}
+                                    placeholder={'example@email.com Or +989123456789'}
 
                                 />
                             </div>

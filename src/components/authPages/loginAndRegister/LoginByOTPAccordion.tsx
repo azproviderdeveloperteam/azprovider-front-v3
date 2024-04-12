@@ -174,8 +174,6 @@ const LoginByOtpAccordion = () => {
 
     const submitWithEmailPassword = async (d : any) =>{
 
-        console.log(validateEmail(d?.email) ,d)
-
         const formData =  validateEmail(d?.email)  ? {
             email:d?.email,
             password:d?.password
