@@ -34,7 +34,7 @@ const Login = () => {
 
                 <div className='w-full lg:w-2/3 flex flex-col items-center justify-center px-10'>
                     <LoginByOTPAccordion />
-                    <LoginByPasswordAccordion />
+                    {/*<LoginByPasswordAccordion />*/}
                 </div>
             </div>
         </div>

@@ -157,7 +157,7 @@ export const texts = {
                 title:"OTP code",
                 sendCode:"Send Code",
                 confirm:"Confirm",
-                loginWith:"Login With",
+                loginWith:"Phone Or Email",
                 loginWithPhone:"phone number",
                 loginWithMail:"Email address",
                 havAcc:"haven’t an account? ",
