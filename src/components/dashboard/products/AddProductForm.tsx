@@ -17,7 +17,7 @@ import {useQuery} from "@tanstack/react-query";
 import {
     getAllHsCodes,
     getRandomHsCodes,
-    getSearchInFourthLevel,
+    getSearchInHsCodesNew,
     getSearchInThirdLevel
 } from "@/services/hsCodeServices";
 import ThreeDotsLoaderGreen from "@/components/loaders/ThreeDotsLoaderGreen";
@@ -74,7 +74,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData} : any) => {
 
 
     const {data  , isPending  , error  , mutateAsync} =useMutation({
-        mutationFn : getSearchInFourthLevel
+        mutationFn : getSearchInHsCodesNew
     })
     const {data : randomHsData, isPending :randomHsPending, error : randomHsError} = useQuery({
         queryKey: ['hs-random-hscode'],
@@ -152,10 +152,10 @@ const AddProductForm = ({exitKey , onClose , allMeasureData} : any) => {
             publish_date_to:dateTo,
             granted_organization:grantedOg?.label,
             certification:d?.typeCertification,
-            hs_code_third_levels:[productInput?.id],
+            // hs_code_third_levels:[productInput?.id],
             price:d?.price,
             short_description:d?.description,
-
+            hscode:productInput?.value
             // hs_codes:[productInput?.id],
             // number_of_employees:"",
             // national_code:"",
@@ -200,9 +200,10 @@ const AddProductForm = ({exitKey , onClose , allMeasureData} : any) => {
     const searchProduct = async (e : any) =>{
         if(e?.length > 3) {
             try {
+
                 const s = await mutateAsync(e)
 
-                const hsCodes = s?.data?.results?.data?.splice(0,100).map((item:any)=>(
+                const hsCodes = s?.data?.results?.splice(0,100).map((item:any)=>(
                     {
                         label:<div className='flex flex-row items-center justify-start md:text-[14px] text-[3.1vw]'>
                             {
@@ -214,7 +215,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData} : any) => {
                             }
                             <div className='w-[calc(100%-60px)] flex flex-col items-start justify-between'>
                                 <div>
-                                    {`#${item?.code}`}
+                                    {`#${item?.hscode}`}
                                 </div>
                                 <Tooltip content={item?.title} placement="top">
                                     <div className='text-primary-dark-b w-[95%] truncate font-bold'>
@@ -223,11 +224,12 @@ const AddProductForm = ({exitKey , onClose , allMeasureData} : any) => {
                                 </Tooltip>
                             </div>
                         </div>,
-                        code : item?.code ,
-                        value:item?.code ,
+
+                        value:item?.hscode ,
                         title:item?.title ,
-                        input :`#${item?.code} - ${item?.title}`,
-                        id : item?.id
+                        input :`#${item?.hscode} - ${item?.title}`,
+                        id : item?.id,
+                        ...item
                     }
                 ))
                 setOptions(hsCodes)
@@ -316,7 +318,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData} : any) => {
                                             </div>
                                             :
 
-                                            <div className='max-h-[25rem] overflow-auto'>
+                                            <div className='w-full max-h-[25rem] overflow-auto'>
                                                 { options?.length > 0 ?
                                                     options?.map((item :any,index : number)=>{
                                                         return(
@@ -326,7 +328,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData} : any) => {
                                                         )
                                                     })
                                                     :
-                                                    <div className='w-full h-[25rem] flex flex-row items-center justify-center'>
+                                                    <div className='!w-full h-[25rem] flex flex-row items-center justify-center'>
                                                         No Product
                                                     </div>
                                                 }

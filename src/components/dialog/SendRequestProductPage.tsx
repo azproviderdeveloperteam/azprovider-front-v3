@@ -17,7 +17,19 @@ import toast from "react-hot-toast";
 const SendRequestProductPage = ({data} : any) => {
 
     const [dialog , setDialog] = useState(false)
-    const [date , setDate] = useState(new Date())
+    const [fromDate , setFromDate] = useState(new Date())
+    const [toDate , setToDate] = useState(new Date())
+
+    const dateToFormatYMD = (d : Date | undefined)=>{
+        if( d instanceof Date){
+            const stingDate = d?.toLocaleDateString()?.split('/')
+            console.log(d , `${stingDate[2]}-${stingDate[0]}-${stingDate[1]}`)
+            return `${stingDate[2]}-${stingDate[0]}-${stingDate[1]}`
+        }
+        return ``
+    }
+
+
     const schema = Yup
         .object({
 
@@ -46,12 +58,13 @@ const SendRequestProductPage = ({data} : any) => {
 
     const submitForm = async (e : any)=>{
         const formData = {
-            target_user:data?.user?.id,
+            product_id:data?.id,
             quantity :parseInt(e?.quantity)  ,
             location:e?.location,
             price:parseInt(e?.price) ,
             payment:e?.payment,
-            active_date:date,
+            date_from:dateToFormatYMD(fromDate),
+            date_to:dateToFormatYMD(toDate),
             description:e?.desc
         }
 
@@ -74,6 +87,8 @@ const SendRequestProductPage = ({data} : any) => {
         }
 
     }
+
+
 
 
     return (
@@ -159,9 +174,17 @@ const SendRequestProductPage = ({data} : any) => {
 
                         <div className='col-span-3 lg:col-span-1 h-full'>
                             <div className=' text-[1rem] font-bold capitalize'>
-                                Active Date <span className='text-secondary-red'>*</span>
+                                Active From Date <span className='text-secondary-red'>*</span>
                             </div>
-                            <AzDatePicker   date={date} setDate={setDate}/>
+                            <AzDatePicker   date={fromDate} setDate={setFromDate}/>
+
+                        </div>
+
+                        <div className='col-span-3 lg:col-span-1 h-full'>
+                            <div className=' text-[1rem] font-bold capitalize'>
+                                Active To Date <span className='text-secondary-red'>*</span>
+                            </div>
+                            <AzDatePicker   date={toDate} setDate={setToDate}/>
 
                         </div>
 

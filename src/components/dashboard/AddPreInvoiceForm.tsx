@@ -45,7 +45,6 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList}
     const inputRefPreInvoice = useRef<any>(null)
 
 
-    console.log(productInput)
     const schema = Yup
         .object({
 
