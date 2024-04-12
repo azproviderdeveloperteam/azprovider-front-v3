@@ -42,7 +42,7 @@ const LoginByOtpAccordion = () => {
             email:Yup.string(),
             phone:Yup.string(),
             otp:Yup.string(),
-            Password:Yup.string()
+            password:Yup.string()
         })
         .required()
     const {
