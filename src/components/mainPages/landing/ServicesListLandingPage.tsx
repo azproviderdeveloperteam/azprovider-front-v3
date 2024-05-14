@@ -91,7 +91,7 @@ const ServicesListLandingPage = () => {
                 <div className='mt-5 w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
 
                     {
-                        categoriesData?.data?.map((item ,index)=>{
+                        categoriesData?.data?.map((item : any ,index : number)=>{
                             return(
                                 <div className={'w-[10.5%] min-w-[7.2rem] mr-[2%] mt-3 snap-start'} key={index+1}>
                                     <ProductCategoryCard src={item?.media_files?.[1]?.image ? item?.media_files?.[1]?.image : item?.media_files?.[0]?.image} title={item.title} color={'dark'}/>

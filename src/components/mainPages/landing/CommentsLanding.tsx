@@ -105,7 +105,7 @@ const CommentsLanding = () => {
                     >
 
                         {
-                            data?.data.map((item,index)=>{
+                            data?.data.map((item : any,index : number)=>{
                                 console.log(item)
                                 return(
                                     <div key={index+1}  className={`w-full lg:w-1/3  relative  h-full  transition duration-500 flex-shrink-0 ${selectedSlider === index-1 ? '!z-10' : '!z-0'}`} style={{transform:`translate3d(${-selectedSlider * 100}%, 0, 0)`}}>

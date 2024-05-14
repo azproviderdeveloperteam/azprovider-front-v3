@@ -30,7 +30,7 @@ const LooksOurBenefitsLanding = () => {
                     </p>
                     <div className='w-full flex flex-row items-start justify-start flex-wrap px-[13%] mt-10'>
                         {
-                            data?.data.map((item ,index)=>{
+                            data?.data.map((item : any ,index : number)=>{
                                 return(
                                     <div className={'w-[11rem] aspect-square rounded-2xl bg-[#D9D9D9] m-2 p-[3%] flex flex-col items-start justify-start benefit-icon.svg'} key={index+1}>
                                         <Image src={'/benefit-icon.svg'} alt={`benefit-icon${index+1}`} width={30} height={30} />
