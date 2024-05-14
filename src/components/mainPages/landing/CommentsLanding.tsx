@@ -4,12 +4,19 @@ import React, {useEffect, useRef, useState} from 'react';
 import {texts} from "@/utils/texts";
 import {Carousel, IconButton} from "@material-tailwind/react";
 import Image from "next/image";
+import {useQuery} from "@tanstack/react-query";
+import {getTestimonial} from "@/services/landingServices";
 
 const CommentsLanding = () => {
 
     const text = texts.eng
     const myTexts = text.homePage.comments
     const [selectedSlider,setSelectedSlider]=useState(0)
+    const {data , isPending , error } = useQuery({
+        queryKey: ['get-testimonial' ],
+        queryFn: getTestimonial,
+        retry:false,
+    })
 
     const fakeData = [
         {
@@ -56,12 +63,12 @@ const CommentsLanding = () => {
 
     const rightArrow=()=>{
         setSelectedSlider((prevIndex) =>
-            prevIndex === fakeData.length - 2 ? -1 : prevIndex + 1
+            prevIndex === data?.data?.length - 2 ? -1 : prevIndex + 1
         )
     }
     const leftArrow=()=>{
         setSelectedSlider((prevIndex) =>
-            prevIndex === -1 ? fakeData.length - 2 : prevIndex - 1
+            prevIndex === -1 ? data?.data?.length - 2 : prevIndex - 1
         )
     }
 
@@ -98,13 +105,14 @@ const CommentsLanding = () => {
                     >
 
                         {
-                            fakeData.map((item,index)=>{
+                            data?.data.map((item,index)=>{
+                                console.log(item)
                                 return(
                                     <div key={index+1}  className={`w-full lg:w-1/3  relative  h-full  transition duration-500 flex-shrink-0 ${selectedSlider === index-1 ? '!z-10' : '!z-0'}`} style={{transform:`translate3d(${-selectedSlider * 100}%, 0, 0)`}}>
                                        <div className={`w-full h-full flex flex-col items-center justify-end !relative  ` }>
                                            <div className={`${selectedSlider === index-1 ? 'lg:bg-[#EDA721]  lg:scale-[1.2] ' : 'bg-[#B1B1B1] '} w-full   h-[6.6rem] rounded-[1.1rem]  transition duration-500`}>
-                                               <p className='h-full w-full p-3 text-justify  text-[0.7rem] text-white'>
-                                                   {item.desc}
+                                               <p className='h-full w-full p-3 text-center  text-[0.9rem] text-white'>
+                                                   {item?.content}
                                                </p>
                                            </div>
                                             <div className= {`${selectedSlider === index-1 ? 'bg-[#EDA721]' : 'bg-[#B1B1B1] '} w-[40%] h-[5rem] flex flex-row items-center justify-center`}>
@@ -113,10 +121,10 @@ const CommentsLanding = () => {
 
                                             </div>
                                            <div className={`w-full font-bold text-[1rem] text-center mt-6 ${selectedSlider === index-1 ?'' : 'opacity-40' } transition duration-500`}>
-                                               {item.user}
+                                               {`${item?.first_name} ${item?.last_name}`}
                                            </div>
                                            <div className={`w-full text-[#6C6C6C] text-center   ${selectedSlider === index-1 ?'' : 'opacity-40' } transition duration-500`}>
-                                               {item.job}
+                                               {item?.position}
                                            </div>
                                        </div>
                                     </div>
