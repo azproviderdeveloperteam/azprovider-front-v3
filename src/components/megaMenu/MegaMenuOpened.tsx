@@ -165,7 +165,7 @@ const MegaMenuOpened = () => {
                             categoriesData?.data?.map((item:any ,index:number) => (
                                 <SwiperSlide key={index}>
                                     <div className={`${index===0 ? ' ' :''} pb-7 px-2 ${selectedCat === item?.id ? '': selectedCat=== '' ? '' : 'opacity-40'}`} key={index+1} onClick={()=>getMenuByCat(item)}>
-                                        <ProductCategoryCard src={item?.media_files?.[0]} title={item?.title} color={'dark'}/>
+                                        <ProductCategoryCard src={item?.media_files?.[1]?.image ? item?.media_files?.[1]?.image : item?.media_files?.[0]?.image} title={item?.title} color={'dark'}/>
                                     </div>
                                 </SwiperSlide>
                             ))

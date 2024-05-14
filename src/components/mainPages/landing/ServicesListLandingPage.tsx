@@ -1,10 +1,21 @@
+'use client'
 import React from 'react';
 import {texts} from "@/utils/texts";
 import ProductCategoryCard from "@/components/Cards/ProductCategoryCard";
+import {useQuery} from "@tanstack/react-query";
+import {getCategories} from "@/services/megaMenuServices";
 
 const ServicesListLandingPage = () => {
     const text = texts.eng
     const myTexts = text.homePage.services
+
+
+    const {data : categoriesData, isPending :categoriesPending, error : categoriesError} = useQuery({
+        queryKey: ['get-all-categories' ],
+        queryFn: getCategories,
+        retry:false,
+    })
+
     const fakeData = [
         {
             src:"/book.svg",
@@ -80,10 +91,10 @@ const ServicesListLandingPage = () => {
                 <div className='mt-5 w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
 
                     {
-                        fakeData.map((item ,index)=>{
+                        categoriesData?.data?.map((item ,index)=>{
                             return(
                                 <div className={'w-[10.5%] min-w-[7.2rem] mr-[2%] mt-3 snap-start'} key={index+1}>
-                                    <ProductCategoryCard src={item.src} title={item.title} color={'dark'}/>
+                                    <ProductCategoryCard src={item?.media_files?.[1]?.image ? item?.media_files?.[1]?.image : item?.media_files?.[0]?.image} title={item.title} color={'dark'}/>
                                 </div>
                             )
                         })
