@@ -10,10 +10,10 @@ const OurResponsive = () => {
         <div className='w-full py-[7rem] bg-[#ffffff]'>
             <div className='max-w-[71.2125rem] lg:w-[71.3125rem] m-auto w-full flex flex-col  md:flex-row items-center justify-between px-[5%] lg:px-0'>
                 <div className='w-full md:w-1/2'>
-                    <h2 className='w-full font-bold text-[3.5rem]  text-left text-primary-dark-b'>
+                    <h2 className='w-full font-bold text-[2rem]  text-left text-primary-dark-b'>
                         {myTexts.title}
                     </h2>
-                    <div className='w-full text-[1rem] text-justify text-primary-dark-b'>
+                    <div className='w-full text-[1rem] text-justify text-primary-dark-b my-2'>
                         {myTexts.desc.map((item:string ,index:number)=>{
                             return(
                                 <li key={index+1}>
@@ -23,6 +23,9 @@ const OurResponsive = () => {
                         })}
                     </div>
 
+                    <p className='text-primary-dark-b font-bold'>
+                        {myTexts.subDesc}
+                    </p>
                     <div className='w-full flex flex-row item-center justify-between flex-wrap'>
                         {
                             myTexts.analytics.map((item ,index)=>{

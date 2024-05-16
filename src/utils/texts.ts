@@ -91,15 +91,16 @@ export const texts = {
                     "We pride ourselves on our professional and knowledgeable team members who possess a deep understanding of the industry. We are dedicated to providing our clients with the highest level of service and support. Our team is always available to answer your questions and help you find the products or services you need\n"
             },
             ourResponsive:{
-                title:"Use Our Responsive With All Features" ,
-                desc:["Free registration and login to portal\n" ,
-                    "Full access after free login \n",
-                    "Hide your details and communicate by internal Chat service\n",
-                    "No limitation to access companies details and products properties after login\n" ,
-                    "Incredible discount in On Sale based on HSCode every moment \n" ,
-                    "Wonderful price in Hot Deal based on HSCode\n",
-                    "Amazing Offers in Pri Invoice based on HSCode\n",
-                    "Pay 0.1% after deal"],
+                title:"Experience the Full Features of AZprovider.com" ,
+                desc:["Unlimited Access: Enjoy full access to all features immediately after free registration and login." ,
+                    "Unlimited Information: Access detailed information about companies and product properties without restrictions after logging in.",
+                    "Exclusive Discounts: Take advantage of incredible product discounts in our \"On Sale\" section, updated every moment based on HS Codes.",
+                    "Hot Deals: Benefit from exceptional prices on items in our \"Hot Deal\" section, organized by HS Codes." ,
+                    "Amazing Offers: Discover fantastic pre-invoice offers tailored to HS Codes." ,
+                    "Secure Communication: Keep your details private and connect with suppliers using our internal chat service.",
+                    "Minimal Fees: Pay only 0.1% (1$ per 1000$!) upon completing a deal.",
+                   ],
+                subDesc:"Register now and explore how AZprovider.com can elevate your business.",
                 analytics:["Companies" , "Products" , "Services"]
             },
             products:{
