@@ -11,7 +11,7 @@ services:
     container_name: nextjs
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: dockerfile
     command: npm start
     environment:
       - BACKEND_URL=api.azprovider.com
