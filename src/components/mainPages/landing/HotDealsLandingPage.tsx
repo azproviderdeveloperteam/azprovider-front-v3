@@ -61,7 +61,7 @@ const HotDealsLandingPage =  () => {
             </div>
 
 
-            <div className={data?.length > 4 ?  'hidden md:block mt-5 max-w-[95rem] lg:w-[95rem] m-auto overflow-hidden' :'mt-5 max-w-[95rem] lg:w-[95rem] m-auto w-full hidden md:flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory ' }>
+            <div className={data?.length > 4 ?  'hidden md:block mt-5 max-w-[95rem] 2xl:w-[93rem] m-auto overflow-hidden' :'mt-5 max-w-[95rem] 2xl:w-[93rem] m-auto w-full hidden md:flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory ' }>
                 {
                     data?.length > 4  ?
                         <AzSwiperTitleComponent countDesktop={4} countMobile={2} title={''} count={data?.length} allLink={'#'}>

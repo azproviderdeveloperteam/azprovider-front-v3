@@ -22,7 +22,7 @@ export const texts = {
                         href:"/"
                     },
                     {
-                        title:"Job Operations",
+                        title:"Job Opportunities",
                         href:"/"
                     },
                     {

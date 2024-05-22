@@ -76,7 +76,7 @@ const CommentsLanding = () => {
 
     return (
         <div className='w-full bg-white py-28'>
-            <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-col items-center justify-start text-primary-dark-b'>
+            <div className='max-w-[95rem] 2xl:w-[93rem] m-auto w-full flex flex-col items-center justify-start text-primary-dark-b'>
                 <div className='w-full'>
                     <h2 className='text-center text-[4rem] font-bold leading-none'>
                         {myTexts.title}

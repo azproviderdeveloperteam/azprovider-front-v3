@@ -12,7 +12,7 @@ const Footer = () => {
     const myTexts = text.main.footer
 
     return (
-        <div className='w-full bg-primary-dark-b pt-28 text-white'>
+        <div className='w-full bg-primary-dark-b pt-28 text-white px-3 overflow-x-hidden'>
             <div className='max-w-[90rem] lg:w-[90rem] m-auto w-full flex flex-row items-center justify-start text-white'>
                 <div className='w-full flex flex-row items-start justify-between h-auto !min-h-[28.5rem]'>
                     <div className='w-1/2 h-full !min-h-[28.5rem] flex flex-row items-end justify-between'>
