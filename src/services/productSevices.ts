@@ -23,3 +23,7 @@ export async function  getAllHotDeals(params : any){
 export async function  getAllOnSales(params : any){
     return await  instance.get('products/get-all-on-sales/',{params : params})
 }
+
+export async function  getAllServicesV2(params : any){
+    return await  instance.get('v2/services/list/',{params : params})
+}
