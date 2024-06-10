@@ -388,6 +388,8 @@ export const texts = {
                     form:{
                         uploadLogo:"upload Image",
                         productCode:"product code / category",
+                        serviceCode:"service code / category",
+
                         capacity:"capacity",
                         measure:"measure",
                         brandName:"brand Name",

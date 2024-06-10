@@ -27,3 +27,16 @@ export async function  getSearchInHsCodesNew(params : string){
     return await  instance.get('v2/hscode/search/',{params : b})
 }
 
+
+
+export async function  getSearchInSeviceCodes(params : string){
+    let a = 'code'
+    if(params === ''){
+    }else if(params?.toString()[0]?.toUpperCase() === 'A' && params?.toString()[1]?.toUpperCase() === 'Z' ){
+    }else {
+        a = 'title'
+    }
+    const b = a === 'code' ? {code : params, limit:100} : {title:params , limit:100}
+    return await  instance.get('v2/svc-code/search/',{params : b})
+}
+
