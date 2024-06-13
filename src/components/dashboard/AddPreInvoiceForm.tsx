@@ -4,7 +4,7 @@ import {Button, IconButton, Tooltip} from "@material-tailwind/react";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {getSearchInFourthLevel, getSearchInThirdLevel} from "@/services/hsCodeServices";
+import {getSearchInFourthLevel, getSearchInHsCodesNew, getSearchInThirdLevel} from "@/services/hsCodeServices";
 import * as Yup from "yup";
 import ThreeDotsLoaderGreen from "@/components/loaders/ThreeDotsLoaderGreen";
 import Image from "next/image";
@@ -67,10 +67,14 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList}
     } = useForm({ resolver: yupResolver(schema), mode:'onChange'})
 
 
-    const {data  , isPending  , error  , mutateAsync} =useMutation({
-        mutationFn : getSearchInFourthLevel
-    })
+    // const {data  , isPending  , error  , mutateAsync} =useMutation({
+    //     mutationFn : getSearchInFourthLevel
+    // })
 
+
+    const {data  , isPending  , error  , mutateAsync} =useMutation({
+        mutationFn : getSearchInHsCodesNew
+    })
     const {data : createData  , isPending : createPending , error :createError , mutateAsync : createMutateAsync } =useMutation({
         mutationFn : cretePreInvoice
     })
@@ -123,7 +127,7 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList}
             try {
                 const s = await mutateAsync(e)
 
-                const hsCodes = s?.data?.results?.data?.splice(0,100).map((item:any)=>(
+                const hsCodes = s?.data?.results?.splice(0,100).map((item:any)=>(
                     {
                         label:<div className='flex flex-row items-center justify-start md:text-[14px] text-[3.1vw]'>
                             {
@@ -135,7 +139,7 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList}
                             }
                             <div className='w-[calc(100%-60px)] flex flex-col items-start justify-between'>
                                 <div>
-                                    {`#${item?.code}`}
+                                    {`#${item?.hscode}`}
                                 </div>
                                 <Tooltip content={item?.title} placement="top">
                                     <div className='text-primary-dark-b w-[95%] truncate font-bold'>
@@ -144,10 +148,10 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList}
                                 </Tooltip>
                             </div>
                         </div>,
-                        code : item?.code ,
-                        value:item?.code ,
+                        code : item?.hscode ,
+                        value:item?.hscode ,
                         title:item?.title ,
-                        input :`#${item?.code} - ${item?.title}`,
+                        input :`#${item?.hscode} - ${item?.title}`,
                         id : item?.id
                     }
                 ))
@@ -173,9 +177,10 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList}
     const  queryClient  =  useQueryClient()
 
     const submit = async (d : any) => {
+        console.log(productInput)
         const formData = {
             title : productInput?.title,
-            hscode_str:productInput?.code,
+            hscode:productInput?.code,
             short_description:d?.description,
             published_date_from:dateToFormatYMD(dateFrom) ,
             published_date_to:dateToFormatYMD(dateTo),
@@ -183,9 +188,9 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList}
             measure_unit_id:selectedMeasure?.value ,
             certification:d.typeCertification,
             description:d?.description ,
-            media_files_id: [
+            media_files_id: uploadImageData?.data?.id ?  [
                 uploadImageData?.data?.id
-            ],
+            ] : [],
             price:d?.price,
             brand_name : d?.brandName,
             // "model": "string",
