@@ -57,7 +57,7 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
                         </div>
 
                         <p className={'mt-3 text-justify text-primary-dark-b'}>
-                            {data?.short_description} Lorem ipsum dolor sit amet consectetur. Non non lorem tellus feugiat dui gravida fermentum facilisi feugiat. Diam dignissim lectus lacinia aliquam sollicitudin sagittis auctor tellus. Dui amet arcu adipiscing rhoncus. Adipiscing augue tempus pellentesque venenatis tempus laoreet.
+                            {data?.short_description}
                         </p>
                         <div className='font-thin text-[0.7rem] mt-4 text-[#8E8E8E]'>
                             {
