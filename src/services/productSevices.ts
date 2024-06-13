@@ -27,3 +27,7 @@ export async function  getAllOnSales(params : any){
 export async function  getAllServicesV2(params : any){
     return await  instance.get('v2/services/list/',{params : params})
 }
+
+export async function  getLastTenService(params : any){
+    return await  instance.get('v2/services/list/',{params : params})
+}
