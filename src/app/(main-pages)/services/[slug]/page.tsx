@@ -14,7 +14,7 @@ export const dynamic = 'force-static'
 const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
 
             // const {data} = await getProductDetails(params?.slug)
-    const data = {}
+    const data :any = {}
 
 
 
