@@ -5,7 +5,7 @@ import {Tooltip} from "@material-tailwind/react";
 
 const ProductCategoryCard = ({src , title ,color}:any) => {
 
-    console.log(src , title , color)
+
     return (
         <div className='w-full flex flex-col items-center justify-start hover:scale-[1.01] transition duration-500 cursor-pointer'>
             <Image

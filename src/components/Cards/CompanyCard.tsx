@@ -4,7 +4,7 @@ import {Avatar, IconButton} from "@material-tailwind/react";
 import noImage from '../../../public/no-image.svg'
 import Image from "next/image";
 import Link from "next/link";
-const CompanyCard = ({item} : any) => {
+const CompanyCard = ({item } : any) => {
 
     const monthNamesFull = [ "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December" ];
