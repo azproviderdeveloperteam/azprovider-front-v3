@@ -63,7 +63,7 @@ const Footer = () => {
                     <div className='w-full lg:w-1/2 h-full !min-h-[28.5rem] flex flex-row items-end justify-between'>
                         <div className='w-1/2  h-full  flex flex-col items-start justify-between'>
                             {
-                                myTexts.links.slice(0,8).map((item , index)=>{
+                                myTexts.links.slice(0,9).map((item , index)=>{
                                     return(
                                         <Link href={item.href} key={index+1}  className={'mt-10'}>
                                             <WhiteBtn>
@@ -77,7 +77,7 @@ const Footer = () => {
 
                         <div className='w-1/2  h-full  flex flex-col items-start justify-between'>
                             {
-                                myTexts.links.slice(8).map((item , index)=>{
+                                myTexts.links.slice(9).map((item , index)=>{
                                     return(
                                         <Link href={item.href} key={index+1}   className={'mt-10'}>
                                             <WhiteBtn>

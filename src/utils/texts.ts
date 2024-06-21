@@ -38,6 +38,10 @@ export const texts = {
                         href:"/faq"
                     },
                     {
+                        title:"About Us",
+                        href:"/about-us"
+                    },
+                    {
                         title:"Blog and News",
                         href:"/"
                     },
