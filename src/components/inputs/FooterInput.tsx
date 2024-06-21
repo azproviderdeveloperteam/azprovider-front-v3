@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import toast from "react-hot-toast";
 import {useMutation} from "@tanstack/react-query";
 import {postSubscriber} from "@/services/otherServices";
+import MainInput from "@/components/inputs/MainInput";
 
 const FooterInput = ({myTexts} : any) => {
 
@@ -15,7 +16,7 @@ const FooterInput = ({myTexts} : any) => {
         .object({
 
         }).shape({
-            email:Yup.string().email('Invalid Email').required('Email Or Phone is required')
+            email:Yup.string().email('Invalid Email').required('Email is required')
         })
         .required()
     const {
@@ -33,34 +34,55 @@ const FooterInput = ({myTexts} : any) => {
 
 
 
-    const onSubmit = async (e) =>{
+    const onSubmit = async (e:any) =>{
         try {
-            const res = mutateAsync(e)
+            const res = await mutateAsync(e)
             reset()
             toast.success('Email sent successfully!')
         }catch (e) {
+            toast.error('Error')
 
         }
     }
 
-    const handleErrors = () =>{
-        if(errors?.email){
-            toast.error(errors?.email?.message)
-        }
-    }
+    // const handleErrors = () =>{
+    //     if(errors?.email?.message){
+    //         // toast.error(errors?.email?.message?.toString())
+    //     }
+    // }
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className='w-9/12 max-w-[33rem] border-[1px] border-secondary-yellow h-20  rounded-[1.7rem] flex flex-row items-center justify-between px-1 py-1'>
-            <Input
-                name={'email'}
-                {...register('email')}
-                className={'grow h-full !border-none !outline-none text-secondary-yellow focus:!shadow-none focus:!outline-none focus:!border-none'}
-                placeholder={myTexts.input.placeholder}
-            />
-            <LightBtnWithBg loading={isPending} type={'submit'} onClick={handleErrors}  otherClass={'!h-full !rounded-[1.5rem] !w-[53%]'}>
-                {myTexts.input.btn}
-            </LightBtnWithBg>
-        </form>
+        <>
+            <form onSubmit={handleSubmit(onSubmit)} className='w-9/12 max-w-[33rem] border-[1px] border-secondary-yellow h-20  rounded-[1.7rem] flex flex-row items-center justify-between px-1 py-1'>
+                {/*<Input*/}
+                {/*    name={'email'}*/}
+                {/*    {...register('email')}*/}
+                {/*    className={'grow h-full !border-none !outline-none text-secondary-yellow focus:!shadow-none focus:!outline-none focus:!border-none'}*/}
+                {/*    placeholder={myTexts.input.placeholder}*/}
+                {/*/>*/}
+
+                <MainInput
+                    register={register}
+                    label={''}
+
+                    name={'email'}
+                    type={'text'}
+                    placeholder={myTexts.input.placeholder}
+                    borderNone={true}
+                    otherClass={'grow !border-none focus:!shadow-none focus:!outline-none focus:!border-none focus:!bg-transparent'}
+                />
+                <LightBtnWithBg loading={isPending} type={'submit'} otherClass={'!h-full !rounded-[1.5rem] !w-[53%]'}>
+                    {myTexts.input.btn}
+                </LightBtnWithBg>
+            </form>
+            {
+                errors?.email?.message &&
+                <div className='w-full text-[0.8rem] text-secondary-red px-4 mt-2'>
+                    {errors?.email?.message}
+                </div>
+            }
+        </>
+
 
     );
 };
