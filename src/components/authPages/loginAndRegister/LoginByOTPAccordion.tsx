@@ -1,5 +1,5 @@
 'use client'
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Accordion, AccordionBody, AccordionHeader, Button} from "@material-tailwind/react";
 import {texts} from "@/utils/texts";
 import Image from "next/image";
@@ -49,7 +49,8 @@ const LoginByOtpAccordion = () => {
         register,
         handleSubmit,
         formState: { errors,isSubmitting, isDirty, isValid },
-        getValues
+        getValues,
+        setValue
     } = useForm({ resolver: yupResolver(schema), mode:'onChange'})
 
 
@@ -95,6 +96,8 @@ const LoginByOtpAccordion = () => {
             app.defaults.headers.Authorization = `Bearer ${token}`;
             dispatch({type:"SET_TOKEN" , value:token})
             setStep(1)
+
+
 
         }catch (err){
             if(err instanceof AxiosError){
@@ -208,6 +211,11 @@ const LoginByOtpAccordion = () => {
     }
 
 
+    useEffect(()=>{
+        if(step === 1){
+            setValue('otp', '')
+        }
+    },[step])
     return (
         <Accordion className={'text-primary-dark-b bg-[#F8F8F8] rounded-[1.4rem] py-4 px-10 font-roboto'} open={open === 1}
                    // icon={<Image src={'/carousel-arrow.svg'} alt={'acc-otp-arrow'} width={10} height={10} className={`${open === 1 ? 'rotate-[-90deg]' :'rotate-90'} transition duration-500`} />  }
@@ -228,28 +236,11 @@ const LoginByOtpAccordion = () => {
                       step === 0 ?
                           <>
 
-                              {/*<div className='w-full flex flex-row items-center justify-start'>*/}
-                              {/*    <div className='font-bold !text-[1rem] text-[#A1A1A1]'>*/}
-                              {/*        {myTexts.loginWith + ' :'}*/}
-                              {/*    </div>*/}
-
-                              {/*    <Button className={`px-4 py-2 rounded-full ml-2 font-normal normal-case capitalize !text-[1rem] ${loginWithEmail ? 'bg-primary-green-tb text-white' : 'bg-transparent text-[#A1A1A1] border-[1px] border-[#A1A1A1]'}` } onClick={()=>setLoginWithEmail(true)}>*/}
-                              {/*        {myTexts.loginWithMail}*/}
-                              {/*    </Button>*/}
-
-                              {/*    <Button className={`px-4 py-2 rounded-full ml-2 font-normal normal-case capitalize !text-[1rem] ${!loginWithEmail ? 'bg-primary-green-tb text-white' : 'bg-transparent text-[#A1A1A1] border-[1px] border-[#A1A1A1]'}` } onClick={()=>setLoginWithEmail(false)}>*/}
-                              {/*        {myTexts.loginWithPhone}*/}
-                              {/*    </Button>*/}
-                              {/*</div>*/}
                               <div className='  font-bold text-[1.4rem] text-primary-dark-b capitalize'>
                                   Phone Or Email
-                                  {/*{*/}
-                                  {/*    loginWithEmail ? myTexts.emailInput.title  : myTexts.phoneInput.title*/}
-                                  {/*}*/}
                               </div>
 
                               {
-                                  // loginWithEmail  ?
 
                                       <form className='w-full flex flex-col items-start justify-between mt-2' onSubmit={handleSubmit(sendVerification)}>
                                           <div className='w-full pr-3 h-full'>
@@ -284,28 +275,6 @@ const LoginByOtpAccordion = () => {
 
 
                                       </form>
-
-                                      // :
-                                      //
-                                      // <form className='w-full flex flex-row items-start justify-between mt-2' onSubmit={handleSubmit(sendVerification)}>
-                                      //     <div className='w-3/4 pr-3 h-full'>
-                                      //         <MainInput
-                                      //             register={register}
-                                      //             label={'Your phone'}
-                                      //             error={errors?.phone?.message}
-                                      //             name={'phone'}
-                                      //             type={'tell'}
-                                      //             placeholder={'+98 9123456789'}
-                                      //
-                                      //         />
-                                      //     </div>
-                                      //
-                                      //     <div className='w-1/4'>
-                                      //         <RegisterBtn type={'submit'}  loading={vPending} disabled={false}  otherClass={'!w-full'}>
-                                      //             {myTexts.sendCode}
-                                      //         </RegisterBtn>
-                                      //     </div>
-                                      // </form>
                               }
 
                           </>
