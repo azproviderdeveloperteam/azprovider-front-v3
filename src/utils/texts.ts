@@ -31,7 +31,11 @@ export const texts = {
                     },
                     {
                         title:"Join Us",
-                        href:"/"
+                        href:"/register"
+                    },
+                    {
+                        title:"FAQ",
+                        href:"/faq"
                     },
                     {
                         title:"Blog and News",
@@ -47,27 +51,27 @@ export const texts = {
                     },
                     {
                         title:"Products",
-                        href:"/"
+                        href:"/products"
                     },
                     {
                         title:"Services",
-                        href:"/"
+                        href:"/services"
                     },
                     {
                         title:"Companies",
-                        href:"/"
+                        href:"/companies"
                     },
                     {
                         title:"Order and Requests",
-                        href:"/"
+                        href:"/register"
                     },
                     {
                         title:"Hot Deals",
-                        href:"/"
+                        href:"/products?sort=hotDeal"
                     },
                     {
                         title:"On Sales",
-                        href:"/"
+                        href:"/products?sort=onSale"
                     },
 
                 ],
