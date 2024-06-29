@@ -83,11 +83,14 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
 
            nextStep(d?.email)
        }catch (err){
+            console.log(err)
            if(err instanceof AxiosError){
                if(err?.response?.data?.msg){
                    toast.error(err?.response?.data?.msg)
                }else if(err?.response?.data?.message){
                    toast.error(err?.response?.data?.message)
+               }else if(err?.response?.data?.error){
+                   toast.error(err?.response?.data?.error)
                } else {
                    toast.error('An Error occurred')
                }
@@ -111,7 +114,7 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
             <div className='hidden lg:block w-[45%] relative'>
                 <Image src={'/pink-vector.svg'} alt={'pink-vector'} width={350} height={350} className={'!absolute top-[44%] left-[-35%] z-[0]'}/>
                 <Image src={'/gray-vector.svg'} alt={'gray-vector'} width={250} height={250} className={'!absolute top-[-2%] left-[82%] z-[0]'}/>
-                <Image src={'/purple-vector.svg'} alt={'purple-vector'} width={550} height={550} className={'!absolute top-[-95%] left-[0%] z-[10]'}/>
+                <Image src={'/purple-vector.svg'} alt={'purple-vector'} width={550} height={550} className={'!absolute top-[-155%] left-[0%] z-[10]'}/>
                 <div className='w-full flex flex-col items-start justify-center'>
                     <h1 className='w-full text-left capitalize leading-none	 text-transparent bg-clip-text font-bold text-[3.5rem]' style={{backgroundImage:"linear-gradient(88deg, #AE88FF 7.72%, #FFA3F7 48.06%, #FFCB8E 91.92%)"}}>
                         {myTexts.sayWelcome}
