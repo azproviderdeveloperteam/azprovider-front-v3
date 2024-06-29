@@ -12,13 +12,9 @@ const AboutUsPage = () => {
                                 About Us
                             </h1>
                             <p className='w-full mt-3 text-[0.9rem] '>
-                                With over 15 years of expertise,<span className='font-bold mx-1 '> AzProvider</span> stands as a beacon of excellence.
+                                Founded in 2010, <span className='font-bold mx-1 '> AzProvider</span>  has evolved from a supply chain company to a comprehensive digital platform, offering a diverse selection of products and exclusive services from reliable global suppliers. Our platform simplifies sourcing raw materials and finished goods, ensuring high standards for quality, reliability, and affordability. We provide small businesses and large corporations with seamless, efficient supply chain solutions, allowing them to focus on growth. Discover how AZ Provider can support your business today.
                             </p>
-                            <p className='w-full mt-6 text-[0.9rem] '>
-                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.                            </p>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -64,10 +60,10 @@ const AboutUsPage = () => {
                             </div>
                         </div>
                         <h3 className={'ml-2 md:mt-2'}>
-                            item 1
+                            Unmatched Accessibility
                         </h3>
                         <p className='text-center mt-4 text-[0.8rem]  px-5'>
-                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
+                            Experience full access to all features and detailed product information immediately after free registration. Our platform ensures you have everything you need at your fingertips to make informed decisions.
                         </p>
                     </div>
 
@@ -82,10 +78,12 @@ const AboutUsPage = () => {
                             </div>
                         </div>
                         <h3 className={'ml-2 md:mt-2'}>
-                            item 2
+                            Exclusive Savings
+
                         </h3>
                         <p className='text-center mt-4 text-[0.8rem]  px-5'>
-                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam,   </p>
+                            ake advantage of exclusive discounts and hot deals updated in real-time based on HS Codes. Our "On Sale" and "Hot Deal" sections offer unbeatable prices, helping you maximize your budget.
+                        </p>
                     </div>
 
                     <div className='w-full lg:w-1/3 flex flex-col items-center justify-start m-3'>
@@ -99,10 +97,11 @@ const AboutUsPage = () => {
                             </div>
                         </div>
                         <h3 className={'ml-2 md:mt-2'}>
-                            item3
+                            Secure and Efficient Transactions
+
                         </h3>
                         <p className='text-center mt-4 text-[0.8rem]  px-5'>
-                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
+                            Connect with suppliers securely and enjoy minimal fees of just 0.1% (1$/1000$) per transaction. Our streamlined process ensures a seamless and stress-free experience from start to finish.
                         </p>
                     </div>
                 </div>
@@ -121,18 +120,17 @@ const AboutUsPage = () => {
                                     Our Story
                                 </h2>
                                 <h3 className=' mt-4'>
-                                    15 Years of Excellence
+                                    14 Years of Excellence
                                 </h3>
                                 <p className={' text-[0.9rem] mt-2'}>
-                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
-                                </p>
-
-                                <h3 className=' mt-4'>
-                                    Evolution and Growth
-                                </h3>
-                                <p className={' text-[0.9rem] mt-2'}>
-                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
-                                </p>
+                                    In 2010, we embarked on our journey with a mission to revolutionize marketing through traditional methods. Over the years, we've grown and adapted to the changing landscape of business, culminating in the launch of our website last year. This digital transformation has enabled us to expand our reach and better serve our clients. We are dedicated to continuously improving our platform and services, ensuring that we meet the evolving needs of businesses worldwide. Our commitment to innovation and excellence drives us to provide seamless and efficient supply chain solutions for our valued clients.                                </p>
+                                
+                                {/*<h3 className=' mt-4'>*/}
+                                {/*    Evolution and Growth*/}
+                                {/*</h3>*/}
+                                {/*<p className={' text-[0.9rem] mt-2'}>*/}
+                                {/*    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam,*/}
+                                {/*</p>*/}
 
                             </div>
                         </div>
@@ -159,20 +157,11 @@ const AboutUsPage = () => {
                                 <h2 className='  font-bold text-[1.3rem] lg:text-[2rem]  ' >
                                     Meet Our Team
                                 </h2>
-                                <h3 className=' mt-4'>
-                                    Lorem ipsum
-                                </h3>
+                           
                                 <p className={' text-[0.9rem] mt-2'}>
-                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
+                                    At AZ Provider, our small but dedicated team is committed to providing exceptional service and support. Each team member brings a wealth of industry knowledge and a passion for helping your business succeed. We work closely together to ensure a seamless and efficient experience for all our clients. Get to know the friendly faces behind AZ Provider and see how we can assist you in reaching your business goals.
                                 </p>
-
-                                <h3 className=' mt-4'>
-                                    item 1
-                                </h3>
-                                <p className={' text-[0.9rem] mt-2'}>
-                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
-                                </p>
-
+ 
                             </div>
                         </div>
                         <div className='w-full lg:w-1/2 h-full  hidden lg:flex flex-row items-center justify-center mt-8  lg:mt-0 '>
