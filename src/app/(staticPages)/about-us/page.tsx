@@ -82,7 +82,7 @@ const AboutUsPage = () => {
 
                         </h3>
                         <p className='text-center mt-4 text-[0.8rem]  px-5'>
-                            ake advantage of exclusive discounts and hot deals updated in real-time based on HS Codes. Our "On Sale" and "Hot Deal" sections offer unbeatable prices, helping you maximize your budget.
+                            {`ake advantage of exclusive discounts and hot deals updated in real-time based on HS Codes. Our "On Sale" and "Hot Deal" sections offer unbeatable prices, helping you maximize your budget.`}
                         </p>
                     </div>
 
@@ -123,8 +123,11 @@ const AboutUsPage = () => {
                                     14 Years of Excellence
                                 </h3>
                                 <p className={' text-[0.9rem] mt-2'}>
-                                    In 2010, we embarked on our journey with a mission to revolutionize marketing through traditional methods. Over the years, we've grown and adapted to the changing landscape of business, culminating in the launch of our website last year. This digital transformation has enabled us to expand our reach and better serve our clients. We are dedicated to continuously improving our platform and services, ensuring that we meet the evolving needs of businesses worldwide. Our commitment to innovation and excellence drives us to provide seamless and efficient supply chain solutions for our valued clients.                                </p>
-                                
+                                    {
+                                        `In 2010, we embarked on our journey with a mission to revolutionize marketing through traditional methods. Over the years, we've grown and adapted to the changing landscape of business, culminating in the launch of our website last year. This digital transformation has enabled us to expand our reach and better serve our clients. We are dedicated to continuously improving our platform and services, ensuring that we meet the evolving needs of businesses worldwide. Our commitment to innovation and excellence drives us to provide seamless and efficient supply chain solutions for our valued clients.                                        `
+                                    }
+                                </p>
+
                                 {/*<h3 className=' mt-4'>*/}
                                 {/*    Evolution and Growth*/}
                                 {/*</h3>*/}
@@ -157,9 +160,12 @@ const AboutUsPage = () => {
                                 <h2 className='  font-bold text-[1.3rem] lg:text-[2rem]  ' >
                                     Meet Our Team
                                 </h2>
-                           
+
                                 <p className={' text-[0.9rem] mt-2'}>
-                                    At AZ Provider, our small but dedicated team is committed to providing exceptional service and support. Each team member brings a wealth of industry knowledge and a passion for helping your business succeed. We work closely together to ensure a seamless and efficient experience for all our clients. Get to know the friendly faces behind AZ Provider and see how we can assist you in reaching your business goals.
+                                    {`
+                                                  At AZ Provider, our small but dedicated team is committed to providing exceptional service and support. Each team member brings a wealth of industry knowledge and a passion for helping your business succeed. We work closely together to ensure a seamless and efficient experience for all our clients. Get to know the friendly faces behind AZ Provider and see how we can assist you in reaching your business goals.
+                                    `}
+
                                 </p>
  
                             </div>
