@@ -78,6 +78,8 @@ const LoginByOtpAccordion = () => {
         return re.test(email);
     }
 
+
+
     const sendVerification = async (d : any) =>{
 
         const formData = validateEmail(d?.email)  ? {
@@ -105,6 +107,8 @@ const LoginByOtpAccordion = () => {
                     toast.error(err?.response?.data?.msg)
                 }else if(err?.response?.data?.message){
                     toast.error(err?.response?.data?.message)
+                }else if(err?.response?.data?.error){
+                    toast.error(err?.response?.data?.error)
                 } else {
                     toast.error('An Error occurred')
                 }
@@ -136,6 +140,8 @@ const LoginByOtpAccordion = () => {
                     toast.error(err?.response?.data?.msg)
                 }else if(err?.response?.data?.message){
                     toast.error(err?.response?.data?.message)
+                }else if(err?.response?.data?.error){
+                    toast.error(err?.response?.data?.error)
                 } else {
                     toast.error('An Error occurred')
                 }
@@ -144,10 +150,16 @@ const LoginByOtpAccordion = () => {
     }
 
     const submitWithEmail = async (d : any) =>{
-        const formData = {
+
+        const formData = validateEmail(d?.email) ? {
             email:d?.email,
             otp:d?.otp
-        }
+        } :
+            {
+                mobile:d?.email,
+                otp:d?.otp
+            }
+
         try{
             const da = await mutateAsync(formData)
             const token = da.data?.token?.access;
@@ -166,6 +178,8 @@ const LoginByOtpAccordion = () => {
                     toast.error(err?.response?.data?.msg)
                 }else if(err?.response?.data?.message){
                     toast.error(err?.response?.data?.message)
+                }else if(err?.response?.data?.error){
+                    toast.error(err?.response?.data?.error)
                 } else {
                     toast.error('An Error occurred')
                 }
@@ -285,7 +299,7 @@ const LoginByOtpAccordion = () => {
                                   {myTexts.verificationInput.title}
 
                               </div>
-                              <form className='w-full flex flex-row items-start justify-between mt-2' onSubmit={handleSubmit(loginWithEmail ? submitWithEmail : submitWithPhone)}>
+                              <form className='w-full flex flex-row items-start justify-between mt-2' onSubmit={handleSubmit( submitWithEmail )}>
                                   <div className='w-3/4 pr-3 h-full'>
                                       <MainInput
                                           register={register}
