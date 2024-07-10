@@ -217,6 +217,8 @@ const LoginByOtpAccordion = () => {
                     toast.error(err?.response?.data?.msg)
                 }else if(err?.response?.data?.message){
                     toast.error(err?.response?.data?.message)
+                }else if(err?.response?.data?.error){
+                    toast.error(err?.response?.data?.error)
                 } else {
                     toast.error('An Error occurred')
                 }
