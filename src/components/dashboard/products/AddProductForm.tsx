@@ -27,15 +27,16 @@ type GrantedOgType = {
     value : string | undefined ,
     label :string | undefined ,
 }
-const AddProductForm = ({exitKey , onClose , allMeasureData} : any) => {
+const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList} : any) => {
 
     const [img ,setImg] = useState<any>(null)
     const [imgView ,setImgView] = useState<any>(null)
     const [dateFrom, setDateFrom] = React.useState<Date>();
     const [dateTo, setDateTo] = React.useState<Date>();
-    const [grantedOg , setGrantedOg] = useState<any>({value:"Normal" , label:"Normal"} )
-    const [selectedMeasure , setSelectedMeasure] = useState<any>({value:'kilogram', label : 'kilogram'} )
-    const [measureOptions , setMeasureOptions] = useState<any>([{value:'kilogram', label : 'kilogram'}] )
+    const [grantedOg , setGrantedOg] = useState<any>(null)
+    const [selectedMeasure , setSelectedMeasure] = useState<any>( null )
+    const [measureOptions , setMeasureOptions] = useState<any>([] )
+    const [grantedOgOptions , setGrantedOgOptions] = useState<any>( )
 
 
     const [productInput ,setProductInput] = useState<any>(
@@ -97,12 +98,20 @@ const AddProductForm = ({exitKey , onClose , allMeasureData} : any) => {
         let mo :any[] = []
 
         if(allMeasureData?.data){
-            allMeasureData?.data?.map((x:any)=>mo.push({value:x?.title , label : x?.title}))
+            allMeasureData?.data?.map((x:any)=>mo.push({value:x?.id , label : x?.name}))
         }
         setMeasureOptions(mo)
     },[allMeasureData])
 
 
+    useEffect(()=>{
+        let mo :any[] = []
+
+        if(allGrantedList?.data){
+            allGrantedList?.data?.map((x:any)=>mo.push({value:x?.id , label : x?.name}))
+        }
+        setGrantedOgOptions(mo)
+    },[allGrantedList])
     useEffect(()=>{
 
 
@@ -457,11 +466,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData} : any) => {
                                 // getToCurrenciesFunc(e?.value)
                             }}
                             value={grantedOg}
-                            options={[
-                                {value:"Good" , label:"Good"} ,
-                                {value:"Normal" , label:"Normal"} ,
-                                {value:"Bad" , label:"Bad"} ,
-                            ]}
+                            options={grantedOgOptions}
                             unstyled
                             styles={{
                                 input: (base) => ({

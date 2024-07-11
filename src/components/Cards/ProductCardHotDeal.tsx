@@ -19,7 +19,7 @@ import {AxiosError} from "axios";
 
 const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , submitting} : any) => {
     const [dialog ,setDialog] = useState(false)
-    const [selectedMeasure , setSelectedMeasure] = useState<any>({value:'kilogram', label : 'kilogram'} )
+    const [selectedMeasure , setSelectedMeasure] = useState<any>(null)
     const [cancelDialog , setCancelDialog] = useState(false)
 
 

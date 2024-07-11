@@ -5,7 +5,7 @@ import React, {useEffect, useState} from 'react';
 import ProductList from "@/components/dashboard/products/productList";
 import AddProductForm from "@/components/dashboard/products/AddProductForm";
 import AddProductCard from "@/components/dashboard/products/AddProductCard";
-import {getAllMeasure} from "@/services/measurementServices";
+import {getGrantedOrganisationList, getMeasureList} from "@/services/measurementServices";
 
 const ProductsPage = () => {
 
@@ -18,10 +18,14 @@ const ProductsPage = () => {
     })
     const {data : allMeasureData, isPending :allMeasurePending, error : allMeasureError} = useQuery({
         queryKey: ['get-all-measure' , submit],
-        queryFn: getAllMeasure,
+        queryFn: getMeasureList,
         retry:false,
     })
-
+    const {data : getGrantedOrganisationListData, isPending :getGrantedOrganisationListPending, error : getGrantedOrganisationListError} = useQuery({
+        queryKey: ['get-getGrantedOrganisationList' ,submit],
+        queryFn: getGrantedOrganisationList,
+        retry:false,
+    })
 
     useEffect(()=>{
         if(productsData?.data){
@@ -35,7 +39,7 @@ const ProductsPage = () => {
     },[productsData])
     return (
         viewAddProductForm ?
-            <AddProductForm allMeasureData={allMeasureData} exitKey={productsData?.data?.results ? productsData?.data?.results?.length > 0 ? true : false : false} onClose={()=>{
+            <AddProductForm allGrantedList={getGrantedOrganisationListData} allMeasureData={allMeasureData} exitKey={productsData?.data?.results ? productsData?.data?.results?.length > 0 ? true : false : false} onClose={()=>{
                 setViewAddProductForm(false)
                 setSubmit(submit + 1)
             }}/>

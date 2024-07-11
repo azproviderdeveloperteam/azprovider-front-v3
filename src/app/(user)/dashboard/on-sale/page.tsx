@@ -4,11 +4,11 @@ import {Tab, Tabs, TabsHeader} from "@material-tailwind/react";
 import {useQuery} from "@tanstack/react-query";
 import {getDashboardProducts} from "@/services/dashboardProductsServices";
 import ProductCardOnSale from "@/components/Cards/ProductCardOnSale";
-import {getAllMeasure} from "@/services/measurementServices";
+import {getAllMeasure, getMeasureList} from "@/services/measurementServices";
 const OnSalePage = () => {
     const [activeTab, setActiveTab] = useState<any>('All');
     const [submitting , setSubmitting]= useState<any>(0)
-    const [measureOptions , setMeasureOptions] = useState<any>([{value:'kilogram', label : 'kilogram'}] )
+    const [measureOptions , setMeasureOptions] = useState<any>([] )
     const data = [
         {
             label: "All",
@@ -40,14 +40,14 @@ const OnSalePage = () => {
 
     const {data : allMeasureData, isPending :allMeasurePending, error : allMeasureError} = useQuery({
         queryKey: ['get-all-measure' ],
-        queryFn: getAllMeasure,
+        queryFn: getMeasureList,
         retry:false,
     })
     useEffect(()=>{
         let mo :any[] = []
 
         if(allMeasureData?.data){
-            allMeasureData?.data?.map((x:any)=>mo.push({value:x?.title , label : x?.title}))
+            allMeasureData?.data?.map((x:any)=>mo.push({value:x?.id , label : x?.name}))
         }
         setMeasureOptions(mo)
     },[allMeasureData])

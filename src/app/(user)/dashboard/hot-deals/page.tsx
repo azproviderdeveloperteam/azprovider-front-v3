@@ -7,11 +7,11 @@ import {getDashboardProducts} from "@/services/dashboardProductsServices";
 import ProductList from "@/components/dashboard/products/productList";
 import ProductCardOnSale from "@/components/Cards/ProductCardOnSale";
 import ProductCardHotDeal from "@/components/Cards/ProductCardHotDeal";
-import {getAllMeasure} from "@/services/measurementServices";
+import {getAllMeasure, getMeasureList} from "@/services/measurementServices";
 const HotDealsPage = () => {
 
     const [activeTab, setActiveTab] = useState<any>('All');
-    const [measureOptions , setMeasureOptions] = useState<any>([{value:'kilogram', label : 'kilogram'}] )
+    const [measureOptions , setMeasureOptions] = useState<any>([] )
     const [submitting , setSubmitting]= useState<any>(0)
 
     const data = [
@@ -38,7 +38,7 @@ const HotDealsPage = () => {
 
     const {data : allMeasureData, isPending :allMeasurePending, error : allMeasureError} = useQuery({
         queryKey: ['get-all-measure' ],
-        queryFn: getAllMeasure,
+        queryFn: getMeasureList,
         retry:false,
     })
     const {data : productsData, isPending :productsPending, error : productsError} = useQuery({
@@ -46,11 +46,13 @@ const HotDealsPage = () => {
         queryFn: getDashboardProducts,
         retry:false,
     })
+
+
     useEffect(()=>{
         let mo :any[] = []
 
         if(allMeasureData?.data){
-            allMeasureData?.data?.map((x:any)=>mo.push({value:x?.title , label : x?.title}))
+            allMeasureData?.data?.map((x:any)=>mo.push({value:x?.id , label : x?.name}))
         }
         setMeasureOptions(mo)
     },[allMeasureData])
