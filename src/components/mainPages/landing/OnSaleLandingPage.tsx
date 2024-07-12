@@ -28,6 +28,7 @@ const OnSaleLandingPage =  () => {
         setData(d?.data)
     },[d])
 
+
     return (
 
         <div className='w-full bg-white py-28 px-[5%] lg:px-0'>
@@ -59,7 +60,10 @@ const OnSaleLandingPage =  () => {
                         data?.map((item:any ,index:number) => (
                             <SwiperSlide key={index}>
                                 <div className={`${index===0 ? ' ' :''} pb-7 px-2`} key={index+1}>
-                                    <ProductCard item={item}  />
+                                    <Link href={`/products/${item?.id}`}  >
+                                        <ProductCard item={item}  />
+                                    </Link>
+
                                 </div>
                             </SwiperSlide>
                         ))
@@ -74,7 +78,9 @@ const OnSaleLandingPage =  () => {
                                 data?.map((item:any ,index:number) => (
                                     <SwiperSlide key={index}>
                                         <div className={`${index===0 ? ' ' :''} pb-7 px-2`} key={index+1}>
-                                            <ProductCard item={item}  />
+                                            <Link href={`/products/${item?.id}`}  >
+                                                <ProductCard item={item}  />
+                                            </Link>
                                         </div>
                                     </SwiperSlide>
                                 ))
@@ -86,7 +92,9 @@ const OnSaleLandingPage =  () => {
                         data?.map((item :any ,index : number)=>{
                             return(
                                 <div className={`${index===0 ? ' ' :''}  w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`} key={index+1}>
-                                    <ProductCard item={item}  />
+                                    <Link href={`/products/${item?.id}`}  >
+                                        <ProductCard item={item}  />
+                                    </Link>
                                 </div>
                             )
                         })

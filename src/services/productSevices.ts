@@ -31,3 +31,8 @@ export async function  getAllServicesV2(params : any){
 export async function  getLastTenService(params : any){
     return await  instance.get('v2/services/list/',{params : params})
 }
+
+
+export async function  getServiceDetails(id : any){
+    return await  instance.get(`v2/services/${id}`, )
+}

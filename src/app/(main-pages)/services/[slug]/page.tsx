@@ -3,7 +3,7 @@ import React from 'react';
 import Image from "next/image";
  import SsrIconBtn from "@/components/Buttons/SsrIconBtn";
 import ProductCard from "@/components/Cards/ProductCard";
- import {getProductDetails} from "@/services/productSevices";
+ import {getServiceDetails} from "@/services/productSevices";
 import SendRequestProductPage from "@/components/dialog/SendRequestProductPage";
 
 export const dynamicParams = false
@@ -11,9 +11,9 @@ export const dynamic = 'force-static'
 // export async function generateStaticParams() {
 //     return [{slug:'32'},{slug:'33'}]
 // }
-const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
+const ServiceDetailPage = async ({ params }: { params: { slug: string } }) => {
 
-            // const {data} = await getProductDetails(params?.slug)
+            // const {data} = await getServiceDetails(params?.slug)
     const data :any = {}
 
 
@@ -25,6 +25,7 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
 
     const monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+
 
     return (
         <div className='w-full py-28 '>
@@ -169,5 +170,5 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
     );
 };
 
-export default CompanyDetailPage;
+export default ServiceDetailPage;
 

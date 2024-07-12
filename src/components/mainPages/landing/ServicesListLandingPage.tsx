@@ -9,6 +9,7 @@ import {SwiperSlide} from "swiper/react";
 import ProductCard from "@/components/Cards/ProductCard";
 import AzSwiperTitleComponent from "@/components/azSwiper/AzSwiperTitleComponent";
 import {getLastTenService} from "@/services/productSevices";
+import Link from "next/link";
 
 const ServicesListLandingPage = () => {
     const text = texts.eng
@@ -112,8 +113,11 @@ const ServicesListLandingPage = () => {
                             data?.data?.results.map((item:any ,index:number) => (
                                 <SwiperSlide key={index}>
                                     <div className={`${index===0 ? ' ' :''} pb-7 px-2`} key={index+1}>
-                                        <ProductCard item={item}  isService={true}/>
-                                    </div>
+                                        <Link href={`/services/${item?.id}`} >
+
+                                            <ProductCard item={item}  isService={true}/>
+
+                                        </Link>                                    </div>
                                 </SwiperSlide>
                             ))
                         }
@@ -127,7 +131,11 @@ const ServicesListLandingPage = () => {
                                     data?.data?.results?.map((item:any ,index:number) => (
                                         <SwiperSlide key={index}>
                                             <div className={`${index===0 ? ' ' :''} pb-7 px-2`} key={index+1}>
-                                                <ProductCard item={item}  />
+                                                <Link href={`/services/${item?.id}`} >
+
+                                                    <ProductCard item={item}  isService={true}/>
+
+                                                </Link>
                                             </div>
                                         </SwiperSlide>
                                     ))
@@ -140,8 +148,11 @@ const ServicesListLandingPage = () => {
                                 console.log(item)
                                 return(
                                     <div className={`${index===0 ? ' ' :''}  w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`} key={index+1}>
-                                        <ProductCard item={item}  />
-                                    </div>
+                                        <Link href={`/services/${item?.id}`} >
+
+                                            <ProductCard item={item}  isService={true}/>
+
+                                        </Link>                                    </div>
                                 )
                             })
 
