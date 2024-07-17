@@ -22,7 +22,7 @@ const PreInvoiceCard = ({item , theme} : any) => {
 
     const monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-
+    console.log(item)
     return (
         <div className={`w-full aspect-[2.69] flex flex-row items-center justify-between rounded-[1.6rem] ${theme==='dark' ?'bg-primary-dark-b shadow-[0px_12px_20px_0px_#062940]' : 'bg-white shadow-[0px_12px_20px_0px_rgba(0,_0,_0,_0.10)]' } `}>
 
@@ -76,7 +76,7 @@ const PreInvoiceCard = ({item , theme} : any) => {
                 <div className='w-full flex flex-row items-center justify-between pt-3 px-[1%]'>
                     <div className='w-1/2 flex flex-row items-center justify-start text-[0.8rem]'>
                         <div className='bg-white px-2 text-primary-dark-b rounded-[5px]'>
-                            #{item?.hscode_str}
+                            {`#${item?.svc_code ? item?.svc_code : item?.hscode}`}
                         </div>
 
                         {
@@ -91,9 +91,9 @@ const PreInvoiceCard = ({item , theme} : any) => {
                     </div>
                     <div className={'w-1/2 flex flex-row items-center justify-center text-[0.8rem]'}>
                         {
-                            item?.discount_expire_date &&
-                            <div className='bg-[#FF4A23] pl-2 pr-[16px]  translate-x-[12px] text-white rounded-[5px]'>
-                                47:24:15
+                            item?.published_date_to &&
+                            <div className='bg-[#FF4A23] px-2  translate-x-[12px] text-white rounded-[5px]'>
+                                {item?.published_date_to}
                             </div>
                         }
 
