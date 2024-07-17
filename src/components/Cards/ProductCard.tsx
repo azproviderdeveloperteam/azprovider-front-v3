@@ -65,7 +65,7 @@ const ProductCard = ({item , theme , isService} : any) => {
                         <div className='w-full flex flex-row items-center justify-between pt-3 px-[5%]'>
                             <div className='w-1/2 flex flex-row items-center justify-start text-[0.8rem]'>
                                 <div className='bg-white px-2 text-primary-dark-b rounded-[5px]'>
-                                    {`#${item?.svc_code ? item?.svc_code : item?.code}`}
+                                    {`#${item?.svc_code ? item?.svc_code : item?.hs_codes}`}
                                 </div>
 
                                 {
