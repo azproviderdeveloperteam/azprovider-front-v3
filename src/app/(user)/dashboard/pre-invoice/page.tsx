@@ -9,6 +9,7 @@ import AddProductForm from "@/components/dashboard/products/AddProductForm";
 import AddPreInvoiceForm from "@/components/dashboard/AddPreInvoiceForm";
 import ProductList from "@/components/dashboard/products/productList";
 import AddProductCard from "@/components/dashboard/products/AddProductCard";
+import {getAllPreInvoices} from "@/services/productSevices";
 
 const PreInvoicePage = () => {
 
@@ -37,6 +38,15 @@ const PreInvoicePage = () => {
 
 
 
+    useEffect(()=>{
+       try {
+
+           const data = async ()=> await getAllPreInvoices({sort:"" , page_size:1000})
+            data()
+       } catch (e) {
+
+       }
+    },[])
     useEffect(()=>{
         let mo :any[] = []
 

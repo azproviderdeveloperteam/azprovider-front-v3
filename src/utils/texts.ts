@@ -65,9 +65,13 @@ export const texts = {
                         title:"Companies",
                         href:"/companies"
                     },
+                    // {
+                    //     title:"Order and Requests",
+                    //     href:"/register"
+                    // },
                     {
-                        title:"Order and Requests",
-                        href:"/register"
+                        title:"Pre-Invoices",
+                        href:"/pre-invoices"
                     },
                     {
                         title:"Hot Deals",

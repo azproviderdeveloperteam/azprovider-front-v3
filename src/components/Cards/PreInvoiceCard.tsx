@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import hexagon from "@/public/red-hexagon.svg";
 import {Tooltip} from "@material-tailwind/react";
@@ -22,7 +23,7 @@ const PreInvoiceCard = ({item , theme} : any) => {
 
     const monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-    console.log(item)
+
     return (
         <div className={`w-full aspect-[2.69] flex flex-row items-center justify-between rounded-[1.6rem] ${theme==='dark' ?'bg-primary-dark-b shadow-[0px_12px_20px_0px_#062940]' : 'bg-white shadow-[0px_12px_20px_0px_rgba(0,_0,_0,_0.10)]' } `}>
 

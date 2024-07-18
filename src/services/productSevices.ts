@@ -36,3 +36,13 @@ export async function  getLastTenService(params : any){
 export async function  getServiceDetails(id : any){
     return await  instance.get(`v2/services/${id}`, )
 }
+
+
+
+export async function  getAllPreInvoices(params : any){
+    return await  instance.get('v2/product/pre-invoice/list/',{params : params})
+}
+
+export async function  getPreInvoiceDetails(id : any){
+    return await  instance.get(`v2/product/pre-invoice/${id}`, )
+}
