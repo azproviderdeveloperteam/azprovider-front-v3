@@ -22,6 +22,7 @@ import {
 } from "@/services/hsCodeServices";
 import ThreeDotsLoaderGreen from "@/components/loaders/ThreeDotsLoaderGreen";
 import {createProduct, createProductUploadImage, createService} from "@/services/dashboardProductsServices";
+import {uploadV2} from "@/services/uploadService";
 
 const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList} : any) => {
 
@@ -84,7 +85,7 @@ const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList} : 
     })
 
     const {data : uploadImageData  , isPending : uploadImagePending , error :uploadImageError , mutateAsync : uploadImageMutateAsync } =useMutation({
-        mutationFn : createProductUploadImage
+        mutationFn : uploadV2
     })
 
 
@@ -150,7 +151,9 @@ const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList} : 
         const formData = {
             title : productInput?.title,
             capacity:d?.capacity,
-
+            media_files_id: uploadImageData?.data?.id ?  [
+                uploadImageData?.data?.id
+            ] : [],
 
             published_date:`${dateFrom ? new Date(dateFrom).getFullYear() :'2000'}-${dateFrom ? new Date(dateFrom).getMonth() :'2000'}-${dateFrom ? new Date(dateFrom).getDate() :'2000'}`,
              granted_organisation_id:grantedOg?.value,
@@ -182,7 +185,7 @@ const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList} : 
         formData.append('image' , e)
 
         try {
-            const d = await uploadImageMutateAsync(formData)
+            const d = await uploadImageMutateAsync({data:{'image':e} , method:"services"})
         }catch (err) {
             if(err instanceof AxiosError){
                 if(err?.response?.data?.msg){

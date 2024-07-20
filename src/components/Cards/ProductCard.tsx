@@ -22,6 +22,7 @@ const ProductCard = ({item , theme , isService} : any) => {
     const monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
+
     return (
         <div className={`w-full aspect-[0.7334] flex flex-col items-center justify-between rounded-[1.6rem] ${theme==='dark' ?'bg-primary-dark-b shadow-[0px_12px_20px_0px_#062940]' : 'bg-white shadow-[0px_12px_20px_0px_rgba(0,_0,_0,_0.10)]' } `}>
             <div className='w-full flex flex-col items-center justify-start'>
@@ -56,8 +57,8 @@ const ProductCard = ({item , theme , isService} : any) => {
                     {/*    }*/}
                     {/*</Carousel>*/}
                     {
-                        item?.image
-                            ? <Image alt={'aaa'} src={`${process.env.MEDIA_URL}${item?.image}`} width={235} height={235}  className='w-full aspect-[1.4268] rounded-[1.6rem] object-center object-cover'/>
+                        item?.media_files?.[0]?.image
+                            ? <Image alt={'aaa'} src={`${item?.media_files?.[0]?.image?.includes("api.azprovider.com") ? "" :  process.env.MEDIA_URL}${item?.media_files?.[0]?.image}`} width={235} height={235}  className='w-full aspect-[1.4268] rounded-[1.6rem] object-center object-cover'/>
                             :
                             <Image alt={'aaa'} src={`/no-image.svg`} width={235} height={235} className='w-full aspect-[1.4268] object-center object-cover rounded-[1.6rem]' />
                     }

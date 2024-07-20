@@ -22,6 +22,7 @@ import {
 } from "@/services/hsCodeServices";
 import ThreeDotsLoaderGreen from "@/components/loaders/ThreeDotsLoaderGreen";
 import {createProduct, createProductUploadImage} from "@/services/dashboardProductsServices";
+import {uploadV2} from "@/services/uploadService";
 
 type GrantedOgType = {
     value : string | undefined ,
@@ -88,7 +89,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList} : 
     })
 
     const {data : uploadImageData  , isPending : uploadImagePending , error :uploadImageError , mutateAsync : uploadImageMutateAsync } =useMutation({
-        mutationFn : createProductUploadImage
+        mutationFn : uploadV2
     })
 
 
@@ -164,7 +165,10 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList} : 
             // hs_code_third_levels:[productInput?.id],
             price:d?.price,
             short_description:d?.description,
-            hscode:productInput?.value
+            hscode:productInput?.value,
+            media_files_id: uploadImageData?.data?.id ?  [
+                uploadImageData?.data?.id
+            ] : [],
             // hs_codes:[productInput?.id],
             // number_of_employees:"",
             // national_code:"",
@@ -192,7 +196,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList} : 
         formData.append('image' , e)
 
         try {
-            const d = await uploadImageMutateAsync(formData)
+            const d = await uploadImageMutateAsync({data:{'image':e} , method:"product_v1"})
         }catch (err) {
             if(err instanceof AxiosError){
                 if(err?.response?.data?.msg){
