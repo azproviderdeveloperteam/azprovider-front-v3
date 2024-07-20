@@ -331,6 +331,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList} : 
                                                 { options?.length > 0 ?
                                                     options?.map((item :any,index : number)=>{
                                                         return(
+                                                            item?.title === 'Added By AZ' ? null :
                                                             <div key={index+1} className='w-full py-2 my-1 cursor-pointer' onClick={()=>setProductInput(item)}>
                                                                 {item?.label}
                                                             </div>
