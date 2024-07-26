@@ -56,7 +56,7 @@ const ServicesPage = () => {
             :
             <div className='w-full overflow-x-hidden'>
                 <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
-                    <ServiceListDashboard productsData={servicesData?.data} />
+                    <ServiceListDashboard productsData={servicesData?.data} setSubmit={setSubmit} submit={submit}/>
 
                 </div>
                 <div className={'max-w-[95rem] lg:w-[95rem] m-auto w-full  py-8 px-5'}>

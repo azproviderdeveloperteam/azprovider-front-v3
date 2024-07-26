@@ -29,3 +29,12 @@ export async function addDashboardServices (data : any){
 export async function createService (data : any){
     return await instance.post('v2/services/',data)
 }
+
+
+export async function deleteProductDashboard(id : string) {
+    return await instance.delete(`products/delete/${id}/`)
+}
+
+export async function deleteServiceDashboard(id : string) {
+    return await instance.delete(`v2/services/${id}/`)
+}

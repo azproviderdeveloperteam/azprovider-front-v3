@@ -8,7 +8,7 @@ const AzDialog = ({children , open , handler , size} : any) => {
     const theme = {
         dialog: {
             defaultProps: {
-                size: "md",
+                size: size ? size : 'md',
                 dismiss: {},
                 animate: {
                     unmount: {},
