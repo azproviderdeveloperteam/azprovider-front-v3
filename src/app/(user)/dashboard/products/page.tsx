@@ -9,7 +9,7 @@ import {getGrantedOrganisationList, getMeasureList} from "@/services/measurement
 
 const ProductsPage = () => {
 
-    const [viewAddProductForm , setViewAddProductForm] = useState(false)
+    const [viewAddProductForm , setViewAddProductForm] = useState<any>(undefined)
     const [submit ,setSubmit] = useState(0)
     const {data : productsData, isPending :productsPending, error : productsError} = useQuery({
         queryKey: ['get-dashboard-products' , submit],
@@ -30,28 +30,28 @@ const ProductsPage = () => {
     useEffect(()=>{
         if(productsData?.data){
             if (productsData?.data?.results?.length > 0){
-                setViewAddProductForm(false)
+                setViewAddProductForm(undefined)
             }else {
-                setViewAddProductForm(true)
+                setViewAddProductForm(null)
 
             }
         }
     },[productsData])
     return (
-        viewAddProductForm ?
-            <AddProductForm allGrantedList={getGrantedOrganisationListData} allMeasureData={allMeasureData} exitKey={productsData?.data?.results ? productsData?.data?.results?.length > 0 ? true : false : false} onClose={()=>{
-                setViewAddProductForm(false)
+        viewAddProductForm !== undefined ?
+            <AddProductForm  viewAddProductForm={viewAddProductForm}  allGrantedList={getGrantedOrganisationListData} allMeasureData={allMeasureData} exitKey={productsData?.data?.results ? productsData?.data?.results?.length > 0 ? true : false : false} onClose={()=>{
+                setViewAddProductForm(undefined)
                 setSubmit(submit + 1)
             }}/>
 
             :
             <div className='w-full overflow-x-hidden'>
                 <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
-                    <ProductList productsData={productsData?.data?.results} setSubmit={setSubmit} submit={submit}/>
+                    <ProductList  setViewForm={(e : any)=>setViewAddProductForm(e)} productsData={productsData?.data?.results} setSubmit={setSubmit} submit={submit}/>
 
                 </div>
                 <div className={'max-w-[95rem] lg:w-[95rem] m-auto w-full  py-8 px-5'}>
-                    <AddProductCard setViewForm={()=>setViewAddProductForm(true)}/>
+                    <AddProductCard setViewForm={()=>setViewAddProductForm(null)}/>
 
                 </div>
             </div>

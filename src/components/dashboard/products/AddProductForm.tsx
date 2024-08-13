@@ -21,14 +21,14 @@ import {
     getSearchInThirdLevel
 } from "@/services/hsCodeServices";
 import ThreeDotsLoaderGreen from "@/components/loaders/ThreeDotsLoaderGreen";
-import {createProduct, createProductUploadImage} from "@/services/dashboardProductsServices";
+import {createProduct, createProductUploadImage , updateProduct} from "@/services/dashboardProductsServices";
 import {uploadV2} from "@/services/uploadService";
 
 type GrantedOgType = {
     value : string | undefined ,
     label :string | undefined ,
 }
-const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList} : any) => {
+const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , viewAddProductForm} : any) => {
 
     const [img ,setImg] = useState<any>(null)
     const [imgView ,setImgView] = useState<any>(null)
@@ -87,13 +87,43 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList} : 
     const {data : createData  , isPending : createPending , error :createError , mutateAsync : createMutateAsync } =useMutation({
         mutationFn : createProduct
     })
-
+    const {data : updateData  , isPending : updatePending , error :updateError , mutateAsync : updateMutateAsync } =useMutation({
+        mutationFn : updateProduct
+    })
     const {data : uploadImageData  , isPending : uploadImagePending , error :uploadImageError , mutateAsync : uploadImageMutateAsync } =useMutation({
         mutationFn : uploadV2
     })
 
 
+    useEffect(()=>{
+        if(viewAddProductForm !== null && viewAddProductForm?.title){
+            console.log(viewAddProductForm)
+            setProductInput({value:viewAddProductForm?.hs_codes , code:viewAddProductForm?.hs_codes , label:"",
+                    title:viewAddProductForm?.title,
+                    input :`#${viewAddProductForm?.hs_codes} - ${viewAddProductForm?.title}`,
+                    id:''
+                }
+            )
+            setDateFrom(new Date(viewAddProductForm?.publish_date_from))
+            setDateTo(new Date(viewAddProductForm?.publish_date_to))
 
+            setGrantedOg({value:viewAddProductForm?.granted_organisation?.id , label : viewAddProductForm?.granted_organization})
+            setValue('capacity',viewAddProductForm?.size)
+            setValue('price',viewAddProductForm?.price)
+            setValue('description',viewAddProductForm?.short_description)
+            setValue('brandName',viewAddProductForm?.brand_name)
+            setValue('typeCertification',viewAddProductForm?.certification)
+
+            // const formData = {
+            //
+            //
+            //     measure:selectedMeasure?.label,
+            //
+            //     granted_organization:grantedOg?.label,
+            //
+            // }
+        }
+    },[])
 
     useEffect(()=>{
         let mo :any[] = []
@@ -168,16 +198,24 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList} : 
             hscode:productInput?.value,
             media_files_id: uploadImageData?.data?.id ?  [
                 uploadImageData?.data?.id
-            ] : [],
+            ] :undefined,
             // hs_codes:[productInput?.id],
             // number_of_employees:"",
             // national_code:"",
             // establishment_date:""
         }
         try {
-            const d = await createMutateAsync(formData)
-            toast.success("Your Product Added Successfully!")
-            onClose()
+
+            if(viewAddProductForm !== null){
+                const update = await updateMutateAsync({data : formData , id : viewAddProductForm?.id})
+                toast.success("Your Product Edited Successfully!")
+                onClose()
+            }else {
+                const d = await createMutateAsync(formData)
+                toast.success("Your Product Added Successfully!")
+                onClose()
+            }
+
         }catch (err) {
             if(err instanceof AxiosError){
                 if(err?.response?.data?.msg){

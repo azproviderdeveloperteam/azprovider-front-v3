@@ -7,7 +7,7 @@ import {useMutation} from "@tanstack/react-query";
 import {deleteProductDashboard} from "@/services/dashboardProductsServices";
 import toast from "react-hot-toast";
 
-const ProductList = ({productsData , setSubmit , submit} : any) => {
+const ProductList = ({productsData , setSubmit , submit , setViewForm} : any) => {
 
     const [dialog , setDialog] = useState<any>(undefined)
 
@@ -38,7 +38,7 @@ const ProductList = ({productsData , setSubmit , submit} : any) => {
                                             <Button className={'w-1/2 bg-secondary-red normal-case'} onClick={()=>setDialog(item?.id)}>
                                                 Delete
                                             </Button>
-                                            <Button className={'w-1/2 normal-case'}>
+                                            <Button className={'w-1/2 normal-case'} onClick={()=>setViewForm(item)}>
                                                 Edit
                                             </Button>
                                         </div>
