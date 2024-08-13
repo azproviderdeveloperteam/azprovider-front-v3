@@ -7,7 +7,7 @@ import {deleteServiceDashboard} from "@/services/dashboardProductsServices";
 import toast from "react-hot-toast";
 import AzDialog from "@/components/dialog/AzDialog";
 
-const ServiceListDashboard = ({productsData  , setSubmit , submit} : any) => {
+const ServiceListDashboard = ({productsData  , setSubmit , submit , setViewForm} : any) => {
 
     const [dialog , setDialog] = useState<any>(undefined)
 
@@ -38,7 +38,7 @@ const ServiceListDashboard = ({productsData  , setSubmit , submit} : any) => {
                                 <Button className={'w-1/2 bg-secondary-red normal-case'} onClick={()=>setDialog(item?.id)}>
                                     Delete
                                 </Button>
-                                <Button className={'w-1/2 normal-case'}>
+                                <Button className={'w-1/2 normal-case'} onClick={()=>setViewForm(item)}>
                                     Edit
                                 </Button>
                             </div>

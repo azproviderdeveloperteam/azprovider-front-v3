@@ -11,6 +11,9 @@ export async function  createProduct(data : any){
 export async function  editProduct(data : any){
     return await  instance.put(`products/edit/${data?.id}/`,data?.formData)
 }
+export async function  updateProduct({data , id} : any){
+    return await  instance.put(`products/edit/${id}/`,data)
+}
 
 
 export async function  createProductUploadImage(data : any){
@@ -30,6 +33,9 @@ export async function createService (data : any){
     return await instance.post('v2/services/',data)
 }
 
+export async function updateService ({data , id} : any){
+    return await instance.patch(`v2/services/${id}/`,data)
+}
 
 export async function deleteProductDashboard(id : string) {
     return await instance.delete(`products/delete/${id}/`)

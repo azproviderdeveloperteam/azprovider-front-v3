@@ -11,7 +11,7 @@ import ServiceListDashboard from "@/components/dashboard/services/ServiceListDas
 import AddServiceCard from "@/components/dashboard/services/AddServiceCard";
 
 const ServicesPage = () => {
-    const [viewAddProductForm , setViewAddProductForm] = useState(false)
+    const [viewAddProductForm , setViewAddProductForm] = useState<any>(undefined)
     const [submit ,setSubmit] = useState(0)
 
 
@@ -38,29 +38,29 @@ const ServicesPage = () => {
 
         if(servicesData?.data){
             if (servicesData?.data?.length > 0){
-                setViewAddProductForm(false)
+                setViewAddProductForm(undefined)
             }else {
-                setViewAddProductForm(true)
+                setViewAddProductForm(null)
 
             }
-        } else setViewAddProductForm(true)
+        } else setViewAddProductForm(null)
     },[servicesData])
 
     return (
-       viewAddProductForm ?
-            <AddServiceForm allGrantedList={getGrantedOrganisationListData} allMeasureData={allMeasureData} exitKey={servicesData?.data ? servicesData?.data?.length > 0 ? true : false : false} onClose={()=>{
-                setViewAddProductForm(false)
+       viewAddProductForm !== undefined ?
+            <AddServiceForm viewAddProductForm={viewAddProductForm} allGrantedList={getGrantedOrganisationListData} allMeasureData={allMeasureData} exitKey={servicesData?.data ? servicesData?.data?.length > 0 ? true : false : false} onClose={()=>{
+                setViewAddProductForm(undefined)
                 setSubmit(submit + 1)
             }}/>
 
             :
             <div className='w-full overflow-x-hidden'>
                 <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
-                    <ServiceListDashboard productsData={servicesData?.data} setSubmit={setSubmit} submit={submit}/>
+                    <ServiceListDashboard setViewForm={(e : any)=>setViewAddProductForm(e)} productsData={servicesData?.data} setSubmit={setSubmit} submit={submit}/>
 
                 </div>
                 <div className={'max-w-[95rem] lg:w-[95rem] m-auto w-full  py-8 px-5'}>
-                    <AddServiceCard setViewForm={()=>setViewAddProductForm(true)}/>
+                    <AddServiceCard setViewForm={()=>setViewAddProductForm(null)}/>
 
                 </div>
             </div>
