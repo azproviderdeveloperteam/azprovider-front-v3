@@ -18,7 +18,7 @@ import {Button, DialogFooter, DialogHeader} from "@material-tailwind/react";
 
 const PreInvoicePage = () => {
 
-    const [viewAddProductForm , setViewAddProductForm] = useState(false)
+    const [viewAddProductForm , setViewAddProductForm] = useState<any>(undefined)
 
     const [measureOptions , setMeasureOptions] = useState<any>([{value:'kilogram', label : 'kilogram'}] )
     const [submitting , setSubmitting]= useState<any>(0)
@@ -65,12 +65,12 @@ const PreInvoicePage = () => {
     useEffect(()=>{
         if(productsData?.data){
             if (productsData?.data?.length > 0){
-                setViewAddProductForm(false)
+                setViewAddProductForm(undefined)
             }else {
-                setViewAddProductForm(true)
+                setViewAddProductForm(null)
 
             }
-        }else  setViewAddProductForm(true)
+        }else  setViewAddProductForm(null)
     },[productsData])
 
 
@@ -91,12 +91,12 @@ const PreInvoicePage = () => {
         }
     }
 
-
+console.log(viewAddProductForm)
     return (
 
-        viewAddProductForm ?
-            <AddPreInvoiceForm allGrantedList={getGrantedOrganisationListData} allMeasureData={allMeasureData} exitKey={productsData?.data ? productsData?.data?.length > 0 ? true : false : false} onClose={()=>{
-                setViewAddProductForm(false)
+        viewAddProductForm !== undefined ?
+            <AddPreInvoiceForm  viewAddProductForm={viewAddProductForm} allGrantedList={getGrantedOrganisationListData} allMeasureData={allMeasureData} exitKey={productsData?.data ? productsData?.data?.length > 0 ? true : false : false} onClose={()=>{
+                setViewAddProductForm(undefined)
                 setSubmitting(submitting + 1)
             }}/>
 
@@ -120,7 +120,7 @@ const PreInvoicePage = () => {
                                                     <Button className={'w-1/2 bg-secondary-red normal-case'} onClick={()=>setDialog(item?.id)}>
                                                         Delete
                                                     </Button>
-                                                    <Button className={'w-1/2 normal-case'}>
+                                                    <Button className={'w-1/2 normal-case'} onClick={()=>setViewAddProductForm(item)}>
                                                         Edit
                                                     </Button>
                                                 </div>
