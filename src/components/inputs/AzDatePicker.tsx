@@ -12,7 +12,7 @@ import { DayPicker } from "react-day-picker";
 const AzDatePicker = ({borderNone , otherClass ,date , setDate} :any) => {
 
 
-
+    console.log(date)
     return (
         <div className="w-full">
             <Popover placement="bottom">

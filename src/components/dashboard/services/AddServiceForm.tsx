@@ -21,10 +21,15 @@ import {
     getSearchInThirdLevel
 } from "@/services/hsCodeServices";
 import ThreeDotsLoaderGreen from "@/components/loaders/ThreeDotsLoaderGreen";
-import {createProduct, createProductUploadImage, createService} from "@/services/dashboardProductsServices";
+import {
+    createProduct,
+    createProductUploadImage,
+    createService,
+    updateService
+} from "@/services/dashboardProductsServices";
 import {uploadV2} from "@/services/uploadService";
 
-const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList} : any) => {
+const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList , viewAddProductForm} : any) => {
 
     const [img ,setImg] = useState<any>(null)
     const [imgView ,setImgView] = useState<any>(null)
@@ -74,14 +79,18 @@ const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList} : 
     const {data  , isPending  , error  , mutateAsync} =useMutation({
         mutationFn : getSearchInSeviceCodes
     })
-    const {data : randomHsData, isPending :randomHsPending, error : randomHsError} = useQuery({
-        queryKey: ['hs-random-hscode'],
-        queryFn: getRandomHsCodes,
-        retry:false,
-    })
+    // const {data : randomHsData, isPending :randomHsPending, error : randomHsError} = useQuery({
+    //     queryKey: ['hs-random-hscode'],
+    //     queryFn: getRandomHsCodes,
+    //     retry:false,
+    // })
 
     const {data : createData  , isPending : createPending , error :createError , mutateAsync : createMutateAsync } =useMutation({
         mutationFn : createService
+    })
+
+    const {data : updateData  , isPending : updatePending , error :updateError , mutateAsync : updateMutateAsync } =useMutation({
+        mutationFn : updateService
     })
 
     const {data : uploadImageData  , isPending : uploadImagePending , error :uploadImageError , mutateAsync : uploadImageMutateAsync } =useMutation({
@@ -89,6 +98,24 @@ const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList} : 
     })
 
 
+    useEffect(()=>{
+        if(viewAddProductForm !== null && viewAddProductForm?.title){
+            setProductInput({value:viewAddProductForm?.svc_code , code:viewAddProductForm?.svc_code , label:"",
+                    title:viewAddProductForm?.title,
+                    input :`#${viewAddProductForm?.svc_code} - ${viewAddProductForm?.title}`,
+                    id:''
+                }
+            )
+            setDateFrom(new Date(viewAddProductForm?.published_date))
+            setGrantedOg({value:viewAddProductForm?.granted_organisation?.id , label : viewAddProductForm?.granted_organisation?.name})
+            setValue('capacity',viewAddProductForm?.capacity)
+            setValue('typeCertification',viewAddProductForm?.certification)
+            setValue('price',viewAddProductForm?.price)
+            setValue('description',viewAddProductForm?.description)
+
+
+        }
+    },[])
     useEffect(()=>{
         let mo :any[] = []
 
@@ -112,39 +139,39 @@ const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList} : 
     useEffect(()=>{
 
 
-        if(randomHsData?.data){
-            const hsCodes = randomHsData?.data?.map((item:any)=>(
-                {
-                    label:<div className='flex flex-row items-center justify-start md:text-[14px] text-[3.1vw]'>
-                        {
-                            item?.image ?
-                                <img src={item?.image} alt={item?.eng_title} className='mr-3 w-[45px] rounded-full'/>
-                                :
-                                <Image src={'/no-image.svg'} alt={item?.eng_title} width={30} height={30}  className='mr-3 w-[45px] rounded-full' />
-
-                        }
-                        <div className='w-[calc(100%-60px)] flex flex-col items-start justify-between'>
-                            <div>
-                                {`#${item?.svc_code}`}
-                            </div>
-                            <Tooltip content={item?.title} placement="top">
-                                <div className='text-primary-dark-b w-[95%] truncate font-bold'>
-                                    {item?.eng_title }
-                                </div>
-                            </Tooltip>
-
-                        </div>
-                    </div>,
-                    code : item?.svc_code ,
-                    value:item?.code ,
-                    title:item?.title ,
-                    input :`#${item?.code} - ${item?.title}`,
-                    id : item?.id
-                }
-            ))
-            setOptions(hsCodes)
-        }
-    },[randomHsData])
+        // if(randomHsData?.data){
+        //     const hsCodes = randomHsData?.data?.map((item:any)=>(
+        //         {
+        //             label:<div className='flex flex-row items-center justify-start md:text-[14px] text-[3.1vw]'>
+        //                 {
+        //                     item?.image ?
+        //                         <img src={item?.image} alt={item?.eng_title} className='mr-3 w-[45px] rounded-full'/>
+        //                         :
+        //                         <Image src={'/no-image.svg'} alt={item?.eng_title} width={30} height={30}  className='mr-3 w-[45px] rounded-full' />
+        //
+        //                 }
+        //                 <div className='w-[calc(100%-60px)] flex flex-col items-start justify-between'>
+        //                     <div>
+        //                         {`#${item?.svc_code}`}
+        //                     </div>
+        //                     <Tooltip content={item?.title} placement="top">
+        //                         <div className='text-primary-dark-b w-[95%] truncate font-bold'>
+        //                             {item?.eng_title }
+        //                         </div>
+        //                     </Tooltip>
+        //
+        //                 </div>
+        //             </div>,
+        //             code : item?.svc_code ,
+        //             value:item?.code ,
+        //             title:item?.title ,
+        //             input :`#${item?.code} - ${item?.title}`,
+        //             id : item?.id
+        //         }
+        //     ))
+        //     setOptions(hsCodes)
+        // }
+    },[ ])
 
     const submit = async (d : any) =>{
 
@@ -153,9 +180,9 @@ const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList} : 
             capacity:d?.capacity,
             media_files_id: uploadImageData?.data?.id ?  [
                 uploadImageData?.data?.id
-            ] : [],
+            ] : undefined,
 
-            published_date:`${dateFrom ? new Date(dateFrom).getFullYear() :'2000'}-${dateFrom ? new Date(dateFrom).getMonth() :'2000'}-${dateFrom ? new Date(dateFrom).getDate() :'2000'}`,
+            published_date:`${dateFrom ? new Date(dateFrom).getFullYear() :'2000'}-${dateFrom ? new Date(dateFrom).getMonth()+1 :'2000'}-${dateFrom ? new Date(dateFrom).getDate() :'2000'}`,
              granted_organisation_id:grantedOg?.value,
             certification:d?.typeCertification,
             price:d?.price,
@@ -164,9 +191,16 @@ const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList} : 
 
         }
         try {
-            const d = await createMutateAsync(formData)
-            toast.success("Your Product Added Successfully!")
-            onClose()
+            if(viewAddProductForm !== null){
+                const update = await updateMutateAsync({data : formData , id : viewAddProductForm?.id})
+                toast.success("Your Service Edited Successfully!")
+                onClose()
+            }else {
+                const d = await createMutateAsync(formData)
+                toast.success("Your Service Added Successfully!")
+                onClose()
+            }
+
         }catch (err) {
             if(err instanceof AxiosError){
                 if(err?.response?.data?.msg){
@@ -532,7 +566,7 @@ const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList} : 
                             textarea={true}
                         />
                     </div>
-                    <RegisterBtn loading={createPending} otherClass={'w-full lg:w-[12rem] mt-12'} type={'submit'} disabled={false}>
+                    <RegisterBtn loading={createPending || updatePending} otherClass={'w-full lg:w-[12rem] mt-12'} type={'submit'} disabled={false}>
                         Save
                     </RegisterBtn>
                 </form>

@@ -11,7 +11,11 @@ import Image from "next/image";
 import {texts} from "@/utils/texts";
 import {AxiosError} from "axios";
 import toast from "react-hot-toast";
-import {cretePreInvoice, cretePreInvoiceUploadImage} from "@/services/dashboardPreInvoiceServices";
+import {
+    cretePreInvoice,
+    cretePreInvoiceUploadImage,
+    updatePreInvoiceDashboard
+} from "@/services/dashboardPreInvoiceServices";
 import MainInput from "@/components/inputs/MainInput";
 import Select from "react-select";
 import AzDatePicker from "@/components/inputs/AzDatePicker";
@@ -20,7 +24,7 @@ import {createProduct} from "@/services/dashboardProductsServices";
 import {uploadV2} from "@/services/uploadService";
 import {date} from "yup";
 
-const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList} : any) => {
+const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList , viewAddProductForm} : any) => {
     const [img ,setImg] = useState<any>(null)
     const [imgView ,setImgView] = useState<any>(null)
     const [dateFrom, setDateFrom] = React.useState<Date>();
@@ -79,6 +83,9 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList}
         mutationFn : cretePreInvoice
     })
 
+    const {data : updateData  , isPending : updatePending , error :updateError , mutateAsync : updateMutateAsync } =useMutation({
+        mutationFn : updatePreInvoiceDashboard
+    })
 
 
     const {data : uploadImageData  , isPending : uploadImagePending , error :uploadImageError , mutateAsync : uploadImageMutateAsync } =useMutation({
@@ -174,10 +181,31 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList}
     }
 
 
+    useEffect(()=>{
+        if(viewAddProductForm !== null && viewAddProductForm?.title){
+            setProductInput({value:viewAddProductForm?.hscode , code:viewAddProductForm?.hscode , label:"",
+                    title:viewAddProductForm?.title,
+                    input :`#${viewAddProductForm?.hscode} - ${viewAddProductForm?.title}`,
+                    id:''
+                }
+            )
+            setDateFrom(new Date(viewAddProductForm?.published_date_from))
+            setDateTo(new Date(viewAddProductForm?.published_date_to))
+            setSelectedMeasure( {value:viewAddProductForm?.measure_unit?.id , label : viewAddProductForm?.measure_unit?.name})
+
+
+            setGrantedOg({value:viewAddProductForm?.granted_organisation?.id , label : viewAddProductForm?.granted_organisation?.name})
+            setValue('capacity',viewAddProductForm?.capacity)
+            setValue('typeCertification',viewAddProductForm?.certification)
+            setValue('price',viewAddProductForm?.price)
+            setValue('description',viewAddProductForm?.description)
+            setValue('brandName',viewAddProductForm?.brand_name)
+
+        }
+    },[])
     const  queryClient  =  useQueryClient()
 
     const submit = async (d : any) => {
-        console.log(productInput)
         const formData = {
             title : productInput?.title,
             hscode:productInput?.code,
@@ -190,7 +218,7 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList}
             description:d?.description ,
             media_files_id: uploadImageData?.data?.id ?  [
                 uploadImageData?.data?.id
-            ] : [],
+            ] : undefined,
             price:d?.price,
             brand_name : d?.brandName,
             // "model": "string",
@@ -198,11 +226,19 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList}
             capacity:d?.capacity,
         }
         try {
-            const d = await createMutateAsync(formData)
-            toast.success("Your Product Added Successfully!")
+            if(viewAddProductForm !== null){
+                const d = await updateMutateAsync({data : formData , id : viewAddProductForm?.id})
+                toast.success("Your Pre-Invoice Edited Successfully!")
+                queryClient.setQueryData(['profile'], d?.data)
+                onClose()
+            }else {
+                const d = await createMutateAsync(formData)
+                toast.success("Your Pre-Invoice Added Successfully!")
 
-            queryClient.setQueryData(['profile'], d?.data)
-            onClose()
+                queryClient.setQueryData(['profile'], d?.data)
+                onClose()
+            }
+
         }catch (err) {
             if(err instanceof AxiosError){
                 if(err?.response?.data?.msg){

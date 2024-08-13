@@ -7,7 +7,9 @@ export async function  getDashboardPreInvoice(){
 export async function  cretePreInvoice(data : any){
     return await  instance.post('v2/product/pre-invoice/',data)
 }
-
+export async function updatePreInvoiceDashboard({data , id} : any){
+    return await instance.patch(`v2/product/pre-invoice/${id}/` , data)
+}
 
 export async function  cretePreInvoiceUploadImage(data : any){
     return await  instance.post('pre-invoices/create/',data , {headers:{"Content-Type":"multipart/form-data"}})
