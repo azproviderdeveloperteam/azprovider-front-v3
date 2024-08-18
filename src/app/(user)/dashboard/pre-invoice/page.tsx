@@ -91,7 +91,7 @@ const PreInvoicePage = () => {
         }
     }
 
-console.log(viewAddProductForm)
+
     return (
 
         viewAddProductForm !== undefined ?
@@ -140,7 +140,7 @@ console.log(viewAddProductForm)
 
                     </div>
                     <div className={'max-w-[95rem] lg:w-[95rem] m-auto py-8 px-5'}>
-                        <AddProductCard preInvoice={true} setViewForm={()=>setViewAddProductForm(true)}/>
+                        <AddProductCard preInvoice={true} setViewForm={()=>setViewAddProductForm(null)}/>
 
                     </div>
                 </div>
