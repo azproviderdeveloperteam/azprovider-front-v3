@@ -14,6 +14,8 @@ import {useMutation} from "@tanstack/react-query";
 import {AxiosError} from "axios";
 import toast from "react-hot-toast";
 import {useAuth} from "../../../contexts/AuthContext";
+import {app} from "@/services/instance";
+import Cookies from "js-cookie";
 
 const RegisterSecondStep = ({nextStep , email} : any) => {
 
@@ -42,15 +44,32 @@ const RegisterSecondStep = ({nextStep , email} : any) => {
 
     const {user}= useAuth()
      const token = user?.token
+
+    function validateEmail(email: string)
+    {
+        const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
+
     const submit = async (d : any) =>{
 
+        const formData = validateEmail(email) ?
+            { email:email , code:d?.code}
+            :
+            {mobile:email ,code:d?.code}
 
-        const formData = {
-            // email:email,
-            verification_code:d?.code
-        }
         try{
             const da = await mutateAsync({data:formData , token : token} )
+            console.log(da)
+            const Atoken = da.data?.tokens?.access;
+            const refresh = da?.data?.tokens?.refresh
+            // Cookies.set('cookieToken', token);
+            // Cookies.set('refreshJwt', refresh);
+            // dispatch({type:"SET_TOKEN" , value:Atoken})
+            const inFifteenMinutes = new Date(new Date().getTime() + 15 * 3600 * 60 * 1000);
+            app.defaults.headers.Authorization = `Bearer ${Atoken}`;
+            Cookies.set('cookieToken', Atoken , {expires:inFifteenMinutes});
+            Cookies.set('refreshJwt', refresh  , {expires:inFifteenMinutes});
             nextStep()
         }catch (err){
             if(err instanceof AxiosError){
@@ -58,7 +77,11 @@ const RegisterSecondStep = ({nextStep , email} : any) => {
                     toast.error(err?.response?.data?.msg)
                 }else if(err?.response?.data?.message){
                     toast.error(err?.response?.data?.message)
-                } else {
+                }else if(err?.response?.data?.error){
+                    toast.error(err?.response?.data?.error)
+                }else if(err?.response?.data?.detail) {
+                    toast.error(err?.response?.data?.detail)
+                }else {
                     toast.error('An Error occurred')
                 }
             }

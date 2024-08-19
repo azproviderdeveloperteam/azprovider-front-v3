@@ -31,7 +31,7 @@ const CompaniesPage = async ({searchParams} : any) => {
                     </div>
                     <div className='lg:w-full w-[95%] m-auto md:m-0 flex flex-col items-center justify-start'>
                         {
-                            data?.data?.results?.map((item : any , index:number)=>{
+                            data?.data?.map((item : any , index:number)=>{
                                 return  (
                                     <div className={`${index===0 ? ' ' :''}  w-full overflow-visible pt-4 pb-2 px-1`} key={index+1}>
                                          <CompanyCard item={item}/>

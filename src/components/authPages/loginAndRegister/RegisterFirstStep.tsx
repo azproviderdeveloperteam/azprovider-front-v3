@@ -1,7 +1,7 @@
 'use client'
 import React, {useContext, useEffect, useState} from 'react';
 import LoginTextSlider from "@/components/authPages/loginAndRegister/LoginTextSlider";
-import {texts} from "@/utils/texts";
+import {COUNTRIES, texts} from "@/utils/texts";
 import Image from "next/image";
 import RegisterBtn from "@/components/Buttons/RegisterBtn";
 import * as Yup from "yup";
@@ -20,12 +20,15 @@ import {Button} from "@material-tailwind/react";
 import {useAuth, useAuthActions} from "../../../contexts/AuthContext";
 import {useRouter} from "next/navigation";
 import { useCookies } from 'next-client-cookies';
+import Select from "react-select";
+import {app} from "@/services/instance";
 
 const  RegisterFirstStep =   ({nextStep } : any) => {
     const text = texts.eng
     const myTexts = text.register
     const [loginWithEmail , setLoginWithEmail] = useState(true)
     const dispatch = useAuthActions()
+    const [country, setCountry] = useState<any>({ label: "🇮🇷 IR +98", key: "IR", value: "+98", countryName: "Iran" }); // Default selected value
 
     const schema = Yup
         .object({
@@ -68,20 +71,13 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
         const formData = validateEmail(d?.email) ?
             { email:d?.email}
         :
-            {mobile:d?.email}
+            {mobile:`${country.value}${d?.email}`}
        try{
            const da = await mutateAsync(formData)
-           const token = da.data?.token?.access;
-           const refresh = da?.data?.token?.refresh
-           // Cookies.set('cookieToken', token);
-           // Cookies.set('refreshJwt', refresh);
-           dispatch({type:"SET_TOKEN" , value:token})
-           const inFifteenMinutes = new Date(new Date().getTime() + 15 * 3600 * 60 * 1000);
-           Cookies.set('cookieToken', token , {expires:inFifteenMinutes});
-           Cookies.set('refreshJwt', refresh  , {expires:inFifteenMinutes});
 
 
-           nextStep(d?.email)
+
+           nextStep(validateEmail(d?.email) ? d?.email :`${country.value}${d?.email}`)
        }catch (err){
             console.log(err)
            if(err instanceof AxiosError){
@@ -91,7 +87,9 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
                    toast.error(err?.response?.data?.message)
                }else if(err?.response?.data?.error){
                    toast.error(err?.response?.data?.error)
-               } else {
+               }else if(err?.response?.data?.detail) {
+                   toast.error(err?.response?.data?.detail)
+               }else {
                    toast.error('An Error occurred')
                }
            }
@@ -138,37 +136,66 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
 
                         </div>
 
-                        {/*<div className='w-full flex flex-row items-center justify-start'>*/}
-                        {/*    <div className='font-bold !text-[1rem] text-[#A1A1A1]'>*/}
-                        {/*        {text.login.otp.loginWith + ' :'}*/}
-                        {/*    </div>*/}
-
-                        {/*    <Button className={`px-4 py-2 rounded-full ml-2 font-normal normal-case capitalize !text-[1rem] ${loginWithEmail ? 'bg-primary-green-tb text-white' : 'bg-transparent text-[#A1A1A1] border-[1px] border-[#A1A1A1]'}` } onClick={()=>setLoginWithEmail(true)}>*/}
-                        {/*        {text.login.otp.loginWithMail}*/}
-                        {/*    </Button>*/}
-
-                        {/*    <Button className={`px-4 py-2 rounded-full ml-2 font-normal normal-case capitalize !text-[1rem] ${!loginWithEmail ? 'bg-primary-green-tb text-white' : 'bg-transparent text-[#A1A1A1] border-[1px] border-[#A1A1A1]'}` } onClick={()=>setLoginWithEmail(false)}>*/}
-                        {/*        {text.login.otp.loginWithPhone}*/}
-                        {/*    </Button>*/}
-                        {/*</div>*/}
                         <h3 className={'mt-4 text-[1.2rem]'}>
                             {myTexts.emailOrPhone}
                         </h3>
 
-                        <form className='w-full flex flex-row items-start justify-between mt-2' onSubmit={handleSubmit(submit)}>
-                            <div className='w-3/4 pr-3 h-full'>
+                        <form className='w-full grid grid-cols-12 mt-2 gap-4' onSubmit={handleSubmit(submit)}>
+                            <div className='col-span-4 h-full '>
+                                <div className=' text-[1.3rem] capitalize'>
+
+                                </div>
+                                <Select
+                                    className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
+
+                                    onChange={(e)=>{
+
+                                        setCountry( e)
+                                        // getToCurrenciesFunc(e?.value)
+                                    }}
+                                    value={country}
+                                    options={COUNTRIES}
+                                    unstyled
+                                    styles={{
+                                        input: (base) => ({
+                                            ...base,
+                                            base: " hover:cursor-pointer",
+                                            fontSize:"9px",
+                                            "input:focus": {
+                                                boxShadow: "none",
+                                            },
+                                        }),
+                                        multiValueLabel: (base) => ({
+                                            ...base,
+                                            whiteSpace: "normal",
+                                            overflow: "visible",
+                                        }),
+                                        control: (base) => ({
+                                            ...base,
+                                            transition: "none",
+                                        }),
+                                    }}
+
+                                    classNames={{
+                                        control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
+                                        multiValueLabel: () => 'bg-primary-dark-b  rounded-xl shadow-md',
+                                        option: ({ isFocused, isSelected }) =>'bg-primary-dark-b px-4 py-1',
+                                    }}
+                                />
+                            </div>
+                            <div className='col-span-8 h-full'>
                                 <MainInput
                                     register={register}
                                     label={'Your Email'}
                                     error={errors?.email?.message}
                                     name={'email'}
                                     type={'mail'}
-                                    placeholder={'example@email.com Or +989123456789'}
+                                    placeholder={'example@email.com Or 9123456789'}
 
                                 />
                             </div>
 
-                            <div className='w-1/4'>
+                            <div className='col-span-12'>
                                 <RegisterBtn loading={isPending} type={'submit'} disabled={getValues()?.email?.length < 1} otherClass={'w-full'}>
                                     {myTexts.sendCode}
                                 </RegisterBtn>

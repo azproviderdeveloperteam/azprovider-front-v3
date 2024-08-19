@@ -65,7 +65,11 @@ const RegisterThirdStep = ({nextStep}:any) => {
                     toast.error(err?.response?.data?.msg)
                 }else if(err?.response?.data?.message){
                     toast.error(err?.response?.data?.message)
-                } else {
+                }else if(err?.response?.data?.error){
+                    toast.error(err?.response?.data?.error)
+                }else if(err?.response?.data?.detail) {
+                    toast.error(err?.response?.data?.detail)
+                }else {
                     toast.error('An Error occurred')
                 }
             }

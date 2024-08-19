@@ -2,15 +2,15 @@ import instance from "@/services/instance";
 import {getJWT} from "@/utils/helpers";
 const jwt = getJWT('from getMeService')
 export async function  registerSendOtp(data : any){
-    return await  instance.post('user/send-verification-code/' ,data)
+    return await  instance.post('v2/auth/signup/' ,data)
 }
 export async function  registerVerify(data:any){
-    return await  instance.post('user/verify-account/' ,data?.data  ,{
+    return await  instance.post('v2/auth/confirm-verification-code/' ,data?.data  ,{
         headers:{
             accept: 'application/json',
             'Content-Type': 'application/json',
             Accept:'application/json',
-            Authorization: `Bearer ${data?.token}`
+
 
         }
     })
@@ -21,25 +21,21 @@ export async function  checkAuthUser(){
 }
 
 export async function  registerCompleteProfile(data : any){
-    return await  instance.post('user-profile/update-info/' ,data?.data  ,{
+    return await  instance.patch('v2/user/profile/' ,data?.data  ,
+        {
         headers:{
             accept: 'application/json',
             'Content-Type': 'application/json',
             Accept:'application/json',
-            Authorization: `Bearer ${data?.token}`
+            // Authorization: `Bearer ${data?.token}`
 
-        } })
+        }
+    }
+    )
 }
 
 export async function  registerSetPassword(data : any){
-    return await  instance.post('user/change-password/' ,data?.data  ,{
-        headers:{
-            accept: 'application/json',
-            'Content-Type': 'application/json',
-            Accept:'application/json',
-            Authorization: `Bearer ${data?.token}`
-
-        } })
+    return await  instance.post('v2/auth/set-password/' ,data?.data  )
 }
 
 export async function  loginUser(data : any){
