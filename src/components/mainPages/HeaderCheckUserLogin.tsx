@@ -38,7 +38,7 @@ const HeaderCheckUserLogin = ({text , black} : any) => {
 
      return (
         isLoading ? null :
-        data?.data?.first_name  && view ?
+        data?.data?.id  && view ?
             <>
                 <Link href={'/dashboard'} className='hidden lg:block'>
                     <LightBtn border={true} otherClass={'mr-3'} black={black? black : false}>

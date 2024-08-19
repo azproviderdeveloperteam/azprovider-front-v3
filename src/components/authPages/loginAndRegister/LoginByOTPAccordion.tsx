@@ -1,7 +1,7 @@
 'use client'
 import React, {useEffect, useState} from 'react';
 import {Accordion, AccordionBody, AccordionHeader, Button} from "@material-tailwind/react";
-import {texts} from "@/utils/texts";
+import {COUNTRIES, texts} from "@/utils/texts";
 import Image from "next/image";
 import MainInput from "@/components/inputs/MainInput";
 import RegisterBtn from "@/components/Buttons/RegisterBtn";
@@ -17,6 +17,7 @@ import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation'
 import {useAuth, useAuthActions} from "../../../contexts/AuthContext";
 import {app} from "@/services/instance";
+import Select from "react-select";
 
 const LoginByOtpAccordion = () => {
 
@@ -26,6 +27,7 @@ const LoginByOtpAccordion = () => {
     const [open, setOpen] = React.useState(1);
 
     const handleOpen = (value : any) => setOpen(open === value ? 0 : value);
+    const [country, setCountry] = useState<any>({ label: "🇮🇷 IR +98", key: "IR", value: "+98", countryName: "Iran" }); // Default selected value
 
     const [step , setStep ] = useState(0)
     const [loginWithEmail , setLoginWithEmail] = useState(true)
@@ -85,7 +87,7 @@ const LoginByOtpAccordion = () => {
         const formData = validateEmail(d?.email)  ? {
             email:d?.email
         } :{
-            mobile:d?.email
+            mobile:`${country.value}${d?.email}`
         }
 
         try{
@@ -109,7 +111,9 @@ const LoginByOtpAccordion = () => {
                     toast.error(err?.response?.data?.message)
                 }else if(err?.response?.data?.error){
                     toast.error(err?.response?.data?.error)
-                } else {
+                }else if(err?.response?.data?.detail) {
+                    toast.error(err?.response?.data?.detail)
+                }else {
                     toast.error('An Error occurred')
                 }
             }
@@ -120,8 +124,8 @@ const LoginByOtpAccordion = () => {
 
     const submitWithPhone = async (d : any) =>{
         const formData = {
-            mobile:d?.phone,
-            otp:d?.otp
+            mobile:`${country.value}${d?.email}`,
+            code:d?.otp
         }
         try{
             const da = await mutateAsync(formData)
@@ -142,7 +146,9 @@ const LoginByOtpAccordion = () => {
                     toast.error(err?.response?.data?.message)
                 }else if(err?.response?.data?.error){
                     toast.error(err?.response?.data?.error)
-                } else {
+                }else if(err?.response?.data?.detail) {
+                    toast.error(err?.response?.data?.detail)
+                }else {
                     toast.error('An Error occurred')
                 }
             }
@@ -153,17 +159,17 @@ const LoginByOtpAccordion = () => {
 
         const formData = validateEmail(d?.email) ? {
             email:d?.email,
-            otp:d?.otp
+                code:d?.otp
         } :
             {
-                mobile:d?.email,
-                otp:d?.otp
+                mobile:`${country.value}${d?.email}`,
+                code:d?.otp
             }
 
         try{
             const da = await mutateAsync(formData)
-            const token = da.data?.token?.access;
-            const refresh = da?.data?.token?.refresh
+            const token = da.data?.tokens?.access;
+            const refresh = da?.data?.tokens?.refresh
             const inFifteenMinutes = new Date(new Date().getTime() + 15 * 3600 * 60 * 1000);
             Cookies.set('cookieToken', token , {expires:inFifteenMinutes});
             Cookies.set('refreshJwt', refresh  , {expires:inFifteenMinutes});
@@ -180,7 +186,9 @@ const LoginByOtpAccordion = () => {
                     toast.error(err?.response?.data?.message)
                 }else if(err?.response?.data?.error){
                     toast.error(err?.response?.data?.error)
-                } else {
+                }else if(err?.response?.data?.detail) {
+                    toast.error(err?.response?.data?.detail)
+                }else {
                     toast.error('An Error occurred')
                 }
             }
@@ -196,13 +204,13 @@ const LoginByOtpAccordion = () => {
             password:d?.password
         }:
             {
-                mobile:d?.email,
+                mobile:`${country.value}${d?.email}`,
                 password:d?.password
             }
         try{
             const da = await mutateAsync(formData)
-            const token = da.data?.token?.access;
-            const refresh = da?.data?.token?.refresh
+            const token = da.data?.tokens?.access;
+            const refresh = da?.data?.tokens?.refresh
             const inFifteenMinutes = new Date(new Date().getTime() + 15 * 3600 * 60 * 1000);
             Cookies.set('cookieToken', token , {expires:inFifteenMinutes});
             Cookies.set('refreshJwt', refresh  , {expires:inFifteenMinutes});
@@ -219,7 +227,9 @@ const LoginByOtpAccordion = () => {
                     toast.error(err?.response?.data?.message)
                 }else if(err?.response?.data?.error){
                     toast.error(err?.response?.data?.error)
-                } else {
+                }else if(err?.response?.data?.detail) {
+                    toast.error(err?.response?.data?.detail)
+                }else {
                     toast.error('An Error occurred')
                 }
             }
@@ -259,17 +269,62 @@ const LoginByOtpAccordion = () => {
                               {
 
                                       <form className='w-full flex flex-col items-start justify-between mt-2' onSubmit={handleSubmit(sendVerification)}>
-                                          <div className='w-full pr-3 h-full'>
-                                              <MainInput
-                                                  register={register}
-                                                  label={'Your Email'}
-                                                  error={errors?.email?.message}
-                                                  name={'email'}
-                                                  type={'mail'}
-                                                  placeholder={'example@email.com Or +989123456789'}
+                                          <div className='w-full flex flex-row items-center justify-center gap-4'>
+                                              <div className='w-1/3 h-full '>
+                                                  <div className=' text-[1.3rem] capitalize'>
 
-                                              />
+                                                  </div>
+                                                  <Select
+                                                      className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
+
+                                                      onChange={(e)=>{
+
+                                                          setCountry( e)
+                                                          // getToCurrenciesFunc(e?.value)
+                                                      }}
+                                                      value={country}
+                                                      options={COUNTRIES}
+                                                      unstyled
+                                                      styles={{
+                                                          input: (base) => ({
+                                                              ...base,
+                                                              base: " hover:cursor-pointer",
+                                                              fontSize:"9px",
+                                                              "input:focus": {
+                                                                  boxShadow: "none",
+                                                              },
+                                                          }),
+                                                          multiValueLabel: (base) => ({
+                                                              ...base,
+                                                              whiteSpace: "normal",
+                                                              overflow: "visible",
+                                                          }),
+                                                          control: (base) => ({
+                                                              ...base,
+                                                              transition: "none",
+                                                          }),
+                                                      }}
+
+                                                      classNames={{
+                                                          control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
+                                                          multiValueLabel: () => 'bg-white  rounded-xl shadow-md',
+                                                          option: ({ isFocused, isSelected }) =>'bg-white px-4 py-1',
+                                                      }}
+                                                  />
+                                              </div>
+                                              <div className='w-2/3 pr-3 h-full'>
+                                                  <MainInput
+                                                      register={register}
+                                                      label={'Your Email'}
+                                                      error={errors?.email?.message}
+                                                      name={'email'}
+                                                      type={'mail'}
+                                                      placeholder={'example@email.com Or +989123456789'}
+
+                                                  />
+                                              </div>
                                           </div>
+
 
 
                                           <div className={'w-full flex flex-row items-start justify-between mt-3'}>

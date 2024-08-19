@@ -39,18 +39,10 @@ export async function  registerSetPassword(data : any){
 }
 
 export async function  loginUser(data : any){
-    return await  instance.post('user/login/' ,data )
+    return await  instance.post('v2/auth/login/' ,data )
 }
 export async function  loginSendOtp(data : any){
-    return await  instance.post('user/send-otp/' ,data , {
-        headers:{
-            accept: 'application/json',
-            'Content-Type': 'application/json',
-            Accept:'application/json',
-
-
-        }
-    })
+    return await  instance.post('v2/auth/resend-email-verification-code/' ,data )
 }
 
 
