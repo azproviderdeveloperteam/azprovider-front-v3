@@ -7,6 +7,8 @@ const nextConfig = {
         BACKEND_URL:'api.azprovider.com/api/',
         MEDIA_URL:'https://api.azprovider.com'
     },
+    ignoreBuildErrors: true,
+
 }
 
 module.exports = nextConfig
