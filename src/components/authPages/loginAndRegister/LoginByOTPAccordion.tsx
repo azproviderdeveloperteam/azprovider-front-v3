@@ -413,7 +413,12 @@ const LoginByOtpAccordion = () => {
 
                                           />
                                       </div>
+                                      <div className='mt-4 w-full flex flex-row items-center justify-start font-bold text-[1rem]'>
 
+                                          <Link href={'/forget-password'} className={'ml-2 text-[#0038FF] capitalize'}>
+                                              Forgot Your Password?
+                                          </Link>
+                                      </div>
                                       <div className='w-full mt-3'>
                                           <RegisterBtn type={'submit'} loading={isPending} disabled={false}  otherClass={'!w-full'}>
                                               Submit

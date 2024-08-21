@@ -45,18 +45,18 @@ export async function  loginSendOtp(data : any){
     return await  instance.post('v2/auth/resend-email-verification-code/' ,data )
 }
 
+export async function forgetPassword(data : any){
+    return await instance.post('v2/auth/forgot-password/' , data)
+}
 
+export async function confirmVerificationForgetPassword(data : any){
+    return await instance.post('v2/auth/confirm-forgot-verification-code/' , data)
+}
 
-// export async function getProfile(){
-//     return await instance.get('user/get-data/',{
-//         headers:{
-//             accept: 'application/json',
-//             'Content-Type': 'application/json',
-//             Accept:'application/json',
-//             Authorization: `Bearer ${jwt}`
-//         }
-//     })
-// }
+export async function executeForgetPassword(data : any){
+    return await instance.patch('v2/auth/execute-forgot-password/' , data)
+}
+
 export async function getHsCodes(){
     return await instance.get('hscodes/get-data/')
 }
