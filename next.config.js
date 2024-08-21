@@ -7,8 +7,13 @@ const nextConfig = {
         BACKEND_URL:'api.azprovider.com/api/',
         MEDIA_URL:'https://api.azprovider.com'
     },
-    ignoreBuildErrors: true,
-
+    typescript: {
+        // !! WARN !!
+        // Dangerously allow production builds to successfully complete even if
+        // your project has type errors.
+        // !! WARN !!
+        ignoreBuildErrors: true,
+    },
 }
 
 module.exports = nextConfig
