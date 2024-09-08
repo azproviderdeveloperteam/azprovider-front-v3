@@ -17,18 +17,18 @@ export const texts = {
                 },
                 copyRight:"Copyright © AZ Provider 2023 - All Rights Reserved.",
                 links:[
-                    {
-                        title:"Problem Report",
-                        href:"/"
-                    },
+                    // {
+                    //     title:"Problem Report",
+                    //     href:"/"
+                    // },
                     {
                         title:"Job Opportunities",
                         href:"/"
                     },
-                    {
-                        title:"Branches and Offices",
-                        href:"/"
-                    },
+                    // {
+                    //     title:"Branches and Offices",
+                    //     href:"/"
+                    // },
                     {
                         title:"Join Us",
                         href:"/register"
