@@ -3,7 +3,7 @@ import {getJWT} from "@/utils/helpers";
 const jwt = getJWT('from getMeService')
 
 export async function  getBInfo(){
-    return await  instance.get('business-information/get-data/' ,{
+    return await  instance.get('v2/user/profile/' ,{
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -13,7 +13,7 @@ export async function  getBInfo(){
 }
 
 export async function  postBInfo(data : any){
-    return await  instance.post('business-information/update-info/' ,data ,{
+    return await  instance.patch('v2/user/profile/' ,data ,{
         headers:{
             'Content-Type': 'multipart/form-data',
             'Accept': 'application/json',

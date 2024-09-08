@@ -26,12 +26,12 @@ const ProfileBInfo = ({bInfoData} : any) => {
         .object({
 
         }).shape({
-            interName:Yup.string().required('Enter Your International Name'),
-            brandName:Yup.string().required('Enter Your Brand Name'),
-            cellPhone:Yup.string().required('Enter Cell Phone'),
-            localName:Yup.string().required('Enter Local Name'),
-            contactPerson:Yup.string().required('Enter Contact Person'),
-            email:Yup.string().required('Enter Email'),
+            first_name:Yup.string(),
+            last_name:Yup.string(),
+            international_name:Yup.string(),
+            business_register_code:Yup.string(),
+            business_role:Yup.string(),
+            email:Yup.string(),
 
 
         })
@@ -54,11 +54,11 @@ const ProfileBInfo = ({bInfoData} : any) => {
         setImgView(`${process.env.MEDIA_URL}${bInfoData?.logo}`)
         setImg(bInfoData?.logo)
 
-        setValue('interName',bInfoData?.international_name)
-        setValue('brandName',bInfoData?.brand_name)
-        setValue('cellPhone',bInfoData?.cell_phone)
-        setValue('localName',bInfoData?.local_name)
-        setValue('contactPerson',bInfoData?.contact_person)
+        setValue('international_name',bInfoData?.international_name)
+        setValue('first_name',bInfoData?.first_name)
+        setValue('last_name',bInfoData?.last_name)
+        setValue('business_register_code',bInfoData?.business_register_code)
+        setValue('business_role',bInfoData?.business_role)
         setValue('email',bInfoData?.email)
 
     },[bInfoData])
@@ -66,15 +66,13 @@ const ProfileBInfo = ({bInfoData} : any) => {
     const submit = async (d : any) =>{
 
         const formData = {
-            local_name : d?.localName,
-            brand_name:d?.brandName,
-            international_name:d?.interName,
-            contact_person:d?.contactPerson,
-            email:d?.email,
-            cell_phone:d?.cellPhone,
-            // number_of_employees:"",
-            // national_code:"",
-            // establishment_date:""
+            first_name:d?.first_name,
+            last_name:d?.last_name,
+            international_name:d?.international_name,
+            business_register_code:d?.business_register_code,
+            business_role:d?.business_role,
+            // email:d?.email,
+
         }
         try {
             const d = await mutateAsync(formData)
@@ -157,9 +155,9 @@ const ProfileBInfo = ({bInfoData} : any) => {
                         </div>
                         <MainInput
                             register={register}
-                            label={'interName'}
+                            label={'international_name'}
                             error={errors?.interName?.message}
-                            name={'interName'}
+                            name={'international_name'}
                             type={'text'}
                             placeholder={myTexts.interName}
                         />
@@ -167,60 +165,60 @@ const ProfileBInfo = ({bInfoData} : any) => {
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.brandName} <span className='text-secondary-red'>*</span>
+                            {'First Name'} <span className='text-secondary-red'>*</span>
                         </div>
                         <MainInput
                             register={register}
-                            label={'brandName'}
-                            error={errors?.brandName?.message}
-                            name={'brandName'}
+                            label={'first_name'}
+                            error={errors?.first_name?.message}
+                            name={'first_name'}
                             type={'text'}
-                            placeholder={myTexts.brandName}
+                            placeholder={'first name'}
                         />
                     </div>
 
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.cellPhone} <span className='text-secondary-red'>*</span>
+                            {"Last Name"} <span className='text-secondary-red'>*</span>
                         </div>
                         <MainInput
                             register={register}
-                            label={'cellPhone'}
-                            error={errors?.cellPhone?.message}
-                            name={'cellPhone'}
+                            label={'last_name'}
+                            error={errors?.last_name?.message}
+                            name={'last_name'}
                             type={'text'}
-                            placeholder={myTexts.cellPhone}
+                            placeholder={'last name'}
                         />
                     </div>
 
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.localName} <span className='text-secondary-red'>*</span>
+                            {'Business Register Code'} <span className='text-secondary-red'>*</span>
                         </div>
                         <MainInput
                             register={register}
-                            label={'localName'}
-                            error={errors?.localName?.message}
-                            name={'localName'}
+                            label={'business_register_code'}
+                            error={errors?.business_register_code?.message}
+                            name={'business_register_code'}
                             type={'text'}
-                            placeholder={myTexts.localName}
+                            placeholder={'business register code'}
                         />
                     </div>
 
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.contactPerson} <span className='text-secondary-red'>*</span>
+                            {'Business Role'} <span className='text-secondary-red'>*</span>
                         </div>
                         <MainInput
                             register={register}
-                            label={'contactPerson'}
-                            error={errors?.contactPerson?.message}
-                            name={'contactPerson'}
+                            label={'business_role'}
+                            error={errors?.business_role?.message}
+                            name={'business_role'}
                             type={'text'}
-                            placeholder={myTexts.contactPerson}
+                            placeholder={'business role'}
                         />
                     </div>
 
