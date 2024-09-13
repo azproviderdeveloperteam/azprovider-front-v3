@@ -270,7 +270,7 @@ const ProfileContact = ({contactData} : any) => {
                     {
                         AddressesData?.data?.map((itm : any , idx:number)=>{
                             return(
-                                <div className='mt-4 w-full p-4 rounded-md border border-[1px] border-[#000]/20  flex flex-row items-start justify-start gap-4'>
+                                <div key={idx+1} className='mt-4 w-full p-4 rounded-md border border-[1px] border-[#000]/20  flex flex-row items-start justify-start gap-4'>
                                     {
                                         <MapContainer style={{ height: 280, width: '50%', marginTop:"1rem" }} center={[itm?.latitude || 0 , itm?.longitude || 0 ]} zoom={20} scrollWheelZoom={true}>
                                             <TileLayer
