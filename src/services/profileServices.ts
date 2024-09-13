@@ -22,7 +22,7 @@ export async function  postBInfo(data : any){
 }
 
 export async function  getContact(){
-    return await  instance.get('contact-information/get-data/' ,{
+    return await  instance.get('v2/user/contact/' ,{
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -97,3 +97,10 @@ export async function  postMembership(data : any){
             'Authorization': `Bearer ${jwt}`}})
 }
 
+export async function postAddress(data: any){
+    return await  instance.post('v2/user/user-address/',data)
+}
+
+export async function  getAddresses(){
+    return await  instance.get('v2/user/user-address/' ,)
+}

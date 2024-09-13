@@ -4,17 +4,18 @@ import {texts} from "@/utils/texts";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useMutation} from "@tanstack/react-query";
-import {postBInfo, postContact} from "@/services/profileServices";
+import {getAddresses, postContact} from "@/services/profileServices";
 import * as Yup from "yup";
 import MainInput from "@/components/inputs/MainInput";
-import Select from "react-select";
 import AzDialog from "@/components/dialog/AzDialog";
 import {Button, Checkbox} from "@material-tailwind/react";
-import {array} from "yup";
 import RegisterBtn from "@/components/Buttons/RegisterBtn";
 import toast from "react-hot-toast";
 import {AxiosError} from "axios";
 import Image from "next/image";
+import AddEditAddress from "@/components/dashboard/profile/AddEditAddress";
+import {useQuery} from "@tanstack/react-query";
+import {MapContainer, TileLayer} from "react-leaflet";
 
 const ProfileContact = ({contactData} : any) => {
     const text = texts.eng
@@ -22,7 +23,7 @@ const ProfileContact = ({contactData} : any) => {
     const [socials,setSocials] = useState<any>([])
     const [socialsDialog,setSocialDialog] = useState<any>(false)
     const [moreData , setMoreData] = useState(false)
-
+    const [addAddress , setAddAddress] = useState<any>(undefined)
     const schema = Yup
         .object({
 
@@ -59,7 +60,16 @@ const ProfileContact = ({contactData} : any) => {
         mutationFn : postContact
     })
 
-    console.log(errors)
+    const {data : AddressesData, isPending :AddressesPending, error : AddressesError} = useQuery({
+        queryKey: ['get-addresses',addAddress],
+        queryFn: getAddresses,
+        retry:false,
+    })
+
+
+    console.log(AddressesData)
+
+
     const submit = async (d:any)=>{
 
         const formData = {
@@ -251,124 +261,42 @@ const ProfileContact = ({contactData} : any) => {
 
                 </form>
             </div>
+            <AddEditAddress item={addAddress} open={addAddress !== undefined} onClose={()=>setAddAddress(undefined)}/>
+                <div className='w-full bg-[#F8F8F8] p-3 rounded-[1rem] p-8 mt-5'>
+                    <h2>
+                        Addresses
+                    </h2>
 
-            {
-                moreData ?
-                    <div className='w-full bg-[#F8F8F8] p-3 rounded-[1rem] p-8 mt-5'>
-                        <form className='w-full flex flex-row items-start justify-start flex-wrap mt-4 relative z-10' onSubmit={handleSubmit(submit)}>
-                            <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
-                                <div className=' text-[1.3rem] capitalize'>
-                                    {myTexts.locationTitle} <span className='text-secondary-red'>*</span>
+                    {
+                        AddressesData?.data?.map((itm : any , idx:number)=>{
+                            return(
+                                <div className='mt-4 w-full p-4 rounded-md border border-[1px] border-[#000]/20  flex flex-row items-start justify-start gap-4'>
+                                    {
+                                        <MapContainer style={{ height: 280, width: '50%', marginTop:"1rem" }} center={[itm?.latitude || 0 , itm?.longitude || 0 ]} zoom={20} scrollWheelZoom={true}>
+                                            <TileLayer
+                                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                            />
+
+
+                                        </MapContainer>
+
+                                    }
+                                    <div className={'mt-4 '}>
+                                        {
+                                            `
+                                            ${itm?.title ||''} : ${itm?.country}, ${itm?.city}, ${itm?.state}, ${itm?.street}, ${itm?.building}, ${itm?.number}, ${itm?.zipcode}
+                                            `
+                                        }
+                                    </div>
                                 </div>
-                                <MainInput
-                                    register={register}
-                                    label={'location title'}
-                                    error={errors?.locationTitle?.message}
-                                    name={'locationTitle'}
-                                    type={'text'}
-                                    placeholder={myTexts.locationTitle}
-                                />
-                            </div>
-                            <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
-                                <div className=' text-[1.3rem] capitalize'>
-                                    {myTexts.cityCountry} <span className='text-secondary-red'>*</span>
-                                </div>
-                                <MainInput
-                                    register={register}
-                                    label={'cityCountry'}
-                                    error={errors?.cityCountry?.message}
-                                    name={'cityCountry'}
-                                    type={'text'}
-                                    placeholder={myTexts.cityCountry}
-                                />
-                            </div>
-
-                            <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
-                                <div className=' text-[1.3rem] capitalize'>
-                                    {myTexts.provinceState} <span className='text-secondary-red'>*</span>
-                                </div>
-                                <MainInput
-                                    register={register}
-                                    label={'provinceState'}
-                                    error={errors?.provinceState?.message}
-                                    name={'provinceState'}
-                                    type={'text'}
-                                    placeholder={myTexts.provinceState}
-                                />
-                            </div>
-
-
-                            <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
-                                <div className=' text-[1.3rem] capitalize'>
-                                    {myTexts.streetAllay} <span className='text-secondary-red'>*</span>
-                                </div>
-                                <MainInput
-                                    register={register}
-                                    label={'streetAllay'}
-                                    error={errors?.streetAllay?.message}
-                                    name={'streetAllay'}
-                                    type={'text'}
-                                    placeholder={myTexts.streetAllay}
-                                />
-                            </div>
-
-                            <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
-                                <div className=' text-[1.3rem] capitalize'>
-                                    {myTexts.building} <span className='text-secondary-red'>*</span>
-                                </div>
-                                <MainInput
-                                    register={register}
-                                    label={'building'}
-                                    error={errors?.building?.message}
-                                    name={'building'}
-                                    type={'text'}
-                                    placeholder={myTexts.building}
-                                />
-                            </div>
-
-                            <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
-                                <div className=' text-[1.3rem] capitalize'>
-                                    {myTexts.number} <span className='text-secondary-red'>*</span>
-                                </div>
-                                <MainInput
-                                    register={register}
-                                    label={'number'}
-                                    error={errors?.number?.message}
-                                    name={'number'}
-                                    type={'text'}
-                                    placeholder={myTexts.number}
-                                />
-                            </div>
-
-                            <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
-                                <div className=' text-[1.3rem] capitalize'>
-                                    {myTexts.zipCode} <span className='text-secondary-red'>*</span>
-                                </div>
-                                <MainInput
-                                    register={register}
-                                    label={'zipCode'}
-                                    error={errors?.zipCode?.message}
-                                    name={'zipCode'}
-                                    type={'text'}
-                                    placeholder={myTexts.zipCode}
-                                />
-                            </div>
-
-
-                            <div className='w-full flex flex-col lg:flex-row items-center justify-between'>
-                                <RegisterBtn loading={isPending} otherClass={'w-full lg:w-[12rem] mt-12'} type={'submit'} disabled={false}>
-                                    {myTexts.save}
-                                </RegisterBtn>
-
-                            </div>
-
-
-                        </form>
-                    </div>
-                    : null
-            }
-
-
+                            )
+                        })
+                    }
+                    <RegisterBtn onClick={()=>setAddAddress(null)}>
+                        Add New Address
+                    </RegisterBtn>
+                </div>
         </div>
     );
 };
