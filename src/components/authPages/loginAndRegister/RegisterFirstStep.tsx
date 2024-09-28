@@ -34,7 +34,8 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
         .object({
 
         }).shape({
-            email:Yup.string().required('Email Or Phone is required')
+            email:Yup.string().required('Email Or Phone is required'),
+            invitationCode : Yup.string()
         })
         .required()
     const {
@@ -89,6 +90,8 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
                    toast.error(err?.response?.data?.error)
                }else if(err?.response?.data?.detail) {
                    toast.error(err?.response?.data?.detail)
+               }else if(err?.response?.data?.email?.detail) {
+                   toast.error(err?.response?.data?.email?.detail)
                }else {
                    toast.error('An Error occurred')
                }
@@ -127,6 +130,7 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
             <div className='w-full px-5 lg:px-0 lg:w-1/2 text-white'>
                 <div className='w-full flex flex-col items-center justify-center relative z-[1]'>
                     <div className='w-full p-6 rounded-[1.5rem] bg-[#02131E]'>
+
                         <div className={'w-full flex flex-row items-center justify-start'}>
                             <Image src={'/register-title.svg'} alt={'register-title'} width={35} height={35} />
 
@@ -136,11 +140,25 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
 
                         </div>
 
-                        <h3 className={'mt-4 text-[1.2rem]'}>
-                            {myTexts.emailOrPhone}
-                        </h3>
 
                         <form className='w-full grid grid-cols-12 mt-2 gap-4' onSubmit={handleSubmit(submit)}>
+                            <div className='col-span-12'>
+                                Invitation Code(optional)
+                                <div className='mt-3'>
+                                    <MainInput
+                                        register={register}
+                                        label={'invitation code'}
+                                        error={errors?.invitationCode?.message}
+                                        name={'invitationCode'}
+                                        type={'text'}
+                                        placeholder={'invitation Code'}
+                                    />
+                                </div>
+                            </div>
+
+                            <h3 className={'col-span-12 mt-4 text-[1.2rem]'}>
+                                {myTexts.emailOrPhone}
+                            </h3>
                             <div className='col-span-4 h-full '>
                                 <div className=' text-[1.3rem] capitalize'>
 
