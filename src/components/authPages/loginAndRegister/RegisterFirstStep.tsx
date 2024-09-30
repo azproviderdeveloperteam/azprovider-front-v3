@@ -22,6 +22,7 @@ import {useRouter} from "next/navigation";
 import { useCookies } from 'next-client-cookies';
 import Select from "react-select";
 import {app} from "@/services/instance";
+import { useSearchParams } from "next/navigation";
 
 const  RegisterFirstStep =   ({nextStep } : any) => {
     const text = texts.eng
@@ -29,7 +30,10 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
     const [loginWithEmail , setLoginWithEmail] = useState(true)
     const dispatch = useAuthActions()
     const [country, setCountry] = useState<any>({ label: "🇮🇷 IR +98", key: "IR", value: "+98", countryName: "Iran" }); // Default selected value
+    const searchParams = useSearchParams();
+    const paramValue = searchParams.get("code")
 
+    console.log(paramValue)
     const schema = Yup
         .object({
 
@@ -42,7 +46,8 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
         register,
         handleSubmit,
         formState: { errors,isSubmitting, isDirty, isValid },
-        getValues
+        getValues,
+        setValue
     } = useForm({ resolver: yupResolver(schema), mode:'onChange'})
 
     const cookies = useCookies();
@@ -70,9 +75,9 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
 
 
         const formData = validateEmail(d?.email) ?
-            { email:d?.email}
+            { email:d?.email , ...(d.invitationCode?.length > 1 && {ref_code : d?.invitationCode} )}
         :
-            {mobile:`${country.value}${d?.email}`}
+            {mobile:`${country.value}${d?.email}` , ...(d.invitationCode?.length > 1 && {ref_code : d?.invitationCode} )}
        try{
            const da = await mutateAsync(formData)
 
@@ -102,6 +107,11 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
 
     useEffect(()=>{
 
+        if(paramValue){
+            if (paramValue?.toString()?.length > 1){
+                setValue('invitationCode' , paramValue)
+            }
+        }
         // fetch('https://api.ipify.org?format=json').then(response => {
         //     return response.json();
         // }).then((res: any) => {
