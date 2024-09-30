@@ -15,7 +15,7 @@ import {AxiosError} from "axios";
 import Image from "next/image";
 import AddEditAddress from "@/components/dashboard/profile/AddEditAddress";
 import {useQuery} from "@tanstack/react-query";
-import {MapContainer, TileLayer} from "react-leaflet";
+import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 
 const ProfileContact = ({contactData} : any) => {
     const text = texts.eng
@@ -278,7 +278,11 @@ const ProfileContact = ({contactData} : any) => {
                                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                             />
 
-
+                                            <Marker position={[itm?.latitude || 0 , itm?.longitude || 0 ]}>
+                                                <Popup>
+                                                    A pretty CSS3 popup. <br /> Easily customizable.
+                                                </Popup>
+                                            </Marker>
                                         </MapContainer>
 
                                     }

@@ -17,7 +17,7 @@ const DashboardWidgets = () => {
         <div className='w-full bg-primary-gray-100 p-5 rounded-[1.5rem]'>
             <div className='w-full flex flex-row items-center justify-between '>
                 <h3 className='text-[#151515] font-bold text-[1.2rem]'>
-                    {myTexts?.title} <span className='ml-1 text-[#7A7A7A] font-normal text-[1rem'>{myTexts.afterTitle}</span>
+                    {'Referral'} <span className='ml-1 text-[#7A7A7A] font-normal text-[1rem'>{'Invite your friends to azprovider.com'}</span>
                 </h3>
                 <BlueBtn otherClass={'!px-0'}>
                     {myTexts.addPost}
@@ -103,6 +103,8 @@ const DashboardWidgets = () => {
                     </tbody>
                 </table>
             </Card>
+
+
 
         </div>
     );

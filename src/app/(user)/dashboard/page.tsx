@@ -9,6 +9,7 @@ import Notifications from "@/components/dashboardPages/dahsboard/Notifications";
 import ChatDashboard from "@/components/dashboardPages/dahsboard/ChatDashboard";
 import {useChat, useChatAction} from "../../../contexts/ChatContext";
 import CompleteChatView from "@/components/dashboard/CompleteChatView";
+import DashboardInviteCode from "@/components/dashboard/DashboardInviteCode";
 const DashboardPage = () => {
     const chatDispatch = useChatAction()
     const {chatData} = useChat()
@@ -48,8 +49,10 @@ const DashboardPage = () => {
                     <div className='w-full hidden lg:block'>
                         <UserCard />
                     </div>
+                    <DashboardInviteCode />
                     {/*<Notifications />*/}
                     <ChatDashboard viewJustChat={viewJustChat} setViewJustChat={(e:any)=>setViewJustChat(e)}/>
+
                 </div>
             </div>
         </div>
