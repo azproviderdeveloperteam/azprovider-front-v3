@@ -47,8 +47,8 @@ const PreInvoicePage = () => {
     useEffect(()=>{
        try {
 
-           const data = async ()=> await getAllPreInvoices({sort:"" , page_size:1000})
-            data()
+           // const data = async ()=> await getAllPreInvoices({sort:"" , page_size:1000})
+           //  data()
        } catch (e) {
 
        }
