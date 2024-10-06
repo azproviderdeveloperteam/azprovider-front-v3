@@ -4,5 +4,5 @@ export async function  getAllCompanies(params : any){
 }
 
 export async function  getCompanyDetails(id : any){
-    return await  instance.get(`user/get-user-details/${id}`, )
+    return await  instance.get(`v2/user/${id}/`, )
 }
