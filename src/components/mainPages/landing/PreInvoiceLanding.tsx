@@ -4,6 +4,7 @@ import ProductCategoryCard from "@/components/Cards/ProductCategoryCard";
 import {texts} from "@/utils/texts";
 import {useQuery} from "@tanstack/react-query";
 import {getCategories} from "@/services/megaMenuServices";
+import Link from "next/link";
 
 const PreInvoiceLanding = () => {
 
@@ -92,9 +93,9 @@ const PreInvoiceLanding = () => {
                     {
                         categoriesData?.data?.map((item : any ,index : number)=>{
                             return(
-                                <div className={'w-[10.5%] min-w-[7.2rem] mr-[2%] mt-3 snap-start'} key={index+1}>
+                                <Link href={'/pre-invoices'} className={'w-[10.5%] min-w-[7.2rem] mr-[2%] mt-3 snap-start'} key={index+1}>
                                     <ProductCategoryCard src={item?.media_files?.[1]?.image ? item?.media_files?.[1]?.image : item?.media_files?.[0]?.image} title={item.title} color={'dark'}/>
-                                </div>
+                                </Link>
                             )
                         })
                     }
