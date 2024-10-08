@@ -36,7 +36,7 @@ const  PreInvoiceDetailsPage = async ({ params }: { params: { slug: string } }) 
                         <div className='w-full flex flex-row items-center justify-start'>
                             <Image src={'/dark-medal.svg'} alt={'dark-medal'} width={20} height={20} />
                             <div className={`text-primary-dark-b text-[0.7rem] ml-1 mt-1`}>
-                                { data?.granted_organization  ? data?.granted_organization : ' - '}
+                                { data?.granted_organisation?.description  ? data?.granted_organisation?.description : ' - '}
                             </div>
                         </div>
                         <h1 className='text-[1.4rem] text-primary-dark-b font-bold'>
@@ -101,7 +101,7 @@ const  PreInvoiceDetailsPage = async ({ params }: { params: { slug: string } }) 
                             </div>
 
                             <div className='w-3/5  text-primary-dark-b'>
-                                {`${data?.size} ${data?.measure}`}
+                                {`${data?.capacity} ${data?.measure_unit?.name}`}
                             </div>
                         </div>
 
@@ -115,13 +115,13 @@ const  PreInvoiceDetailsPage = async ({ params }: { params: { slug: string } }) 
 
                     </div>
                     <div className='col-span-11  lg:col-span-6'>
-                        <Image src={'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'w-full aspect-[1.333] object-cover rounded-[2rem]'}/>
-                        <div className='mt-4 grid grid-cols-4 gap-2'>
-                            <Image src={'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'col-span-1  aspect-[1.333] object-cover rounded-[2rem]'}/>
-                            <Image src={'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'col-span-1  aspect-[1.333] object-cover rounded-[2rem]'}/>
-                            <Image src={'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'col-span-1  aspect-[1.333] object-cover rounded-[2rem]'}/>
+                        <Image src={data?.media_files?.[0]?.image ? 'https://azprovider.com/'+data?.media_files?.[0]?.image :'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'w-full aspect-[1.333] object-cover rounded-[2rem]'}/>
+                        {/*<div className='mt-4 grid grid-cols-4 gap-2'>*/}
+                        {/*    <Image src={'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'col-span-1  aspect-[1.333] object-cover rounded-[2rem]'}/>*/}
+                        {/*    <Image src={'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'col-span-1  aspect-[1.333] object-cover rounded-[2rem]'}/>*/}
+                        {/*    <Image src={'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'col-span-1  aspect-[1.333] object-cover rounded-[2rem]'}/>*/}
 
-                        </div>
+                        {/*</div>*/}
                     </div>
                     <div className='col-span-1'>
 
