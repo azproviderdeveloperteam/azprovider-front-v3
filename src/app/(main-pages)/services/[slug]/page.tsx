@@ -13,8 +13,8 @@ export const dynamic = 'force-static'
 // }
 const ServiceDetailPage = async ({ params }: { params: { slug: string } }) => {
 
-            // const {data} = await getServiceDetails(params?.slug)
-    const data :any = {}
+            const {data} = await getServiceDetails(params?.slug)
+    // const data :any = {}
 
 
 
@@ -38,7 +38,7 @@ const ServiceDetailPage = async ({ params }: { params: { slug: string } }) => {
                         <div className='w-full flex flex-row items-center justify-start'>
                             <Image src={'/dark-medal.svg'} alt={'dark-medal'} width={20} height={20} />
                             <div className={`text-primary-dark-b text-[0.7rem] ml-1 mt-1`}>
-                                { data?.granted_organization  ? data?.granted_organization : ' - '}
+                                { data?.granted_organisation?.description  ? data?.granted_organisation?.description : ' - '}
                             </div>
                         </div>
                         <h1 className='text-[1.4rem] text-primary-dark-b font-bold'>
@@ -59,12 +59,12 @@ const ServiceDetailPage = async ({ params }: { params: { slug: string } }) => {
                         </div>
 
                         <p className={'mt-3 text-justify text-primary-dark-b'}>
-                            {data?.short_description}
+                            {data?.description}
                         </p>
                         <div className='font-thin text-[0.7rem] mt-4 text-[#8E8E8E]'>
                             {
-                                data?.publish_date_from ?
-                                    `${new Date(data?.publish_date_from)?.getUTCDate()} ${monthNames[new Date(data?.publish_date_from)?.getUTCMonth()] } ${new Date(data?.publish_date_from)?.getUTCFullYear()} - ${new Date(data?.publish_date_to)?.getUTCDate()} ${monthNames[new Date(data?.publish_date_to)?.getUTCMonth()] } ${new Date(data?.publish_date_to)?.getUTCFullYear()}`
+                                data?.published_date ?
+                                    `${new Date(data?.published_date)?.getUTCDate()} ${monthNames[new Date(data?.published_date)?.getUTCMonth()] } ${new Date(data?.published_date)?.getUTCFullYear()}  `
                                     :
                                     ' - '
                             }
@@ -78,34 +78,34 @@ const ServiceDetailPage = async ({ params }: { params: { slug: string } }) => {
                                 {data?.certification}
                             </div>
                         </div>
+                        {/*<div className='flex flex-row items-center justify-start text-[1rem] mt-1'>*/}
+                        {/*    <div className='w-2/5  text-[#8E8E8E] font-bold'>*/}
+                        {/*        Quantity*/}
+                        {/*    </div>*/}
+
+                        {/*    <div className='w-3/5  text-primary-dark-b'>*/}
+                        {/*        {data?.quantity}*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
+
                         <div className='flex flex-row items-center justify-start text-[1rem] mt-1'>
                             <div className='w-2/5  text-[#8E8E8E] font-bold'>
-                                Quantity
+                                Price
                             </div>
 
                             <div className='w-3/5  text-primary-dark-b'>
-                                {data?.quantity}
+                                {data?.price}
                             </div>
                         </div>
+                        {/*<div className='flex flex-row items-center justify-start text-[1rem] mt-1'>*/}
+                        {/*    <div className='w-2/5  text-[#8E8E8E] font-bold'>*/}
+                        {/*        Size*/}
+                        {/*    </div>*/}
 
-                        <div className='flex flex-row items-center justify-start text-[1rem] mt-1'>
-                            <div className='w-2/5  text-[#8E8E8E] font-bold'>
-                                Quality
-                            </div>
-
-                            <div className='w-3/5  text-primary-dark-b'>
-                                {data?.quality}
-                            </div>
-                        </div>
-                        <div className='flex flex-row items-center justify-start text-[1rem] mt-1'>
-                            <div className='w-2/5  text-[#8E8E8E] font-bold'>
-                                Size
-                            </div>
-
-                            <div className='w-3/5  text-primary-dark-b'>
-                                {`${data?.size} ${data?.measure}`}
-                            </div>
-                        </div>
+                        {/*    <div className='w-3/5  text-primary-dark-b'>*/}
+                        {/*        {`${data?.size} ${data?.measure}`}*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
 
                         <div className='flex flex-row items-center justify-start text-[1rem] mt-5'>
                             <div className='w-2/5  text-[#8E8E8E] font-bold'>
@@ -117,13 +117,13 @@ const ServiceDetailPage = async ({ params }: { params: { slug: string } }) => {
 
                     </div>
                     <div className='col-span-11  lg:col-span-6'>
-                        <Image src={'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'w-full aspect-[1.333] object-cover rounded-[2rem]'}/>
-                        <div className='mt-4 grid grid-cols-4 gap-2'>
-                            <Image src={'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'col-span-1  aspect-[1.333] object-cover rounded-[2rem]'}/>
-                            <Image src={'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'col-span-1  aspect-[1.333] object-cover rounded-[2rem]'}/>
-                            <Image src={'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'col-span-1  aspect-[1.333] object-cover rounded-[2rem]'}/>
+                        <Image src={data?.media_files?.[0]?.image ? 'https://azprovider.com/'+data?.media_files?.[0]?.image :'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'w-full aspect-[1.333] object-cover rounded-[2rem]'}/>
+                        {/*<div className='mt-4 grid grid-cols-4 gap-2'>*/}
+                        {/*    <Image src={'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'col-span-1  aspect-[1.333] object-cover rounded-[2rem]'}/>*/}
+                        {/*    <Image src={'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'col-span-1  aspect-[1.333] object-cover rounded-[2rem]'}/>*/}
+                        {/*    <Image src={'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'col-span-1  aspect-[1.333] object-cover rounded-[2rem]'}/>*/}
 
-                        </div>
+                        {/*</div>*/}
                     </div>
                     <div className='col-span-1'>
 

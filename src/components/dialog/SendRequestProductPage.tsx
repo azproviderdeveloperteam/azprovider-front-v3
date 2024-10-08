@@ -20,6 +20,7 @@ const SendRequestProductPage = ({data} : any) => {
     const [fromDate , setFromDate] = useState(new Date())
     const [toDate , setToDate] = useState(new Date())
 
+    console.log(data)
     const dateToFormatYMD = (d : Date | undefined)=>{
         if( d instanceof Date){
             const stingDate = d?.toLocaleDateString()?.split('/')
