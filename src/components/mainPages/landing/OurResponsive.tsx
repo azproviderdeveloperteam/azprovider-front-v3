@@ -17,7 +17,12 @@ const OurResponsive = () => {
                         {myTexts.desc.map((item:string ,index:number)=>{
                             return(
                                 <li key={index+1}>
-                                    {item}
+                                    <span className='font-bold mr-1'>
+                                        {item.split(':')?.[0]}:
+                                    </span>
+                                    <span>
+                                        {item.split(':')?.[1]}
+                                    </span>
                                 </li>
                             )
                         })}
