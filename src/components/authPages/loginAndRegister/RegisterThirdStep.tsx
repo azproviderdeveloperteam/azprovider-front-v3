@@ -26,8 +26,8 @@ const RegisterThirdStep = ({nextStep}:any) => {
         }).shape({
             firstName:Yup.string().required('Enter Your First Name'),
             lastName:Yup.string().required('Enter Your Last Name'),
-            businessCode:Yup.string().required('Enter Business Code'),
-            businessRole:Yup.string().required('Enter Business Role'),
+            businessCode:Yup.string(),
+            businessRole:Yup.string(),
             cityOrCountry:Yup.string().required('Enter City Or Country'),
             acceptTerms:Yup.bool().required('')
 
@@ -52,7 +52,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
         const formData = {
                 first_name:d?.firstName,
                 last_name:d?.lastName,
-                business_register_code:d?.businessCode,
+                business_register_code:d?.businessCode === '' ? 'none' :d?.businessCode,
                 business_role:d?.businessRole,
                 city_country:d?.cityOrCountry,
         }
@@ -126,7 +126,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
 
                     <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem] pr-2 h-full mt-7'>
                         <div className=' text-[1.3rem]'>
-                            {myTexts.businessRegisterCode} <span className='text-secondary-red'>*</span>
+                            {myTexts.businessRegisterCode}
                         </div>
                         <MainInput
                             register={register}
@@ -141,7 +141,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
 
                     <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem] pr-2 h-full mt-7'>
                         <div className=' text-[1.3rem]'>
-                            {myTexts.businessRole} <span className='text-secondary-red'>*</span>
+                            {myTexts.businessRole}
                         </div>
                         <MainInput
                             register={register}
