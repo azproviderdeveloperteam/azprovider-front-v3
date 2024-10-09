@@ -5,6 +5,7 @@ import noImage from '@/public/no-image.svg'
 import SsrIconBtn from "@/components/Buttons/SsrIconBtn";
 import ProductCard from "@/components/Cards/ProductCard";
  import AvatarSsr from "@/components/Cards/AvatarSsr";
+import Link from "next/link";
 
 export const dynamicParams = false
 export const dynamic = 'force-static'
@@ -33,9 +34,9 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
                     <div className='w-full flex flex-col lg:flex-row items-center justify-between'>
                         <div className={'w-full lg:w-1/2 flex flex-col items-start justify-start'}>
                             <h1 className='text-[1.4rem] font-bold text-primary-dark-b'>
-                                {data?.business_information?.brand_name ? data?.business_information?.brand_name: 'No Name Yet'}
+                                {data?.first_name ? data?.first_name + ' ' + data?.last_name: 'No Name Yet'}
                                 <span className='ml-1'>
-                                    <SsrIconBtn >
+                                    <SsrIconBtn data={data}>
                                         <Image src={'/go-to-page-icon.svg'} alt={'go-to-page-icon.svg'} width={30} height={30} />
                                     </SsrIconBtn>
                                 </span>
@@ -77,7 +78,7 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
 
 
                     <p className='mt-2 text-justify'>
-                        {data?.short_description + 'Lorem ipsum dolor sit amet consectetur. Non non lorem tellus feugiat dui gravida fermentum facilisi feugiat. Diam dignissim lectus lacinia aliquam sollicitudin sagittis auctor tellus. Dui amet arcu adipiscing rhoncus. Adipiscing augue tempus pellentesque venenatis tempus laoreet. Egestas mauris eget enim id sed interdum. Eget tortor quam viverra adipiscing hac. Velit nunc nunc suspendisse nunc vestibulum vitae. Ullamcorper nibh metus elit non vel dictum volutpat venenatis ipsum. Aliquam leo penatibus interdum magna erat nec. Non augue urna phasellus lectus pellentesque. Vitae amet nibh ultrices sed lectus pretium nulla eleifend.'}
+                        {/*{data?.short_description + 'Lorem ipsum dolor sit amet consectetur. Non non lorem tellus feugiat dui gravida fermentum facilisi feugiat. Diam dignissim lectus lacinia aliquam sollicitudin sagittis auctor tellus. Dui amet arcu adipiscing rhoncus. Adipiscing augue tempus pellentesque venenatis tempus laoreet. Egestas mauris eget enim id sed interdum. Eget tortor quam viverra adipiscing hac. Velit nunc nunc suspendisse nunc vestibulum vitae. Ullamcorper nibh metus elit non vel dictum volutpat venenatis ipsum. Aliquam leo penatibus interdum magna erat nec. Non augue urna phasellus lectus pellentesque. Vitae amet nibh ultrices sed lectus pretium nulla eleifend.'}*/}
                     </p>
 
                     <div className={`flex flex-row items-center justify-start text-primary-dark-b  `}>
@@ -174,6 +175,35 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
                                                     <div className={`${index===0 ? ' ' :''}  w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`} key={index+1}>
                                                         <ProductCard item={item} theme={'light'}/>
                                                     </div>
+                                                )
+                                            })
+                                        }
+                                        <div className={`   w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`}  >
+                                            <div className={`w-full aspect-[0.7334] flex flex-col items-center justify-between rounded-[1.6rem] opacity-0 `}>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            :null
+                    }
+
+
+                    {
+                        data?.service && data?.service?.length > 0 ?
+                            <div className='w-full mt-4'>
+                                <h3 className='text-[1.3rem] font-bold text-primary-dark-b inline'>
+                                    {`${data?.business_information?.brand_name ? data?.business_information?.brand_name: 'Company'} Services`}
+                                </h3>
+                                <div className='w-full overflow-x-hidden'>
+                                    <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
+                                        {
+                                            data?.service?.map((item : any ,index : number)=>{
+                                                return(
+                                                    <Link  href={`/services/${item?.id}`} className={`${index===0 ? ' ' :''}  w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`} key={index+1}>
+                                                        <ProductCard item={item} theme={'light'}/>
+                                                    </Link>
                                                 )
                                             })
                                         }
