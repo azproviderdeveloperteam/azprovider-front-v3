@@ -13,11 +13,9 @@ const CompanyCard = ({item } : any) => {
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
 
-    // console.log(item)
-
     return (
         <div className='w-full bg-[#F8F8F8] min-h-[5.3rem] py-3 rounded-[1.2rem] shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.10)] flex flex-row items-center justify-between px-4'>
-            <Link href={`/companies/${item?.id}`} className='w-3/12  px-2 flex flex-row items-center justify-start cursor-pointer'>
+            <Link href={`/companies/${item?.user}`} className='w-3/12  px-2 flex flex-row items-center justify-start cursor-pointer'>
                 <Avatar src={item?.logo ? `${process.env.MEDIA_URL}${item?.logo}` : noImage.src} />
                 <div className={'flex flex-col items-start justify-center h-full ml-2'}>
                     <h2 className='text-[1.1rem] font-bold'>
