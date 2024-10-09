@@ -4,7 +4,7 @@ import {texts} from "@/utils/texts";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useMutation} from "@tanstack/react-query";
-import {getAddresses, postContact} from "@/services/profileServices";
+import {getAddresses, patchContact, postContact} from "@/services/profileServices";
 import * as Yup from "yup";
 import MainInput from "@/components/inputs/MainInput";
 import AzDialog from "@/components/dialog/AzDialog";
@@ -59,7 +59,9 @@ const ProfileContact = ({contactData} : any) => {
     const {data  , isPending  , error  , mutateAsync} =useMutation({
         mutationFn : postContact
     })
-
+    const {data :patchContactData , isPending:patchContactPending  , error :patchContactError  , mutateAsync :patchContactMutateAsync} =useMutation({
+        mutationFn : patchContact
+    })
     const {data : AddressesData, isPending :AddressesPending, error : AddressesError} = useQuery({
         queryKey: ['get-addresses',addAddress],
         queryFn: getAddresses,
@@ -69,34 +71,34 @@ const ProfileContact = ({contactData} : any) => {
 
     console.log(AddressesData)
 
+    const addSocials = () =>{
+        for(let x in socials){
+            try {
 
+            }catch (e) {
+                
+            }
+        }
+    }
     const submit = async (d:any)=>{
 
         const formData = {
-            ...(d?.tell && {phone:d?.tell}),
+            ...(d?.tell && {tel:d?.tell}),
             ...(d?.fax && {fax:d?.fax}),
-            ...(d?.locationTitle && {address:d?.locationTitle}),
-            ...(d?.cityCountry && {country:d?.cityCountry}),
-            // ...(d?.number && {number:d?.number}),
-            ...(d?.provinceState && {state:d?.provinceState}),
-            ...(d?.building && {building:d?.building}),
-            // ...(d?.tell && {unit:d?.tell}),
-            ...(d?.zipCode && {zip_code:d?.zipCode}),
             ...(d?.websiteAddress && {website:d?.websiteAddress}),
-            ...(d?.instagram && {instagram:d?.instagram}),
-            ...(d?.whatsapp && {whatsapp:d?.whatsapp}),
-            ...(d?.facebook && {facebook:d?.facebook}),
-            // ...(d?.tell && {aparat:d?.tell}),
-            ...(d?.youtube && {youtube:d?.youtube}),
-            ...(d?.telegram && {telegram:d?.telegram}),
-            ...(d?.linkedin && {linkedin:d?.linkedin}),
-            ...(d?.streetAllay && {street:d?.streetAllay}),
-
+            is_default:true
         }
 
         try {
-            const d = await mutateAsync(formData)
-            toast.success("Data Saved Successfully !")
+            if(contactData?.[0]?.id){
+                const d = await patchContactMutateAsync({id:contactData?.[0]?.id , data:formData})
+                toast.success("Data Saved Successfully !")
+            }else {
+                const d = await mutateAsync(formData)
+                toast.success("Data Saved Successfully !")
+            }
+
+            
 
         }catch (err) {
             if(err instanceof AxiosError){
@@ -122,9 +124,10 @@ const ProfileContact = ({contactData} : any) => {
      ];
 
     useEffect(()=>{
-        setValue('tell',contactData?.phone)
-        setValue('fax',contactData?.fax)
-        setValue('websiteAddress',contactData?.website)
+        console.log(contactData?.[0])
+        setValue('tell',contactData?.[0]?.tel)
+        setValue('fax',contactData?.[0]?.fax)
+        setValue('websiteAddress',contactData?.[0]?.website)
         setValue('instagram',contactData?.instagram)
         setValue('linkedin',contactData?.linkedin)
 
@@ -251,11 +254,11 @@ const ProfileContact = ({contactData} : any) => {
                             {myTexts.save}
                         </RegisterBtn>
 
-                        <Button className={'flex flex-row items-center justify-center font-roboto font-normal normal-case shadow-none hover:shadow-none text-[1.1rem] mt-12 bg-transparent text-primary-green-tb'} onClick={()=>setMoreData(!moreData)} disabled={false}>
-                            {myTexts.advanceDataInformation}
-                            <Image src={'/green-tb-arrow.svg'} alt={'arrow-carousel-az-provider'} width={40} height={40} className={moreData ? 'transition duration-500' : 'rotate-180 transition duration-500'}/>
+                        {/*<Button className={'flex flex-row items-center justify-center font-roboto font-normal normal-case shadow-none hover:shadow-none text-[1.1rem] mt-12 bg-transparent text-primary-green-tb'} onClick={()=>setMoreData(!moreData)} disabled={false}>*/}
+                        {/*    {myTexts.advanceDataInformation}*/}
+                        {/*    <Image src={'/green-tb-arrow.svg'} alt={'arrow-carousel-az-provider'} width={40} height={40} className={moreData ? 'transition duration-500' : 'rotate-180 transition duration-500'}/>*/}
 
-                        </Button>
+                        {/*</Button>*/}
                     </div>
 
 

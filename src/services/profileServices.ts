@@ -32,13 +32,19 @@ export async function  getContact(){
 }
 
 export async function  postContact(data : any){
-    return await  instance.post('contact-information/update-info/' ,data  ,{
+    return await  instance.post('v2/user/contact/' ,data  ,{
         headers:{
             'Content-Type': 'multipart/form-data',
             'Accept': 'application/json',
             // 'Authorization': `Bearer ${jwt}`
         }})}
-
+export async function  patchContact({data  , id}:any){
+    return await  instance.patch('v2/user/contact/'+id+'/' ,data  ,{
+        headers:{
+            'Content-Type': 'multipart/form-data',
+            'Accept': 'application/json',
+            // 'Authorization': `Bearer ${jwt}`
+        }})}
 
 
 export async function  getCertificate(){
@@ -103,4 +109,32 @@ export async function postAddress(data: any){
 
 export async function  getAddresses(){
     return await  instance.get('v2/user/user-address/' ,)
+}
+
+
+
+export async function  getSocials(){
+    return await  instance.get('v2/user/social-contact/' ,{
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            // 'Authorization': `Bearer ${jwt}`
+        }
+    })
+}
+export async function  postSocials(data : any){
+    return await  instance.post('v2/user/social-contact/' ,data  ,{
+        headers:{
+            'Content-Type': 'multipart/form-data',
+            'Accept': 'application/json',
+            // 'Authorization': `Bearer ${jwt}`
+        }})
+}
+export async function  patchSocials({data  , id}:any){
+    return await  instance.patch('v2/user/social-contact/'+id+'/' ,data  ,{
+        headers:{
+            'Content-Type': 'multipart/form-data',
+            'Accept': 'application/json',
+            // 'Authorization': `Bearer ${jwt}`
+        }})
 }
