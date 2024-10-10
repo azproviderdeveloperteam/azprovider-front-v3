@@ -122,7 +122,11 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList 
                     toast.error(err?.response?.data?.msg)
                 }else if(err?.response?.data?.message){
                     toast.error(err?.response?.data?.message)
-                } else {
+                }else if(err?.response?.data?.image?.[0]){
+                    toast.error(err?.response?.data?.image?.[0])
+                }else if(err?.response?.data?.image){
+                    toast.error(err?.response?.data?.image?.toString())
+                }  else {
                     toast.error('An Error occurred')
                 }
             }
@@ -277,12 +281,14 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList 
                         onClick={()=>{
                             if(inputRefPreInvoice){
                                 if(inputRefPreInvoice.current){
-                                    inputRefPreInvoice.current.click()
+                                    if(!uploadImagePending){
+                                        inputRefPreInvoice.current.click()
+                                    }
                                 }
                             }
                         }}
                         className='bg-transparent text-primary-purple-300 font-bold normal-case ml-3 capitalize  flex flex-row items-center justify-start'>
-                        <Image src={'/upload-svg.svg'} alt={'upload-svg.svg'} width={20} height={20} className={'mr-1'} />    {myTexts.uploadLogo}
+                        <Image src={'/upload-svg.svg'} alt={'upload-svg.svg'} width={20} height={20} className={'mr-1'} /> {uploadImagePending ? 'uploading...' :myTexts.uploadLogo}
                     </Button>
                     <input className='hidden' ref={inputRefPreInvoice} type={'file'} onChange={(e)=>{
                         if(e.target.files){

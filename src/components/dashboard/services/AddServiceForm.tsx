@@ -226,6 +226,10 @@ const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
                     toast.error(err?.response?.data?.msg)
                 }else if(err?.response?.data?.message){
                     toast.error(err?.response?.data?.message)
+                } else if(err?.response?.data?.image?.[0]){
+                    toast.error(err?.response?.data?.image?.[0])
+                }else if(err?.response?.data?.image){
+                    toast.error(err?.response?.data?.image?.toString())
                 } else {
                     toast.error('An Error occurred')
                 }
@@ -305,12 +309,14 @@ const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
                         onClick={()=>{
                             if(inputRef){
                                 if(inputRef.current){
-                                    inputRef.current.click()
+                                    if(!uploadImagePending){
+                                        inputRef.current.click()
+                                    }
                                 }
                             }
                         }}
                         className='bg-transparent text-primary-purple-300 font-bold normal-case ml-3 capitalize  flex flex-row items-center justify-start'>
-                        <Image src={'/upload-svg.svg'} alt={'upload-svg.svg'} width={20} height={20} className={'mr-1'} />    {myTexts.uploadLogo}
+                        <Image src={'/upload-svg.svg'} alt={'upload-svg.svg'} width={20} height={20} className={'mr-1'} />    {uploadImagePending ? 'uploading...' :myTexts.uploadLogo}
                     </Button>
                     <input className='hidden' ref={inputRef} type={'file'} onChange={(e)=>{
                         if(e.target.files){
