@@ -182,7 +182,10 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
 
 
     const submit = async (d : any) =>{
-
+        if(img === null && viewAddProductForm === null){
+            toast.error('Upload Image is required')
+            return
+        }
         const formData = {
             title : productInput?.title,
             size:d?.capacity,
