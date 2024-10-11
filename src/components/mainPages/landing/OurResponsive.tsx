@@ -8,7 +8,7 @@ const OurResponsive = () => {
     const myTexts = text.homePage.ourResponsive
     return (
         <div className='w-full py-[7rem] bg-[#ffffff]'>
-            <div className='max-w-[71.2125rem] lg:w-[71.3125rem] m-auto w-full flex flex-col  md:flex-row items-center justify-between px-[5%] lg:px-0'>
+            <div className='max-w-[71rem]   m-auto w-full flex flex-col  md:flex-row items-center justify-between px-[5%] lg:px-0'>
                 <div className='w-full md:w-1/2'>
                     <h2 className='w-full font-bold text-[2rem]  text-left text-primary-dark-b'>
                         {myTexts.title}

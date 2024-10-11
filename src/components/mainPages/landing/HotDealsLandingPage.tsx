@@ -34,7 +34,7 @@ const HotDealsLandingPage =  () => {
     return (
 
         <div className='w-full bg-primary-dark-b py-28 px-[5%] lg:px-0'>
-            <div className='max-w-[71.2125rem] lg:w-[71.3125rem] m-auto w-full flex flex-col items-center justify-start text-white'>
+            <div className='w-full max-w-[71.2125rem]  m-auto w-full flex flex-col items-center justify-start text-white'>
                 <div className='w-full flex flex-row items-end justify-start'>
                     <h2 className='text-left text-[4rem] font-bold leading-none'>
                         {myTexts.title}
@@ -61,7 +61,7 @@ const HotDealsLandingPage =  () => {
             </div>
 
 
-            <div className={data?.length > 4 ?  'hidden md:block mt-5 max-w-[95rem] 2xl:w-[93rem] m-auto overflow-hidden' :'mt-5 max-w-[95rem] 2xl:w-[93rem] m-auto w-full hidden md:flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory ' }>
+            <div className={data?.length > 4 ?  'hidden md:block mt-5 max-w-[95rem] w-full m-auto overflow-hidden' :'mt-5 max-w-[95rem] w-full m-auto w-full hidden md:flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory ' }>
                 {
                     data?.length > 4  ?
                         <AzSwiperTitleComponent countDesktop={4} countMobile={2} title={''} count={data?.length} allLink={'#'}>

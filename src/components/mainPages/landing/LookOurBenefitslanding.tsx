@@ -20,7 +20,7 @@ const LooksOurBenefitsLanding = () => {
 
     return (
         <div className='w-full bg-white pb-10'>
-            <div className='max-w-[71.4rem] lg:w-[71.4rem] m-auto w-full flex flex-col items-center justify-start text-primary-dark-b bg-gradient-to-b  from-primary-green-cb to-gray-50 p-1 rounded-[1.5rem] translate-y-[-5rem] shadow-[0px_55px_55px_13px_rgba(5,_25,_38,_0.20)]'>
+            <div className='w-full max-w-[71.4rem]   m-auto w-full flex flex-col items-center justify-start text-primary-dark-b bg-gradient-to-b  from-primary-green-cb to-gray-50 p-1 rounded-[1.5rem] translate-y-[-5rem] shadow-[0px_55px_55px_13px_rgba(5,_25,_38,_0.20)]'>
                 <div className='w-full h-full rounded-[1.4rem] bg-white py-10'>
                     <h3 className='w-full text-center text-[3.5rem] font-bold'>
                         {myTexts.title}

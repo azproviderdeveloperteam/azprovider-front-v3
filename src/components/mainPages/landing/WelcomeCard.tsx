@@ -39,7 +39,7 @@ import Image from "next/image";
 
                 {/*</div>*/}
             </div>
-            <div className='absolute w-full lg:w-[71.3125rem] aspect-[1.517287234] top-[69%]'>
+            <div className='absolute w-full max-w-[71rem] aspect-[1.517287234] top-[69%]'>
                 <Image src={'/dashboard-in-landing.png'} alt={'az-provider-dashboard'} fill
                        className={'!w-full !h-full'}
                  />
