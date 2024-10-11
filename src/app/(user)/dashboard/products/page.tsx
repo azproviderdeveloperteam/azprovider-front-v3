@@ -15,16 +15,21 @@ const ProductsPage = () => {
         queryKey: ['get-dashboard-products' , submit],
         queryFn: getDashboardProducts,
         retry:false,
+        refetchOnWindowFocus:false
     })
     const {data : allMeasureData, isPending :allMeasurePending, error : allMeasureError} = useQuery({
         queryKey: ['get-all-measure' , submit],
         queryFn: getMeasureList,
         retry:false,
+        refetchOnWindowFocus:false
+
     })
     const {data : getGrantedOrganisationListData, isPending :getGrantedOrganisationListPending, error : getGrantedOrganisationListError} = useQuery({
         queryKey: ['get-getGrantedOrganisationList' ,submit],
         queryFn: getGrantedOrganisationList,
         retry:false,
+        refetchOnWindowFocus:false
+
     })
 
     useEffect(()=>{

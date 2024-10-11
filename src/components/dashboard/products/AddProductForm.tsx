@@ -23,6 +23,7 @@ import {
 import ThreeDotsLoaderGreen from "@/components/loaders/ThreeDotsLoaderGreen";
 import {createProduct, createProductUploadImage , updateProduct} from "@/services/dashboardProductsServices";
 import {uploadV2} from "@/services/uploadService";
+import useImageResize from "@/hooks/useImageResize";
 
 type GrantedOgType = {
     value : string | undefined ,
@@ -94,6 +95,40 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
         mutationFn : uploadV2
     })
 
+    const { resizedImage, resizeImage, loading, error : er } = useImageResize({
+        maxWidth: 500,
+        maxHeight: 500,
+        quality: 0.9,
+    });
+
+    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            // uploadImage(file);
+            resizeImage(file)
+
+        }
+    };
+    const convertBase64ToFile = async (base64Data: string, fileName: string) => {
+        const response = await fetch(base64Data);
+        const blob = await response.blob();
+        const file = new File([blob], fileName, { type: blob.type });
+        return file;
+    };
+    const handleConvertToFile = async () => {
+        if (resizedImage) {
+            const file = await convertBase64ToFile(resizedImage, 'resized_image.jpg');
+            await uploadImage(file)
+
+        }
+    };
+    useEffect(()=>{
+        if(resizedImage){
+            setImgView(resizedImage)
+            handleConvertToFile()
+        }
+    },[resizedImage])
+    console.log(resizedImage , er , loading)
 
     useEffect(()=>{
         if(viewAddProductForm !== null && viewAddProductForm?.title){
@@ -338,7 +373,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
                         if(e.target.files){
                             if(e.target?.files[0]){
                                 setImg(e.target?.files[0])
-                                uploadImage(e.target?.files[0])
+                                handleImageUpload(e)
                                 setImgView(URL.createObjectURL(e.target?.files[0]))
                             }else {
                                 setImg(null)

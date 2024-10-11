@@ -9,7 +9,6 @@ const isServer = typeof window === "undefined";
 const cookieToken2 =  Cookies.get('cookieToken')
 const cookieToken = isServer ? getCookie("cookieToken") : null
 
-console.log(cookieToken2)
 
 
 export const app =  axios.create({
