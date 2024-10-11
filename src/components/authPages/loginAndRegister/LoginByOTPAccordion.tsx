@@ -269,8 +269,8 @@ const LoginByOtpAccordion = () => {
                               {
 
                                       <form className='w-full flex flex-col items-start justify-between mt-2' onSubmit={handleSubmit(sendVerification)}>
-                                          <div className='w-full flex flex-row items-center justify-center gap-4'>
-                                              <div className='w-1/3 h-full '>
+                                          <div className='w-full flex flex-col md:flex-row items-center justify-center gap-4'>
+                                              <div className='w-full md:w-1/3 h-full '>
                                                   <div className=' text-[1.3rem] capitalize'>
 
                                                   </div>
@@ -312,7 +312,7 @@ const LoginByOtpAccordion = () => {
                                                       }}
                                                   />
                                               </div>
-                                              <div className='w-2/3 pr-3 h-full'>
+                                              <div className='w-full md:w-2/3 md:pr-3 h-full'>
                                                   <MainInput
                                                       register={register}
                                                       label={'Your Email'}
@@ -327,16 +327,16 @@ const LoginByOtpAccordion = () => {
 
 
 
-                                          <div className={'w-full flex flex-row items-start justify-between mt-3'}>
-                                              <div className='w-5/12'>
+                                          <div className={'w-full flex flex-col md:flex-row items-start justify-between mt-3'}>
+                                              <div className='w-full md:w-5/12'>
                                                   <RegisterBtn type={'submit'} loading={vPending} disabled={false}  otherClass={'!w-full'}>
                                                       {myTexts.sendCode}
                                                   </RegisterBtn>
                                               </div>
-                                              <div className=' h-full flex flex-row items-center justify-center min-h-[3.85rem]'>
+                                              <div className='w-full md:w-[1rem] h-full flex flex-row items-center justify-center min-h-[3.85rem]'>
                                                   Or
                                               </div>
-                                              <div className='w-5/12'>
+                                              <div className='w-full md:w-5/12'>
                                                   <RegisterBtn onClick={()=>setStep(2)}  loading={false} disabled={false}  otherClass={'!w-full'}>
                                                       Enter Password
                                                   </RegisterBtn>
