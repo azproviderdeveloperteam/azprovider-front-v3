@@ -3,17 +3,23 @@ import {baseUrl} from "@/utils/config";
 axios.defaults.withCredentials = true
 import Cookies from "js-cookie";
 
-const cookieToken = Cookies.get('cookieToken');
-const refreshJwt = Cookies.get('refreshJwt');
+
+import { getCookie } from "cookies-next"; // For server-side cookies
+const isServer = typeof window === "undefined";
+const cookieToken2 =  Cookies.get('cookieToken')
+const cookieToken = isServer ? getCookie("cookieToken") : null
+
+console.log(cookieToken2)
+
+
 export const app =  axios.create({
     withCredentials:true,
     baseURL:`https://${baseUrl}`,
-
     headers:{
         accept: 'application/json',
         'Content-Type': 'application/json',
         Accept:'application/json',
-        // ...( (cookieToken ?  cookieToken?.toString()?.length > 12 : false)  && {Authorization: `Bearer ${cookieToken}`})
+        ...(cookieToken2 && { Authorization: `Bearer ${cookieToken2}` }),
     }
 })
 

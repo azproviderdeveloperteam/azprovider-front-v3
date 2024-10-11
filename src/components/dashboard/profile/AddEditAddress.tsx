@@ -11,8 +11,20 @@ import {useMutation} from "@tanstack/react-query";
 import {postAddress} from "@/services/profileServices";
 import "leaflet/dist/leaflet.css";
 
-import {MapContainer, TileLayer, Marker, useMapEvents} from "react-leaflet";
+import {MapContainer, TileLayer, Marker, useMapEvents, Popup} from "react-leaflet";
 import toast from "react-hot-toast";
+import L from 'leaflet';
+
+const DefaultIcon = L.icon({
+    iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
+    iconRetinaUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png",
+    shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+});
+L.Marker.prototype.options.icon = DefaultIcon;
 
 const AddEditAddress = ({item , open , onClose}:any) => {
     const text = texts.eng
@@ -71,6 +83,7 @@ const AddEditAddress = ({item , open , onClose}:any) => {
 
     const MapEvents = () => {
         const map = useMapEvents({
+            click : (e)=>setPosition([e?.latlng?.lat , e?.latlng?.lng]),
             moveend: () => makeACall(map.getBounds(), map.getZoom()),
             zoomend: () => makeACall(map.getBounds(), map.getZoom())
         });
@@ -195,9 +208,11 @@ const AddEditAddress = ({item , open , onClose}:any) => {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     <MapEvents />
-                    <div className='absolute z-[999] top-[50%] left-[50%]'>
-                        <div className='w-[5rem] h-[5rem] bg-slate-100' />
-                    </div>
+                    <Marker position={position}>
+                        <Popup>
+                            A pretty CSS3 popup. <br /> Easily customizable.
+                        </Popup>
+                    </Marker>
 
                 </MapContainer>
 

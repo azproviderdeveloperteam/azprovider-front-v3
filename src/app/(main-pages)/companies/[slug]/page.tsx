@@ -6,6 +6,10 @@ import SsrIconBtn from "@/components/Buttons/SsrIconBtn";
 import ProductCard from "@/components/Cards/ProductCard";
  import AvatarSsr from "@/components/Cards/AvatarSsr";
 import Link from "next/link";
+import { getCookie } from "cookies-next";
+import CompanyDetailsContacts from "@/components/mainPages/CompanyDetailsContacts";
+import CompanyDetailsAddresses from "@/components/mainPages/CompanyDetailsAddresses";
+import CompanyDatailsSocials from "@/components/mainPages/CompanyDatailsSocials"; // Import for cookie management
 
 export const dynamicParams = false
 export const dynamic = 'force-static'
@@ -13,6 +17,7 @@ export const dynamic = 'force-static'
 //     return [{slug:'32'}]
 // }
 const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
+    const token = getCookie('cookieToken') || '';
 
             const {data} = await getCompanyDetails(params?.slug)
 
@@ -36,7 +41,7 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
                             <h1 className='text-[1.4rem] font-bold text-primary-dark-b'>
                                 {data?.first_name ? data?.first_name + ' ' + data?.last_name: 'No Name Yet'}
                                 <span className='ml-1'>
-                                    <SsrIconBtn data={data}>
+                                    <SsrIconBtn >
                                         <Image src={'/go-to-page-icon.svg'} alt={'go-to-page-icon.svg'} width={30} height={30} />
                                     </SsrIconBtn>
                                 </span>
@@ -55,25 +60,7 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
                             </div>
 
                         </div>
-                        <div className={'w-full lg:w-1/2 flex flex-row items-center justify-end'}>
-
-                            <SsrIconBtn className={'bg-transparent shadow-none focus:shadow-none'}>
-                                <Image src={'/icon-for-send-email.svg'} alt={'icon-for-send-email.svg'} width={40} height={40} />
-                            </SsrIconBtn>
-                                <SsrIconBtn className={'bg-transparent shadow-none focus:shadow-none'}>
-                                    <Image src={'/call-company.svg'} alt={'call-company.svg'} width={40} height={40} />
-                                </SsrIconBtn>
-
-                                <SsrIconBtn className={'bg-transparent shadow-none focus:shadow-none'}>
-                                    <Image src={'/send-message-company.svg'} alt={'send-message-company.svg'} width={40} height={40} />
-                                </SsrIconBtn>
-
-                                <SsrIconBtn className={'bg-transparent shadow-none focus:shadow-none'}>
-                                    <Image src={'/bookmark-not-fill.svg'} alt={'bookmark-not-fill.svg'} width={40} height={40} />
-                                </SsrIconBtn>
-
-
-                        </div>
+                        <CompanyDetailsContacts slug={params?.slug}/>
                     </div>
 
 
@@ -83,23 +70,9 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
 
                     <div className={`flex flex-row items-center justify-start text-primary-dark-b  `}>
 
-                        <SsrIconBtn className={'bg-transparent shadow-none focus:shadow-none'}>
-                            <Image src={'/dark-insta.svg'} alt={'dark-insta.svg'} width={40} height={40} />
-                        </SsrIconBtn>
+                        <CompanyDatailsSocials slug={params?.slug}/>
 
 
-                        <SsrIconBtn className={'bg-transparent shadow-none focus:shadow-none'}>
-                            <Image src={'/dark-whatsapp.svg'} alt={'dark-whatsapp.svg'} width={40} height={40} />
-                        </SsrIconBtn>
-
-                        <SsrIconBtn className={'bg-transparent shadow-none focus:shadow-none'}>
-                            <Image src={'/dark-telegram.svg'} alt={'dark-telegram.svg'} width={40} height={40} />
-                        </SsrIconBtn>
-
-                        <Image src={'/gray-location.svg'} alt={`location of ${data?.business_information?.name}`} width={20} height={20} />
-                        <div className='ml-1 text-[0.8rem] text-[#8E8E8E] font-bold capitalize'>
-                            {`${data?.contact_information?.country ? data?.contact_information?.country :'no location'} - ${data?.contact_information?.city ? data?.contact_information?.city  : ''}`}
-                        </div>
                         <div className='font-thin text-[#8E8E8E] text-[0.7rem] ml-1'>
                             {
                                 data?.created_at ?
@@ -109,6 +82,9 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
                             }
                         </div>
                     </div>
+                    <Image src={'/gray-location.svg'} alt={`location of ${data?.business_information?.name}`} width={20} height={20} />
+
+                    <CompanyDetailsAddresses slug={params?.slug} />
 
                     <h3 className='mt-5 font-bold text-[1.1rem] text-primary-dark-b'>
                         Certificates
@@ -162,7 +138,7 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
                     </div>
 
                     {
-                        data?.products && data?.products?.length > 0 ?
+                        data?.product && data?.product?.length > 0 ?
                             <div className='w-full mt-4'>
                                 <h3 className='text-[1.3rem] font-bold text-primary-dark-b inline'>
                                     {`${data?.business_information?.brand_name ? data?.business_information?.brand_name: 'Company'} Products`}
@@ -170,11 +146,11 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
                                 <div className='w-full overflow-x-hidden'>
                                     <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
                                         {
-                                            data?.products?.map((item : any ,index : number)=>{
+                                            data?.product?.map((item : any ,index : number)=>{
                                                 return(
-                                                    <div className={`${index===0 ? ' ' :''}  w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`} key={index+1}>
+                                                    <Link   href={`/products/${item?.id}`} className={`${index===0 ? ' ' :''}  w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`} key={index+1}>
                                                         <ProductCard item={item} theme={'light'}/>
-                                                    </div>
+                                                    </Link>
                                                 )
                                             })
                                         }

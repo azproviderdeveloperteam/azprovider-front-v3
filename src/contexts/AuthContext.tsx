@@ -43,6 +43,7 @@ const AuthProvider = ({children}:any)=>{
         const refreshJwt = Cookies.get('refreshJwt');
         if(cookieToken){
             app.defaults.headers.Authorization = `Bearer ${cookieToken}`;
+
             setLoading(false)
 
         }else {

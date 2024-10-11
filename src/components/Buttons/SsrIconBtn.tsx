@@ -2,10 +2,10 @@
 import React from 'react';
 import {IconButton} from "@material-tailwind/react";
 
-const SsrIconBtn = ({children , className , data} : any) => {
-    console.log(data)
+const SsrIconBtn = ({children , className , data , ...otherProps} : any) => {
+
     return (
-        <IconButton className={'bg-transparent shadow-none focus:shadow-none'}>
+        <IconButton {...otherProps} className={'bg-transparent shadow-none focus:shadow-none'}>
             {children}
         </IconButton>
     );
