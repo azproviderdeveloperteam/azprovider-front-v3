@@ -26,7 +26,7 @@ const LooksOurBenefitsLanding = () => {
                         {myTexts.title}
                     </h3>
                     <p className='w-full text-center px-[13%] text-[1.1rem] '>
-                        {myTexts.desc}
+                        {/*{myTexts.desc}*/}
                     </p>
                     <div className='w-full flex flex-row items-start justify-start flex-wrap px-[13%] mt-10'>
                         {
