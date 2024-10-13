@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, {useState} from 'react';
 import Image from "next/image";
 import {texts} from "@/utils/texts";
 import {useForm} from "react-hook-form";
@@ -14,12 +14,16 @@ import {AxiosError} from "axios";
 import toast from "react-hot-toast";
 import {useAuth} from "../../../contexts/AuthContext";
 import {useRouter} from "next/navigation";
+import {GrayEyeIcon} from "@/components/icons";
+import { Button} from "@material-tailwind/react";
 
 const RegisterFourthStep = ({nextStep , email}: any) => {
 
     const text = texts.eng
     const myTexts = text.register
     const errorStrPsss='Password must have contain at least one of the following : upper case letter, lower case letter, number and symbols'
+    const [visible , setVisible] = useState<boolean>(false)
+    const [visible2 , setVisible2] = useState<boolean>(false)
 
     const schema = Yup
         .object({
@@ -120,8 +124,9 @@ const RegisterFourthStep = ({nextStep , email}: any) => {
                             label={'password'}
                             error={errors?.password?.message}
                             name={'password'}
-                            type={'password'}
                             placeholder={'password'}
+                            type={visible ?'text' :'password'}
+                            endContent={<Button onClick={()=>setVisible(!visible)} className={'bg-opacity-0'}><GrayEyeIcon /></Button>}
                          />
                     </div>
 
@@ -135,8 +140,9 @@ const RegisterFourthStep = ({nextStep , email}: any) => {
                             label={'confirmPassword'}
                             error={errors?.confirmPassword?.message}
                             name={'confirmPassword'}
-                            type={'password'}
                             placeholder={'confirmPassword'}
+                            type={visible ?'text' :'password'}
+                            endContent={<Button onClick={()=>setVisible2(!visible2)} className={'bg-opacity-0'}><GrayEyeIcon /></Button>}
                          />
                     </div>
 

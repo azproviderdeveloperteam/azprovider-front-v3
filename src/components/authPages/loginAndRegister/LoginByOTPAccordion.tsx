@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation'
 import {useAuth, useAuthActions} from "../../../contexts/AuthContext";
 import {app} from "@/services/instance";
 import Select from "react-select";
+import {GrayEyeIcon} from "@/components/icons";
 
 const LoginByOtpAccordion = () => {
 
@@ -30,6 +31,7 @@ const LoginByOtpAccordion = () => {
     const [country, setCountry] = useState<any>({ label: "🇮🇷 IR +98", key: "IR", value: "+98", countryName: "Iran" }); // Default selected value
 
     const [step , setStep ] = useState(0)
+    const [visible , setVisible] = useState<boolean>(false)
     const [loginWithEmail , setLoginWithEmail] = useState(true)
     const [loginWithPass , setLoginWithPass] = useState(false)
 
@@ -408,8 +410,9 @@ const LoginByOtpAccordion = () => {
                                               label={'Password'}
                                               error={errors?.password?.message}
                                               name={'password'}
-                                              type={'password'}
+                                              type={visible ?'text' :'password'}
                                               placeholder={'* * * * * * * *'}
+                                              endContent={<Button onClick={()=>setVisible(!visible)} className={'bg-opacity-0'}><GrayEyeIcon /></Button>}
 
                                           />
                                       </div>
