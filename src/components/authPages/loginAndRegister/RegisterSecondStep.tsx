@@ -9,13 +9,14 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import MainInput from "@/components/inputs/MainInput";
 import Link from "next/link";
-import {registerVerify} from "@/services/authServices";
+import {registerSendOtp, registerVerify} from "@/services/authServices";
 import {useMutation} from "@tanstack/react-query";
 import {AxiosError} from "axios";
 import toast from "react-hot-toast";
 import {useAuth} from "../../../contexts/AuthContext";
 import {app} from "@/services/instance";
 import Cookies from "js-cookie";
+import ResecCodeSignUp from "@/components/authPages/ResecCodeSignUp";
 
 const RegisterSecondStep = ({nextStep , email} : any) => {
 
@@ -44,7 +45,9 @@ const RegisterSecondStep = ({nextStep , email} : any) => {
 
     const {user}= useAuth()
      const token = user?.token
-
+    const {data:vData  , isPending :vPending , error:vError  , mutateAsync :vMutateAsync} =useMutation({
+        mutationFn : registerSendOtp
+    })
     function validateEmail(email: string)
     {
         const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -88,7 +91,35 @@ const RegisterSecondStep = ({nextStep , email} : any) => {
         }
     }
 
+    const resendCode = async () =>{
 
+
+        const formData = validateEmail(email) ?
+            { email:email }
+            :
+            {mobile:email}
+        try{
+            const da = await vMutateAsync(formData)
+
+        }catch (err){
+            console.log(err)
+            if(err instanceof AxiosError){
+                if(err?.response?.data?.msg){
+                    toast.error(err?.response?.data?.msg)
+                }else if(err?.response?.data?.message){
+                    toast.error(err?.response?.data?.message)
+                }else if(err?.response?.data?.error){
+                    toast.error(err?.response?.data?.error)
+                }else if(err?.response?.data?.detail) {
+                    toast.error(err?.response?.data?.detail)
+                }else if(err?.response?.data?.email?.detail) {
+                    toast.error(err?.response?.data?.email?.detail)
+                }else {
+                    toast.error('An Error occurred')
+                }
+            }
+        }
+    }
 
     return (
 
@@ -119,9 +150,17 @@ const RegisterSecondStep = ({nextStep , email} : any) => {
 
                        </div>
 
-                       <h3 className={'mt-4 text-[1.2rem]'}>
-                           {myTexts.verificationCode}
-                       </h3>
+                       <div className='w-full flex flex-row items-center justify-between'>
+                           <h3 className={'mt-4 text-[1.2rem]'}>
+                               {myTexts.verificationCode}
+                           </h3>
+                           <span className='px-5'>
+                                        <ResecCodeSignUp pending={vPending} resendCode={()=>{
+                                            resendCode()
+                                        }}/>
+
+                                  </span>
+                       </div>
 
                        <form className='w-full flex flex-row items-start justify-between mt-2' onSubmit={handleSubmit(submit)}>
                            <div className='w-3/4 pr-3 h-full'>

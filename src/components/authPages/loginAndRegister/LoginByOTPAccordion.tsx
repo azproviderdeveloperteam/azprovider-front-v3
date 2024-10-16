@@ -19,6 +19,7 @@ import {useAuth, useAuthActions} from "../../../contexts/AuthContext";
 import {app} from "@/services/instance";
 import Select from "react-select";
 import {GrayEyeIcon} from "@/components/icons";
+import ResecCodeSignUp from "@/components/authPages/ResecCodeSignUp";
 
 const LoginByOtpAccordion = () => {
 
@@ -353,10 +354,18 @@ const LoginByOtpAccordion = () => {
                           </>
                           : step === 1 ?
                           <>
-                              <div className='mt-4 font-bold text-[1.4rem] text-primary-dark-b capitalize'>
+                              <div className='w-full flex flex-row items-center justify-between'>
+                                  <div className='mt-4 font-bold text-[1.4rem] text-primary-dark-b capitalize'>
 
-                                  {myTexts.verificationInput.title}
+                                      {myTexts.verificationInput.title}
 
+                                  </div>
+                                  <span className='px-5'>
+                                        <ResecCodeSignUp pending={vPending} resendCode={()=>{
+                                            sendVerification({email:getValues('email')})
+                                        }}/>
+
+                                  </span>
                               </div>
                               <form className='w-full flex flex-row items-start justify-between mt-2' onSubmit={handleSubmit( submitWithEmail )}>
                                   <div className='w-3/4 pr-3 h-full'>
@@ -377,6 +386,7 @@ const LoginByOtpAccordion = () => {
                                       </RegisterBtn>
                                   </div>
                               </form>
+
                           </>
 
                           :
