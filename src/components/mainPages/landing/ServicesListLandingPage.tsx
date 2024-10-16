@@ -32,7 +32,7 @@ const ServicesListLandingPage = () => {
                 </div>
 
 
-                <div className={'md:hidden w-full'}>
+                <div className={'md:hidden w-11/12'}>
                     <AzResponsiveSwiper countDesktop={1} countMobile={1} title={''} count={data?.data?.results.length} allLink={'#'}>
                         {
                             data?.data?.results.map((item:any ,index:number) => (

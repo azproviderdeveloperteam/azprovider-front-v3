@@ -18,7 +18,7 @@ export default function Home() {
       <Suspense fallback={<></>} >
 
 
-                <main className="text-primary-green-lg100 bg-secondary-red ">
+                <main className="text-primary-green-lg100 bg-secondary-red overflow-x-hidden">
                     <Header theme={'white-black'}/>
                     <WelcomeCard />
                     <AboutAzLanding />
