@@ -110,12 +110,12 @@ const RegisterThirdStep = ({nextStep}:any) => {
 
 
     const getCountries = async () => {
-        // setPage(1)
-        // const response = await fetch('/api/countries');
-        // if (!response.ok) {
-        //     throw new Error('Failed to fetch countries');
-        // }
-        // return response.json();
+        setPage(1)
+        const response = await fetch('/api/countries');
+        if (!response.ok) {
+            throw new Error('Failed to fetch countries');
+        }
+        return response.json();
     };
 
     const {
@@ -130,11 +130,11 @@ const RegisterThirdStep = ({nextStep}:any) => {
 
 
     const getCities = async (countryName: string, page: number = 1, limit: number = 2000) => {
-        // const response = await fetch(`/api/cities?countryName=${countryName}&page=${page}&limit=${limit}`);
-        // if (!response.ok) {
-        //     throw new Error('Failed to fetch cities');
-        // }
-        // return response.json();
+        const response = await fetch(`/api/cities?countryName=${countryName}&page=${page}&limit=${limit}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch cities');
+        }
+        return response.json();
     };
 
     const { data :initialCities, error: initialCitiesError, isPending : citiesPending } = useQuery({
