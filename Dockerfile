@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json ./
 #RUN npm install --force
 RUN yarn install --force
-z
+
 # Copy app files
 COPY . .
 
