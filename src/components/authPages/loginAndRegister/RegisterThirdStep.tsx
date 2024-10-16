@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 import {useAuth} from "../../../contexts/AuthContext";
 import Select from "react-select";
 import {getMeasureList} from "@/services/measurementServices";
+import ThreeDotsLoader from "@/components/loaders/ThreeDotsLoader";
 
 const RegisterThirdStep = ({nextStep}:any) => {
 
@@ -23,6 +24,9 @@ const RegisterThirdStep = ({nextStep}:any) => {
     const myTexts = text.register
     const [bRole, setBRole] = useState<any>([]); // Default selected value
     const [bRoleOptions , setBRoleOptions] = useState<any>([] )
+    const [selectedCountry, setSelectedCountry] = useState<any>(null); // Default selected value
+    const [selectedCity, setSelectedCity] = useState<any>(null); // Default selected value
+
 
     const schema = Yup
         .object({
@@ -32,7 +36,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
             lastName:Yup.string().required('Enter Your Last Name'),
             businessCode:Yup.string(),
             businessRole:Yup.string(),
-            cityOrCountry:Yup.string().required('Enter City Or Country'),
+            cityOrCountry:Yup.string(),
             acceptTerms:Yup.bool().required('')
 
         })
@@ -52,13 +56,15 @@ const RegisterThirdStep = ({nextStep}:any) => {
     const token = user?.token
 
     const submit = async (d : any) =>{
-
+        console.log('asas')
         const formData = {
                 first_name:d?.firstName,
                 last_name:d?.lastName,
                 business_register_code:d?.businessCode === '' ? 'none' :d?.businessCode,
                 business_role:bRole?.map(x => x?.id),
-                city_country:d?.cityOrCountry,
+                country:selectedCountry?.label,
+                city:selectedCity?.label,
+
         }
         try {
             const d = await mutateAsync({data:formData , token :token})
@@ -96,6 +102,81 @@ const RegisterThirdStep = ({nextStep}:any) => {
         setBRoleOptions(mo)
     },[allRoleData])
 
+
+
+    const [isLoadingMore, setIsLoadingMore] = useState(false);
+    const [page, setPage] = useState(1);
+    const [cities, setCities] = useState<any[]>([]);
+
+
+    const getCountries = async () => {
+        setPage(1)
+        const response = await fetch('/api/countries');
+        if (!response.ok) {
+            throw new Error('Failed to fetch countries');
+        }
+        return response.json();
+    };
+
+    const {
+        data: countries,
+        isPending: countriesPending,
+        error: countriesError,
+    } = useQuery({
+        queryKey: ['get-countries'],
+        queryFn: getCountries,
+        retry: false,
+    });
+
+
+    const getCities = async (countryName: string, page: number = 1, limit: number = 2000) => {
+        const response = await fetch(`/api/cities?countryName=${countryName}&page=${page}&limit=${limit}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch cities');
+        }
+        return response.json();
+    };
+
+    const { data :initialCities, error: initialCitiesError, isPending : citiesPending } = useQuery({
+        queryKey: ['cities', selectedCountry, page],
+        queryFn: () => getCities(selectedCountry?.value, page, 2000),
+    });
+
+    useEffect(() => {
+        if (initialCities) {
+            setCities(initialCities?.cities);
+        }
+    }, [initialCities]);
+
+    const loadMoreCities = async () => {
+        if (isLoadingMore) return;
+
+        setIsLoadingMore(true);
+        const nextPage = page + 1;
+
+        try {
+            const moreCitiesResponse = await getCities(selectedCountry?.value?.toString(), nextPage);
+            const newCities = moreCitiesResponse?.cities || [];
+
+            // اگر لیست شهرهای جدید خالی باشد، درخواست بعدی ارسال نمی‌شود
+            if (newCities.length === 0) {
+                setPage(1)
+                setIsLoadingMore(false);
+                return;
+            }
+
+            console.log(cities , newCities)
+            const a = cities.concat(newCities)
+            // اضافه کردن شهرهای جدید به لیست قبلی
+            setCities(a);
+
+            setPage(nextPage);
+        } catch (error) {
+            console.error("Error loading more cities:", error);
+        } finally {
+            setIsLoadingMore(false);
+        }
+    };
 
     return (
         <>
@@ -204,19 +285,125 @@ const RegisterThirdStep = ({nextStep}:any) => {
 
                     <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem] pr-2 h-full mt-7'>
                         <div className=' text-[1.3rem]'>
-                            {myTexts.cityCountry} <span className='text-secondary-red'>*</span>
+                            Country <span className='text-secondary-red'>*</span>
                         </div>
-                        <MainInput
-                            register={register}
-                            label={'City Or Country'}
-                            error={errors?.cityOrCountry?.message}
-                            name={'cityOrCountry'}
-                            type={'text'}
-                            placeholder={'City Or Country'}
-                         />
+                        {/*<MainInput*/}
+                        {/*    register={register}*/}
+                        {/*    label={'City Or Country'}*/}
+                        {/*    error={errors?.cityOrCountry?.message}*/}
+                        {/*    name={'cityOrCountry'}*/}
+                        {/*    type={'text'}*/}
+                        {/*    placeholder={'City Or Country'}*/}
+                        {/* />*/}
+
+                        {
+                            countriesPending ?
+
+                                <div className='w-full h-[3rem] flex flex-row items-center justify-center'>
+                                    <ThreeDotsLoader />
+                                </div>
+
+                                :<Select
+                                    className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
+
+                                    onChange={(e)=>{
+
+                                        setSelectedCountry( e)
+                                        // getToCurrenciesFunc(e?.value)
+                                    }}
+                                    value={selectedCountry}
+                                    options={countries}
+                                    unstyled
+                                    styles={{
+                                        input: (base) => ({
+                                            ...base,
+                                            base: " hover:cursor-pointer",
+                                            fontSize:"9px",
+                                            "input:focus": {
+                                                boxShadow: "none",
+                                            },
+                                        }),
+                                        multiValueLabel: (base) => ({
+                                            ...base,
+                                            whiteSpace: "normal",
+                                            overflow: "visible",
+                                        }),
+                                        control: (base) => ({
+                                            ...base,
+                                            transition: "none",
+                                        }),
+                                    }}
+
+                                    classNames={{
+                                        control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
+                                        multiValueLabel: () => 'bg-primary-dark-b  rounded-xl shadow-md',
+                                        option: ({ isFocused, isSelected }) =>'bg-primary-dark-b px-4 py-1',
+                                    }}
+                                />
+                        }
                     </div>
 
+                    <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem] pr-2 h-full mt-7'>
+                        <div className=' text-[1.3rem]'>
+                            City <span className='text-secondary-red'>*</span>
+                        </div>
+                        {/*<MainInput*/}
+                        {/*    register={register}*/}
+                        {/*    label={'City Or Country'}*/}
+                        {/*    error={errors?.cityOrCountry?.message}*/}
+                        {/*    name={'cityOrCountry'}*/}
+                        {/*    type={'text'}*/}
+                        {/*    placeholder={'City Or Country'}*/}
+                        {/* />*/}
 
+                        {
+                            // citiesPending ?
+                            //
+                            //     <div className='w-full h-[3rem] flex flex-row items-center justify-center'>
+                            //         <ThreeDotsLoader />
+                            //     </div>
+                            //
+                            //     :
+                                <Select
+                                    onMenuScrollToBottom={loadMoreCities}  // Trigger when reaching the bottom of the list
+                                    className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
+
+                                    onChange={(e)=>{
+
+                                        setSelectedCity( e)
+                                        // getToCurrenciesFunc(e?.value)
+                                    }}
+                                    value={selectedCity}
+                                    options={cities}
+                                    unstyled
+                                    styles={{
+                                        input: (base) => ({
+                                            ...base,
+                                            base: " hover:cursor-pointer",
+                                            fontSize:"9px",
+                                            "input:focus": {
+                                                boxShadow: "none",
+                                            },
+                                        }),
+                                        multiValueLabel: (base) => ({
+                                            ...base,
+                                            whiteSpace: "normal",
+                                            overflow: "visible",
+                                        }),
+                                        control: (base) => ({
+                                            ...base,
+                                            transition: "none",
+                                        }),
+                                    }}
+
+                                    classNames={{
+                                        control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
+                                        multiValueLabel: () => 'bg-primary-dark-b  rounded-xl shadow-md',
+                                        option: ({ isFocused, isSelected }) =>'bg-primary-dark-b px-4 py-1',
+                                    }}
+                                />
+                        }
+                    </div>
 
                 <div className='w-full flex flex-row items-center justify-start mt-10'>
                     <Checkbox color="green" {...register('acceptTerms')}/>
