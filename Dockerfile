@@ -8,9 +8,7 @@ WORKDIR /app
 COPY package.json ./
 #RUN npm install --force
 RUN yarn install --force
-
-# Install sharp (for Next.js image optimization)
-RUN yarn add sharp
+z
 # Copy app files
 COPY . .
 
