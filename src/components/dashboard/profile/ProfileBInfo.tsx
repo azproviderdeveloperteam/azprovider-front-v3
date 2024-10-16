@@ -3,7 +3,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import Image from "next/image";
 import {Button} from "@material-tailwind/react";
 import {texts} from "@/utils/texts";
-import {useMutation} from "@tanstack/react-query";
+import {useMutation , useQuery} from "@tanstack/react-query";
 import {AxiosError} from "axios";
 import toast from "react-hot-toast";
 import {useForm} from "react-hook-form";
@@ -12,12 +12,15 @@ import * as Yup from "yup";
 import MainInput from "@/components/inputs/MainInput";
 import {postBInfo} from "@/services/profileServices";
 import RegisterBtn from "@/components/Buttons/RegisterBtn";
+import Select from "react-select";
+import {getUserRoleList} from "@/services/authServices";
 
 const ProfileBInfo = ({bInfoData} : any) => {
 
     const [img ,setImg] = useState<any>(null)
     const [imgView ,setImgView] = useState<any>(null)
-
+    const [bRole, setBRole] = useState<any>([]); // Default selected value
+    const [bRoleOptions , setBRoleOptions] = useState<any>([] )
     const text = texts.eng
     const myTexts = text.dashboard.pages.profile.bInfo
     const inputRef = useRef<any>(null)
@@ -59,6 +62,7 @@ const ProfileBInfo = ({bInfoData} : any) => {
         setValue('last_name',bInfoData?.last_name)
         setValue('business_register_code',bInfoData?.business_register_code)
         setValue('business_role',bInfoData?.business_role)
+        setBRole(bInfoData?.business_role)
         setValue('email',bInfoData?.email)
 
     },[bInfoData])
@@ -70,7 +74,7 @@ const ProfileBInfo = ({bInfoData} : any) => {
             last_name:d?.last_name,
             international_name:d?.international_name,
             business_register_code:d?.business_register_code,
-            business_role:d?.business_role,
+            business_role:bRole?.map(x => x?.id),
             // email:d?.email,
 
         }
@@ -113,6 +117,22 @@ const ProfileBInfo = ({bInfoData} : any) => {
         }
 
     }
+
+    const {data : allRoleData, isPending :allRolePending, error : allRoleError} = useQuery({
+        queryKey: ['get-all-Role' ],
+        queryFn: getUserRoleList,
+        retry:false,
+    })
+
+    useEffect(()=>{
+        let mo :any[] = []
+
+        if(allRoleData?.data){
+            allRoleData?.data?.map((x:any)=>mo.push({value:x?.id , label : x?.title}))
+        }
+        setBRoleOptions(mo)
+    },[allRoleData])
+
     const hasError = errors?.brandName?.message || errors?.interName?.message || errors?.cellPhone?.message || errors?.localName?.message || errors?.contactPerson?.message || errors?.email?.message
     return (
         <div className='w-full pt-4'>
@@ -212,13 +232,50 @@ const ProfileBInfo = ({bInfoData} : any) => {
                         <div className=' text-[1.3rem] capitalize'>
                             {'Business Role'} <span className='text-secondary-red'>*</span>
                         </div>
-                        <MainInput
-                            register={register}
-                            label={'business_role'}
-                            error={errors?.business_role?.message}
-                            name={'business_role'}
-                            type={'text'}
-                            placeholder={'business role'}
+                        {/*<MainInput*/}
+                        {/*    register={register}*/}
+                        {/*    label={'business_role'}*/}
+                        {/*    error={errors?.business_role?.message}*/}
+                        {/*    name={'business_role'}*/}
+                        {/*    type={'text'}*/}
+                        {/*    placeholder={'business role'}*/}
+                        {/*/>*/}
+                        <Select
+                            className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
+                            isMulti
+                            onChange={(e)=>{
+
+                                setBRole( e)
+                                // getToCurrenciesFunc(e?.value)
+                            }}
+                            value={bRole}
+                            options={bRoleOptions}
+                            unstyled
+                            styles={{
+                                input: (base) => ({
+                                    ...base,
+                                    base: " hover:cursor-pointer",
+                                    fontSize:"9px",
+                                    "input:focus": {
+                                        boxShadow: "none",
+                                    },
+                                }),
+                                multiValueLabel: (base) => ({
+                                    ...base,
+                                    whiteSpace: "normal",
+                                    overflow: "visible",
+                                }),
+                                control: (base) => ({
+                                    ...base,
+                                    transition: "none",
+                                }),
+                            }}
+
+                            classNames={{
+                                control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
+                                multiValueLabel: () => 'bg-white  rounded-xl shadow-md',
+                                option: ({ isFocused, isSelected }) =>'bg-white px-4 py-1',
+                            }}
                         />
                     </div>
 

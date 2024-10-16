@@ -1,7 +1,7 @@
 'use client'
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Image from "next/image";
-import {texts} from "@/utils/texts";
+import {COUNTRIES, texts} from "@/utils/texts";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -9,16 +9,20 @@ import MainInput from "@/components/inputs/MainInput";
 import {Checkbox} from "@material-tailwind/react";
 import Link from "next/link";
 import RegisterBtn from "@/components/Buttons/RegisterBtn";
-import {registerCompleteProfile} from "@/services/authServices";
-import {useMutation} from "@tanstack/react-query";
+import {getUserRoleList, registerCompleteProfile} from "@/services/authServices";
+import {useMutation , useQuery} from "@tanstack/react-query";
 import {AxiosError} from "axios";
 import toast from "react-hot-toast";
 import {useAuth} from "../../../contexts/AuthContext";
+import Select from "react-select";
+import {getMeasureList} from "@/services/measurementServices";
 
 const RegisterThirdStep = ({nextStep}:any) => {
 
     const text = texts.eng
     const myTexts = text.register
+    const [bRole, setBRole] = useState<any>([]); // Default selected value
+    const [bRoleOptions , setBRoleOptions] = useState<any>([] )
 
     const schema = Yup
         .object({
@@ -53,7 +57,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
                 first_name:d?.firstName,
                 last_name:d?.lastName,
                 business_register_code:d?.businessCode === '' ? 'none' :d?.businessCode,
-                business_role:d?.businessRole,
+                business_role:bRole?.map(x => x?.id),
                 city_country:d?.cityOrCountry,
         }
         try {
@@ -76,7 +80,23 @@ const RegisterThirdStep = ({nextStep}:any) => {
         }
     }
 
-    console.log(errors , getValues())
+
+    const {data : allRoleData, isPending :allRolePending, error : allRoleError} = useQuery({
+        queryKey: ['get-all-Role' ],
+        queryFn: getUserRoleList,
+        retry:false,
+    })
+
+    useEffect(()=>{
+        let mo :any[] = []
+
+        if(allRoleData?.data){
+            allRoleData?.data?.map((x:any)=>mo.push({value:x?.id , label : x?.title}))
+        }
+        setBRoleOptions(mo)
+    },[allRoleData])
+
+
     return (
         <>
 
@@ -143,14 +163,43 @@ const RegisterThirdStep = ({nextStep}:any) => {
                         <div className=' text-[1.3rem]'>
                             {myTexts.businessRole}
                         </div>
-                        <MainInput
-                            register={register}
-                            label={'Business Role'}
-                            error={errors?.businessRole?.message}
-                            name={'businessRole'}
-                            type={'text'}
-                            placeholder={'Business Role'}
-                         />
+                        <Select
+                            className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
+                            isMulti
+                            onChange={(e)=>{
+
+                                setBRole( e)
+                                // getToCurrenciesFunc(e?.value)
+                            }}
+                            value={bRole}
+                            options={bRoleOptions}
+                            unstyled
+                            styles={{
+                                input: (base) => ({
+                                    ...base,
+                                    base: " hover:cursor-pointer",
+                                    fontSize:"9px",
+                                    "input:focus": {
+                                        boxShadow: "none",
+                                    },
+                                }),
+                                multiValueLabel: (base) => ({
+                                    ...base,
+                                    whiteSpace: "normal",
+                                    overflow: "visible",
+                                }),
+                                control: (base) => ({
+                                    ...base,
+                                    transition: "none",
+                                }),
+                            }}
+
+                            classNames={{
+                                control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
+                                multiValueLabel: () => 'bg-primary-dark-b  rounded-xl shadow-md',
+                                option: ({ isFocused, isSelected }) =>'bg-primary-dark-b px-4 py-1',
+                            }}
+                        />
                     </div>
 
                     <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem] pr-2 h-full mt-7'>

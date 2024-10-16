@@ -60,3 +60,7 @@ export async function executeForgetPassword(data : any){
 export async function getHsCodes(){
     return await instance.get('hscodes/get-data/')
 }
+
+export async function getUserRoleList(){
+    return await instance.get('v2/metric/user-role/')
+}
