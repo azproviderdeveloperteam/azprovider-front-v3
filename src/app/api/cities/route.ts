@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import countriesData from '../countries+cities.json';
+import countriesData from '@/services/countries+cities.json';
 
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);

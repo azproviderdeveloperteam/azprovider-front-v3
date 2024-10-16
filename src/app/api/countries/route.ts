@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import countriesData from '../countries.json';
+import countriesData from '@/services/countries.json';
 
 export async function GET() {
     const countries = countriesData.map((country) => ({
