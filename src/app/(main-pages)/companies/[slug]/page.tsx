@@ -31,9 +31,9 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
 
     return (
         <div className='w-full py-28 '>
-            <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full  px-[5%] lg:px-0'>
-                <Image src={data?.business_information?.logo ? `${process.env.MEDIA_URL}${data?.business_information?.logo}` : noImage?.src} alt={data?.business_information?.name} height={200} width={500} className={'w-full h-[17rem] object-cover rounded-[1.3rem]'} />
-                <AvatarSsr src={data?.business_information?.logo ? `${process.env.MEDIA_URL}${data?.business_information?.logo}` : noImage?.src} alt={data?.business_information?.name} className={'w-[7rem] h-[7rem] object-cover rounded-[1.3rem] translate-x-[4rem] translate-y-[-4.5rem] shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.24)]'} />
+            <div className='max-w-[95rem]   m-auto w-full  px-[5%] lg:px-0'>
+                <Image src={data?.logo ? `${data?.logo}` : noImage?.src} alt={data?.business_information?.name} height={200} width={500} className={'w-full h-[17rem] object-cover rounded-[1.3rem]'} />
+                <AvatarSsr src={data?.logo ? `${data?.logo}` : noImage?.src} alt={data?.business_information?.name} className={'w-[7rem] h-[7rem] object-cover rounded-[1.3rem] translate-x-[4rem] translate-y-[-4.5rem] shadow-[0px_4px_8px_0px_rgba(0,_0,_0,_0.24)]'} />
 
                 <div className={'w-full px-[5%] mt-[-3rem]'}>
                     <div className='w-full flex flex-col lg:flex-row items-center justify-between'>
