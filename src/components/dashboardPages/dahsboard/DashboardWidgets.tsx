@@ -4,12 +4,13 @@ import BlueBtn from "@/components/Buttons/BlueBtn";
 import GreenGrayBtn from "@/components/Buttons/GreenGrayBtn";
 import {Card} from "@material-tailwind/react";
 import Image from "next/image";
+import {useRouter} from "next-nprogress-bar";
 
 const DashboardWidgets = () => {
 
     const text = texts.eng
     const myTexts = text.dashboard.pages.dashboard.widgets
-
+    const router = useRouter()
     const [filter , setFilter] = useState<any>('products')
 
 
@@ -17,9 +18,9 @@ const DashboardWidgets = () => {
         <div className='w-full bg-primary-gray-100 p-5 rounded-[1.5rem]'>
             <div className='w-full flex flex-row items-center justify-between '>
                 <h3 className='text-[#151515] font-bold text-[1.2rem]'>
-                    {'Referral'} <span className='ml-1 text-[#7A7A7A] font-normal text-[1rem'>{'Invite your friends to azprovider.com'}</span>
+                    {'Your Posts'} <span className='ml-1 text-[#7A7A7A] font-normal text-[1rem'>{''}</span>
                 </h3>
-                <BlueBtn otherClass={'!px-0'}>
+                <BlueBtn otherClass={'!px-0'} onClick={()=>router.push('/dashboard/products')}>
                     {myTexts.addPost}
                 </BlueBtn>
             </div>

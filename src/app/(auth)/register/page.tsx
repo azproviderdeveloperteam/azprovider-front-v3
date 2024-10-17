@@ -12,7 +12,7 @@ import {checkAuthUser} from "@/services/authServices";
 import {useQuery} from "@tanstack/react-query";
 const Register = () => {
 
-    const [step , setStep] = useState(0)
+    const [step , setStep] = useState(2)
     const [email , setEmail] = useState<string>('')
     const text = texts.eng
     const myTexts = text.register

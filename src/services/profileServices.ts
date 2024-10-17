@@ -13,6 +13,16 @@ export async function  getBInfo(){
 }
 
 export async function  postBInfo(data : any){
+    return await  instance.patch('v2/user/profile/' ,data?.data ,{
+        headers:{
+            ...data?.headers,
+            'Accept': 'application/json',
+            // 'Authorization': `Bearer ${jwt}`
+        }})
+}
+
+
+export async function  postBInfoWithoutFOrmData(data : any){
     return await  instance.patch('v2/user/profile/' ,data ,{
         headers:{
             'Content-Type': 'multipart/form-data',

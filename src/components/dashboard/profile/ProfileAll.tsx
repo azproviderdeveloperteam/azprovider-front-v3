@@ -63,7 +63,7 @@ const ProfileAll = ({data , children}:any) => {
                         </div>
                         {
                             bInfoData?.logo
-                             ? <Image alt={'aaa'} src={`${process.env.MEDIA_URL}${bInfoData?.logo}`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
+                             ? <Image alt={'aaa'} src={`${bInfoData?.logo}`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
                                 :
                                 <Image alt={'aaa'} src={`/no-image.svg`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
                         }

@@ -17,6 +17,8 @@ import {useAuth} from "../../../contexts/AuthContext";
 import Select from "react-select";
 import {getMeasureList} from "@/services/measurementServices";
 import ThreeDotsLoader from "@/components/loaders/ThreeDotsLoader";
+import {getCities, getCountries} from "@/services/cityCountryServices";
+import {flushSync} from "react-dom";
 
 const RegisterThirdStep = ({nextStep}:any) => {
 
@@ -26,7 +28,8 @@ const RegisterThirdStep = ({nextStep}:any) => {
     const [bRoleOptions , setBRoleOptions] = useState<any>([] )
     const [selectedCountry, setSelectedCountry] = useState<any>(null); // Default selected value
     const [selectedCity, setSelectedCity] = useState<any>(null); // Default selected value
-
+    const [inputValue, setInputValue] = useState('');
+    const [typingTimeout, setTypingTimeout] = useState<any>(null);
 
     const schema = Yup
         .object({
@@ -109,15 +112,6 @@ const RegisterThirdStep = ({nextStep}:any) => {
     const [cities, setCities] = useState<any[]>([]);
 
 
-    const getCountries = async () => {
-        setPage(1)
-        const response = await fetch('/api/countries');
-        if (!response.ok) {
-            throw new Error('Failed to fetch countries');
-        }
-        return response.json();
-    };
-
     const {
         data: countries,
         isPending: countriesPending,
@@ -129,53 +123,80 @@ const RegisterThirdStep = ({nextStep}:any) => {
     });
 
 
-    const getCities = async (countryName: string, page: number = 1, limit: number = 2000) => {
-        const response = await fetch(`/api/cities?countryName=${countryName}&page=${page}&limit=${limit}`);
-        if (!response.ok) {
-            throw new Error('Failed to fetch cities');
-        }
-        return response.json();
-    };
 
     const { data :initialCities, error: initialCitiesError, isPending : citiesPending } = useQuery({
-        queryKey: ['cities', selectedCountry, page],
-        queryFn: () => getCities(selectedCountry?.value, page, 2000),
+        queryKey: ['cities', selectedCountry],
+        queryFn: () => getCities(selectedCountry?.label, page, 50 , undefined),
     });
 
     useEffect(() => {
         if (initialCities) {
-            setCities(initialCities?.cities);
+            setCities(initialCities?.data?.results ? initialCities?.data?.results?.map(x=>{return{value:x.id , label :x?.name}}) || [] : []);
         }
     }, [initialCities]);
 
-    const loadMoreCities = async () => {
+    const loadMoreCities = async (cityName : string | undefined) => {
         if (isLoadingMore) return;
 
         setIsLoadingMore(true);
         const nextPage = page + 1;
 
         try {
-            const moreCitiesResponse = await getCities(selectedCountry?.value?.toString(), nextPage);
-            const newCities = moreCitiesResponse?.cities || [];
 
-            // اگر لیست شهرهای جدید خالی باشد، درخواست بعدی ارسال نمی‌شود
-            if (newCities.length === 0) {
-                setPage(1)
-                setIsLoadingMore(false);
-                return;
+            if(cityName){
+                const moreCitiesResponse = await getCities(selectedCountry?.label?.toString(), nextPage , 50 , cityName);
+                const newCities = moreCitiesResponse?.data?.results?.map(x=>{return{value:x.id , label :x?.name}}) || [];
+
+                if (newCities.length === 0) {
+                    setPage(1)
+                    setIsLoadingMore(false);
+                    return;
+                }
+                flushSync(()=>{
+                    setCities(newCities)
+                    setPage(1)
+                })
+            }else {
+                const moreCitiesResponse = await getCities(selectedCountry?.label?.toString(), nextPage , 50 , undefined);
+                const newCities = moreCitiesResponse?.data?.results?.map(x=>{return{value:x.id , label :x?.name}}) || [];
+
+                if (newCities.length === 0) {
+                    setPage(1)
+                    setIsLoadingMore(false);
+                    return;
+                }
+                flushSync(()=>{
+                    const a = cities.concat(newCities)
+                    setCities(a)
+                }) ;
+                flushSync(()=>setPage(nextPage)) ;
             }
 
-            console.log(cities , newCities)
-            const a = cities.concat(newCities)
-            // اضافه کردن شهرهای جدید به لیست قبلی
-            setCities(a);
 
-            setPage(nextPage);
+
+
         } catch (error) {
             console.error("Error loading more cities:", error);
         } finally {
             setIsLoadingMore(false);
         }
+    };
+
+    const handleInputChange = (newValue: string) => {
+        // Clear the previous timeout
+        if (typingTimeout) {
+            clearTimeout(typingTimeout);
+        }
+
+        // Update input value and set a new timeout
+        setInputValue(newValue);
+
+        // Set a new timeout to delay the search
+        setTypingTimeout(
+            setTimeout(() => {
+                loadMoreCities(newValue); // Trigger the search after 1 second of inactivity
+            }, 1000)
+        );
     };
 
     return (
@@ -312,7 +333,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
                                         // getToCurrenciesFunc(e?.value)
                                     }}
                                     value={selectedCountry}
-                                    options={countries}
+                                    options={countries?.data?.results ? countries?.data?.results?.map(x=>{return{value:x.id , label :x?.name}}) || [] : []}
                                     unstyled
                                     styles={{
                                         input: (base) => ({
@@ -347,62 +368,47 @@ const RegisterThirdStep = ({nextStep}:any) => {
                         <div className=' text-[1.3rem]'>
                             City <span className='text-secondary-red'>*</span>
                         </div>
-                        {/*<MainInput*/}
-                        {/*    register={register}*/}
-                        {/*    label={'City Or Country'}*/}
-                        {/*    error={errors?.cityOrCountry?.message}*/}
-                        {/*    name={'cityOrCountry'}*/}
-                        {/*    type={'text'}*/}
-                        {/*    placeholder={'City Or Country'}*/}
-                        {/* />*/}
 
-                        {
-                            // citiesPending ?
-                            //
-                            //     <div className='w-full h-[3rem] flex flex-row items-center justify-center'>
-                            //         <ThreeDotsLoader />
-                            //     </div>
-                            //
-                            //     :
-                                <Select
-                                    onMenuScrollToBottom={loadMoreCities}  // Trigger when reaching the bottom of the list
-                                    className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
 
-                                    onChange={(e)=>{
+                        <Select
+                            onMenuScrollToBottom={()=>loadMoreCities(undefined)}  // Trigger when reaching the bottom of the list
+                            className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
+                            onChange={(e)=>{
+                                setSelectedCity( e)
+                                // getToCurrenciesFunc(e?.value)
+                            }}
+                            onInputChange={(e)=>handleInputChange(e)}
 
-                                        setSelectedCity( e)
-                                        // getToCurrenciesFunc(e?.value)
-                                    }}
-                                    value={selectedCity}
-                                    options={cities}
-                                    unstyled
-                                    styles={{
-                                        input: (base) => ({
-                                            ...base,
-                                            base: " hover:cursor-pointer",
-                                            fontSize:"9px",
-                                            "input:focus": {
-                                                boxShadow: "none",
-                                            },
-                                        }),
-                                        multiValueLabel: (base) => ({
-                                            ...base,
-                                            whiteSpace: "normal",
-                                            overflow: "visible",
-                                        }),
-                                        control: (base) => ({
-                                            ...base,
-                                            transition: "none",
-                                        }),
-                                    }}
+                            value={selectedCity}
+                            options={cities}
+                            unstyled
+                            styles={{
+                                input: (base) => ({
+                                    ...base,
+                                    base: " hover:cursor-pointer",
+                                    fontSize:"9px",
+                                    "input:focus": {
+                                        boxShadow: "none",
+                                    },
+                                }),
+                                multiValueLabel: (base) => ({
+                                    ...base,
+                                    whiteSpace: "normal",
+                                    overflow: "visible",
+                                }),
+                                control: (base) => ({
+                                    ...base,
+                                    transition: "none",
+                                }),
+                            }}
 
-                                    classNames={{
-                                        control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
-                                        multiValueLabel: () => 'bg-primary-dark-b  rounded-xl shadow-md',
-                                        option: ({ isFocused, isSelected }) =>'bg-primary-dark-b px-4 py-1',
-                                    }}
-                                />
-                        }
+                            classNames={{
+                                control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
+                                multiValueLabel: () => 'bg-primary-dark-b  rounded-xl shadow-md',
+                                option: ({ isFocused, isSelected }) =>'bg-primary-dark-b px-4 py-1',
+                            }}
+                        />
+
                     </div>
 
                 <div className='w-full flex flex-row items-center justify-start mt-10'>

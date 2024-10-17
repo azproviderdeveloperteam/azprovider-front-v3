@@ -29,7 +29,7 @@ const DashboardInviteCode = () => {
     const code = profile?.data?.ref_code || ''
     const link = 'https://azprovider.com/register?code='+code
     return (
-        <div className='w-full bg-primary-gray-100 p-5 rounded-[1.5rem]'>
+        <div className='w-full bg-primary-gray-100 p-5 rounded-[1.5rem] mt-3'>
             <div className='w-full flex flex-row items-center justify-between '>
                 <h3 className='text-[#151515] font-bold text-[1.2rem]'>
                     {'Referral'} <span className='ml-1 text-[#7A7A7A] font-normal text-[1rem'>{'Invite your friends '}</span>

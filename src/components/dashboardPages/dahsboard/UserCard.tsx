@@ -19,7 +19,7 @@ const UserCard = () => {
     return (
         profile ? profile?.data ?
         <div className='w-full bg-primary-gray-100 p-5 rounded-[1.5rem] relative cursor-pointer' onClick={()=>router.push('/dashboard/profile?tab=bInfo')} style={{boxShadow:'0px 12px 20px 0px rgba(0, 0, 0, 0.08)'}}>
-            {/*<Image src={'/yellow-diamond.svg'} alt={'yellow-diamond'} width={50} height={50} className={'absolute left-0 top-[-17px]'}/>*/}
+            <Image src={'/yellow-diamond.svg'} alt={'yellow-diamond'} width={40} height={40} className={'absolute left-[0.1rem] top-[0.2rem] z-10'}/>
             <div className='w-full flex flex-row items-center justify-start'>
                 <div className=''>
                     <div className='w-[4.3rem] absolute translate-y-[-5px] translate-x-[-5px]'>
