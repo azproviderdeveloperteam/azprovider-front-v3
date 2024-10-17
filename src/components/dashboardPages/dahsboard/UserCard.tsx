@@ -50,7 +50,7 @@ const UserCard = () => {
 
                     </div>
 
-                    <Avatar className={'aspect-square'} src="https://docs.material-tailwind.com/img/face-2.jpg" alt="avatar" size="lg"/>
+                    <Avatar className={'aspect-square'} src={profile?.data?.logo ? `${profile?.data?.logo}` :`/no-image.svg` } alt="avatar" size="lg"/>
 
                     <div className='text-[#45AB06] font-thin mt-2 text-center w-full text-[0.6rem]'>
                         {/*73% Completed*/}
