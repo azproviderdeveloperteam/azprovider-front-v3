@@ -19,8 +19,8 @@ const ProductsPageSortFilters = ({productsLength ,companies ,page  , sort , serv
     ]
 
     return (
-        <div className='w-full flex flex-row items-center justify-between'>
-            <div className={'flex flex-row items-center justify-start'}>
+        <div className='w-full flex flex-row items-center justify-between px-2'>
+            <div className={'flex flex-row items-center justify-start flex-wrap gap-2'}>
                 <div className='text-[#A1A1A1] text-[0.8rem]'>
                     Sort by
                 </div>
