@@ -1,5 +1,5 @@
 'use client'
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Tab, Tabs, TabsHeader} from "@material-tailwind/react";
 import ProfileAll from "@/components/dashboard/profile/ProfileAll";
 import ProfileBInfo from "@/components/dashboard/profile/ProfileBInfo";
@@ -9,8 +9,9 @@ import ProfileProjects from "@/components/dashboard/profile/ProfileProjects";
 import ProfileMembership from "@/components/dashboard/profile/ProfileMembership";
 import {useQuery} from "@tanstack/react-query";
 import {getBInfo, getCertificate, getContact, getMembership, getProjects} from "@/services/profileServices";
-
+import {useSearchParams} from "next/navigation";
 const ProfilePage = () => {
+    const searchParams = useSearchParams()
     const [activeTab, setActiveTab] = useState<any>('All');
     const data = [
         {
@@ -52,6 +53,14 @@ const ProfilePage = () => {
 
     ];
 
+    useEffect(()=>{
+        const tab = searchParams.get('tab')
+        if(tab){
+            if (tab === 'bInfo'){
+                setActiveTab('Business Information')
+            }
+        }
+    },[])
     const {data : bInfoData, isPending :bInfoPending, error : bInfoError} = useQuery({
         queryKey: ['get-b-info',activeTab === 'All'],
         queryFn: getBInfo,

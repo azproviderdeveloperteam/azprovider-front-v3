@@ -5,20 +5,21 @@ import {Avatar} from "@material-tailwind/react";
 import { CircularProgressbar , buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import {useQueryClient} from "@tanstack/react-query";
+import {useRouter} from "next-nprogress-bar";
 
 const UserCard = () => {
 
 
     const queryClient = useQueryClient()
-
+    const router = useRouter()
     const profile : any = queryClient.getQueryData(['get-user-profile-header'])
 
     const percentage = 100;
 
     return (
         profile ? profile?.data ?
-        <div className='w-full bg-primary-gray-100 p-5 rounded-[1.5rem] relative' style={{boxShadow:'0px 12px 20px 0px rgba(0, 0, 0, 0.08)'}}>
-            <Image src={'/yellow-diamond.svg'} alt={'yellow-diamond'} width={50} height={50} className={'absolute left-0 top-[-17px]'}/>
+        <div className='w-full bg-primary-gray-100 p-5 rounded-[1.5rem] relative cursor-pointer' onClick={()=>router.push('/dashboard/profile?tab=bInfo')} style={{boxShadow:'0px 12px 20px 0px rgba(0, 0, 0, 0.08)'}}>
+            {/*<Image src={'/yellow-diamond.svg'} alt={'yellow-diamond'} width={50} height={50} className={'absolute left-0 top-[-17px]'}/>*/}
             <div className='w-full flex flex-row items-center justify-start'>
                 <div className=''>
                     <div className='w-[4.3rem] absolute translate-y-[-5px] translate-x-[-5px]'>

@@ -30,7 +30,7 @@ const DashboardPage = () => {
                 viewUpgrade && <UpgradeComponents  setViewUpgradeFalse={()=>setViewUpgrade(false)}/>
             }
 
-            <div className='w-full flex flex-col lg:flex-row items-start justify-between min-h-full'>
+            <div className='w-full flex flex-col lg:flex-row items-start justify-between min-h-full gap-4   '>
                 <div className='w-full lg:hidden my-5'>
                     <UserCard />
                 </div>
