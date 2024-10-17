@@ -313,8 +313,8 @@ export const texts = {
                       title:"Widgets",
                       afterTitle:"Short explain about this card ",
                       addPost:"create a post +",
-                      filters:['Products' , 'services' , 'pre-invoices' ,'on sale' , 'hot deal' ] ,
-                      tableHeaders:['Post Informations Sum' , 'Price' ,'Create/Expire Date' , 'Massages' , 'Saved' , 'Deals'] ,
+                      filters:['Products' , 'services' , 'pre-invoices'   ] ,
+                      tableHeaders:['Post Informations Sum' , 'Price' ,'Create/Published Date' , 'Massages' , 'Saved' , 'Deals'] ,
                   },
                     circleChart:{
                         title:"Shared Data",
