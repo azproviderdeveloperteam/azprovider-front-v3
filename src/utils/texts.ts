@@ -313,7 +313,7 @@ export const texts = {
                       title:"Widgets",
                       afterTitle:"Short explain about this card ",
                       addPost:"create a post +",
-                      filters:['Products' , 'services' , 'pre-invoices' ,'on sale' , 'hot deal' , 'inovations'] ,
+                      filters:['Products' , 'services' , 'pre-invoices' ,'on sale' , 'hot deal' ] ,
                       tableHeaders:['Post Informations Sum' , 'Price' ,'Create/Expire Date' , 'Massages' , 'Saved' , 'Deals'] ,
                   },
                     circleChart:{
