@@ -2,36 +2,74 @@ import React from 'react';
 import Image from "next/image";
 import {texts} from "@/utils/texts";
 import Link from "next/link";
+import AboutAzImages from "@/components/mainPages/landing/AboutAzImages";
 
 const AboutAzLanding = () => {
     const text = texts.eng
     const myTexts = text.homePage.aboutUs
+
+    const images = [
+        {
+            img: '/iran-otagh-bazargani.png',
+            link: 'https://iccima.ir/',
+            alt: 'اتاق بازرگانی ایران',
+        },
+        {
+            img: '/iajcc.png',
+            link: 'https://iajcc.ir/',
+            alt: 'اتاق مشترک بازرگانی ایران اتریش',
+        },
+        {
+            img: '/sentria.png',
+            link: 'https://sentria.ir',
+            alt: 'سنتریا',
+        },
+        {
+            img: '/diihk.png',
+            link: 'https://diihk.com',
+            alt: 'اتاق ایران و آلمان',
+        },
+        {
+            img: '/ir-iqcc.png',
+            link: 'https://ir-iqcc.com/',
+            alt: 'اتاق مشترک بازرگانی ایران و عراق',
+        },
+        {
+            img: '/service-tehran.png',
+            link: 'https://service.tccim.ir/',
+            alt: 'اتاق بازرگانی تهران',
+        },
+    ];
+
     return (
         <div className='w-full bg-secondary-yellow pt-[28rem] px-5 box-border overflow-x-hidden'>
 
             <div className='w-full max-w-[71rem]  mx-auto  flex flex-col items-center justify-start box-border mt-12'>
+                <AboutAzImages images={images} />;
 
                 <div className='w-full grid grid-cols-12 gap-4'>
-                    <Link href={'https://iccima.ir/'} className='col-span-3'>
-                        <Image src={'/iran-otagh-bazargani.png'} width={500} height={500} alt={'اتاق بازرگانی ایران\n'} className={'w-full max-w-[8rem] aspect-square'}/>
-                    </Link>
-                    <Link href={'https://iajcc.ir/'} className='col-span-3'>
-                        <Image src={'/iajcc.png'} width={500} height={500} alt={'اتاق مشترک بازرگانی ایران اتریش\n'}   className={'w-full max-w-[8rem] aspect-square'}/>
-                    </Link>
-                    <Link href={'https://sentria.ir'} className='col-span-3'>
-                        <Image src={'/sentria.png'} width={500} height={500} alt={'سنتریا'}  className={'w-full max-w-[8rem] aspect-square'}/>
-                    </Link>
-                    <Link href={'https://diihk.com'} className='col-span-3'>
-                         <Image src={'/diihk.png'} width={500} height={500} alt={'اتاق ایران و آلمان '}   className={'w-full max-w-[8rem] aspect-square'}/>
-                    </Link>
+                    {/*<Link href={'https://iccima.ir/'} className='col-span-3'>*/}
+                    {/*    <Image src={'/iran-otagh-bazargani.png'} width={500} height={500} alt={'اتاق بازرگانی ایران\n'} className={'w-full max-w-[8rem] aspect-square'}/>*/}
+                    {/*</Link>*/}
+                    {/*<Link href={'https://iajcc.ir/'} className='col-span-3'>*/}
+                    {/*    <Image src={'/iajcc.png'} width={500} height={500} alt={'اتاق مشترک بازرگانی ایران اتریش\n'}   className={'w-full max-w-[8rem] aspect-square'}/>*/}
+                    {/*</Link>*/}
+                    {/*<Link href={'https://sentria.ir'} className='col-span-3'>*/}
+                    {/*    <Image src={'/sentria.png'} width={500} height={500} alt={'سنتریا'}  className={'w-full max-w-[8rem] aspect-square'}/>*/}
+                    {/*</Link>*/}
+                    {/*<Link href={'https://diihk.com'} className='col-span-3'>*/}
+                    {/*     <Image src={'/diihk.png'} width={500} height={500} alt={'اتاق ایران و آلمان '}   className={'w-full max-w-[8rem] aspect-square'}/>*/}
+                    {/*</Link>*/}
 
-                    <Link href={'https://ir-iqcc.com/'} className='col-span-3'>
-                        <Image src={'/ir-iqcc.png'} width={500} height={500} alt={'اتاق مشترک بازرگانی ایران و عراق\n '}   className={'w-full max-w-[8rem] aspect-square'}/>
-                    </Link>
+                    {/*<Link href={'https://ir-iqcc.com/'} className='col-span-3'>*/}
+                    {/*    <Image src={'/ir-iqcc.png'} width={500} height={500} alt={'اتاق مشترک بازرگانی ایران و عراق\n '}   className={'w-full max-w-[8rem] aspect-square'}/>*/}
+                    {/*</Link>*/}
 
-                    <Link href={'https://service.tccim.ir/\n'} className='col-span-3'>
-                        <Image src={'/service-tehran.png'} width={500} height={500} alt={'اتاق بازرگانی تهران '}   className={'w-full max-w-[8rem] aspect-square'}/>
-                    </Link>
+                    {/*<Link href={'https://service.tccim.ir/\n'} className='col-span-3'>*/}
+                    {/*    <Image src={'/service-tehran.png'} width={500} height={500} alt={'اتاق بازرگانی تهران '}   className={'w-full max-w-[8rem] aspect-square'}/>*/}
+                    {/*</Link>*/}
+
+
 
                 </div>
 

@@ -242,3 +242,26 @@ div::-webkit-scrollbar {
     50%{background-size:calc(100%/3) 100%,calc(100%/3) 0%  ,calc(100%/3) 100%}
     66%{background-size:calc(100%/3) 100%,calc(100%/3) 100%,calc(100%/3) 0%  }
 }
+
+
+.slider-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden; /* مخفی کردن بخش‌هایی که از صفحه خارج می‌شوند */
+}
+
+.slider-track {
+    display: flex;
+    width: max-content; /* عرضی برابر با محتوای داخلی */
+    white-space: nowrap;
+}
+
+.slider-item {
+    display: inline-block;
+    margin-right: 20px; /* فاصله بین تصاویر */
+}
+
+.slider-image {
+    width: 8rem;
+    height: auto;
+}
