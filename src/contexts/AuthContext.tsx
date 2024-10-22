@@ -24,7 +24,7 @@ const initialState = {
 const reducer = (state :any, action:any ):any=>{
     switch (action.type){
         case "SIGNIN" :
-            return {login:true , userData:action.value}
+            return {...state ,login:true , userData:action.value}
         case "SET_TOKEN" :
             return {...state, token:action.value}
         case "LOGOUT":

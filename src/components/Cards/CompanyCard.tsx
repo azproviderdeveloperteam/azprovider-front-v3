@@ -1,9 +1,11 @@
 'use client'
-import React from 'react';
+import React, {useState} from 'react';
 import {Avatar, IconButton} from "@material-tailwind/react";
 import noImage from '../../../public/no-image.svg'
 import Image from "next/image";
 import Link from "next/link";
+import CompanyDetailsContacts from "@/components/mainPages/CompanyDetailsContacts";
+import {useAuth} from "../../contexts/AuthContext";
 const CompanyCard = ({item } : any) => {
 
     const monthNamesFull = [ "January", "February", "March", "April", "May", "June",
@@ -12,9 +14,13 @@ const CompanyCard = ({item } : any) => {
     const monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
-
+    // const [onMouseIn , setOnMouseIn] = useState(false)
+    //
+    // const {user} = useAuth()
+    //
+    // console.log(user)
     return (
-        <div className='w-full bg-[#F8F8F8] min-h-[5.3rem] py-3 rounded-[1.2rem] shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.10)] flex flex-col md:flex-row items-center justify-between px-4'>
+        <div  className='w-full bg-[#F8F8F8] min-h-[5.3rem] py-3 rounded-[1.2rem] shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.10)] flex flex-col md:flex-row items-center justify-between px-4'>
             <Link href={`/companies/${item?.user}`} className='w-full md:w-3/12  px-2 flex flex-row items-center justify-start cursor-pointer'>
                 <Avatar src={item?.logo ? `${item?.logo}` : noImage.src} />
                 <div className={'flex flex-col items-start justify-center h-full ml-2'}>
@@ -48,6 +54,28 @@ const CompanyCard = ({item } : any) => {
                 {`${item?.contact_information?.country ? item?.contact_information?.country : ''} , ${item?.contact_information?.city ? item?.contact_information?.city : ''}`}
             </div>
             <div className='w-full md:w-2/12  px-2 flex flex-row items-center justify-end'>
+                {/*{*/}
+                {/*    user?.login ?*/}
+                {/*        onMouseIn ?*/}
+                {/*            <CompanyDetailsContacts slug={item?.user}/>*/}
+                {/*            :<>*/}
+                {/*                <IconButton className={'bg-transparent shadow-none focus:shadow-none'}>*/}
+                {/*                    <Image src={'/call-company.svg'} alt={'call-company.svg'} width={21} height={21} />*/}
+                {/*                </IconButton>*/}
+
+
+                {/*                <IconButton className={'bg-transparent shadow-none focus:shadow-none'}>*/}
+                {/*                    <Image src={'/send-message-company.svg'} alt={'send-message-company.svg'} width={21} height={21} />*/}
+
+                {/*                </IconButton>*/}
+                {/*            </>*/}
+                {/*        :*/}
+                {/*        null*/}
+
+                {/*}*/}
+                <CompanyDetailsContacts slug={item?.user}/>
+
+
                 {/*{*/}
                 {/*    // item?.mobile &&*/}
                 {/*    <IconButton className={'bg-transparent shadow-none focus:shadow-none'}>*/}

@@ -4,7 +4,7 @@ import LightBtn from "@/components/Buttons/LightBtn";
 import Link from "next/link";
 import {useQuery} from "@tanstack/react-query";
 import {getProfile} from "@/services/userProfileServices";
-import {useAuth} from "../../contexts/AuthContext";
+import {useAuth, useAuthActions} from "../../contexts/AuthContext";
 import Cookies from "js-cookie";
 import {useRouter} from "next/navigation";
 import Image from "next/image";
@@ -12,7 +12,7 @@ import Image from "next/image";
 const HeaderCheckUserLogin = ({text , black} : any) => {
 
     const {user} = useAuth()
-
+    const dispatch = useAuthActions()
     const [view , setView] = useState(true)
 
     const router = useRouter()
@@ -36,6 +36,11 @@ const HeaderCheckUserLogin = ({text , black} : any) => {
         } else setView(false)
     },[data , user , router])
 
+    useEffect(()=>{
+        if(data?.data?.email){
+            dispatch({type:"SIGNIN" ,value : data?.data})
+        }
+    },[data])
      return (
         isLoading ? null :
         data?.data?.id  && view ?
