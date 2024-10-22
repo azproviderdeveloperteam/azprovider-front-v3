@@ -42,9 +42,9 @@ const AboutAzLanding = () => {
     ];
 
     return (
-        <div className='w-full bg-secondary-yellow pt-[28rem] px-5 box-border overflow-x-hidden'>
+        <div className='w-full bg-secondary-yellow pt-16 md:pt-[28rem] px-5 box-border overflow-x-hidden'>
 
-            <div className='w-full max-w-[71rem]  mx-auto  flex flex-col items-center justify-start box-border mt-12'>
+            <div className='w-full max-w-[71rem]  mx-auto  mt-12'>
                 <AboutAzImages images={images} />;
 
                 <div className='w-full grid grid-cols-12 gap-4'>
