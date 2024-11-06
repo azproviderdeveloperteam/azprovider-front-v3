@@ -18,14 +18,22 @@ const CompanyCard = ({item } : any) => {
     //
     // const {user} = useAuth()
     //
-    // console.log(user)
+    console.log(item)
     return (
         <div  className='w-full bg-[#F8F8F8] min-h-[5.3rem] py-3 rounded-[1.2rem] shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.10)] flex flex-col md:flex-row items-center justify-between px-4'>
             <Link href={`/companies/${item?.user}`} className='w-full md:w-3/12  px-2 flex flex-row items-center justify-start cursor-pointer'>
-                <Avatar src={item?.logo ? `${item?.logo}` : noImage.src} />
+                {
+                    item?.logo ?
+                    <Avatar src={item?.logo ? `${item?.logo}` : noImage.src} />
+                        :
+                        <div className={'w-[3rem] h-[3rem] rounded-full bg-primary-green-wgd flex flex-row items-center justify-center text-[1.1rem] text-[#ffffff]'}>
+                            {item?.international_name ? item?.international_name?.[0] : item?.first_name?.[0] +item?.last_name?.[0] || ''}
+                        </div>
+                }
                 <div className={'flex flex-col items-start justify-center h-full ml-2'}>
                     <h2 className='text-[1.1rem] font-bold'>
-                        {item?.first_name}{' '+item?.last_name}
+                        {item?.international_name ? item?.international_name :  ""}
+
                     </h2>
                     <div className='flex flex-row items-center justify-start'>
                         <div className='bg-[#A1A1A1] px-1 text-[0.7rem] text-white rounded-[0.3rem] flex flex-row items-center justify-start'>
@@ -36,7 +44,7 @@ const CompanyCard = ({item } : any) => {
                             </div>
                         </div>
                         <h3 className='text-[#A1A1A1] text-[0.9rem] ml-2'>
-                            {item?.business_information?.international_name}
+                            {item?.first_name +' '+item?.last_name}
 
                         </h3>
                     </div>
