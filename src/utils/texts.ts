@@ -228,7 +228,8 @@ export const texts = {
             register:"Register",
             password:"Password",
             confirmPass:"confirm password",
-            skip:"skip and Login just with otp"
+            skip:"skip and Login just with otp",
+            international_name:"International name"
 
 
         },

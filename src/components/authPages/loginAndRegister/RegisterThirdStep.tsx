@@ -37,7 +37,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
         }).shape({
             firstName:Yup.string().required('Enter Your First Name'),
             lastName:Yup.string().required('Enter Your Last Name'),
-            businessCode:Yup.string(),
+            international_name:Yup.string().required('Enter Your International name'),
             businessRole:Yup.string(),
             cityOrCountry:Yup.string(),
             acceptTerms:Yup.bool().required('')
@@ -59,12 +59,11 @@ const RegisterThirdStep = ({nextStep}:any) => {
     const token = user?.token
 
     const submit = async (d : any) =>{
-        console.log('asas')
         const formData = {
                 first_name:d?.firstName,
                 last_name:d?.lastName,
-                business_register_code:d?.businessCode === '' ? 'none' :d?.businessCode,
-                business_role:bRole?.map(x => x?.id),
+                international_name:d?.international_name ,
+                business_role_id:bRole?.map(x => x?.value),
                 country:selectedCountry?.label,
                 city:selectedCity?.label,
 
@@ -216,7 +215,20 @@ const RegisterThirdStep = ({nextStep}:any) => {
 
                 </div>
                 <form className='w-full flex flex-row items-start justify-start flex-wrap mt-4 relative z-10' onSubmit={handleSubmit(submit)}>
+                    <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem] pr-2 h-full mt-7'>
+                        <div className=' text-[1.3rem]'>
+                            {myTexts.international_name}<span className='text-secondary-red'>*</span>
+                        </div>
+                        <MainInput
+                            register={register}
+                            label={'international_name'}
+                            error={errors?.international_name?.message}
+                            name={'international_name'}
+                            type={'text'}
+                            placeholder={'International name'}
 
+                        />
+                    </div>
                     <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem] pr-2 h-full mt-7'>
                         <div className=' text-[1.3rem]'>
                             {myTexts.firstName} <span className='text-secondary-red'>*</span>
@@ -246,24 +258,11 @@ const RegisterThirdStep = ({nextStep}:any) => {
                     </div>
 
 
-                    <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem] pr-2 h-full mt-7'>
-                        <div className=' text-[1.3rem]'>
-                            {myTexts.businessRegisterCode}
-                        </div>
-                        <MainInput
-                            register={register}
-                            label={'businessCode'}
-                            error={errors?.businessCode?.message}
-                            name={'businessCode'}
-                            type={'text'}
-                            placeholder={'Business Code'}
 
-                        />
-                    </div>
 
                     <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem] pr-2 h-full mt-7'>
                         <div className=' text-[1.3rem]'>
-                            {myTexts.businessRole}
+                            {myTexts.businessRole}<span className='text-secondary-red'>*</span>
                         </div>
                         <Select
                             className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
