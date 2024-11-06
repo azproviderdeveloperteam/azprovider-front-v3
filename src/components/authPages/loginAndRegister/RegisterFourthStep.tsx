@@ -105,7 +105,7 @@ const RegisterFourthStep = ({nextStep , email}: any) => {
 
                     <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem]  pr-2 h-full mt-7'>
                         <div className=' text-[1.3rem]'>
-                            {myTexts.emailOrPhone} <span className='text-secondary-red'>*</span>
+                            {"Username"} <span className='text-secondary-red'>*</span>
                         </div>
                         <input  className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
                                placeholder={email}
