@@ -51,15 +51,17 @@ const CompanyCard = ({item } : any) => {
                 </div>
             </Link>
             <div className='w-full md:w-3/12 px-2'>
-                {item?.email}
+                {
+                    item?.business_role?.map((x)=>x?.title+', ')
+                }
             </div>
-            <div className='w-full md:w-2/12  px-2 text-[0.9rem]'>
-               <div> {`Profile Created ${new Date(item?.created_at)?.getUTCDate()} ${monthNames[new Date(item?.created_at)?.getUTCMonth()] } ${new Date(item?.created_at)?.getUTCFullYear()}`}</div>
-                <div className='mt-1'> {`Last Update ${new Date(item?.updated_at)?.getUTCDate()} ${monthNames[new Date(item?.updated_at)?.getUTCMonth()] } ${new Date(item?.updated_at)?.getUTCFullYear()}`}</div>
+            {/*<div className='w-full md:w-2/12  px-2 text-[0.9rem]'>*/}
+            {/*   <div> {`Profile Created ${new Date(item?.created_at)?.getUTCDate()} ${monthNames[new Date(item?.created_at)?.getUTCMonth()] } ${new Date(item?.created_at)?.getUTCFullYear()}`}</div>*/}
+            {/*    <div className='mt-1'> {`Last Update ${new Date(item?.updated_at)?.getUTCDate()} ${monthNames[new Date(item?.updated_at)?.getUTCMonth()] } ${new Date(item?.updated_at)?.getUTCFullYear()}`}</div>*/}
 
-            </div>
+            {/*</div>*/}
             <div className='w-full md:w-2/12  px-2'>
-                {`${item?.contact_information?.country ? item?.contact_information?.country : ''} , ${item?.contact_information?.city ? item?.contact_information?.city : ''}`}
+                {`${item?.country ? item?.country+',' : ''}  ${item?.city ? item?.city : ''}`}
             </div>
             <div className='w-full md:w-2/12  px-2 flex flex-row items-center justify-end'>
                 {/*{*/}
