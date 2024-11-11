@@ -30,8 +30,8 @@ export const texts = {
                     //     href:"/"
                     // },
                     {
-                        title:"Join Us",
-                        href:"/register"
+                        title:"Contact Us",
+                        href:"/contact-us"
                     },
                     {
                         title:"FAQ",
