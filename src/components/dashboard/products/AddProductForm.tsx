@@ -128,7 +128,6 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
             handleConvertToFile()
         }
     },[resizedImage])
-    console.log(resizedImage , er , loading)
 
     useEffect(()=>{
         if(viewAddProductForm !== null && viewAddProductForm?.title){

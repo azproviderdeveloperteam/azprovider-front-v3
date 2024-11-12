@@ -23,6 +23,7 @@ import RegisterBtn from "@/components/Buttons/RegisterBtn";
 import {createProduct} from "@/services/dashboardProductsServices";
 import {uploadV2} from "@/services/uploadService";
 import {date} from "yup";
+import useImageResize from "@/hooks/useImageResize";
 
 const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList , viewAddProductForm} : any) => {
     const [img ,setImg] = useState<any>(null)
@@ -257,7 +258,48 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList 
 
     }
 
-        return (
+
+    const { resizedImage, resizeImage, loading, error : er } = useImageResize({
+        maxWidth: 500,
+        maxHeight: 500,
+        quality: 0.9,
+    });
+
+    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            // uploadImage(file);
+            resizeImage(file)
+
+        }
+    };
+
+
+    const convertBase64ToFile = async (base64Data: string, fileName: string) => {
+        const response = await fetch(base64Data);
+        const blob = await response.blob();
+        const file = new File([blob], fileName, { type: blob.type });
+        return file;
+    };
+
+
+    const handleConvertToFile = async () => {
+        if (resizedImage) {
+            const file = await convertBase64ToFile(resizedImage, 'resized_image.jpg');
+            await uploadImage(file)
+
+        }
+    };
+    useEffect(()=>{
+        if(resizedImage){
+            setImgView(resizedImage)
+            handleConvertToFile()
+        }
+    },[resizedImage])
+
+
+
+    return (
         <div className='w-full pt-4'>
             <div className='w-full bg-[#F8F8F8] p-5 lg:p-8 rounded-[1rem] relative'>
                 {
@@ -294,7 +336,8 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList 
                         if(e.target.files){
                             if(e.target?.files[0]){
                                 setImg(e.target?.files[0])
-                                uploadImage(e.target?.files[0])
+                                handleImageUpload(e)
+                                // uploadImage(e.target?.files[0])
                                 setImgView(URL.createObjectURL(e.target?.files[0]))
                             }else {
                                 setImg(null)
