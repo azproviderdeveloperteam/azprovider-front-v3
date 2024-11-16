@@ -8,8 +8,16 @@ import ProfileCertificates from "@/components/dashboard/profile/ProfileCertifica
 import ProfileProjects from "@/components/dashboard/profile/ProfileProjects";
 import ProfileMembership from "@/components/dashboard/profile/ProfileMembership";
 import {useQuery} from "@tanstack/react-query";
-import {getBInfo, getCertificate, getContact, getMembership, getProjects} from "@/services/profileServices";
+import {
+    getBInfo,
+    getCertificate,
+    getContact,
+    getEmployees,
+    getMembership,
+    getProjects
+} from "@/services/profileServices";
 import {useSearchParams} from "next/navigation";
+import ProfileEmployees from "@/components/dashboard/profile/ProfileEmployees";
 const ProfilePage = () => {
     const searchParams = useSearchParams()
     const [activeTab, setActiveTab] = useState<any>('All');
@@ -35,6 +43,12 @@ const ProfilePage = () => {
         {
             label: "certificates",
             value: "certificates",
+            desc: ``,
+            icon : null
+        },
+        {
+            label: "Employees",
+            value: "employees",
             desc: ``,
             icon : null
         },
@@ -90,6 +104,14 @@ const ProfilePage = () => {
         retry:false,
     })
 
+
+    const {data : employeesData, isPending :employeesPending, error : employeesError} = useQuery({
+        queryKey: ['employees' ,activeTab === 'All'],
+        queryFn: getEmployees,
+        retry:false,
+    })
+
+
     return (
         <div className='w-full'>
             <div className='w-full h-[63px] '>
@@ -136,7 +158,10 @@ const ProfilePage = () => {
                                     : activeTab === 'projects' ?
                                         <ProfileProjects  projectsData={projectsData?.data}/>
                                         : activeTab === 'membership' ?
-                                            <ProfileMembership  membershipData={membershipData?.data}/> : null
+                                            <ProfileMembership  membershipData={membershipData?.data}/>
+                                            :activeTab === 'employees' ?
+                                            <ProfileEmployees employeesData={employeesData}/>
+                                            : null
                 }
             </div>
         </div>

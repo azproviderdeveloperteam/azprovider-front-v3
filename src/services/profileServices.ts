@@ -105,6 +105,14 @@ export async function  getMembership(){
     })
 }
 
+export async function  getEmployees(){
+    return await  instance.get('v2/user/employees/' ,{
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        }
+    })
+}
 export async function  postMembership(data : any){
     return await  instance.post('membership/update-info/' ,data ,{
         headers:{
@@ -147,4 +155,8 @@ export async function  patchSocials({data  , id}:any){
             'Accept': 'application/json',
             // 'Authorization': `Bearer ${jwt}`
         }})
+}
+
+export async function postEmployee (data : any){
+    return await  instance.post('v2/user/employees/' ,data )
 }

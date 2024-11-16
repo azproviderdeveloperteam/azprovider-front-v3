@@ -39,23 +39,25 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
                     <div className='w-full flex flex-col lg:flex-row items-center justify-between'>
                         <div className={'w-full lg:w-1/2 flex flex-col items-start justify-start'}>
                             <h1 className='text-[1.4rem] font-bold text-primary-dark-b'>
-                                {data?.first_name ? data?.first_name + ' ' + data?.last_name: 'No Name Yet'}
+                                {data?.first_name ? data?.first_name + ' ' + data?.last_name : 'No Name Yet'}
                                 <span className='ml-1'>
-                                    <SsrIconBtn >
-                                        <Image src={'/go-to-page-icon.svg'} alt={'go-to-page-icon.svg'} width={30} height={30} />
+                                    <SsrIconBtn>
+                                        <Image src={'/go-to-page-icon.svg'} alt={'go-to-page-icon.svg'} width={30}
+                                               height={30}/>
                                     </SsrIconBtn>
                                 </span>
                             </h1>
                             <div className='flex flex-row items-start justify-start'>
-                                <div className='bg-[#A1A1A1] px-1 text-[0.7rem] text-white rounded-[0.3rem] flex flex-row items-center justify-start'>
-                                    <Image src={'/star-light.svg'} alt={'star-light'} width={21} height={21} />
+                                <div
+                                    className='bg-[#A1A1A1] px-1 text-[0.7rem] text-white rounded-[0.3rem] flex flex-row items-center justify-start'>
+                                    <Image src={'/star-light.svg'} alt={'star-light'} width={21} height={21}/>
                                     <div className='ml-1 text-[0.87rem] '>
-                                        { data?.rate  ? data?.rate : ' - '}
+                                        {data?.rate ? data?.rate : ' - '}
 
                                     </div>
                                 </div>
                                 <h2 className='text-[#A1A1A1] ml-2'>
-                                    {data?.business_information?.international_name ? data?.business_information?.international_name: ' '}
+                                    {data?.business_information?.international_name ? data?.business_information?.international_name : ' '}
                                 </h2>
                             </div>
 
@@ -76,25 +78,56 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
                         <div className='font-thin text-[#8E8E8E] text-[0.7rem] ml-1'>
                             {
                                 data?.created_at ?
-                                    `Created Profile ${new Date(data?.created_at)?.getUTCDate()} ${monthNames[new Date(data?.created_at)?.getUTCMonth()] } ${new Date(data?.created_at)?.getUTCFullYear()} `
+                                    `Created Profile ${new Date(data?.created_at)?.getUTCDate()} ${monthNames[new Date(data?.created_at)?.getUTCMonth()]} ${new Date(data?.created_at)?.getUTCFullYear()} `
                                     :
                                     ' - '
                             }
                         </div>
                     </div>
-                    <Image src={'/gray-location.svg'} alt={`location of ${data?.business_information?.name}`} width={20} height={20} />
+                    <Image src={'/gray-location.svg'} alt={`location of ${data?.business_information?.name}`} width={20}
+                           height={20}/>
 
-                    <CompanyDetailsAddresses slug={params?.slug} />
+                    <CompanyDetailsAddresses slug={params?.slug}/>
 
+                    <h3 className='mt-5 font-bold text-[1.1rem] text-primary-dark-b'>
+                        Employees
+                    </h3>
+                    { data?.employees?.map((item: any) => (
+                        <div
+                            key={item.id}
+                            className="w-full my-2 border border-gray-300 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow  "
+                        >
+                            <p className="text-lg font-semibold">
+                                Name: <span className="font-normal">{item.first_name} {item.last_name}</span>
+                            </p>
+                            <p className="text-lg font-semibold">
+                                Position: <span className="font-normal">{item.position}</span>
+                            </p>
+                            <p className="text-lg font-semibold">
+                                Department: <span className="font-normal">{item.department}</span>
+                            </p>
+                            <p className="text-lg font-semibold">
+                                Email: <span className="font-normal">{item.email}</span>
+                            </p>
+                            <p className="text-lg font-semibold">
+                                Mobile: <span className="font-normal">{item.mobile}</span>
+                            </p>
+                            <p className="text-lg font-semibold">
+                                Description: <span className="font-normal">{item.description}</span>
+                            </p>
+                        </div>
+                    ))}
                     <h3 className='mt-5 font-bold text-[1.1rem] text-primary-dark-b'>
                         Certificates
                     </h3>
                     <div className='w-full grid grid-cols-1 md:grid-cols-2 gap-4 my-4'>
                         {
-                            data?.certificates?.map((item: any ,index : number)=>{
-                                return(
-                                    <div key={index+1} className='flex flex-row items-center justify-start'>
-                                        <Image src={item?.file ? `${process.env.MEDIA_URL}${item?.file}` : noImage?.src} alt={item?.title} height={80} width={80} className={'object-cover rounded-[0.6rem'} />
+                            data?.certificates?.map((item: any, index: number) => {
+                                return (
+                                    <div key={index + 1} className='flex flex-row items-center justify-start'>
+                                        <Image src={item?.file ? `${process.env.MEDIA_URL}${item?.file}` : noImage?.src}
+                                               alt={item?.title} height={80} width={80}
+                                               className={'object-cover rounded-[0.6rem'}/>
                                         <div className='flex flex-col items-start justify-start ml-2'>
                                             <h4>
                                                 {item?.title}
@@ -112,27 +145,26 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
                     </div>
 
 
-
                     <h3 className='mt-5 font-bold text-[1.1rem] text-primary-dark-b'>
                         Membership
                     </h3>
                     <div className='w-full grid grid-cols-1 md:grid-cols-2 gap-4 my-4'>
 
 
-                                    <div  className='flex flex-row items-center justify-start'>
-                                        <Image src={data?.membership?.file ? `${process.env.MEDIA_URL}${data?.membership?.file}` : noImage?.src} alt={data?.membership?.title} height={80} width={80} className={'object-cover rounded-[0.6rem'} />
-                                        <div className='flex flex-col items-start justify-start ml-2'>
-                                            <h4>
-                                                {data?.membership?.serial_number}
-                                            </h4>
-                                            <p>
-                                                {data?.membership?.description}
-                                            </p>
-                                        </div>
-                                    </div>
-
-
-
+                        <div className='flex flex-row items-center justify-start'>
+                            <Image
+                                src={data?.membership?.file ? `${process.env.MEDIA_URL}${data?.membership?.file}` : noImage?.src}
+                                alt={data?.membership?.title} height={80} width={80}
+                                className={'object-cover rounded-[0.6rem'}/>
+                            <div className='flex flex-col items-start justify-start ml-2'>
+                                <h4>
+                                    {data?.membership?.serial_number}
+                                </h4>
+                                <p>
+                                    {data?.membership?.description}
+                                </p>
+                            </div>
+                        </div>
 
 
                     </div>
@@ -141,28 +173,33 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
                         data?.product && data?.product?.length > 0 ?
                             <div className='w-full mt-4'>
                                 <h3 className='text-[1.3rem] font-bold text-primary-dark-b inline'>
-                                    {`${data?.business_information?.brand_name ? data?.business_information?.brand_name: 'Company'} Products`}
+                                    {`${data?.business_information?.brand_name ? data?.business_information?.brand_name : 'Company'} Products`}
                                 </h3>
                                 <div className='w-full overflow-x-hidden'>
-                                    <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
+                                    <div
+                                        className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
                                         {
-                                            data?.product?.map((item : any ,index : number)=>{
-                                                return(
-                                                    <Link   href={`/products/${item?.id}`} className={`${index===0 ? ' ' :''}  w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`} key={index+1}>
+                                            data?.product?.map((item: any, index: number) => {
+                                                return (
+                                                    <Link href={`/products/${item?.id}`}
+                                                          className={`${index === 0 ? ' ' : ''}  w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`}
+                                                          key={index + 1}>
                                                         <ProductCard item={item} theme={'light'}/>
                                                     </Link>
                                                 )
                                             })
                                         }
-                                        <div className={`   w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`}  >
-                                            <div className={`w-full aspect-[0.7334] flex flex-col items-center justify-between rounded-[1.6rem] opacity-0 `}>
+                                        <div
+                                            className={`   w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`}>
+                                            <div
+                                                className={`w-full aspect-[0.7334] flex flex-col items-center justify-between rounded-[1.6rem] opacity-0 `}>
                                             </div>
                                         </div>
 
                                     </div>
                                 </div>
                             </div>
-                            :null
+                            : null
                     }
 
 
@@ -170,28 +207,33 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
                         data?.service && data?.service?.length > 0 ?
                             <div className='w-full mt-4'>
                                 <h3 className='text-[1.3rem] font-bold text-primary-dark-b inline'>
-                                    {`${data?.business_information?.brand_name ? data?.business_information?.brand_name: 'Company'} Services`}
+                                    {`${data?.business_information?.brand_name ? data?.business_information?.brand_name : 'Company'} Services`}
                                 </h3>
                                 <div className='w-full overflow-x-hidden'>
-                                    <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
+                                    <div
+                                        className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
                                         {
-                                            data?.service?.map((item : any ,index : number)=>{
-                                                return(
-                                                    <Link  href={`/services/${item?.id}`} className={`${index===0 ? ' ' :''}  w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`} key={index+1}>
+                                            data?.service?.map((item: any, index: number) => {
+                                                return (
+                                                    <Link href={`/services/${item?.id}`}
+                                                          className={`${index === 0 ? ' ' : ''}  w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`}
+                                                          key={index + 1}>
                                                         <ProductCard item={item} theme={'light'}/>
                                                     </Link>
                                                 )
                                             })
                                         }
-                                        <div className={`   w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`}  >
-                                            <div className={`w-full aspect-[0.7334] flex flex-col items-center justify-between rounded-[1.6rem] opacity-0 `}>
+                                        <div
+                                            className={`   w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`}>
+                                            <div
+                                                className={`w-full aspect-[0.7334] flex flex-col items-center justify-between rounded-[1.6rem] opacity-0 `}>
                                             </div>
                                         </div>
 
                                     </div>
                                 </div>
                             </div>
-                            :null
+                            : null
                     }
 
                 </div>

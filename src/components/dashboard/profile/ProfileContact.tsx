@@ -159,165 +159,177 @@ const ProfileContact = ({contactData} : any) => {
 
     },[contactData])
      return (
-        <div className='w-full pt-4'>
-            <AzDialog open={socialsDialog} handler={()=>setSocialDialog(false)} size={'xs'}>
-               <div className='w-full flex flex-col items-center justify-start'>
-                   {
-                       options.map((item ,index)=>{
-                           return (
-                               <div key={index+1} className='w-[15rem] flex flex-row items-center justify-start text-primary-dark-b'>
-                                   <Checkbox color="green" checked={socials?.filter((e :any) =>e.value === item?.value)?.length > 0} onChange={(e)=>{
-                                       if(e.target.checked){
-                                           setSocials(socials.concat(item))
-                                       }else{
-                                           setSocials(socials.filter((e :any) =>e.value != item?.value))
-                                       }
+         <div className='w-full pt-4'>
+             <AzDialog open={socialsDialog} handler={() => setSocialDialog(false)} size={'xs'}>
+                 <div className='w-full flex flex-col items-center justify-start'>
+                     {
+                         options.map((item, index) => {
+                             return (
+                                 <div key={index + 1}
+                                      className='w-[15rem] flex flex-row items-center justify-start text-primary-dark-b'>
+                                     <Checkbox color="green"
+                                               checked={socials?.filter((e: any) => e.value === item?.value)?.length > 0}
+                                               onChange={(e) => {
+                                                   if (e.target.checked) {
+                                                       setSocials(socials.concat(item))
+                                                   } else {
+                                                       setSocials(socials.filter((e: any) => e.value != item?.value))
+                                                   }
 
-                                   }}/>
-                                   <div>
-                                       {item?.label}
-                                   </div>
-                               </div>
-                           )
-                       })
-                   }
-               </div>
+                                               }}/>
+                                     <div>
+                                         {item?.label}
+                                     </div>
+                                 </div>
+                             )
+                         })
+                     }
+                 </div>
 
-            </AzDialog>
-            <div className='w-full bg-[#F8F8F8] p-3 rounded-[1rem] p-8'>
-                <form className='w-full flex flex-row items-start justify-start flex-wrap mt-4 relative z-10' onSubmit={handleSubmit(submit)}>
-                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
-                        <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.tell} <span className='text-secondary-red'>*</span>
-                        </div>
-                        <MainInput
-                            register={register}
-                            label={'tell'}
-                            error={errors?.tell?.message}
-                            name={'tell'}
-                            type={'text'}
-                            placeholder={myTexts.tell}
-                        />
-                    </div>
-                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
-                        <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.faxL} <span className='text-secondary-red'>*</span>
-                        </div>
-                        <MainInput
-                            register={register}
-                            label={'fax'}
-                            error={errors?.fax?.message}
-                            name={'fax'}
-                            type={'text'}
-                            placeholder={myTexts.faxL}
-                        />
-                    </div>
+             </AzDialog>
+             <AddEditAddress item={addAddress} open={addAddress !== undefined}
+                             onClose={() => setAddAddress(undefined)}/>
+             <div className='w-full bg-[#F8F8F8] p-3 rounded-[1rem] p-8 mt-5'>
+                 <h2>
+                     Addresses
+                 </h2>
+                 <AddEditAddress  modal={false}/>
 
-                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
-                        <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.websiteAddress} <span className='text-secondary-red'>*</span>
-                        </div>
-                        <MainInput
-                            register={register}
-                            label={'websiteAddress'}
-                            error={errors?.websiteAddress?.message}
-                            name={'websiteAddress'}
-                            type={'text'}
-                            placeholder={myTexts.websiteAddress}
-                        />
-                    </div>
+                 {
+                     AddressesData?.data?.map((itm: any, idx: number) => {
+                         return (
+                             <div key={idx + 1}
+                                  className='mt-4 w-full p-4 rounded-md border border-[1px] border-[#000]/20  flex flex-row items-start justify-start gap-4'>
+                                 {
+                                     <MapContainer style={{height: 280, width: '50%', marginTop: "1rem"}}
+                                                   center={[itm?.latitude || 0, itm?.longitude || 0]} zoom={20}
+                                                   scrollWheelZoom={true}>
+                                         <TileLayer
+                                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                         />
 
+                                         <Marker position={[itm?.latitude || 0, itm?.longitude || 0]}>
+                                             <Popup>
+                                                 A pretty CSS3 popup. <br/> Easily customizable.
+                                             </Popup>
+                                         </Marker>
+                                     </MapContainer>
 
-                    {
-                        socials.map((item : any ,index : number)=>{
-                            return(
-                                <div key={index+1} className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
-                                    <div className=' text-[1.3rem] capitalize'>
-                                        {item?.label}
-                                    </div>
-                                    <MainInput
-                                        register={register}
-                                        label={item?.label}
-                                        error={''}
-                                        name={item?.value}
-                                        type={'text'}
-                                        placeholder={item?.label}
-                                    />
-                                </div>
-
-                            )
-                        })
-                    }
-                    <div className='w-full lg:w-[31%] pr-5 h-full mt-7 flex flex-col items-center justify-end'>
-                        <div className='opacity-0 text-[1.3rem] capitalize'>
-                          s
-                        </div>
-                        <Button
-                            onClick={()=>{
-                               setSocialDialog(true)
-                            }}
-                            className='bg-transparent text-primary-purple-300 font-bold normal-case ml-3 capitalize  flex flex-row items-center justify-start'>
-                           + add more social links
-                        </Button>
-
-                    </div>
-                    <div className='w-full flex flex-col lg:flex-row items-center justify-between'>
-                        <RegisterBtn loading={isPending} otherClass={'w-full lg:w-[12rem] mt-12'} type={'submit'} disabled={false}>
-                            {myTexts.save}
-                        </RegisterBtn>
-
-                        {/*<Button className={'flex flex-row items-center justify-center font-roboto font-normal normal-case shadow-none hover:shadow-none text-[1.1rem] mt-12 bg-transparent text-primary-green-tb'} onClick={()=>setMoreData(!moreData)} disabled={false}>*/}
-                        {/*    {myTexts.advanceDataInformation}*/}
-                        {/*    <Image src={'/green-tb-arrow.svg'} alt={'arrow-carousel-az-provider'} width={40} height={40} className={moreData ? 'transition duration-500' : 'rotate-180 transition duration-500'}/>*/}
-
-                        {/*</Button>*/}
-                    </div>
-
-
-                </form>
-            </div>
-            <AddEditAddress item={addAddress} open={addAddress !== undefined} onClose={()=>setAddAddress(undefined)}/>
-                <div className='w-full bg-[#F8F8F8] p-3 rounded-[1rem] p-8 mt-5'>
-                    <h2>
-                        Addresses
-                    </h2>
-
-                    {
-                        AddressesData?.data?.map((itm : any , idx:number)=>{
-                            return(
-                                <div key={idx+1} className='mt-4 w-full p-4 rounded-md border border-[1px] border-[#000]/20  flex flex-row items-start justify-start gap-4'>
-                                    {
-                                        <MapContainer style={{ height: 280, width: '50%', marginTop:"1rem" }} center={[itm?.latitude || 0 , itm?.longitude || 0 ]} zoom={20} scrollWheelZoom={true}>
-                                            <TileLayer
-                                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                                            />
-
-                                            <Marker position={[itm?.latitude || 0 , itm?.longitude || 0 ]}>
-                                                <Popup>
-                                                    A pretty CSS3 popup. <br /> Easily customizable.
-                                                </Popup>
-                                            </Marker>
-                                        </MapContainer>
-
-                                    }
-                                    <div className={'mt-4 '}>
-                                        {
+                                 }
+                                 <div className={'mt-4 '}>
+                                     {
+                                         `
+                                            ${itm?.title || ''} : ${itm?.country}, ${itm?.city}, ${itm?.state}, ${itm?.street}, ${itm?.building}, ${itm?.number}, ${itm?.zipcode}
                                             `
-                                            ${itm?.title ||''} : ${itm?.country}, ${itm?.city}, ${itm?.state}, ${itm?.street}, ${itm?.building}, ${itm?.number}, ${itm?.zipcode}
-                                            `
-                                        }
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-                    <RegisterBtn onClick={()=>setAddAddress(null)}>
-                        Add New Address
-                    </RegisterBtn>
-                </div>
-        </div>
-    );
+                                     }
+                                 </div>
+                             </div>
+                         )
+                     })
+                 }
+                 {/*<RegisterBtn onClick={() => setAddAddress(null)}>*/}
+                 {/*    Add New Address*/}
+                 {/*</RegisterBtn>*/}
+             </div>
+
+             <div className='w-full bg-[#F8F8F8] p-3 rounded-[1rem] p-8'>
+                 <form className='w-full flex flex-row items-start justify-start flex-wrap mt-4 relative z-10'
+                       onSubmit={handleSubmit(submit)}>
+                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
+                         <div className=' text-[1.3rem] capitalize'>
+                             {myTexts.tell} <span className='text-secondary-red'>*</span>
+                         </div>
+                         <MainInput
+                             register={register}
+                             label={'tell'}
+                             error={errors?.tell?.message}
+                             name={'tell'}
+                             type={'text'}
+                             placeholder={myTexts.tell}
+                         />
+                     </div>
+                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
+                         <div className=' text-[1.3rem] capitalize'>
+                             {myTexts.faxL} <span className='text-secondary-red'>*</span>
+                         </div>
+                         <MainInput
+                             register={register}
+                             label={'fax'}
+                             error={errors?.fax?.message}
+                             name={'fax'}
+                             type={'text'}
+                             placeholder={myTexts.faxL}
+                         />
+                     </div>
+
+                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
+                         <div className=' text-[1.3rem] capitalize'>
+                             {myTexts.websiteAddress} <span className='text-secondary-red'>*</span>
+                         </div>
+                         <MainInput
+                             register={register}
+                             label={'websiteAddress'}
+                             error={errors?.websiteAddress?.message}
+                             name={'websiteAddress'}
+                             type={'text'}
+                             placeholder={myTexts.websiteAddress}
+                         />
+                     </div>
+
+
+                     {
+                         socials.map((item: any, index: number) => {
+                             return (
+                                 <div key={index + 1} className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
+                                     <div className=' text-[1.3rem] capitalize'>
+                                         {item?.label}
+                                     </div>
+                                     <MainInput
+                                         register={register}
+                                         label={item?.label}
+                                         error={''}
+                                         name={item?.value}
+                                         type={'text'}
+                                         placeholder={item?.label}
+                                     />
+                                 </div>
+
+                             )
+                         })
+                     }
+                     <div className='w-full lg:w-[31%] pr-5 h-full mt-7 flex flex-col items-center justify-end'>
+                         <div className='opacity-0 text-[1.3rem] capitalize'>
+                             s
+                         </div>
+                         <Button
+                             onClick={() => {
+                                 setSocialDialog(true)
+                             }}
+                             className='bg-transparent text-primary-purple-300 font-bold normal-case ml-3 capitalize  flex flex-row items-center justify-start'>
+                             + add more social links
+                         </Button>
+
+                     </div>
+                     <div className='w-full flex flex-col lg:flex-row items-center justify-between'>
+                         <RegisterBtn loading={isPending} otherClass={'w-full lg:w-[12rem] mt-12'} type={'submit'}
+                                      disabled={false}>
+                             {myTexts.save}
+                         </RegisterBtn>
+
+                         {/*<Button className={'flex flex-row items-center justify-center font-roboto font-normal normal-case shadow-none hover:shadow-none text-[1.1rem] mt-12 bg-transparent text-primary-green-tb'} onClick={()=>setMoreData(!moreData)} disabled={false}>*/}
+                         {/*    {myTexts.advanceDataInformation}*/}
+                         {/*    <Image src={'/green-tb-arrow.svg'} alt={'arrow-carousel-az-provider'} width={40} height={40} className={moreData ? 'transition duration-500' : 'rotate-180 transition duration-500'}/>*/}
+
+                         {/*</Button>*/}
+                     </div>
+
+
+                 </form>
+             </div>
+
+         </div>
+     );
 };
 
 export default ProfileContact;
