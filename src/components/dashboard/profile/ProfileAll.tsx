@@ -8,47 +8,7 @@ const ProfileAll = ({data , children}:any) => {
     const text = texts.eng
     const myTexts = text.dashboard.pages.profile.all
 
-        // const ourRef = useRef(null);
-        // const [isMouseDown, setIsMouseDown] = useState(false);
-        // const mouseCoords = useRef({
-        //     startX: 0,
-        //     startY: 0,
-        //     scrollLeft: 0,
-        //     scrollTop: 0
-        // });
-        //
-        // const [isScrolling, setIsScrolling] = useState(false);
-        // const handleDragStart = (e : any) => {
-        //     if (!ourRef.current) return
-        //     const slider = ourRef.current.children[0];
-        //     const startX = e.pageX - slider.offsetLeft;
-        //     const startY = e.pageY - slider.offsetTop;
-        //     const scrollLeft = slider.scrollLeft;
-        //     const scrollTop = slider.scrollTop;
-        //     mouseCoords.current = {startX, startY, scrollLeft, scrollTop}
-        //     setIsMouseDown(true)
-        //     document.body.style.cursor = "grabbing"
-        // }
-        // const handleDragEnd = () => {
-        //     setIsMouseDown(false)
-        //     if (!ourRef.current) return
-        //     document.body.style.cursor = "default"
-        // }
-        // const handleDrag = (e : any) => {
-        //     if (!isMouseDown || !ourRef.current) return;
-        //     e.preventDefault();
-        //     const slider = ourRef.current.children[0];
-        //     console.log(slider)
-        //     const x = e.pageX - slider.offsetLeft;
-        //     const y = e.pageY - slider.offsetTop;
-        //     const walkX = (x - mouseCoords.current.startX) * 1.5;
-        //     const walkY = (y - mouseCoords.current.startY) * 1.5;
-        //     slider.scrollLeft = mouseCoords.current.scrollLeft - walkX;
-        //     slider.scrollTop = 0;
-        //     console.log(walkX, walkY ,  slider.scrollLeft ,  (x - mouseCoords.current.startX) * 1.5)
-        // }
-        //
-        // console.log(data)
+      console.log(data)
 
     return (
         <div   className='w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory pt-5'>
@@ -122,27 +82,40 @@ const ProfileAll = ({data , children}:any) => {
                         }
 
                         {
-                            bInfoData?.local_name &&
+                            bInfoData?.first_name &&
                             <div className='w-full flex flex-row items-center justify-start my-1'>
                                 <div className='w-2/5 text-[0.9rem] text-[#898989]'>
-                                    {`Local Name :`}
+                                    {`Person Name :`}
                                 </div>
 
                                 <div className='w-3/5 text-[1rem] truncate'>
-                                    { bInfoData?.local_name}
+                                    { bInfoData?.first_name + ' ' + bInfoData?.last_name }
                                 </div>
                             </div>
                         }
 
                         {
-                            bInfoData?.contact_person &&
+                            bInfoData?.latest_business_activity &&
                             <div className='w-full flex flex-row items-center justify-start my-1'>
                                 <div className='w-2/5 text-[0.9rem] text-[#898989]'>
-                                    {`Contact Person :`}
+                                    {`Latest business activity :`}
                                 </div>
 
                                 <div className='w-3/5 text-[1rem] truncate'>
-                                    { bInfoData?.contact_person}
+                                    { bInfoData?.latest_business_activity?.title}
+                                </div>
+                            </div>
+                        }
+
+                        {
+                            bInfoData?.country &&
+                            <div className='w-full flex flex-row items-center justify-start my-1'>
+                                <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                    {`Country/city :`}
+                                </div>
+
+                                <div className='w-3/5 text-[1rem] truncate'>
+                                    { bInfoData?.country + ', '+ bInfoData?.city }
                                 </div>
                             </div>
                         }
@@ -151,46 +124,46 @@ const ProfileAll = ({data , children}:any) => {
 
 
                  {
-                     contactData &&
+                     contactData?.[0] &&
 
                      <div  className='min-w-[36rem] bg-[#F8F8F8] aspect-[1.2] p-5 lg:p-8 rounded-[1rem] mr-4 snap-start '>
                          <div className='w-full text-left font-bold text-primary-dark-b capitalize'>
                              {myTexts.contact.title}
                          </div>
                          {
-                             contactData?.phone &&
+                             contactData?.[0]?.phone &&
                              <div className='w-full flex flex-row items-center justify-start my-1'>
                                  <div className='w-2/5 text-[0.9rem] text-[#898989] capitalize'>
                                      {`Tell :`}
                                  </div>
 
                                  <div className='w-3/5 text-[1rem] truncate'>
-                                     { contactData?.phone}
+                                     { contactData?.[0]?.phone}
                                  </div>
                              </div>
                          }
                          {
-                             contactData?.fax &&
+                             contactData?.[0]?.fax &&
                              <div className='w-full flex flex-row items-center justify-start my-1'>
                                  <div className='w-2/5 text-[0.9rem] text-[#898989] capitalize'>
                                      {`Fax :`}
                                  </div>
 
                                  <div className='w-3/5 text-[1rem] truncate'>
-                                     { contactData?.fax}
+                                     { contactData?.[0]?.fax}
                                  </div>
                              </div>
                          }
 
                          {
-                             contactData?.website &&
+                             contactData?.[0]?.website &&
                              <div className='w-full flex flex-row items-center justify-start my-1'>
                                  <div className='w-2/5 text-[0.9rem] text-[#898989] capitalize'>
                                      {`website :`}
                                  </div>
 
                                  <div className='w-3/5 text-[1rem] truncate'>
-                                     { contactData?.website}
+                                     { contactData?.[0]?.website}
                                  </div>
                              </div>
                          }
