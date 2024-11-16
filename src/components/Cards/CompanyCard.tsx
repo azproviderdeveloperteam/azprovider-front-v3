@@ -52,7 +52,7 @@ const CompanyCard = ({item } : any) => {
             </Link>
             <div className='w-full md:w-3/12 px-2'>
                 {
-                    item?.business_role?.map((x)=>x?.title+', ')
+                    item?.business_role?.map((x : any)=>x?.title+', ')
                 }
             </div>
             {/*<div className='w-full md:w-2/12  px-2 text-[0.9rem]'>*/}
@@ -61,7 +61,12 @@ const CompanyCard = ({item } : any) => {
 
             {/*</div>*/}
             <div className='w-full md:w-2/12  px-2'>
-                {`${item?.country ? item?.country+',' : ''}  ${item?.city ? item?.city : ''}`}
+                <div>
+                    {`${item?.country ? item?.country+',' : ''}  ${item?.city ? item?.city : ''}`}
+                </div>
+                <div className={'truncate'}>
+                    {`${item?.latest_business_activity?.title ? item?.latest_business_activity?.title  : ''}`}
+                </div>
             </div>
             <div className='w-full md:w-2/12  px-2 flex flex-row items-center justify-end'>
                 {/*{*/}
