@@ -6,6 +6,12 @@ export async function  sendChatReq(data : any){
     return await  instance.post('v2/product/request/' ,data )
 }
 
+
+export async function  sendChatReqPreInvoice(data : any){
+    return await  instance.post('v2/product/pre-invoice/request/' ,data )
+}
+
+
 export async function  sendChatMessage(data : any){
     return await  instance.post('chat/start-chat/' ,data )
 }

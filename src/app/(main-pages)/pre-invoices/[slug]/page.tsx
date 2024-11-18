@@ -107,7 +107,7 @@ const  PreInvoiceDetailsPage = async ({ params }: { params: { slug: string } }) 
 
                         <div className='flex flex-row items-center justify-start text-[1rem] mt-5'>
                             <div className='w-2/5  text-[#8E8E8E] font-bold'>
-                                <SendRequestProductPage data={data}/>
+                                <SendRequestProductPage preInvoice={true} data={data}/>
                             </div>
 
 
@@ -115,7 +115,7 @@ const  PreInvoiceDetailsPage = async ({ params }: { params: { slug: string } }) 
 
                     </div>
                     <div className='col-span-11  lg:col-span-6'>
-                        <Image src={data?.media_files?.[0]?.image ? 'https://azprovider.com/'+data?.media_files?.[0]?.image :'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'w-full aspect-[1.333] object-cover rounded-[2rem]'}/>
+                        <Image src={data?.media_files?.[0]?.image ? 'https://azprovider.com/'+data?.media_files?.[0]?.image :'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'w-full aspect-[1.333] object-contain rounded-[2rem]'}/>
                         {/*<div className='mt-4 grid grid-cols-4 gap-2'>*/}
                         {/*    <Image src={'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'col-span-1  aspect-[1.333] object-cover rounded-[2rem]'}/>*/}
                         {/*    <Image src={'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'col-span-1  aspect-[1.333] object-cover rounded-[2rem]'}/>*/}

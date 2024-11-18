@@ -10,17 +10,19 @@ import MainInput from "@/components/inputs/MainInput";
 import Image from "next/image";
 import AzDatePicker from "@/components/inputs/AzDatePicker";
 import {useMutation} from "@tanstack/react-query";
-import {sendChatReq} from "@/services/chatServices";
+import {sendChatReq, sendChatReqPreInvoice} from "@/services/chatServices";
 import {AxiosError} from "axios";
 import toast from "react-hot-toast";
+import {useAuth} from "../../contexts/AuthContext";
+import {useRouter} from "next-nprogress-bar";
 
-const SendRequestProductPage = ({data} : any) => {
+const SendRequestProductPage = ({data , preInvoice = false} : any) => {
 
     const [dialog , setDialog] = useState(false)
     const [fromDate , setFromDate] = useState(new Date())
     const [toDate , setToDate] = useState(new Date())
 
-    console.log(data)
+    const router = useRouter()
     const dateToFormatYMD = (d : Date | undefined)=>{
         if( d instanceof Date){
             const stingDate = d?.toLocaleDateString()?.split('/')
@@ -52,22 +54,34 @@ const SendRequestProductPage = ({data} : any) => {
 
 
     const {data :sentData , isPending  , error  , mutateAsync} =useMutation({
-        mutationFn : sendChatReq
+        mutationFn : preInvoice ? sendChatReqPreInvoice : sendChatReq
     })
 
 
 
     const submitForm = async (e : any)=>{
-        const formData = {
-            product_id:data?.id,
-            quantity :parseInt(e?.quantity)  ,
-            location:e?.location,
-            price:parseInt(e?.price) ,
-            payment:e?.payment,
-            date_from:dateToFormatYMD(fromDate),
-            date_to:dateToFormatYMD(toDate),
-            description:e?.desc
-        }
+        const formData = preInvoice ?
+            {
+                pre_invoice_id:data?.id,
+                quantity :parseInt(e?.quantity)  ,
+                location:e?.location,
+                price:parseInt(e?.price) ,
+                payment:e?.payment,
+                date_from:dateToFormatYMD(fromDate),
+                date_to:dateToFormatYMD(toDate),
+                description:e?.desc
+            }
+            :
+            {
+                product_id:data?.id,
+                quantity :parseInt(e?.quantity)  ,
+                location:e?.location,
+                price:parseInt(e?.price) ,
+                payment:e?.payment,
+                date_from:dateToFormatYMD(fromDate),
+                date_to:dateToFormatYMD(toDate),
+                description:e?.desc
+            }
 
         try {
             const d = await mutateAsync(formData)
@@ -91,12 +105,23 @@ const SendRequestProductPage = ({data} : any) => {
 
 
 
+    const {user} = useAuth()
 
+    console.log(user?.login)
     return (
         <>
-            <RegisterBtn  onClick={()=>setDialog(true)}>
-                Send Request
-            </RegisterBtn>
+            {
+                user?.login ?
+                    <RegisterBtn  onClick={()=>setDialog(true)}>
+                        Send Request
+                    </RegisterBtn>
+                    :
+                    <RegisterBtn  onClick={()=>router.push('/login')}>
+                        Login for send request
+                    </RegisterBtn>
+
+            }
+
 
             <AzDialog  open={dialog}  handler={()=>setDialog(false)} size={'xl'} >
 
