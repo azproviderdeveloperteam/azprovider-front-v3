@@ -33,7 +33,6 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
     const searchParams = useSearchParams();
     const paramValue = searchParams.get("code")
 
-    console.log(paramValue)
     const schema = Yup
         .object({
 

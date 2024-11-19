@@ -10,13 +10,13 @@ import MainInput from "@/components/inputs/MainInput";
 import Image from "next/image";
 import AzDatePicker from "@/components/inputs/AzDatePicker";
 import {useMutation} from "@tanstack/react-query";
-import {sendChatReq, sendChatReqPreInvoice} from "@/services/chatServices";
+import {sendChatReq, sendChatReqPreInvoice, sendChatReqService} from "@/services/chatServices";
 import {AxiosError} from "axios";
 import toast from "react-hot-toast";
 import {useAuth} from "../../contexts/AuthContext";
 import {useRouter} from "next-nprogress-bar";
 
-const SendRequestProductPage = ({data , preInvoice = false} : any) => {
+const SendRequestProductPage = ({data , preInvoice = false , service=false} : any) => {
 
     const [dialog , setDialog] = useState(false)
     const [fromDate , setFromDate] = useState(new Date())
@@ -26,7 +26,6 @@ const SendRequestProductPage = ({data , preInvoice = false} : any) => {
     const dateToFormatYMD = (d : Date | undefined)=>{
         if( d instanceof Date){
             const stingDate = d?.toLocaleDateString()?.split('/')
-            console.log(d , `${stingDate[2]}-${stingDate[0]}-${stingDate[1]}`)
             return `${stingDate[2]}-${stingDate[0]}-${stingDate[1]}`
         }
         return ``
@@ -54,7 +53,7 @@ const SendRequestProductPage = ({data , preInvoice = false} : any) => {
 
 
     const {data :sentData , isPending  , error  , mutateAsync} =useMutation({
-        mutationFn : preInvoice ? sendChatReqPreInvoice : sendChatReq
+        mutationFn : preInvoice ? sendChatReqPreInvoice :service ? sendChatReqService : sendChatReq
     })
 
 
@@ -72,6 +71,19 @@ const SendRequestProductPage = ({data , preInvoice = false} : any) => {
                 description:e?.desc
             }
             :
+            service ?
+                {
+                    service_id:data?.id,
+                    quantity :parseInt(e?.quantity)  ,
+                    location:e?.location,
+                    price:parseInt(e?.price) ,
+                    payment:e?.payment,
+                    date_from:dateToFormatYMD(fromDate),
+                    date_to:dateToFormatYMD(toDate),
+                    description:e?.desc
+                }
+
+                :
             {
                 product_id:data?.id,
                 quantity :parseInt(e?.quantity)  ,
@@ -107,7 +119,7 @@ const SendRequestProductPage = ({data , preInvoice = false} : any) => {
 
     const {user} = useAuth()
 
-    console.log(user?.login)
+
     return (
         <>
             {

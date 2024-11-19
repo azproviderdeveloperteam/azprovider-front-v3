@@ -8,7 +8,6 @@ const ProfileAll = ({data , children}:any) => {
     const text = texts.eng
     const myTexts = text.dashboard.pages.profile.all
 
-      console.log(data)
 
     return (
         <div   className='w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory pt-5'>

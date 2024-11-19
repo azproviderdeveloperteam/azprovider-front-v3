@@ -4,7 +4,6 @@ import AddEditEmployeeForm from "@/components/dashboard/profile/AddEditEmployeeF
 
 const ProfileEmployees = ({employeesData} : any) => {
 
-    console.log(employeesData?.data);
     return (
         <div className='w-full bg-[#F8F8F8] p-3 rounded-[1rem] p-8 mt-5'>
 

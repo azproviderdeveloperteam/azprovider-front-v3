@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from "next/link";
 
 const ViewRequest = ({req} : any) => {
     return (
@@ -15,81 +16,96 @@ const ViewRequest = ({req} : any) => {
                 </tr>
 
                 </thead>
-                <tbody  className='w-full'>
-                <tr  className='w-full'>
-                    <td  className='w-1/2 pt-6'>
+                <tbody className='w-full'>
+                <tr className='w-full'>
+                    <td className='w-1/2 pt-6'>
                             <span className='text-[#727272]'>
                                 User :
                             </span>
                     </td>
-                    <td  className='w-1/2 pt-6'>{req?.creator_user?.email + " , " + req?.creator_user?.mobile}</td>
+                    <td className='w-1/2 pt-6'>{req?.creator_user?.email + " , " + req?.creator_user?.mobile}</td>
                 </tr>
-
-                    <tr  className='w-full'>
-                        <td  className='w-1/2 pt-6'>
+                <tr className='w-full'>
+                    <td className='w-1/2 pt-6'>
+                            <span className='text-[#727272]'>
+                                {req?.product ? 'Product' : req?.pre_invoice ? 'Pre Invoice' :"Service"}:
+                            </span>
+                    </td>
+                    <td className='w-1/2 pt-6'>
+                        {req?.product ? req?.product?.title : req?.pre_invoice ? req?.pre_invoice?.title :req?.service?.title}
+                        <Link className={'text-blue-600 mx-2'}
+                              href={`/${req?.product ? 'products' : req?.pre_invoice ? 'pre-invoices' :"services"}/${req?.product ? req?.product?.id : req?.pre_invoice?.id ? req?.pre_invoice?.id : req?.service?.id}`}
+                              target={'_blank'}
+                        >
+                            View
+                        </Link>
+                    </td>
+                </tr>
+                <tr className='w-full'>
+                    <td className='w-1/2 pt-6'>
                             <span className='text-[#727272]'>
                                 Quantity :
                             </span>
-                        </td>
-                        <td  className='w-1/2 pt-6'>{req?.quantity}</td>
-                    </tr>
+                    </td>
+                    <td className='w-1/2 pt-6'>{req?.quantity}</td>
+                </tr>
 
-                    <tr  className='w-full'>
-                        <td  className='w-1/2 pt-6'>
+                <tr className='w-full'>
+                    <td className='w-1/2 pt-6'>
                             <span className='text-[#727272]'>
                                 Location :
                             </span>
-                        </td>
-                        <td  className='w-1/2 pt-6'>{req?.location}</td>
-                    </tr>
+                    </td>
+                    <td className='w-1/2 pt-6'>{req?.location}</td>
+                </tr>
 
 
-                    <tr  className='w-full'>
-                        <td  className='w-1/2 pt-6'>
+                <tr className='w-full'>
+                    <td className='w-1/2 pt-6'>
                             <span className='text-[#727272]'>
                                 Price :
                             </span>
-                        </td>
-                        <td  className='w-1/2 pt-6'>{req?.price}</td>
-                    </tr>
+                    </td>
+                    <td className='w-1/2 pt-6'>{req?.price}</td>
+                </tr>
 
-                    <tr  className='w-full'>
-                        <td  className='w-1/2 pt-6'>
+                <tr className='w-full'>
+                    <td className='w-1/2 pt-6'>
                             <span className='text-[#727272]'>
                                 Payment :
                             </span>
-                        </td>
-                        <td  className='w-1/2 pt-6'>{req?.payment}</td>
-                    </tr>
+                    </td>
+                    <td className='w-1/2 pt-6'>{req?.payment}</td>
+                </tr>
 
 
-                    <tr  className='w-full'>
-                        <td  className='w-1/2 pt-6'>
+                <tr className='w-full'>
+                    <td className='w-1/2 pt-6'>
                             <span className='text-[#727272]'>
                                 From Date :
                             </span>
-                        </td>
-                        <td  className='w-1/2 pt-6'>{req?.date_from}</td>
-                    </tr>
+                    </td>
+                    <td className='w-1/2 pt-6'>{req?.date_from}</td>
+                </tr>
 
 
-                    <tr  className='w-full'>
-                        <td  className='w-1/2 pt-6'>
+                <tr className='w-full'>
+                    <td className='w-1/2 pt-6'>
                             <span className='text-[#727272]'>
                                 To Date :
                             </span>
-                        </td>
-                        <td  className='w-1/2 pt-6'>{req?.date_to}</td>
-                    </tr>
+                    </td>
+                    <td className='w-1/2 pt-6'>{req?.date_to}</td>
+                </tr>
 
-                    <tr  className='w-full'>
-                        <td  className='w-1/2 pt-6'>
+                <tr className='w-full'>
+                    <td className='w-1/2 pt-6'>
                             <span className='text-[#727272]'>
                                 Description :
                             </span>
-                        </td>
-                        <td  className='w-1/2 pt-6'>{req?.description}</td>
-                    </tr>
+                    </td>
+                    <td className='w-1/2 pt-6'>{req?.description}</td>
+                </tr>
                 </tbody>
             </table>
         </div>

@@ -21,7 +21,6 @@ const CompanyDetailsContacts = ({slug} : any) => {
     };
 
     const handleCallTell = () => {
-        console.log(`tel:${contacts?.tel}`)
         window.location.href = `tel:${contacts?.tel}`
     };
     return (

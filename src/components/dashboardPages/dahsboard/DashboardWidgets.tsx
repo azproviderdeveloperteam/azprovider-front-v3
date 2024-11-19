@@ -38,7 +38,7 @@ const DashboardWidgets = () => {
     })
 
     const array = filter?.toLowerCase() === 'products' ? productsData?.data?.results || [] : filter?.toLowerCase() === 'pre-invoices' ?preInvoiceData?.data || [] :  filter?.toLowerCase() === 'services' ?servicesData?.data || [] :  []
-    const formatDate = (dateString) => {
+    const formatDate = (dateString : string) => {
         const date = new Date(dateString);
 
         if (isNaN(date.getTime())) {
@@ -110,7 +110,6 @@ const DashboardWidgets = () => {
                     <tbody className='w-full px-3'>
                     {
                         array.map((item :any , index : number)=>{
-                            console.log(item)
                             return(
                                 <tr key={index+1} className='w-full bg-primary-gray-400 py-2 my-1  border-[15px] border-primary-gray-100 rounded-[1.5rem] !shadow-md' style={{boxShadow: '0px 4px 6px 0px rgba(0, 0, 0, 0.10)'}}>
                                     <td className='w-[25%] max-w-[16rem] !font-normal text-primary-dark-b text-left rounded-l-full px-2 py-4' >

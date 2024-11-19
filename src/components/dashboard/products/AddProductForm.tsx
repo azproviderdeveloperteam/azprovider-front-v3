@@ -131,7 +131,6 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
 
     useEffect(()=>{
         if(viewAddProductForm !== null && viewAddProductForm?.title){
-            console.log(viewAddProductForm)
             setProductInput({value:viewAddProductForm?.hs_codes , code:viewAddProductForm?.hs_codes , label:"",
                     title:viewAddProductForm?.title,
                     input :`#${viewAddProductForm?.hs_codes} - ${viewAddProductForm?.title}`,

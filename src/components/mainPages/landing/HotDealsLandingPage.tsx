@@ -30,7 +30,6 @@ const HotDealsLandingPage =  () => {
     },[d])
 
 
-    console.log(d)
     return (
 
         <div className='w-full bg-primary-dark-b py-28 px-[5%] lg:px-0'>

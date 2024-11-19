@@ -26,7 +26,6 @@ const CompanyDetailsAddresses = ({slug}:any) => {
     });
 
 
-    console.log(data)
     return (
         data?.data?.addresses?.length > 0 ?
         <div className='w-full grid grid-cols-12 mb-4 gap-4'>

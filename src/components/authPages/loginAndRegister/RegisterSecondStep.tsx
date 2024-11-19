@@ -63,7 +63,6 @@ const RegisterSecondStep = ({nextStep , email} : any) => {
 
         try{
             const da = await mutateAsync({data:formData , token : token} )
-            console.log(da)
             const Atoken = da.data?.tokens?.access;
             const refresh = da?.data?.tokens?.refresh
             // Cookies.set('cookieToken', token);

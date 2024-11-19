@@ -66,7 +66,6 @@ const AddEditAddress = ({item , open , onClose , modal = true}:any) => {
     const submit = async (d : any) =>{
         try {
             const data = await mutateAsync({...d , is_available:true , is_default:true , latitude:position[0] , longitude:position[1]})
-            console.log(data?.data)
             toast.success('Address Added Successfully')
         }catch (e) {
             toast.error('Error Occurred')
@@ -78,7 +77,6 @@ const AddEditAddress = ({item , open , onClose , modal = true}:any) => {
 
     function makeACall(bounds:any, zoom:any, zoomThreshold = 8) {
         setPosition([bounds?._northEast?.lat,bounds?._northEast?.lng])
-       console.log(bounds , zoom , zoomThreshold)
     }
 
     const MapEvents = () => {
@@ -89,7 +87,6 @@ const AddEditAddress = ({item , open , onClose , modal = true}:any) => {
         });
         return null;
     };
-    console.log(item)
     return (
 
         modal ?

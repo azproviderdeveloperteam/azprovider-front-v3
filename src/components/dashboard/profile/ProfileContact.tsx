@@ -81,7 +81,6 @@ const ProfileContact = ({contactData} : any) => {
     })
 
 
-    console.log(AddressesData)
 
     const addSocials = () =>{
         for(let x in socials){
@@ -136,7 +135,6 @@ const ProfileContact = ({contactData} : any) => {
      ];
 
     useEffect(()=>{
-        console.log(contactData?.[0])
         setValue('tell',contactData?.[0]?.tel)
         setValue('fax',contactData?.[0]?.fax)
         setValue('websiteAddress',contactData?.[0]?.website)

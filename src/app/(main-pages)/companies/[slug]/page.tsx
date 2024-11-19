@@ -95,7 +95,7 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
                     { data?.employees?.map((item: any) => (
                         <div
                             key={item.id}
-                            className="w-full my-2 border border-gray-300 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow  "
+                            className="w-full my-2npm  border border-gray-300 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow  "
                         >
                             <p className="text-lg font-semibold">
                                 Name: <span className="font-normal">{item.first_name} {item.last_name}</span>

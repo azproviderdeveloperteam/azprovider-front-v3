@@ -10,7 +10,7 @@ const ChatDashboard = ({viewJustChat, setViewJustChat} : any) => {
     // const {chatData} = useChat()
     const {chatData} = useChat()
 
-
+console.log(chatData)
 
     return (
         // <div className='w-full flex flex-col items-center justify-start bg-primary-gray-100 p-5 rounded-[1.5rem] mt-4'>
@@ -38,7 +38,6 @@ const ChatDashboard = ({viewJustChat, setViewJustChat} : any) => {
                     <div className='w-full h-[calc(100%-20px)] overflow-auto '>
                         {
                             chatData?.deskChat?.map((item : any, index : number)=>{
-                                console.log(item)
                                 const r = Math.floor(Math.random() * 69);
                                 const date = new Date(item?.created_at)
                                 return(

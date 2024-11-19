@@ -4,7 +4,7 @@ import {baseUrl} from "@/utils/config";
 import Pusher from 'pusher-js';
 import {useQuery} from "@tanstack/react-query";
 import {getProfile} from "@/services/userProfileServices";
-import {getUserChats} from "@/services/chatServices";
+import {getUserChats, getUserChatsPreInvoice, getUserChatsService} from "@/services/chatServices";
 import { v4 as uuidv4 } from 'uuid';
 //types
 // type chatType = {
@@ -119,7 +119,14 @@ const ChatProvider = ({children} : any)=>{
     const getChats = async ()=>{
         try {
             const d = await getUserChats()
-            dispatch({type:"SET_DESK" , value:d?.data?.map((i:any)=>{return {...i , uuid:uuidv4()}})})
+            const p = await getUserChatsPreInvoice()
+            const s = await getUserChatsService()
+            const result = [].concat(
+                d?.data?.map((i: any) => ({ ...i, uuid: uuidv4() })) || [],
+                p?.data?.map((i: any) => ({ ...i, uuid: uuidv4() })) || [],
+                s?.data?.map((i: any) => ({ ...i, uuid: uuidv4() })) || []
+            );
+            dispatch({type:"SET_DESK" , value:result})
 
         }catch (e) {
 

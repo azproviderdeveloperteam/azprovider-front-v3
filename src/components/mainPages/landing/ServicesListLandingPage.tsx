@@ -70,7 +70,6 @@ const ServicesListLandingPage = () => {
                             :
 
                             data?.data?.results?.map((item :any ,index : number)=>{
-                                console.log(item)
                                 return(
                                     <div className={`${index===0 ? ' ' :''}  w-[22.5%] min-w-[22rem] snap-start overflow-auto pt-4 pb-7 px-4`} key={index+1}>
                                         <Link href={`/services/${item?.id}`} >

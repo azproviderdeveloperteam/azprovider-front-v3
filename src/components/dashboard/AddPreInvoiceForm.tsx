@@ -179,7 +179,6 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList 
     const dateToFormatYMD = (d : Date | undefined)=>{
         if( d instanceof Date){
             const stingDate = d?.toLocaleDateString()?.split('/')
-            console.log(d , `${stingDate[2]}-${stingDate[0]}-${stingDate[1]}`)
             return `${stingDate[2]}-${stingDate[0]}-${stingDate[1]}`
         }
         return ``

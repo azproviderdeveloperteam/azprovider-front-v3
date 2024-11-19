@@ -5,17 +5,6 @@ import hexagon from '@/public/red-hexagon.svg'
 import Image from "next/image";
 const ProductCard = ({item , theme , isService} : any) => {
 
-    const fakeData = [
-        {
-            img :"https://www.oorchinfile.com/wp-content/uploads/2023/06/red-cherries-plate_-crc0f484db6-_size17.20mb_7360x4912.jpg" ,
-        },
-        {
-            img :"https://www.oorchinfile.com/wp-content/uploads/2023/06/mixture-fresh-nuts-spilled-from-linen-bag-onto-gr_-crc9e130893-_size5.34mb_3775x2517.jpg" ,
-        },
-        {
-            img :"https://www.oorchinfile.com/wp-content/uploads/2023/06/mixture-fresh-nuts-spilled-from-linen-bag-onto-gr_-crc9e130893-_size5.34mb_3775x2517.jpg" ,
-        }
-    ]
     const monthNamesFull = [ "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December" ];
 

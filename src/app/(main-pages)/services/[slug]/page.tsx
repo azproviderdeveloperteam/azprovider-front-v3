@@ -109,7 +109,7 @@ const ServiceDetailPage = async ({ params }: { params: { slug: string } }) => {
 
                         <div className='flex flex-row items-center justify-start text-[1rem] mt-5'>
                             <div className='w-2/5  text-[#8E8E8E] font-bold'>
-                                <SendRequestProductPage data={data}/>
+                                <SendRequestProductPage service={true} data={data}/>
                             </div>
 
 
