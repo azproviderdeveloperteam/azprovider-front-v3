@@ -120,6 +120,7 @@ const SendRequestProductPage = ({data , preInvoice = false , service=false} : an
     const {user} = useAuth()
 
 
+    console.log(user)
     return (
         <>
             {

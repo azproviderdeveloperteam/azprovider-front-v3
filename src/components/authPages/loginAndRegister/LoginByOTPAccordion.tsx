@@ -90,7 +90,7 @@ const LoginByOtpAccordion = () => {
         const formData = validateEmail(d?.email)  ? {
             email:d?.email
         } :{
-            mobile:`${country.value}${d?.email}`
+            mobile:`${country?.value}${country?.value ==='+98' ? d?.email?.startsWith('0') ? d.email.slice(1) : d.email :d?.email}`
         }
 
         try{
@@ -165,7 +165,7 @@ const LoginByOtpAccordion = () => {
                 code:d?.otp
         } :
             {
-                mobile:`${country.value}${d?.email}`,
+                mobile:`${country?.value}${country?.value ==='+98' ? d?.email?.startsWith('0') ? d.email.slice(1) : d.email :d?.email}`,
                 code:d?.otp
             }
 
@@ -207,7 +207,7 @@ const LoginByOtpAccordion = () => {
             password:d?.password
         }:
             {
-                mobile:`${country.value}${d?.email}`,
+                mobile:`${country?.value}${country?.value ==='+98' ? d?.email?.startsWith('0') ? d.email.slice(1) : d.email :d?.email}`,
                 password:d?.password
             }
         try{

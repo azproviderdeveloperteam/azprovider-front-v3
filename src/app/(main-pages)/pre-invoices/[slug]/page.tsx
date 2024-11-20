@@ -57,7 +57,7 @@ const  PreInvoiceDetailsPage = async ({ params }: { params: { slug: string } }) 
                         </div>
 
                         <p className={'mt-3 text-justify text-primary-dark-b'}>
-                            {data?.short_description}
+                            {data?.description}
                         </p>
                         <div className='font-thin text-[0.7rem] mt-4 text-[#8E8E8E]'>
                             {
