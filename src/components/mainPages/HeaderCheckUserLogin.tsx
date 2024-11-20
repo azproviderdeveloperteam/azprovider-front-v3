@@ -37,7 +37,7 @@ const HeaderCheckUserLogin = ({text , black} : any) => {
     },[data , user , router])
 
     useEffect(()=>{
-        if(data?.data?.email){
+        if(data?.data?.user){
             dispatch({type:"SIGNIN" ,value : data?.data})
         }
     },[data])
