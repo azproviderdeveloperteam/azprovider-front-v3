@@ -101,7 +101,8 @@ const AzDialog = ({children , open , handler , size} : any) => {
                     md:relative
                     rounded-t-3xl rounded-b-[0px]
                     !w-[100vw]
-
+max-h-[95svh]
+        overflow-auto
                     max-w-[100%]
                     !bottom-0
                     !left-0
