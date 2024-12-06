@@ -38,7 +38,7 @@ export async function updateService ({data , id} : any){
 }
 
 export async function deleteProductDashboard(id : string) {
-    return await instance.delete(`products/delete/${id}/`)
+    return await instance.delete(`v2/product/${id}/`)
 }
 
 export async function deleteServiceDashboard(id : string) {

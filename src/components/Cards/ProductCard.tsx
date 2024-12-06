@@ -55,13 +55,13 @@ const ProductCard = ({item , theme , isService} : any) => {
                         <div className='w-full flex flex-row items-center justify-between pt-3 px-[5%]'>
                             <div className='w-1/2 flex flex-row items-center justify-start text-[0.8rem]'>
                                 <div className='bg-white px-2 text-primary-dark-b rounded-[5px]'>
-                                    {`#${item?.svc_code ? item?.svc_code : item?.hs_codes}`}
+                                    {`#${item?.svc_code ? item?.svc_code : item?.hscode}`}
                                 </div>
 
                                 {
-                                    item?.size &&
-                                    <div className='bg-primary-dark-b  px-2 text-white rounded-[5px] ml-[5px]'>
-                                        {item?.size}
+                                    item?.capacity &&
+                                    <div className='bg-primary-dark-b py-[1px] px-2 text-white rounded-[5px] ml-[5px] text-[0.6rem]'>
+                                        {`${item?.capacity || ''} ${item?.measure_unit?.symbol ||''}`}
                                     </div>
                                 }
 
@@ -94,7 +94,7 @@ const ProductCard = ({item , theme , isService} : any) => {
                     <div className='w-full flex flex-row items-center justify-start mt-2 px-[5%]'>
                         <Image src={'/dark-medal.svg'} alt={'dark-medal'} width={20} height={20} />
                         <div className={`${theme === 'dark' ? 'text-white' : 'text-primary-dark-b' } text-[0.7rem] ml-1 mt-1`}>
-                             { item?.granted_organization  ? item?.granted_organization  : item?.granted_organisation ?  item?.granted_organisation?.name : ' - '}
+                             { item?.quality_type  ? item?.quality_type : ' - '}
                         </div>
                     </div>
 
@@ -134,7 +134,7 @@ const ProductCard = ({item , theme , isService} : any) => {
                 <div className={`flex flex-row items-center justify-start ${theme === 'dark' ? 'text-white' : 'text-primary-dark-b'} `}>
                     <Image src={'/location.svg'} alt={'location-az-provider'} width={10} height={10} />
                     <div className='ml-1'>
-                        {item?.location ? item?.location : isService ?'' : ' - '}
+                        {item?.location ? item?.location : isService ? '' : ''}
                     </div>
                     <div className='font-thin text-[0.7rem] ml-1'>
                         {
@@ -143,7 +143,9 @@ const ProductCard = ({item , theme , isService} : any) => {
                                 :
                                 item?.published_date ?
                                     `${new Date(item?.published_date)?.getUTCDate()} ${monthNames[new Date(item?.published_date)?.getUTCMonth()]} ${new Date(item?.published_date)?.getUTCFullYear()}`
-
+                                    :
+                                    item?.published_date_from ?
+                                        `${new Date(item?.published_date_from)?.getUTCDate()} ${monthNames[new Date(item?.published_date_from)?.getUTCMonth()] } ${new Date(item?.published_date_from)?.getUTCFullYear()} - ${new Date(item?.published_date_to)?.getUTCDate()} ${monthNames[new Date(item?.published_date_to)?.getUTCMonth()] } ${new Date(item?.published_date_to)?.getUTCFullYear()}`
                                     :
                                 ' - '
                         }
