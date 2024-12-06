@@ -13,15 +13,11 @@ import MainInput from "@/components/inputs/MainInput";
 import RegisterBtn from "@/components/Buttons/RegisterBtn";
 import AzDatePicker from "@/components/inputs/AzDatePicker";
 import Select from "react-select";
-import {useQuery} from "@tanstack/react-query";
 import {
-    getAllHsCodes,
-    getRandomHsCodes,
     getSearchInHsCodesNew,
-    getSearchInThirdLevel
 } from "@/services/hsCodeServices";
 import ThreeDotsLoaderGreen from "@/components/loaders/ThreeDotsLoaderGreen";
-import {createProduct, createProductUploadImage , updateProduct} from "@/services/dashboardProductsServices";
+import {createProduct , updateProduct} from "@/services/dashboardProductsServices";
 import {uploadV2} from "@/services/uploadService";
 import useImageResize from "@/hooks/useImageResize";
 
@@ -62,9 +58,15 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
             capacity:Yup.number().required('Enter capacity in number'),
             price:Yup.number(),
             // grantedOrganization:Yup.string().required('Enter Local Name'),
-            typeCertification:Yup.string().required('Enter certification type'),
+            // typeCertification:Yup.string().required('Enter certification type'),
             description:Yup.string().required('Enter description'),
             brandName:Yup.string(),
+
+            color: Yup.string(),
+            weight:Yup.string().required('Enter weight'),
+            quality_type: Yup.string(),
+            delivery_method:Yup.string(),
+            payment_method: Yup.string(),
         })
         .required()
     const {
@@ -72,18 +74,18 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
         handleSubmit,
         setValue,
         formState: { errors,isSubmitting, isDirty, isValid },
-        getValues
+        getValues,
     } = useForm({ resolver: yupResolver(schema), mode:'onChange'})
 
 
     const {data  , isPending  , error  , mutateAsync} =useMutation({
         mutationFn : getSearchInHsCodesNew
     })
-    const {data : randomHsData, isPending :randomHsPending, error : randomHsError} = useQuery({
-        queryKey: ['hs-random-hscode'],
-        queryFn: getRandomHsCodes,
-        retry:false,
-    })
+    // const {data : randomHsData, isPending :randomHsPending, error : randomHsError} = useQuery({
+    //     queryKey: ['hs-random-hscode'],
+    //     queryFn: getRandomHsCodes,
+    //     retry:false,
+    // })
 
     const {data : createData  , isPending : createPending , error :createError , mutateAsync : createMutateAsync } =useMutation({
         mutationFn : createProduct
@@ -131,30 +133,29 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
 
     useEffect(()=>{
         if(viewAddProductForm !== null && viewAddProductForm?.title){
-            setProductInput({value:viewAddProductForm?.hs_codes , code:viewAddProductForm?.hs_codes , label:"",
+
+            setProductInput({value:viewAddProductForm?.hscode , code:viewAddProductForm?.hscode , label:"",
                     title:viewAddProductForm?.title,
-                    input :`#${viewAddProductForm?.hs_codes} - ${viewAddProductForm?.title}`,
+                    input :`#${viewAddProductForm?.hscode} - ${viewAddProductForm?.title}`,
                     id:''
                 }
             )
-            setDateFrom(new Date(viewAddProductForm?.publish_date_from))
-            setDateTo(new Date(viewAddProductForm?.publish_date_to))
+            setDateFrom(new Date(viewAddProductForm?.published_date_from))
+            setDateTo(new Date(viewAddProductForm?.published_date_to))
 
-            setGrantedOg({value:viewAddProductForm?.granted_organisation?.id , label : viewAddProductForm?.granted_organization})
-            setValue('capacity',viewAddProductForm?.size)
+            setValue('capacity',viewAddProductForm?.capacity)
             setValue('price',viewAddProductForm?.price)
-            setValue('description',viewAddProductForm?.short_description)
+            setValue('description',viewAddProductForm?.description)
             setValue('brandName',viewAddProductForm?.brand_name)
-            setValue('typeCertification',viewAddProductForm?.certification)
-
-            // const formData = {
-            //
-            //
-            //     measure:selectedMeasure?.label,
-            //
-            //     granted_organization:grantedOg?.label,
-            //
-            // }
+            setValue('delivery_method' , viewAddProductForm?.delivery_method)
+            setValue('color' , viewAddProductForm?.color)
+            setValue('weight' , viewAddProductForm?.weight)
+            setValue('quality_type' , viewAddProductForm?.quality_type)
+            setValue('payment_method' , viewAddProductForm?.payment_method)
+            setImgView(viewAddProductForm?.media_files?.[0]?.image || null)
+            setImg(viewAddProductForm?.media_files?.[0]?.image || null)
+            setSelectedMeasure({value:viewAddProductForm?.measure_unit?.id , label :viewAddProductForm?.measure_unit?.name})
+            console.log(viewAddProductForm)
         }
     },[])
 
@@ -176,70 +177,81 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
         }
         setGrantedOgOptions(mo)
     },[allGrantedList])
-    useEffect(()=>{
+    // useEffect(()=>{
+    //
+    //
+    //     if(randomHsData?.data){
+    //         const hsCodes = randomHsData?.data?.map((item:any)=>(
+    //             {
+    //                 label:<div className='flex flex-row items-center justify-start md:text-[14px] text-[3.1vw]'>
+    //                     {
+    //                         item?.image ?
+    //                             <img src={item?.image} alt={item?.title} className='mr-3 w-[45px] rounded-full'/>
+    //                             :
+    //                             <Image src={'/no-image.svg'} alt={item?.title} width={30} height={30}  className='mr-3 w-[45px] rounded-full' />
+    //
+    //                     }
+    //                     <div className='w-[calc(100%-60px)] flex flex-col items-start justify-between'>
+    //                         <div>
+    //                             {`#${item?.code}`}
+    //                         </div>
+    //                         <Tooltip content={item?.title} placement="top">
+    //                             <div className='text-primary-dark-b w-[95%] truncate font-bold'>
+    //                                 {item?.title }
+    //                             </div>
+    //                         </Tooltip>
+    //
+    //                     </div>
+    //                 </div>,
+    //                 code : item?.code ,
+    //                 value:item?.code ,
+    //                 title:item?.title ,
+    //                 input :`#${item?.code} - ${item?.title}`,
+    //                 id : item?.id
+    //             }
+    //         ))
+    //         setOptions(hsCodes)
+    //     }
+    // },[randomHsData])
 
-
-        if(randomHsData?.data){
-            const hsCodes = randomHsData?.data?.map((item:any)=>(
-                {
-                    label:<div className='flex flex-row items-center justify-start md:text-[14px] text-[3.1vw]'>
-                        {
-                            item?.image ?
-                                <img src={item?.image} alt={item?.title} className='mr-3 w-[45px] rounded-full'/>
-                                :
-                                <Image src={'/no-image.svg'} alt={item?.title} width={30} height={30}  className='mr-3 w-[45px] rounded-full' />
-
-                        }
-                        <div className='w-[calc(100%-60px)] flex flex-col items-start justify-between'>
-                            <div>
-                                {`#${item?.code}`}
-                            </div>
-                            <Tooltip content={item?.title} placement="top">
-                                <div className='text-primary-dark-b w-[95%] truncate font-bold'>
-                                    {item?.title }
-                                </div>
-                            </Tooltip>
-
-                        </div>
-                    </div>,
-                    code : item?.code ,
-                    value:item?.code ,
-                    title:item?.title ,
-                    input :`#${item?.code} - ${item?.title}`,
-                    id : item?.id
-                }
-            ))
-            setOptions(hsCodes)
-        }
-    },[randomHsData])
-
+    console.log( 'errors', errors)
 
     const submit = async (d : any) =>{
+        console.log(d , errors)
+
         if(img === null && viewAddProductForm === null){
             toast.error('Upload Image is required')
             return
         }
+
+        console.log(dateFrom)
+        const fDate = new Date(dateFrom || '');
+        const toDate =  new Date(dateTo || '');
         const formData = {
             title : productInput?.title,
-            size:d?.capacity,
-            measure:selectedMeasure?.label,
+            capacity:d?.capacity,
+            measure_unit_id:selectedMeasure?.value,
             brand_name : d?.brandName,
-            publish_date_from:dateFrom,
-            publish_date_to:dateTo,
-            granted_organization:grantedOg?.label,
-            certification:d?.typeCertification,
+            published_date_from:fDate?.toISOString().split('T')?.[0],
+            published_date_to:toDate?.toISOString().split('T')?.[0],
+            // granted_organization:grantedOg?.label,
+            // certification:d?.typeCertification,
             // hs_code_third_levels:[productInput?.id],
             price:d?.price,
-            short_description:d?.description,
+            description:d?.description,
             hscode:productInput?.value,
             media_files_id: uploadImageData?.data?.id ?  [
                 uploadImageData?.data?.id
             ] :undefined,
-            // hs_codes:[productInput?.id],
-            // number_of_employees:"",
-            // national_code:"",
-            // establishment_date:""
-        }
+
+            color: d?.color,
+            weight: d?.weight,
+            quality_type: d?.quality_type,
+            delivery_method: d?.delivery_method,
+            payment_method: d?.payment_method,
+
+
+         }
         try {
 
             if(viewAddProductForm !== null){
@@ -270,7 +282,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
         formData.append('image' , e)
 
         try {
-            const d = await uploadImageMutateAsync({data:{'image':e} , method:"product_v1"})
+            const d = await uploadImageMutateAsync({data:{'image':e} , method:"product"})
         }catch (err) {
             if(err instanceof AxiosError){
                 if(err?.response?.data?.msg){
@@ -382,54 +394,60 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
                     }}/>
                 </div>
 
-                <form className='w-full flex flex-row items-start justify-start flex-wrap mt-4 relative z-10' onSubmit={handleSubmit(submit)}>
+                <form className='w-full flex flex-row items-start justify-start flex-wrap mt-4 relative z-10'
+                      onSubmit={handleSubmit(submit)}>
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7 relative'>
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.productCode} <span className='text-secondary-red'>*</span>
                         </div>
 
                         <div className='w-full flex flex-col items-start justify-start relative'>
-                            <input  name={'productCode'}
-                                    type={'text'}
-                                    className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
-                                    placeholder={myTexts.productCode}
-                                    value={productInput?.input}
-                                    // onBlur={()=>setOpenDrop(false)}
-                                    onChange={(event :any)=>{
-                                        setOpenDrop(true)
-                                        setProductInput(event.target.value)
-                                        searchProduct(event.target.value)
-                                    }}
+                            <input name={'productCode'}
+                                   type={'text'}
+                                   className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
+                                   placeholder={myTexts.productCode}
+                                   value={productInput?.input}
+                                // onBlur={()=>setOpenDrop(false)}
+                                   onChange={(event: any) => {
+                                       setOpenDrop(true)
+                                       setProductInput(event.target.value)
+                                       searchProduct(event.target.value)
+                                   }}
                             />
                             {
                                 openDrop &&
                                 <>
-                                    <div className='w-full top-[3.85rem] absolute max-h-[30rem] z-10 bg-white flex flex-vol items-center justify-start p-2 rounded-[1rem] shadow-[0px_12px_20px_0px_rgba(0,_0,_0,_0.10)]'>
-                                        { isPending ?
+                                    <div
+                                        className='w-full top-[3.85rem] absolute max-h-[30rem] z-10 bg-white flex flex-vol items-center justify-start p-2 rounded-[1rem] shadow-[0px_12px_20px_0px_rgba(0,_0,_0,_0.10)]'>
+                                        {isPending ?
                                             <div className='w-full h-[25rem] flex flex-row items-center justify-center'>
-                                                <ThreeDotsLoaderGreen />
+                                                <ThreeDotsLoaderGreen/>
                                             </div>
                                             :
 
                                             <div className='w-full max-h-[25rem] overflow-auto'>
-                                                { options?.length > 0 ?
-                                                    options?.map((item :any,index : number)=>{
-                                                        return(
+                                                {options?.length > 0 ?
+                                                    options?.map((item: any, index: number) => {
+                                                        return (
                                                             item?.title === 'Added By AZ' ? null :
-                                                            <div key={index+1} className='w-full py-2 my-1 cursor-pointer' onClick={()=>setProductInput(item)}>
-                                                                {item?.label}
-                                                            </div>
+                                                                <div key={index + 1}
+                                                                     className='w-full py-2 my-1 cursor-pointer'
+                                                                     onClick={() => setProductInput(item)}>
+                                                                    {item?.label}
+                                                                </div>
                                                         )
                                                     })
                                                     :
-                                                    <div className='!w-full h-[25rem] flex flex-row items-center justify-center'>
+                                                    <div
+                                                        className='!w-full h-[25rem] flex flex-row items-center justify-center'>
                                                         No Product
                                                     </div>
                                                 }
                                             </div>
                                         }
                                     </div>
-                                    <div className={'fixed bg-red-100 opacity-0 w-[100vw] h-[100svh] top-0 left-0 z-5 '} onClick={()=>setOpenDrop(false)} />
+                                    <div className={'fixed bg-red-100 opacity-0 w-[100vw] h-[100svh] top-0 left-0 z-5 '}
+                                         onClick={() => setOpenDrop(false)}/>
                                 </>
 
                             }
@@ -467,9 +485,9 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
                         <Select
                             className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
 
-                            onChange={(e)=>{
+                            onChange={(e) => {
 
-                                setSelectedMeasure( e)
+                                setSelectedMeasure(e)
                                 // getToCurrenciesFunc(e?.value)
                             }}
                             value={selectedMeasure}
@@ -479,7 +497,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
                                 input: (base) => ({
                                     ...base,
                                     base: " hover:cursor-pointer",
-                                    fontSize:"9px",
+                                    fontSize: "9px",
                                     "input:focus": {
                                         boxShadow: "none",
                                     },
@@ -496,9 +514,9 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
                             }}
 
                             classNames={{
-                                control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
+                                control: ({isFocused}) => ' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
                                 multiValueLabel: () => 'bg-white rounded-xl ',
-                                option: ({ isFocused, isSelected }) =>'bg-white px-4 py-1',
+                                option: ({isFocused, isSelected}) => 'bg-white px-4 py-1',
                             }}
                         />
                     </div>
@@ -520,80 +538,73 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.publishedDateFrom}
                         </div>
-                        <AzDatePicker   date={dateFrom} setDate={setDateFrom}/>
+                        <AzDatePicker date={dateFrom} setDate={setDateFrom}/>
                     </div>
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%]  h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.publishedDateTo}
                         </div>
-                        <AzDatePicker   date={dateTo} setDate={setDateTo}/>
+                        <AzDatePicker date={dateTo} setDate={setDateTo}/>
                     </div>
 
-                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
-                        <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.grantedOrganization} <span className='text-secondary-red'>*</span>
-                        </div>
-                        {/*<MainInput*/}
-                        {/*    register={register}*/}
-                        {/*    label={'grantedOrganization'}*/}
-                        {/*    error={errors?.grantedOrganization?.message}*/}
-                        {/*    name={'grantedOrganization'}*/}
-                        {/*    type={'text'}*/}
-                        {/*    placeholder={myTexts.grantedOrganization}*/}
-                        {/*/>*/}
-                        <Select
-                            className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
+                    {/*<div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>*/}
+                    {/*    <div className=' text-[1.3rem] capitalize'>*/}
+                    {/*        {myTexts.grantedOrganization} <span className='text-secondary-red'>*</span>*/}
+                    {/*    </div>*/}
+                    {/*  */}
+                    {/*    <Select*/}
+                    {/*        className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}*/}
 
-                            onChange={(e)=>{
+                    {/*        onChange={(e) => {*/}
 
-                                setGrantedOg( e)
-                                // getToCurrenciesFunc(e?.value)
-                            }}
-                            value={grantedOg}
-                            options={grantedOgOptions}
-                            unstyled
-                            styles={{
-                                input: (base) => ({
-                                    ...base,
-                                    base: " hover:cursor-pointer",
-                                    fontSize:"9px",
-                                    "input:focus": {
-                                        boxShadow: "none",
-                                    },
-                                }),
-                                multiValueLabel: (base) => ({
-                                    ...base,
-                                    whiteSpace: "normal",
-                                    overflow: "visible",
-                                }),
-                                control: (base) => ({
-                                    ...base,
-                                    transition: "none",
-                                }),
-                            }}
+                    {/*            setGrantedOg(e)*/}
+                    {/*            // getToCurrenciesFunc(e?.value)*/}
+                    {/*        }}*/}
+                    {/*        value={grantedOg}*/}
+                    {/*        options={grantedOgOptions}*/}
+                    {/*        unstyled*/}
+                    {/*        styles={{*/}
+                    {/*            input: (base) => ({*/}
+                    {/*                ...base,*/}
+                    {/*                base: " hover:cursor-pointer",*/}
+                    {/*                fontSize: "9px",*/}
+                    {/*                "input:focus": {*/}
+                    {/*                    boxShadow: "none",*/}
+                    {/*                },*/}
+                    {/*            }),*/}
+                    {/*            multiValueLabel: (base) => ({*/}
+                    {/*                ...base,*/}
+                    {/*                whiteSpace: "normal",*/}
+                    {/*                overflow: "visible",*/}
+                    {/*            }),*/}
+                    {/*            control: (base) => ({*/}
+                    {/*                ...base,*/}
+                    {/*                transition: "none",*/}
+                    {/*            }),*/}
+                    {/*        }}*/}
 
-                            classNames={{
-                                control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
-                                multiValueLabel: () => 'bg-white rounded-xl ',
-                                option: ({ isFocused, isSelected }) =>'bg-white px-4 py-1',
-                            }}
-                        />
-                    </div>
+                    {/*        classNames={{*/}
+                    {/*            control: ({isFocused}) => ' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',*/}
+                    {/*            multiValueLabel: () => 'bg-white rounded-xl ',*/}
+                    {/*            option: ({isFocused, isSelected}) => 'bg-white px-4 py-1',*/}
+                    {/*        }}*/}
+                    {/*    />*/}
+                    {/*</div>*/}
 
-                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
-                        <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.typeCertification} <span className='text-secondary-red'>*</span>
-                        </div>
-                        <MainInput
-                            register={register}
-                            label={'typeCertification'}
-                            error={errors?.typeCertification?.message}
-                            name={'typeCertification'}
-                            type={'text'}
-                            placeholder={myTexts.typeCertification}
-                        />
-                    </div>
+                    {/*<div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>*/}
+                    {/*    <div className=' text-[1.3rem] capitalize'>*/}
+                    {/*        {myTexts.typeCertification} <span className='text-secondary-red'>*</span>*/}
+                    {/*    </div>*/}
+                    {/*    <MainInput*/}
+                    {/*        register={register}*/}
+                    {/*        label={'typeCertification'}*/}
+                    {/*        error={errors?.typeCertification?.message}*/}
+                    {/*        name={'typeCertification'}*/}
+                    {/*        type={'text'}*/}
+                    {/*        placeholder={myTexts.typeCertification}*/}
+                    {/*    />*/}
+                    {/*</div>*/}
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.price} <span className='text-secondary-red'>*</span>
@@ -607,6 +618,82 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
                             placeholder={myTexts.price}
                         />
                     </div>
+
+
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
+                        <div className=' text-[1.3rem] capitalize'>
+                            Color
+                        </div>
+                        <MainInput
+                            register={register}
+                            label={'Color'}
+                            error={errors?.color?.message}
+                            name={'color'}
+                            type={'text'}
+                            placeholder={'color'}
+                        />
+                    </div>
+
+
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
+                        <div className=' text-[1.3rem] capitalize'>
+                            weight
+                        </div>
+                        <MainInput
+                            register={register}
+                            label={'Weight'}
+                            error={errors?.weight?.message}
+                            name={'weight'}
+                            type={'text'}
+                            placeholder={'weight'}
+                        />
+                    </div>
+
+
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
+                        <div className=' text-[1.3rem] capitalize'>
+                            Quality Type
+                        </div>
+                        <MainInput
+                            register={register}
+                            label={'Quality Type'}
+                            error={errors?.quality_type?.message}
+                            name={'quality_type'}
+                            type={'text'}
+                            placeholder={'Good / Normal / Bad'}
+                        />
+                    </div>
+
+
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
+                        <div className=' text-[1.3rem] capitalize'>
+                            Delivery Method
+                        </div>
+                        <MainInput
+                            register={register}
+                            label={'Delivery Method'}
+                            error={errors?.delivery_method?.message}
+                            name={'delivery_method'}
+                            type={'text'}
+                            placeholder={'delivery method'}
+                        />
+                    </div>
+
+
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
+                        <div className=' text-[1.3rem] capitalize'>
+                            Payment Method
+                        </div>
+                        <MainInput
+                            register={register}
+                            label={'Payment Method'}
+                            error={errors?.payment_method?.message}
+                            name={'payment_method'}
+                            type={'text'}
+                            placeholder={'payment method'}
+                        />
+                    </div>
+
 
                     <div className='w-full pr-2 mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
@@ -622,13 +709,14 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
                             textarea={true}
                         />
                     </div>
-                    <RegisterBtn loading={createPending} otherClass={'w-full lg:w-[12rem] mt-12'} type={'submit'} disabled={false}>
+                    <RegisterBtn loading={createPending} otherClass={'w-full lg:w-[12rem] mt-12'} type={'submit'}
+                                 disabled={false}>
                         Save
                     </RegisterBtn>
                 </form>
             </div>
         </div>
-    );
+     );
 };
 
 export default AddProductForm;

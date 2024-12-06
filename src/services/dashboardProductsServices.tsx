@@ -1,18 +1,18 @@
 import instance from "@/services/instance";
 
 export async function  getDashboardProducts(){
-    return await  instance.get('products/get-user-products/' ,{params:{page_size:1000} })
+    return await  instance.get('v2/product/'  )
 }
 
 export async function  createProduct(data : any){
-    return await  instance.post('products/create/',data)
+    return await  instance.post('v2/product/',data)
 }
 
 export async function  editProduct(data : any){
     return await  instance.put(`products/edit/${data?.id}/`,data?.formData)
 }
 export async function  updateProduct({data , id} : any){
-    return await  instance.put(`products/edit/${id}/`,data)
+    return await  instance.patch(`v2/product/${id}/`,data)
 }
 
 

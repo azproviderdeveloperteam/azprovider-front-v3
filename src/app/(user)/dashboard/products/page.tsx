@@ -34,7 +34,7 @@ const ProductsPage = () => {
 
     useEffect(()=>{
         if(productsData?.data){
-            if (productsData?.data?.results?.length > 0){
+            if (productsData?.data?.length > 0){
                 setViewAddProductForm(undefined)
             }else {
                 setViewAddProductForm(null)
@@ -44,7 +44,7 @@ const ProductsPage = () => {
     },[productsData])
     return (
         viewAddProductForm !== undefined ?
-            <AddProductForm  viewAddProductForm={viewAddProductForm}  allGrantedList={getGrantedOrganisationListData} allMeasureData={allMeasureData} exitKey={productsData?.data?.results ? productsData?.data?.results?.length > 0 ? true : false : false} onClose={()=>{
+            <AddProductForm  viewAddProductForm={viewAddProductForm}  allGrantedList={getGrantedOrganisationListData} allMeasureData={allMeasureData} exitKey={productsData?.data ? productsData?.data?.length > 0 ? true : false : false} onClose={()=>{
                 setViewAddProductForm(undefined)
                 setSubmit(submit + 1)
             }}/>
@@ -52,7 +52,7 @@ const ProductsPage = () => {
             :
             <div className='w-full overflow-x-hidden'>
                 <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
-                    <ProductList  setViewForm={(e : any)=>setViewAddProductForm(e)} productsData={productsData?.data?.results} setSubmit={setSubmit} submit={submit}/>
+                    <ProductList  setViewForm={(e : any)=>setViewAddProductForm(e)} productsData={productsData?.data} setSubmit={setSubmit} submit={submit}/>
 
                 </div>
                 <div className={'max-w-[95rem] lg:w-[95rem] m-auto w-full  py-8 px-5'}>
