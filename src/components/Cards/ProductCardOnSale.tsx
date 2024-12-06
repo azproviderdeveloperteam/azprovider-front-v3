@@ -4,7 +4,7 @@ import {Button, Carousel, DialogFooter, DialogHeader, IconButton, Tooltip} from 
 import hexagon from '@/public/red-hexagon.svg'
 import Image from "next/image";
 import {useMutation, useQuery} from "@tanstack/react-query";
-import { editProduct} from "@/services/dashboardProductsServices";
+import {editProduct, onSaleProduct} from "@/services/dashboardProductsServices";
 import AzDialog from "@/components/dialog/AzDialog";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -42,7 +42,7 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
     const {data : createData  , isPending : createPending , error :createError , mutateAsync : createMutateAsync } =useMutation({
-        mutationFn : editProduct
+        mutationFn : onSaleProduct
     })
 
     const text = texts.eng
@@ -52,8 +52,24 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
         .object({
 
         }).shape({
-            onSalePrice:Yup.number(),
-            onSaleSize:Yup.number(),
+
+            onSalePrice: Yup.number()
+                .required("onSalePrice is required")
+                .test(
+                    "is-in-range",
+                    "On Sale Price must be between 1% and 7% of the original price",
+                    function (value) {
+                        const originalPrice = item?.price; // مقدار اصلی قیمت
+                        if (!originalPrice || !value) return true; // اگر مقدار وجود ندارد، بررسی نمی‌کنیم
+                        const min = originalPrice * 0.93; // 1 درصد قیمت اصلی
+                        const max = originalPrice * 0.99;
+                        return value >= min && value <= max;
+                    }
+                ),
+            onSaleSize:Yup.number().required("Capacity is required")
+                .test('isCapcity' , "Must be Less than Capacity" , function (value) {
+                    return value < item?.capacity
+                }),
         })
         .required()
     const {
@@ -63,16 +79,20 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
         formState: { errors,isSubmitting, isDirty, isValid },
         getValues
     } = useForm({ resolver: yupResolver(schema), mode:'onChange'})
-
+    const addDaysToDate = (days : number) => {
+        const today = new Date();
+        today.setUTCDate(today.getUTCDate() + days); // اضافه کردن تعداد روزها
+        return today.toISOString(); // تبدیل به فرمت ISO
+    };
     const submit = async (d : any) =>{
         const formData = {
-            on_sale	:true ,
-            on_sale_price :d?.onSalePrice,
-            on_sale_size :d?.onSaleSize,
-            on_sale_measure:selectedMeasure?.label
+            product_id	:item?.id ,
+            capacity: d?.onSaleSize,
+            discounted_price: d?.onSalePrice,
+            expire_datetime: addDaysToDate(6)
         }
         try {
-            const d = await createMutateAsync({formData , id : item?.id})
+            const d = await createMutateAsync(formData)
             setDialog(false)
             toast.success("Your Product Added To Az Provider On Sales successfully!")
             setSubmitting(submitting + 1)
@@ -118,6 +138,8 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
         }
     }
 
+
+    console.log(item)
     return (
         <>
 
@@ -156,8 +178,8 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
                             {/*    }*/}
                             {/*</Carousel>*/}
                             {
-                                item?.image
-                                    ? <Image alt={'aaa'} src={`${process.env.MEDIA_URL}${item?.image}`} width={235} height={235}  className='w-full aspect-[1.4268] rounded-[1.6rem] object-center object-cover'/>
+                                item?.media_files?.[0]?.image
+                                    ? <Image alt={'aaa'} src={`${item?.media_files?.[0]?.image?.includes("api.azprovider.com") ? "" :  process.env.MEDIA_URL}${item?.media_files?.[0]?.image}`} width={235} height={235}  className='w-full aspect-[1.4268] rounded-[1.6rem] object-center object-cover'/>
                                     :
                                     <Image alt={'aaa'} src={`/no-image.svg`} width={235} height={235} className='w-full aspect-[1.4268] object-center object-cover rounded-[1.6rem]' />
                             }
@@ -165,15 +187,16 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
                                 <div className='w-full flex flex-row items-center justify-between pt-3 px-[5%]'>
                                     <div className='w-1/2 flex flex-row items-center justify-start text-[0.8rem]'>
                                         <div className='bg-white px-2 text-primary-dark-b rounded-[5px]'>
-                                            #1231243
+                                            {`#${item?.svc_code ? item?.svc_code : item?.hscode}`}
                                         </div>
 
                                         {
-                                            item?.size &&
-                                            <div className='bg-primary-dark-b  px-2 text-white rounded-[5px] ml-[5px]'>
-                                                {item?.size}
+                                            item?.capacity &&
+                                            <div className='bg-primary-dark-b py-[1px] px-2 text-white rounded-[5px] ml-[5px] text-[0.6rem]'>
+                                                {`${item?.capacity || ''} ${item?.measure_unit?.symbol ||''}`}
                                             </div>
                                         }
+
 
                                     </div>
                                     <div className={'w-1/2 flex flex-row items-center justify-center text-[0.8rem]'}>
@@ -204,7 +227,7 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
                         <div className='w-full flex flex-row items-center justify-start mt-2 px-[5%]'>
                             <Image src={'/dark-medal.svg'} alt={'dark-medal'} width={20} height={20} />
                             <div className={`${theme === 'dark' ? 'text-white' : 'text-primary-dark-b' } text-[0.7rem] ml-1 mt-1`}>
-                                { item?.granted_organization  ? item?.granted_organization : ' - '}
+                                { item?.quality_type  ? item?.quality_type : ' - '}
                             </div>
                         </div>
 
@@ -228,7 +251,7 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
                             </div>
                         </div>
                         <p className={`w-full mt-2 px-[5%] text-[0.8rem] text-justify ${theme === 'dark' ? 'text-white' : 'text-primary-dark-b' } line-clamp`}>
-                            { item?.short_description  ? item?.short_description : ' - '}
+                            { item?.description  ? item?.description : ' - '}
                         </p>
                     </div>
 
@@ -251,7 +274,13 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
                                     item?.publish_date_from ?
                                         `${new Date(item?.publish_date_from)?.getUTCDate()} ${monthNames[new Date(item?.publish_date_from)?.getUTCMonth()] } ${new Date(item?.publish_date_from)?.getUTCFullYear()} - ${new Date(item?.publish_date_to)?.getUTCDate()} ${monthNames[new Date(item?.publish_date_to)?.getUTCMonth()] } ${new Date(item?.publish_date_to)?.getUTCFullYear()}`
                                         :
-                                        ' - '
+                                        item?.published_date ?
+                                            `${new Date(item?.published_date)?.getUTCDate()} ${monthNames[new Date(item?.published_date)?.getUTCMonth()]} ${new Date(item?.published_date)?.getUTCFullYear()}`
+                                            :
+                                            item?.published_date_from ?
+                                                `${new Date(item?.published_date_from)?.getUTCDate()} ${monthNames[new Date(item?.published_date_from)?.getUTCMonth()] } ${new Date(item?.published_date_from)?.getUTCFullYear()} - ${new Date(item?.published_date_to)?.getUTCDate()} ${monthNames[new Date(item?.published_date_to)?.getUTCMonth()] } ${new Date(item?.published_date_to)?.getUTCFullYear()}`
+                                                :
+                                                ' - '
                                 }
                             </div>
                         </div>
@@ -273,10 +302,10 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
 
         </div>
 
-    <AzDialog open={dialog} handler={()=>setDialog(false)} size={'xl'}>
+    <AzDialog open={dialog} handler={()=>setDialog(false)} size={'sm'}>
 
 
-        <div className='w-full bg-[#F8F8F8] p-5 lg:p-8 rounded-[1rem] relative'>
+        <div className='w-full p-5 lg:p-8 rounded-[1rem] relative'>
             <div className='absolute right-5 top-2'>
                 <IconButton className={'bg-transparent focus:shadow-none'} onClick={()=>setDialog(false)}>
                     <Image src={'/exit.svg'} alt={'exit.svg'} width={15} height={15} />
@@ -284,9 +313,9 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
             </div>
 
             <form className='w-full flex flex-row items-start justify-start flex-wrap mt-4 relative z-10 text-primary-dark-b' onSubmit={handleSubmit(submit)}>
-                <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
+                <div className='w-full h-full mt-7'>
                     <div className=' text-[1.3rem] capitalize'>
-                        {myTexts.onSalePrice} <span className='text-secondary-red'>*</span>
+                        {`${myTexts.onSalePrice} (${item?.price})`} <span className='text-secondary-red'>*</span>
                     </div>
                     <MainInput
                         register={register}
@@ -298,9 +327,9 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
                     />
                 </div>
 
-                <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
+                <div className='w-full h-full mt-7'>
                     <div className=' text-[1.3rem] capitalize'>
-                        {myTexts.onSaleSize} <span className='text-secondary-red'>*</span>
+                        {`${myTexts.onSaleSize} (${item?.capacity} ${item?.measure_unit?.symbol})`} <span className='text-secondary-red'>*</span>
                     </div>
                     <MainInput
                         register={register}
@@ -312,48 +341,6 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
                     />
                 </div>
 
-                <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
-                    <div className=' text-[1.3rem] capitalize'>
-                        {myTexts.onSaleMeasure} <span className='text-secondary-red'>*</span>
-                    </div>
-                    <Select
-                        className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
-
-                        onChange={(e)=>{
-
-                            setSelectedMeasure( e)
-                            // getToCurrenciesFunc(e?.value)
-                        }}
-                        value={selectedMeasure}
-                        options={measureOptions}
-                        unstyled
-                        styles={{
-                            input: (base) => ({
-                                ...base,
-                                base: " hover:cursor-pointer",
-                                fontSize:"9px",
-                                "input:focus": {
-                                    boxShadow: "none",
-                                },
-                            }),
-                            multiValueLabel: (base) => ({
-                                ...base,
-                                whiteSpace: "normal",
-                                overflow: "visible",
-                            }),
-                            control: (base) => ({
-                                ...base,
-                                transition: "none",
-                            }),
-                        }}
-
-                        classNames={{
-                            control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
-                            multiValueLabel: () => 'bg-white rounded-xl ',
-                            option: ({ isFocused, isSelected }) =>'bg-white px-4 py-1',
-                        }}
-                    />
-                </div>
 
                 <RegisterBtn loading={createPending} otherClass={'w-full lg:w-[12rem] mt-12'} type={'submit'} disabled={false}>
                     Save

@@ -420,7 +420,7 @@ export const texts = {
                 onSale: {
                     addForm:{
                         onSalePrice:"on sale price",
-                        onSaleSize:"on sale size",
+                        onSaleSize:"on sale Capacity",
                         onSaleMeasure : 'on sale measure'
                     }
                 },

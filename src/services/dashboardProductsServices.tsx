@@ -11,6 +11,10 @@ export async function  createProduct(data : any){
 export async function  editProduct(data : any){
     return await  instance.put(`products/edit/${data?.id}/`,data?.formData)
 }
+
+export async function  onSaleProduct(data : any){
+    return await  instance.post(`v2/product/onsale/`,data)
+}
 export async function  updateProduct({data , id} : any){
     return await  instance.patch(`v2/product/${id}/`,data)
 }

@@ -92,7 +92,7 @@ const OnSalePage = () => {
                         <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
                             <>
                                 {
-                                    productsData?.data?.results?.map((item : any ,index : number)=>{
+                                    productsData?.data?.map((item : any ,index : number)=>{
                                         return(
                                             <div className={`${index===0 ? ' ' :''}  w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`} key={index+1}>
                                                 <ProductCardOnSale item={item} theme={'light'} measureOptions={measureOptions} setSubmitting={setSubmitting} submitting={submitting}/>
@@ -110,7 +110,7 @@ const OnSalePage = () => {
                             <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
                                 <>
                                     {
-                                        productsData?.data?.results?.map((item : any ,index : number)=>{
+                                        productsData?.data?.map((item : any ,index : number)=>{
                                             return(
                                                 <div className={`${index===0 ? ' ' :''}  w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`} key={index+1}>
                                                     <ProductCardOnSale item={item} theme={'light'} measureOptions={measureOptions} setSubmitting={setSubmitting} submitting={submitting}/>
