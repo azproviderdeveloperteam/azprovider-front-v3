@@ -10,7 +10,6 @@ const ChatDashboard = ({viewJustChat, setViewJustChat} : any) => {
     // const {chatData} = useChat()
     const {chatData} = useChat()
 
-console.log(chatData)
 
     return (
         // <div className='w-full flex flex-col items-center justify-start bg-primary-gray-100 p-5 rounded-[1.5rem] mt-4'>

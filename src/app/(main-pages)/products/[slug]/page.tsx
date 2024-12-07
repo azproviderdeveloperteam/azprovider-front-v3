@@ -36,7 +36,7 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
                         <div className='w-full flex flex-row items-center justify-start'>
                             <Image src={'/dark-medal.svg'} alt={'dark-medal'} width={20} height={20} />
                             <div className={`text-primary-dark-b text-[0.7rem] ml-1 mt-1`}>
-                                { data?.granted_organisation?.description  ? data?.granted_organisation?.description : ' - '}
+                                { data?.quality_type  ? data?.quality_type : ' - '}
                             </div>
                         </div>
                         <h1 className='text-[1.4rem] text-primary-dark-b font-bold'>
@@ -57,25 +57,31 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
                         </div>
 
                         <p className={'mt-3 text-justify text-primary-dark-b'}>
-                            {data?.short_description}
+                            {data?.description}
                         </p>
                         <div className='font-thin text-[0.7rem] mt-4 text-[#8E8E8E]'>
                             {
                                 data?.publish_date_from ?
                                     `${new Date(data?.publish_date_from)?.getUTCDate()} ${monthNames[new Date(data?.publish_date_from)?.getUTCMonth()] } ${new Date(data?.publish_date_from)?.getUTCFullYear()} - ${new Date(data?.publish_date_to)?.getUTCDate()} ${monthNames[new Date(data?.publish_date_to)?.getUTCMonth()] } ${new Date(data?.publish_date_to)?.getUTCFullYear()}`
                                     :
-                                    ' - '
+                                    data?.published_date ?
+                                        `${new Date(data?.published_date)?.getUTCDate()} ${monthNames[new Date(data?.published_date)?.getUTCMonth()]} ${new Date(data?.published_date)?.getUTCFullYear()}`
+                                        :
+                                        data?.published_date_from ?
+                                            `${new Date(data?.published_date_from)?.getUTCDate()} ${monthNames[new Date(data?.published_date_from)?.getUTCMonth()] } ${new Date(data?.published_date_from)?.getUTCFullYear()} - ${new Date(data?.published_date_to)?.getUTCDate()} ${monthNames[new Date(data?.published_date_to)?.getUTCMonth()] } ${new Date(data?.published_date_to)?.getUTCFullYear()}`
+                                            :
+                                            ' - '
                             }
                         </div>
-                        <div className='flex flex-row items-center justify-start text-[1rem] mt-4'>
-                            <div className='w-2/5  text-[#8E8E8E] font-bold'>
-                                Certification
-                            </div>
+                        {/*<div className='flex flex-row items-center justify-start text-[1rem] mt-4'>*/}
+                        {/*    <div className='w-2/5  text-[#8E8E8E] font-bold'>*/}
+                        {/*        Certification*/}
+                        {/*    </div>*/}
 
-                            <div className='w-3/5  text-primary-dark-b'>
-                                {data?.certification}
-                            </div>
-                        </div>
+                        {/*    <div className='w-3/5  text-primary-dark-b'>*/}
+                        {/*        {data?.certification}*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
                         <div className='flex flex-row items-center justify-start text-[1rem] mt-1'>
                             <div className='w-2/5  text-[#8E8E8E] font-bold'>
                                 Quantity

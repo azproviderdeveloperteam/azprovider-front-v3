@@ -103,7 +103,23 @@ const ResponsiveMainDrawer = ({text}  :ResponsiveMainDrawerProps) => {
                             {text?.products}
                         </LightBtn>
                     </Link>
+                    <Link href={'/pre-invoices'}>
+                        <LightBtn border={false} otherClass={'mt-2'} black={false}>
+                            {"Pre Invoices"}
+                        </LightBtn>
+                    </Link>
 
+                    <Link href={'/on-sale'}>
+                        <LightBtn border={false} otherClass={'mt-2'} black={false}>
+                            {'On Sales'}
+                        </LightBtn>
+                    </Link>
+
+                    <Link href={'/hot-deals'}>
+                        <LightBtn border={false} otherClass={'mt-2'} black={false}>
+                            {'Hot Deals'}
+                        </LightBtn>
+                    </Link>
                     <Link href={'/companies'}>
                         <LightBtn border={false} otherClass={'mt-2'} black={false}>
                             {text.companies}

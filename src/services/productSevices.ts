@@ -14,7 +14,7 @@ export async function  getNewestOnSaleProducts(){
 }
 
 export async function  getProductDetails(id : any){
-    return await  instance.get(`products/get-product-details/${id}`, )
+    return await  instance.get(`v2/product/${id}/`, )
 }
 
 
