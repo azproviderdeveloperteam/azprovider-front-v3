@@ -17,6 +17,7 @@ const MainInput = ({ textarea, label, type, placeholder, onBlur, name, value, on
                         :
                         <input
                             type={type}
+                            step={0.01}
                             {...register(name)}
                             className={`${borderNone ? '' : 'border border-1 border-slate-700'} w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1] ${otherClass ? otherClass : ''}`}
                             placeholder={placeholder}

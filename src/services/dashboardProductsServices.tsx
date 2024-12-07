@@ -15,6 +15,11 @@ export async function  editProduct(data : any){
 export async function  onSaleProduct(data : any){
     return await  instance.post(`v2/product/onsale/`,data)
 }
+
+export async function  deleteOnSaleProduct(id : any){
+    return await  instance.delete(`v2/product/onsale/${id}/`)
+}
+
 export async function  updateProduct({data , id} : any){
     return await  instance.patch(`v2/product/${id}/`,data)
 }

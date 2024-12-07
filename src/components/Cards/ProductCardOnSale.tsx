@@ -4,7 +4,7 @@ import {Button, Carousel, DialogFooter, DialogHeader, IconButton, Tooltip} from 
 import hexagon from '@/public/red-hexagon.svg'
 import Image from "next/image";
 import {useMutation, useQuery} from "@tanstack/react-query";
-import {editProduct, onSaleProduct} from "@/services/dashboardProductsServices";
+import {deleteOnSaleProduct, editProduct, onSaleProduct} from "@/services/dashboardProductsServices";
 import AzDialog from "@/components/dialog/AzDialog";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -17,6 +17,7 @@ import RegisterBtn from "@/components/Buttons/RegisterBtn";
 import toast from "react-hot-toast";
 import {AxiosError} from "axios";
 import GreenGrayBtn from "@/components/Buttons/GreenGrayBtn";
+import useTimeRemaining from "@/hooks/useTimeRemaining";
 
 const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , submitting} : any) => {
     const [dialog ,setDialog] = useState(false)
@@ -45,14 +46,17 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
         mutationFn : onSaleProduct
     })
 
+
+    const {data : deleteOnSaleData  , isPending : deleteOnSalePending , error :deleteOnSaleError , mutateAsync : deleteOnSaleMutateAsync } =useMutation({
+        mutationFn : deleteOnSaleProduct
+    })
+
     const text = texts.eng
     const myTexts = text.dashboard.pages.onSale.addForm
 
     const schema = Yup
         .object({
-
         }).shape({
-
             onSalePrice: Yup.number()
                 .required("onSalePrice is required")
                 .test(
@@ -71,7 +75,6 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
                     return value < item?.capacity
                 }),
         })
-        .required()
     const {
         register,
         handleSubmit,
@@ -116,7 +119,7 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
             on_sale	:false ,
         }
         try {
-            const d = await createMutateAsync({formData , id : item?.id})
+            const d = await deleteOnSaleMutateAsync( item?.on_sale?.[0]?.id)
             setDialog(false)
             setCancelDialog(false)
 
@@ -138,12 +141,13 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
         }
     }
 
+    const remainTime = useTimeRemaining(item?.on_sale?.[0]?.expire_datetime || new Date())  ; // استفاده از هوک
 
-    console.log(item)
+    const remainingTime =  item?.on_sale?.[0]?.expire_datetime ? remainTime : undefined ;
     return (
         <>
 
-        <div className={`${item?.on_sale ?"" :"opacity-50"} w-full flex flex-col items-center justify start`}>
+        <div className={`${remainingTime  ?"" :"opacity-50"} w-full flex flex-col items-center justify start`}>
 
                 <div className={` w-full aspect-[0.7334] flex flex-col items-center justify-between rounded-[1.6rem] ${theme==='dark' ?'bg-primary-dark-b shadow-[0px_12px_20px_0px_#062940]' : 'bg-white shadow-[0px_12px_20px_0px_rgba(0,_0,_0,_0.10)]' } `}>
                     <div className='w-full flex flex-col items-center justify-start'>
@@ -201,9 +205,9 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
                                     </div>
                                     <div className={'w-1/2 flex flex-row items-center justify-center text-[0.8rem]'}>
                                         {
-                                            item?.discount_expire_date &&
+                                            remainingTime &&
                                             <div className='bg-[#FF4A23] pl-2 pr-[16px]  translate-x-[12px] text-white rounded-[5px]'>
-                                                47:24:15
+                                                {remainingTime}
                                             </div>
                                         }
 
@@ -259,15 +263,15 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
                         <div className='flex flex-row items-center justify-start'>
                             <Image src={'/union.svg'} alt={'union'} width={10} height={10} />
                             <div className='ml-1 text-[#FF4B23]  '>
-                                <span className='text-[0.6rem] absolute translate-y-[-0.6rem] line-through text-[#A1A1A1]'> { item?.on_sale_price ? item?.price  : ''} </span>
+                                <span className='text-[0.6rem] absolute translate-y-[-0.6rem] line-through text-[#A1A1A1]'> { item?.on_sale?.[0]?.discounted_price ? item?.price  : ''} </span>
 
-                                <span className='font-bold'> { item?.on_sale_price  ? item?.on_sale_price : item?.price ? item?.price  : ' - '} </span> <span className='ml-1'> /Cash</span>
+                                <span className='font-bold'> { item?.on_sale?.[0]?.discounted_price  ? item?.on_sale?.[0]?.discounted_price : item?.price ? item?.price  : ' - '} </span> <span className='ml-1'> /Cash</span>
                             </div>
                         </div>
                         <div className={`flex flex-row items-center justify-start ${theme === 'dark' ? 'text-white' : 'text-primary-dark-b'} `}>
                             <Image src={'/location.svg'} alt={'location-az-provider'} width={10} height={10} />
                             <div className='ml-1'>
-                                {item?.location ? item?.location : ' - '}
+                                {item?.location ? item?.location : ''}
                             </div>
                             <div className='font-thin text-[0.7rem] ml-1'>
                                 {
@@ -291,13 +295,13 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
 
                     <Button
                         onClick={()=>{
-                            if(item?.on_sale ){
+                            if(remainingTime ){
                                 setCancelDialog(true)
                             }else  setDialog(true)
                         }}
 
                             className={`w-full flex flex-row items-center justify-center mt-2 py-4 bg-transparent hover:scale-[1.1] cursor-pointer transition duration-500 font-roboto capitalize normal-case text-primary-dark-b border-none shadow-none rounded-[1.1rem] bg-primary-dark-b text-white`}>
-                        {   item?.on_sale   ? 'Cancel' : 'Apply'}
+                        {   remainingTime   ? 'Cancel' : 'Apply'}
                     </Button>
 
         </div>
