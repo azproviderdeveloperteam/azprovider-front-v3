@@ -51,6 +51,8 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
         mutationFn : deleteOnSaleProduct
     })
 
+
+
     const text = texts.eng
     const myTexts = text.dashboard.pages.onSale.addForm
 
@@ -58,7 +60,7 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
         .object({
         }).shape({
             onSalePrice: Yup.number()
-                .required("onSalePrice is required")
+                .required("On Sale Price is required")
                 .test(
                     "is-in-range",
                     "On Sale Price must be between 1% and 7% of the original price",
@@ -115,9 +117,7 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
 
 
     const cancelOnSale = async () =>{
-        const formData = {
-            on_sale	:false ,
-        }
+
         try {
             const d = await deleteOnSaleMutateAsync( item?.on_sale?.[0]?.id)
             setDialog(false)
@@ -212,9 +212,9 @@ const ProductCardOnSale = ({item , theme , measureOptions , setSubmitting , subm
                                         }
 
                                         {
-                                            item?.discount_percentage &&
-                                            <div style={{backgroundImage:`url(${hexagon.src})`}} className='relative z-10 w-[30%] bg-center bg-cover aspect-square flex flex-row items-center justify-center text-white font-bold'>
-                                                15%
+                                            item?.on_sale?.[0]?.discounted_price &&
+                                            <div style={{backgroundImage:`url(${hexagon.src})`}} className='relative z-10 w-[30%] bg-center bg-cover aspect-square flex flex-row items-center justify-center text-white font-bold text-[0.8rem]'>
+                                                {`${(100 - Number(item?.on_sale?.[0]?.discounted_price) / Number(item?.price) * 100)?.toFixed(((100 - Number(item?.on_sale?.[0]?.discounted_price) / Number(item?.price) * 100))%1 === 0 ? 0 : 1)}%`}
                                             </div>
 
                                         }

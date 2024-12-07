@@ -4,7 +4,12 @@ import {Button, Carousel, DialogFooter, DialogHeader, IconButton, Tooltip} from 
 import hexagon from '@/public/red-hexagon.svg'
 import Image from "next/image";
 import {useMutation, useQuery} from "@tanstack/react-query";
-import { editProduct} from "@/services/dashboardProductsServices";
+import {
+    deleteHotDealProduct,
+    deleteOnSaleProduct,
+    editProduct,
+    hotDealProduct
+} from "@/services/dashboardProductsServices";
 import AzDialog from "@/components/dialog/AzDialog";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -16,6 +21,8 @@ import Select from "react-select";
 import RegisterBtn from "@/components/Buttons/RegisterBtn";
 import toast from "react-hot-toast";
 import {AxiosError} from "axios";
+import useTimeRemaining from "@/hooks/useTimeRemaining";
+import instance from "@/services/instance";
 
 const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , submitting} : any) => {
     const [dialog ,setDialog] = useState(false)
@@ -41,7 +48,7 @@ const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , sub
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
     const {data : createData  , isPending : createPending , error :createError , mutateAsync : createMutateAsync } =useMutation({
-        mutationFn : editProduct
+        mutationFn : hotDealProduct
     })
 
     const text = texts.eng
@@ -51,8 +58,24 @@ const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , sub
         .object({
 
         }).shape({
-            hotDealPrice:Yup.number(),
-            hotDealSize:Yup.number(),
+
+            hotDealPrice: Yup.number()
+                .required("Hot Deal Price is required")
+                .test(
+                    "is-in-range",
+                    "Hot Deal Price must be less than 86% of the original price",
+                    function (value) {
+                        const originalPrice = item?.price; // مقدار اصلی قیمت
+                        if (!originalPrice || !value) return true; // اگر مقدار وجود ندارد، بررسی نمی‌کنیم
+                        const min = originalPrice * 0.01; // 1 درصد قیمت اصلی
+                        const max = originalPrice * 0.86;
+                        return value >= min && value <= max;
+                    }
+                ),
+            hotDealSize:Yup.number().required("Capacity is required")
+                .test('isCapcity' , "Must be Less than Capacity" , function (value) {
+                    return value < item?.capacity
+                }),
         })
         .required()
     const {
@@ -63,15 +86,27 @@ const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , sub
         getValues
     } = useForm({ resolver: yupResolver(schema), mode:'onChange'})
 
+    const addDaysToDate = (days : number) => {
+        const today = new Date();
+        today.setUTCDate(today.getUTCDate() + days); // اضافه کردن تعداد روزها
+        return today.toISOString(); // تبدیل به فرمت ISO
+    };
+
+    const {data : deleteHotDealData  , isPending : deleteHotDealPending , error :deleteHotDealError , mutateAsync : deleteHotDealMutateAsync } =useMutation({
+        mutationFn : deleteHotDealProduct
+    })
+
     const submit = async (d : any) =>{
         const formData = {
-            hot_deal	:true ,
-            hot_deal_price :d?.hotDealPrice,
-            hot_deal_size :d?.hotDealSize,
-            hot_deal_measure:selectedMeasure?.label
+
+
+            product_id	:item?.id ,
+            capacity: d?.hotDealSize,
+            discounted_price: d?.hotDealPrice,
+            expire_datetime: addDaysToDate(3)
         }
         try {
-            const d = await createMutateAsync({formData , id : item?.id})
+            const d = await createMutateAsync(formData)
             setDialog(false)
             toast.success("Your Product Added To Az Provider Hot Deals successfully!")
             setSubmitting(submitting+1)
@@ -91,11 +126,9 @@ const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , sub
 
 
     const cancelHotDeal = async () =>{
-        const formData = {
-            hot_deal	:false ,
-        }
+
         try {
-            const d = await createMutateAsync({formData , id : item?.id})
+            const d = await deleteHotDealMutateAsync( item?.hot_deal?.[0]?.id)
             setDialog(false)
             setCancelDialog(false)
             toast.success("Your Product Removed From Az Provider Hot Deals successfully!")
@@ -115,10 +148,13 @@ const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , sub
             }
         }
     }
+    const remainTime = useTimeRemaining(item?.hot_deal?.[0]?.expire_datetime || new Date())  ;
+
+    const remainingTime =  item?.hot_deal?.[0]?.expire_datetime ? remainTime : undefined ;
     return (
         <>
 
-            <div className={`${item?.hot_deal ?"" :"opacity-50"} w-full flex flex-col items-center justify start`}>
+            <div className={`${item?.hot_deal?.length > 0 ?"" :"opacity-50"} w-full flex flex-col items-center justify start`}>
 
                 <div className={` w-full aspect-[0.7334] flex flex-col items-center justify-between rounded-[1.6rem] ${theme==='dark' ?'bg-primary-dark-b shadow-[0px_12px_20px_0px_#062940]' : 'bg-white shadow-[0px_12px_20px_0px_rgba(0,_0,_0,_0.10)]' } `}>
                     <div className='w-full flex flex-col items-center justify-start'>
@@ -153,8 +189,8 @@ const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , sub
                             {/*    }*/}
                             {/*</Carousel>*/}
                             {
-                                item?.image
-                                    ? <Image alt={'aaa'} src={`${process.env.MEDIA_URL}${item?.image}`} width={235} height={235}  className='w-full aspect-[1.4268] rounded-[1.6rem] object-center object-cover'/>
+                                item?.media_files?.[0]?.image
+                                    ? <Image alt={'aaa'} src={`${item?.media_files?.[0]?.image?.includes("api.azprovider.com") ? "" :  process.env.MEDIA_URL}${item?.media_files?.[0]?.image}`} width={235} height={235}  className='w-full aspect-[1.4268] rounded-[1.6rem] object-center object-cover'/>
                                     :
                                     <Image alt={'aaa'} src={`/no-image.svg`} width={235} height={235} className='w-full aspect-[1.4268] object-center object-cover rounded-[1.6rem]' />
                             }
@@ -162,29 +198,30 @@ const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , sub
                                 <div className='w-full flex flex-row items-center justify-between pt-3 px-[5%]'>
                                     <div className='w-1/2 flex flex-row items-center justify-start text-[0.8rem]'>
                                         <div className='bg-white px-2 text-primary-dark-b rounded-[5px]'>
-                                            #1231243
+                                            {`#${item?.svc_code ? item?.svc_code : item?.hscode}`}
                                         </div>
 
                                         {
-                                            item?.size &&
-                                            <div className='bg-primary-dark-b  px-2 text-white rounded-[5px] ml-[5px]'>
-                                                {item?.size}
+                                            item?.capacity &&
+                                            <div className='bg-primary-dark-b py-[1px] px-2 text-white rounded-[5px] ml-[5px] text-[0.6rem]'>
+                                                {`${item?.capacity || ''} ${item?.measure_unit?.symbol ||''}`}
                                             </div>
                                         }
+
 
                                     </div>
                                     <div className={'w-1/2 flex flex-row items-center justify-center text-[0.8rem]'}>
                                         {
-                                            item?.discount_expire_date &&
+                                            remainingTime &&
                                             <div className='bg-[#FF4A23] pl-2 pr-[16px]  translate-x-[12px] text-white rounded-[5px]'>
-                                                47:24:15
+                                                {remainingTime}
                                             </div>
                                         }
 
                                         {
-                                            item?.discount_percentage &&
-                                            <div style={{backgroundImage:`url(${hexagon.src})`}} className='relative z-10 w-[30%] bg-center bg-cover aspect-square flex flex-row items-center justify-center text-white font-bold'>
-                                                15%
+                                            item?.hot_deal?.[0]?.discounted_price &&
+                                            <div style={{backgroundImage:`url(${hexagon.src})`}} className='relative z-10 w-[30%] bg-center bg-cover aspect-square flex flex-row items-center justify-center text-white font-bold text-[0.8rem]'>
+                                                {`${(100 - Number(item?.hot_deal?.[0]?.discounted_price) / Number(item?.price) * 100)?.toFixed(((100 - Number(item?.hot_deal?.[0]?.discounted_price) / Number(item?.price) * 100))%1 === 0 ? 0 : 1)}%`}
                                             </div>
 
                                         }
@@ -201,7 +238,7 @@ const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , sub
                         <div className='w-full flex flex-row items-center justify-start mt-2 px-[5%]'>
                             <Image src={'/dark-medal.svg'} alt={'dark-medal'} width={20} height={20} />
                             <div className={`${theme === 'dark' ? 'text-white' : 'text-primary-dark-b' } text-[0.7rem] ml-1 mt-1`}>
-                                { item?.granted_organization  ? item?.granted_organization : ' - '}
+                                { item?.quality_type  ? item?.quality_type : ' - '}
                             </div>
                         </div>
 
@@ -225,7 +262,7 @@ const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , sub
                             </div>
                         </div>
                         <p className={`w-full mt-2 px-[5%] text-[0.8rem] text-justify ${theme === 'dark' ? 'text-white' : 'text-primary-dark-b' } line-clamp`}>
-                            { item?.short_description  ? item?.short_description : ' - '}
+                            { item?.description  ? item?.description : ' - '}
                         </p>
                     </div>
 
@@ -236,20 +273,27 @@ const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , sub
 
                                 <span className='text-[0.6rem] absolute translate-y-[-0.6rem] line-through text-[#A1A1A1]'> { item?.hot_deal_price ? item?.price  : ''} </span>
 
-                                <span className='font-bold'> { item?.hot_deal_price  ? item?.hot_deal_price : item?.price ? item?.price  : ' - '} </span> <span className='ml-1'> /Cash</span>
+                                <span className='font-bold'> {item?.hot_deal?.[0]?.discounted_price ? item?.on_sale?.[0]?.discounted_price : item?.price ? item?.price : ' - '} </span>
+                                <span className='ml-1'> /Cash</span>
                             </div>
                         </div>
                         <div className={`flex flex-row items-center justify-start ${theme === 'dark' ? 'text-white' : 'text-primary-dark-b'} `}>
                             <Image src={'/location.svg'} alt={'location-az-provider'} width={10} height={10} />
                             <div className='ml-1'>
-                                {item?.location ? item?.location : ' - '}
+                                {item?.location ? item?.location : ''}
                             </div>
                             <div className='font-thin text-[0.7rem] ml-1'>
                                 {
                                     item?.publish_date_from ?
                                         `${new Date(item?.publish_date_from)?.getUTCDate()} ${monthNames[new Date(item?.publish_date_from)?.getUTCMonth()] } ${new Date(item?.publish_date_from)?.getUTCFullYear()} - ${new Date(item?.publish_date_to)?.getUTCDate()} ${monthNames[new Date(item?.publish_date_to)?.getUTCMonth()] } ${new Date(item?.publish_date_to)?.getUTCFullYear()}`
                                         :
-                                        ' - '
+                                        item?.published_date ?
+                                            `${new Date(item?.published_date)?.getUTCDate()} ${monthNames[new Date(item?.published_date)?.getUTCMonth()]} ${new Date(item?.published_date)?.getUTCFullYear()}`
+                                            :
+                                            item?.published_date_from ?
+                                                `${new Date(item?.published_date_from)?.getUTCDate()} ${monthNames[new Date(item?.published_date_from)?.getUTCMonth()] } ${new Date(item?.published_date_from)?.getUTCFullYear()} - ${new Date(item?.published_date_to)?.getUTCDate()} ${monthNames[new Date(item?.published_date_to)?.getUTCMonth()] } ${new Date(item?.published_date_to)?.getUTCFullYear()}`
+                                                :
+                                                ' - '
                                 }
                             </div>
                         </div>
@@ -260,21 +304,21 @@ const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , sub
 
                 <Button
                     onClick={()=>{
-                        if(item?.hot_deal ){
+                        if(item?.hot_deal?.length > 0){
                             setCancelDialog(true)
                         }else  setDialog(true)
                     }}
 
                     className={`w-full flex flex-row items-center justify-center mt-2 py-4 bg-transparent hover:scale-[1.1] cursor-pointer transition duration-500 font-roboto capitalize normal-case text-primary-dark-b border-none shadow-none rounded-[1.1rem] bg-primary-dark-b text-white`}>
-                    {   item?.hot_deal   ? 'Cancel' : 'Apply'}
+                    {   item?.hot_deal?.length > 0   ? 'Cancel' : 'Apply'}
                 </Button>
 
             </div>
 
-            <AzDialog open={dialog} handler={()=>setDialog(false)} size={'xl'}>
+            <AzDialog open={dialog} handler={()=>setDialog(false)} size={'sm'}>
 
 
-                <div className='w-full bg-[#F8F8F8] p-5 lg:p-8 rounded-[1rem] relative'>
+                <div className='w-full p-5 lg:p-8 rounded-[1rem] relative'>
                     <div className='absolute right-5 top-2'>
                         <IconButton className={'bg-transparent focus:shadow-none'} onClick={()=>setDialog(false)}>
                             <Image src={'/exit.svg'} alt={'exit.svg'} width={15} height={15} />
@@ -282,9 +326,9 @@ const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , sub
                     </div>
 
                     <form className='w-full flex flex-row items-start justify-start flex-wrap mt-4 relative z-10 text-primary-dark-b' onSubmit={handleSubmit(submit)}>
-                        <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
+                        <div className='w-full h-full mt-7'>
                             <div className=' text-[1.3rem] capitalize'>
-                                {myTexts.hotDealPrice} <span className='text-secondary-red'>*</span>
+                                {`${myTexts.hotDealPrice} (${item?.price})`} <span className='text-secondary-red'>*</span>
                             </div>
                             <MainInput
                                 register={register}
@@ -296,9 +340,9 @@ const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , sub
                             />
                         </div>
 
-                        <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
+                        <div className='w-full h-full mt-7'>
                             <div className=' text-[1.3rem] capitalize'>
-                                {myTexts.hotDealSize} <span className='text-secondary-red'>*</span>
+                                {`${myTexts.hotDealSize} (${item?.capacity} ${item?.measure_unit?.symbol})`} <span className='text-secondary-red'>*</span>
                             </div>
                             <MainInput
                                 register={register}
@@ -309,51 +353,7 @@ const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , sub
                                 placeholder={myTexts.hotDealSize}
                             />
                         </div>
-
-                        <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
-                            <div className=' text-[1.3rem] capitalize'>
-                                {myTexts.hotDealMeasure} <span className='text-secondary-red'>*</span>
-                            </div>
-                            <Select
-                                className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
-
-                                onChange={(e)=>{
-
-                                    setSelectedMeasure( e)
-                                    // getToCurrenciesFunc(e?.value)
-                                }}
-                                value={selectedMeasure}
-                                options={measureOptions}
-                                unstyled
-                                styles={{
-                                    input: (base) => ({
-                                        ...base,
-                                        base: " hover:cursor-pointer",
-                                        fontSize:"9px",
-                                        "input:focus": {
-                                            boxShadow: "none",
-                                        },
-                                    }),
-                                    multiValueLabel: (base) => ({
-                                        ...base,
-                                        whiteSpace: "normal",
-                                        overflow: "visible",
-                                    }),
-                                    control: (base) => ({
-                                        ...base,
-                                        transition: "none",
-                                    }),
-                                }}
-
-                                classNames={{
-                                    control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
-                                    multiValueLabel: () => 'bg-white rounded-xl ',
-                                    option: ({ isFocused, isSelected }) =>'bg-white px-4 py-1',
-                                }}
-                            />
-                        </div>
-
-                        <RegisterBtn loading={createPending} otherClass={'w-full lg:w-[12rem] mt-12'} type={'submit'} disabled={false}>
+                        <RegisterBtn loading={createPending} otherClass={'w-full mt-12'} type={'submit'} disabled={false}>
                             Save
                         </RegisterBtn>
 

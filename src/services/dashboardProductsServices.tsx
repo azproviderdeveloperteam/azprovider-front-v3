@@ -16,8 +16,17 @@ export async function  onSaleProduct(data : any){
     return await  instance.post(`v2/product/onsale/`,data)
 }
 
+export async function  hotDealProduct(data : any){
+    return await  instance.post(`v2/product/hotdeal/`,data)
+}
+
 export async function  deleteOnSaleProduct(id : any){
     return await  instance.delete(`v2/product/onsale/${id}/`)
+}
+
+
+export async function  deleteHotDealProduct(id : any){
+    return await  instance.delete(`v2/product/hotdeal/${id}/`)
 }
 
 export async function  updateProduct({data , id} : any){
