@@ -8,7 +8,7 @@ import Link from "next/link";
 
 const ProductsPage = async ({searchParams} : any) => {
     const sort = searchParams?.sort
-    const data = await getAllProducts({sort , page_size:1000})
+    const data = await getAllProducts({sort : sort === 'date' ? 'created_at' : sort })
 
 
     return (

@@ -3,7 +3,8 @@ import React from 'react';
 import {Carousel, Tooltip} from "@material-tailwind/react";
 import hexagon from '@/public/red-hexagon.svg'
 import Image from "next/image";
-const ProductCard = ({item , theme , isService} : any) => {
+import useTimeRemaining from "@/hooks/useTimeRemaining";
+const ProductCard = ({item , theme , isService , type = 'product'} : any) => {
 
     const monthNamesFull = [ "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December" ];
@@ -11,7 +12,11 @@ const ProductCard = ({item , theme , isService} : any) => {
     const monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
+    const discount = type === 'on-sale' ? item?.on_sale?.[0] :  type === 'hot-deal' ? item?.hot_deal?.[0]  : null
 
+    const remainTime = useTimeRemaining(discount?.expire_datetime || new Date())  ;
+
+    const remainingTime =  discount?.expire_datetime ? remainTime : undefined ;
     return (
         <div className={`w-full aspect-[0.7334] flex flex-col items-center justify-between rounded-[1.6rem] ${theme==='dark' ?'bg-primary-dark-b shadow-[0px_12px_20px_0px_#062940]' : 'bg-white shadow-[0px_12px_20px_0px_rgba(0,_0,_0,_0.10)]' } `}>
             <div className='w-full flex flex-col items-center justify-start'>
@@ -68,16 +73,17 @@ const ProductCard = ({item , theme , isService} : any) => {
                             </div>
                             <div className={'w-1/2 flex flex-row items-center justify-center text-[0.8rem]'}>
                                 {
-                                    item?.discount_expire_date &&
+                                    remainingTime &&
                                     <div className='bg-[#FF4A23] pl-2 pr-[16px]  translate-x-[12px] text-white rounded-[5px]'>
-                                        47:24:15
+                                        {remainingTime}
                                     </div>
                                 }
 
+
                                 {
-                                    item?.discount_percentage &&
-                                    <div style={{backgroundImage:`url(${hexagon.src})`}} className='relative z-10 w-[30%] bg-center bg-cover aspect-square flex flex-row items-center justify-center text-white font-bold'>
-                                        15%
+                                   discount?.discounted_price &&
+                                    <div style={{backgroundImage:`url(${hexagon.src})`}} className='relative z-10 w-[30%] bg-center bg-cover aspect-square flex flex-row items-center justify-center text-white font-bold text-[0.8rem]'>
+                                        {`${(100 - Number(discount?.discounted_price) / Number(item?.price) * 100)?.toFixed(((100 - Number(discount?.discounted_price) / Number(item?.price) * 100))%1 === 0 ? 0 : 1)}%`}
                                     </div>
 
                                 }
@@ -126,9 +132,10 @@ const ProductCard = ({item , theme , isService} : any) => {
                 <div className='flex flex-row items-center justify-start'>
                     <Image src={'/union.svg'} alt={'union'} width={10} height={10} />
                     <div className='ml-1 text-[#FF4B23]  '>
-                         <span className='text-[0.6rem] absolute translate-y-[-0.6rem] line-through text-[#A1A1A1]'> { item?.hot_deal_price ? item?.price  : item?.on_sale_price ?  item?.price : ''} </span>
+                        <span className='text-[0.6rem] absolute translate-y-[-0.6rem] line-through text-[#A1A1A1]'> {discount ? item?.price : ''} </span>
 
-                        <span className='font-bold'> { item?.hot_deal_price  ? item?.hot_deal_price : item?.on_sale_price ? item?.on_sale_price :  item?.price ? item?.price  : ' - '} </span> <span className='ml-1'> /Cash</span>
+                        <span
+                            className='font-bold'> {discount?.discounted_price ? discount?.discounted_price : item?.price ? item?.price : ' - '} </span>
                     </div>
                 </div>
                 <div className={`flex flex-row items-center justify-start ${theme === 'dark' ? 'text-white' : 'text-primary-dark-b'} `}>

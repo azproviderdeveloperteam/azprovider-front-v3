@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const HotDealsPage =async ({searchParams} : any) => {
     const sort = searchParams?.sort
-    const data = await getAllHotDeals({sort , page_size:1000})
+    const data = await getAllHotDeals({sort , status :"active"})
 
     return (
         <div className='w-full py-28 '>
@@ -30,10 +30,10 @@ const HotDealsPage =async ({searchParams} : any) => {
 
                     <div className='lg:w-full w-[95%] m-auto md:m-0 flex flex-row items-center justify-start flex-wrap'>
                         {
-                            data?.data?.results?.map((item : any , index:number)=>{
+                            data?.data?.map((item : any , index:number)=>{
                                 return  (
                                     <Link href={`/products/${item?.id}`} className={`${index===0 ? ' ' :''}  w-[20%] min-w-[21rem] snap-start overflow-visible pt-4 pb-7 px-4`} key={index+1}>
-                                        <ProductCard item={item} theme={'light'}/>
+                                        <ProductCard  type={'hot-deal'}  item={item?.product} theme={'light'}/>
                                     </Link>
                                 )
                             })

@@ -1,7 +1,9 @@
 import instance from "@/services/instance";
 export async function  getAllProducts(params : any){
-    return await  instance.get('products/get-all-products/',{params : params})
+    return await  instance.get('v2/product/list/',{params : params})
 }
+
+
 
 export async function  getNewestHotDealProducts(){
     return await  instance.get('products/get-newest-hot-deals/')
@@ -17,11 +19,12 @@ export async function  getProductDetails(id : any){
 
 
 export async function  getAllHotDeals(params : any){
-    return await  instance.get('products/get-all-hot-deals/',{params : params})
+    return await  instance.get('v2/product/hotdeal/list/',{params : params})
 }
 
+
 export async function  getAllOnSales(params : any){
-    return await  instance.get('products/get-all-on-sales/',{params : params})
+    return await  instance.get('v2/product/onsale/list/',{params : params})
 }
 
 export async function  getAllServicesV2(params : any){

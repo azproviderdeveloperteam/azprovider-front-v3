@@ -35,12 +35,28 @@ const Header = ({theme}:any) => {
                             </LightBtn>
                         </Link>
 
+                        <Link href={'/pre-invoices'}>
+                            <LightBtn border={false} otherClass={'mr-6'} black={ theme === 'white-black' ? false :true}>
+                                {"Pre Invoices"}
+                            </LightBtn>
+                        </Link>
+
+                        <Link href={'/on-sale'}>
+                            <LightBtn border={false} otherClass={'mr-6'} black={ theme === 'white-black' ? false :true}>
+                                {'On Sales'}
+                            </LightBtn>
+                        </Link>
+
+                        <Link href={'/hot-deals'}>
+                            <LightBtn border={false} otherClass={'mr-6'} black={ theme === 'white-black' ? false :true}>
+                                {'Hot Deals'}
+                            </LightBtn>
+                        </Link>
                         <Link href={'/companies'}>
                             <LightBtn border={false} otherClass={'mr-6'} black={ theme === 'white-black' ? false :true}>
                                 {text.companies}
                             </LightBtn>
                         </Link>
-
                     </div>
 
                     <div className='flex flex-row items-center justify-end'>
