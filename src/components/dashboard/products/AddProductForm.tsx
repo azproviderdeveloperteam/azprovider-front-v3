@@ -60,13 +60,13 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
             // grantedOrganization:Yup.string().required('Enter Local Name'),
             // typeCertification:Yup.string().required('Enter certification type'),
             description:Yup.string().required('Enter description'),
-            brandName:Yup.string(),
+            brandName:Yup.string().required('Is Required'),
 
-            color: Yup.string(),
+            color: Yup.string().required('Is Required'),
             weight:Yup.string().required('Enter weight'),
-            quality_type: Yup.string(),
-            delivery_method:Yup.string(),
-            payment_method: Yup.string(),
+            quality_type: Yup.string().required('Is Required'),
+            delivery_method:Yup.string().required('Is Required'),
+            payment_method: Yup.string().required('Is Required'),
         })
         .required()
     const {
@@ -249,7 +249,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
             quality_type: d?.quality_type,
             delivery_method: d?.delivery_method,
             payment_method: d?.payment_method,
-
+            price_unit:"usd"
 
          }
         try {
