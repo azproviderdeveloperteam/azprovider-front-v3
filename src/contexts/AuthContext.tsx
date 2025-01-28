@@ -4,6 +4,7 @@ import {createContext, useContext, useEffect, useLayoutEffect, useReducer, useSt
 import Cookies from "js-cookie";
 import {app} from "@/services/instance";
 import { useRouter } from 'next/navigation'
+import {FloatingWhatsApp} from "react-floating-whatsapp";
 
 
 const AuthContext = createContext({})
@@ -58,6 +59,11 @@ const AuthProvider = ({children}:any)=>{
     return(
         <AuthContext.Provider value={{user}}>
             <AuthContextDispatcher.Provider value={dispatch}>
+                <FloatingWhatsApp
+                    phoneNumber={'989121873696'}
+                    accountName={'AZ Support'}
+                    chatMessage={'Hello, I am the support of AZ provider i, how can I help you?'}
+                />
                 {loading ? null :  children}
             </AuthContextDispatcher.Provider>
         </AuthContext.Provider>
