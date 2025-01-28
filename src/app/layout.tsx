@@ -7,6 +7,8 @@ import { Toaster } from "react-hot-toast";
 import RouteLoader from "@/components/loaders/RouteLoader";
 import {CookiesProvider} from "next-client-cookies/server";
 import MegaMenuProvider from "../contexts/MegaMenuContext";
+import {FloatingWhatsApp} from "react-floating-whatsapp";
+import LandingHelpVideoModal from "@/components/HelpModals/LandingHelpVideoModal";
 
  const roboto = Roboto({
      weight: [ "100","300","400", "500", "700", "900"] ,
@@ -32,6 +34,7 @@ export default function RootLayout({
                     <MegaMenuProvider>
                         <ReactQueryProvider>
                             <RouteLoader />
+
                             {children}
                         </ReactQueryProvider>
                     </MegaMenuProvider>

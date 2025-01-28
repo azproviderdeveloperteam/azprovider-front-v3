@@ -16,3 +16,34 @@ export const GrayEyeIcon = () =>{
         />
     </svg>
 }
+
+export const PlayIcon = () => {
+    return <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#filter0_d_2605_117960)">
+            <circle cx="60" cy="57" r="40" fill="url(#paint0_linear_2605_117960)"/>
+        </g>
+        <path
+            d="M75.2548 59.7168C75.139 59.8712 74.5985 60.5273 74.1737 60.9518L73.9421 61.1833C70.6988 64.6951 62.6293 69.9821 58.5367 71.6802C58.5367 71.7188 56.1042 72.7221 54.9459 72.7607H54.7915C53.0154 72.7607 51.3552 71.7574 50.5058 70.1365C50.0425 69.2489 49.6178 66.6633 49.5792 66.6247C49.2317 64.3092 49 60.7627 49 56.8611C49 52.7704 49.2317 49.0656 49.6564 46.7887C49.6564 46.7501 50.0811 44.6662 50.3514 43.9715C50.7761 42.9682 51.5483 42.1192 52.5135 41.5789C53.2857 41.193 54.0965 41 54.9459 41C55.834 41.0386 57.4942 41.6213 58.1506 41.8876C62.4749 43.5856 70.7374 49.1428 73.9035 52.5388C74.444 53.0791 75.0232 53.7352 75.1776 53.8895C75.834 54.7385 76.1815 55.7805 76.1815 56.9035C76.1815 57.903 75.8726 58.9064 75.2548 59.7168Z"
+            fill="white"/>
+        <defs>
+            <filter id="filter0_d_2605_117960" x="0" y="0" width="120" height="120" filterUnits="userSpaceOnUse"
+                    color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                               result="hardAlpha"/>
+                <feOffset dy="3"/>
+                <feGaussianBlur stdDeviation="10"/>
+                <feComposite in2="hardAlpha" operator="out"/>
+                <feColorMatrix type="matrix" values="0 0 0 0 0.27451 0 0 0 0 0.505882 0 0 0 0 0.537255 0 0 0 0.5 0"/>
+                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2605_117960"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2605_117960" result="shape"/>
+            </filter>
+            <linearGradient id="paint0_linear_2605_117960" x1="17.3585" y1="10.913" x2="106.187" y2="16.3257"
+                            gradientUnits="userSpaceOnUse">
+                <stop stop-color="#74A9BC"/>
+                <stop offset="1" stop-color="#468189"/>
+            </linearGradient>
+        </defs>
+    </svg>
+
+}
