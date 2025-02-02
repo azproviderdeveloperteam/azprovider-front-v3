@@ -76,7 +76,7 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
         const formData = validateEmail(d?.email) ?
             { email:d?.email , ...(d.invitationCode?.length > 1 && {ref_code : d?.invitationCode} )}
         :
-            {mobile:`${country.value}${d?.email}` , ...(d.invitationCode?.length > 1 && {ref_code : d?.invitationCode} )}
+            {mobile:`${country?.value}${country?.value ==='+98' ? d?.email?.startsWith('0') ? d.email.slice(1) : d.email :d?.email}` , ...(d.invitationCode?.length > 1 && {ref_code : d?.invitationCode} )}
        try{
            const da = await mutateAsync(formData)
 

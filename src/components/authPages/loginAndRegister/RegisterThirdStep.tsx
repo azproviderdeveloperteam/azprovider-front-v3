@@ -35,9 +35,9 @@ const RegisterThirdStep = ({nextStep}:any) => {
         .object({
 
         }).shape({
-            firstName:Yup.string().required('Enter Your First Name'),
-            lastName:Yup.string().required('Enter Your Last Name'),
-            international_name:Yup.string().required('Enter Your International name'),
+            firstName:Yup.string().matches(/^[a-zA-Z\s]+$/, 'Only English letters are allowed').required('Enter Your First Name'),
+            lastName:Yup.string().matches(/^[a-zA-Z\s]+$/, 'Only English letters are allowed').required('Enter Your Last Name'),
+            international_name:Yup.string().matches(/^[a-zA-Z\s]+$/, 'Only English letters are allowed').required('Enter Your International name'),
             businessRole:Yup.string(),
             cityOrCountry:Yup.string(),
             acceptTerms:Yup.bool().required('')
@@ -63,7 +63,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
                 first_name:d?.firstName,
                 last_name:d?.lastName,
                 international_name:d?.international_name ,
-                business_role_id:bRole?.map(x => x?.value),
+                business_role_id:bRole?.map((x : any) => x?.value),
                 country:selectedCountry?.label,
                 city:selectedCity?.label,
 
@@ -130,7 +130,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
 
     useEffect(() => {
         if (initialCities) {
-            setCities(initialCities?.data?.results ? initialCities?.data?.results?.map(x=>{return{value:x.id , label :x?.name}}) || [] : []);
+            setCities(initialCities?.data?.results ? initialCities?.data?.results?.map((x :any)=>{return{value:x.id , label :x?.name}}) || [] : []);
         }
     }, [initialCities]);
 
@@ -144,7 +144,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
 
             if(cityName){
                 const moreCitiesResponse = await getCities(selectedCountry?.label?.toString(), nextPage , 50 , cityName);
-                const newCities = moreCitiesResponse?.data?.results?.map(x=>{return{value:x.id , label :x?.name}}) || [];
+                const newCities = moreCitiesResponse?.data?.results?.map((x : any)=>{return{value:x.id , label :x?.name}}) || [];
 
                 if (newCities.length === 0) {
                     setPage(1)
@@ -157,7 +157,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
                 })
             }else {
                 const moreCitiesResponse = await getCities(selectedCountry?.label?.toString(), nextPage , 50 , undefined);
-                const newCities = moreCitiesResponse?.data?.results?.map(x=>{return{value:x.id , label :x?.name}}) || [];
+                const newCities = moreCitiesResponse?.data?.results?.map((x : any)=>{return{value:x.id , label :x?.name}}) || [];
 
                 if (newCities.length === 0) {
                     setPage(1)
@@ -332,7 +332,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
                                         // getToCurrenciesFunc(e?.value)
                                     }}
                                     value={selectedCountry}
-                                    options={countries?.data?.results ? countries?.data?.results?.map(x=>{return{value:x.id , label :x?.name}}) || [] : []}
+                                    options={countries?.data?.results ? countries?.data?.results?.map((x : any)=>{return{value:x.id , label :x?.name}}) || [] : []}
                                     unstyled
                                     styles={{
                                         input: (base) => ({
