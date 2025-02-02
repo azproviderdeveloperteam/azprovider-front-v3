@@ -11,8 +11,8 @@ const ProductCategoryCard = ({src , title ,color}:any) => {
             <Image
                 src={src ? src : '/no-image.svg'}
                 alt={title}
-                width={100}
-                height={100}
+                width={1000}
+                height={1000}
                 className={'w-full aspect-square rounded-full '}
                 />
 

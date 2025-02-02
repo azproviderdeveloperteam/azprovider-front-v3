@@ -23,7 +23,7 @@ export default function Home() {
                     <WelcomeCard />
                     <AboutAzLanding />
                     <OurResponsive />
-                    <SuggestedCarouselProvider />
+                    {/*<SuggestedCarouselProvider />*/}
                     <ProductsListLanding />
                     <ServicesListLandingPage />
                     <HotDealsLandingPage />
