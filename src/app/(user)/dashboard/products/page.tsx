@@ -1,13 +1,16 @@
 'use client'
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
  import {useQuery} from "@tanstack/react-query";
  import {getDashboardProducts} from "@/services/dashboardProductsServices";
 import ProductList from "@/components/dashboard/products/productList";
 import AddProductForm from "@/components/dashboard/products/AddProductForm";
 import AddProductCard from "@/components/dashboard/products/AddProductCard";
 import {getGrantedOrganisationList, getMeasureList} from "@/services/measurementServices";
+import {useDraggable} from "react-use-draggable-scroll";
 
 const ProductsPage = () => {
+    const ref = useRef<HTMLDivElement>(null as unknown as HTMLDivElement);
+    const { events } = useDraggable(ref);
 
     const [viewAddProductForm , setViewAddProductForm] = useState<any>(undefined)
     const [submit ,setSubmit] = useState(0)
@@ -43,15 +46,18 @@ const ProductsPage = () => {
         }
     },[productsData])
     return (
-        viewAddProductForm !== undefined ?
-            <AddProductForm  viewAddProductForm={viewAddProductForm}  allGrantedList={getGrantedOrganisationListData} allMeasureData={allMeasureData} exitKey={productsData?.data ? productsData?.data?.length > 0 ? true : false : false} onClose={()=>{
-                setViewAddProductForm(undefined)
-                setSubmit(submit + 1)
-            }}/>
+        <>
+            {
+                viewAddProductForm !== undefined &&
+                    <AddProductForm  viewAddProductForm={viewAddProductForm}  allGrantedList={getGrantedOrganisationListData} allMeasureData={allMeasureData} exitKey={productsData?.data ? productsData?.data?.length > 0 ? true : false : false} onClose={()=>{
+                        setViewAddProductForm(undefined)
+                        setSubmit(submit + 1)
+                    }}/>
+            }
 
-            :
-            <div className='w-full overflow-x-hidden'>
-                <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
+            <div className={`w-full overflow-x-hidden ${viewAddProductForm !== undefined ? 'hidden' :""}`}>
+                <div {...events}
+                     ref={ref} className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-x-auto no-scrollbar'>
                     <ProductList  setViewForm={(e : any)=>setViewAddProductForm(e)} productsData={productsData?.data} setSubmit={setSubmit} submit={submit}/>
 
                 </div>
@@ -60,6 +66,7 @@ const ProductsPage = () => {
 
                 </div>
             </div>
+        </>
 
     );
 };

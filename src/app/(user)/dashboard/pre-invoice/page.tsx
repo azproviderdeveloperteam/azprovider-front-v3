@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useQuery} from "@tanstack/react-query";
 import {getAllMeasure, getGrantedOrganisationList, getMeasureList} from "@/services/measurementServices";
 import {deletePreInvoiceDashboard, getDashboardPreInvoice} from "@/services/dashboardPreInvoiceServices";
@@ -15,9 +15,11 @@ import {useMutation} from "@tanstack/react-query";
 import {deleteProductDashboard} from "@/services/dashboardProductsServices";
 import toast from "react-hot-toast";
 import {Button, DialogFooter, DialogHeader} from "@material-tailwind/react";
+import {useDraggable} from "react-use-draggable-scroll";
 
 const PreInvoicePage = () => {
-
+    const ref = useRef<HTMLDivElement>(null as unknown as HTMLDivElement);
+    const { events } = useDraggable(ref);
     const [viewAddProductForm , setViewAddProductForm] = useState<any>(undefined)
 
     const [measureOptions , setMeasureOptions] = useState<any>([{value:'kilogram', label : 'kilogram'}] )
@@ -94,18 +96,22 @@ const PreInvoicePage = () => {
 
     return (
 
-        viewAddProductForm !== undefined ?
-            <AddPreInvoiceForm  viewAddProductForm={viewAddProductForm} allGrantedList={getGrantedOrganisationListData} allMeasureData={allMeasureData} exitKey={productsData?.data ? productsData?.data?.length > 0 ? true : false : false} onClose={()=>{
-                setViewAddProductForm(undefined)
-                setSubmitting(submitting + 1)
-            }}/>
 
-            :
 
             <>
+                {
+                    viewAddProductForm !== undefined &&
+                        <AddPreInvoiceForm  viewAddProductForm={viewAddProductForm} allGrantedList={getGrantedOrganisationListData} allMeasureData={allMeasureData} exitKey={productsData?.data ? productsData?.data?.length > 0 ? true : false : false} onClose={()=>{
+                            setViewAddProductForm(undefined)
+                            setSubmitting(submitting + 1)
+                        }}/>
 
-                <div className='w-full overflow-x-hidden'>
-                    <div className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-auto snap-x snap-mandatory '>
+
+                }
+                <div className={`w-full overflow-x-hidden ${viewAddProductForm !== undefined ? 'hidden' : ""}`}>
+                    <div
+                        {...events}
+                        ref={ref} className='max-w-[95rem] lg:w-[95rem] m-auto w-full flex flex-row items-start justify-start overflow-x-auto no-scrollbar'>
                         <>
                             {/*<div className={`${0===0 ? ' ' :''}  w-[22.5%] min-w-[22rem] snap-start overflow-visible pt-4 pb-7 px-4`} >*/}
                             {/*    <PreInvoiceCard item={{}} theme={'light'} measureOptions={measureOptions} setSubmitting={setSubmitting} submitting={submitting}/>*/}
