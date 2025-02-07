@@ -32,10 +32,18 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
     const [dateFrom, setDateFrom] = React.useState<Date>();
     const [dateTo, setDateTo] = React.useState<Date>();
     const [grantedOg , setGrantedOg] = useState<any>(null)
+    const [selectedPriceUnit , setSelectedPriceUnit] = useState<any>({value:'irt' , label : 'IRT Iran Toman'})
     const [selectedMeasure , setSelectedMeasure] = useState<any>( null )
     const [measureOptions , setMeasureOptions] = useState<any>([] )
     const [grantedOgOptions , setGrantedOgOptions] = useState<any>( )
 
+    const priceUnits : {value : string , label : string}[] = [
+        {value:'irt' , label : 'IRT Iran Toman'},
+        {value:'usd' , label : 'USD U.S Dollar'},
+        {value:'aed' , label : 'USD Arab Emirates Dirham'},
+        {value:'eur' , label : 'EUR Euro'},
+        {value:'cny' , label : 'CNY Chinese Yuan'},
+    ]
 
     const [productInput ,setProductInput] = useState<any>(
         {value:"" , code:"" , label:"",
@@ -152,6 +160,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
             setValue('weight' , viewAddProductForm?.weight)
             setValue('quality_type' , viewAddProductForm?.quality_type)
             setValue('payment_method' , viewAddProductForm?.payment_method)
+            setSelectedPriceUnit(priceUnits.find((x:any) => x.value === viewAddProductForm?.price_unit) || {value:'irt' , label : 'IRT Iran Toman'})
             setImgView(viewAddProductForm?.media_files?.[0]?.image || null)
             setImg(viewAddProductForm?.media_files?.[0]?.image || null)
             setSelectedMeasure({value:viewAddProductForm?.measure_unit?.id , label :viewAddProductForm?.measure_unit?.name})
@@ -177,54 +186,16 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
         }
         setGrantedOgOptions(mo)
     },[allGrantedList])
-    // useEffect(()=>{
-    //
-    //
-    //     if(randomHsData?.data){
-    //         const hsCodes = randomHsData?.data?.map((item:any)=>(
-    //             {
-    //                 label:<div className='flex flex-row items-center justify-start md:text-[14px] text-[3.1vw]'>
-    //                     {
-    //                         item?.image ?
-    //                             <img src={item?.image} alt={item?.title} className='mr-3 w-[45px] rounded-full'/>
-    //                             :
-    //                             <Image src={'/no-image.svg'} alt={item?.title} width={30} height={30}  className='mr-3 w-[45px] rounded-full' />
-    //
-    //                     }
-    //                     <div className='w-[calc(100%-60px)] flex flex-col items-start justify-between'>
-    //                         <div>
-    //                             {`#${item?.code}`}
-    //                         </div>
-    //                         <Tooltip content={item?.title} placement="top">
-    //                             <div className='text-primary-dark-b w-[95%] truncate font-bold'>
-    //                                 {item?.title }
-    //                             </div>
-    //                         </Tooltip>
-    //
-    //                     </div>
-    //                 </div>,
-    //                 code : item?.code ,
-    //                 value:item?.code ,
-    //                 title:item?.title ,
-    //                 input :`#${item?.code} - ${item?.title}`,
-    //                 id : item?.id
-    //             }
-    //         ))
-    //         setOptions(hsCodes)
-    //     }
-    // },[randomHsData])
 
-    console.log( 'errors', errors)
+
 
     const submit = async (d : any) =>{
-        console.log(d , errors)
 
         if(img === null && viewAddProductForm === null){
             toast.error('Upload Image is required')
             return
         }
 
-        console.log(dateFrom)
         const fDate = new Date(dateFrom || '');
         const toDate =  new Date(dateTo || '');
         const formData = {
@@ -234,9 +205,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
             brand_name : d?.brandName,
             published_date_from:fDate?.toISOString().split('T')?.[0],
             published_date_to:toDate?.toISOString().split('T')?.[0],
-            // granted_organization:grantedOg?.label,
-            // certification:d?.typeCertification,
-            // hs_code_third_levels:[productInput?.id],
+
             price:d?.price,
             description:d?.description,
             hscode:productInput?.value,
@@ -249,7 +218,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
             quality_type: d?.quality_type,
             delivery_method: d?.delivery_method,
             payment_method: d?.payment_method,
-            price_unit:"usd"
+            price_unit:selectedPriceUnit?.value,
 
          }
         try {
@@ -453,15 +422,6 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
                             }
 
                         </div>
-                        {/*<MainInput*/}
-                        {/*    register={register}*/}
-                        {/*    label={'productCode'}*/}
-                        {/*    error={errors?.productCode?.message}*/}
-                        {/*    name={'productCode'}*/}
-                        {/*    type={'text'}*/}
-                        {/*    placeholder={myTexts.productCode}*/}
-                        {/*/>*/}
-
                     </div>
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
@@ -548,75 +508,58 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
                         <AzDatePicker date={dateTo} setDate={setDateTo}/>
                     </div>
 
-                    {/*<div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>*/}
-                    {/*    <div className=' text-[1.3rem] capitalize'>*/}
-                    {/*        {myTexts.grantedOrganization} <span className='text-secondary-red'>*</span>*/}
-                    {/*    </div>*/}
-                    {/*  */}
-                    {/*    <Select*/}
-                    {/*        className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}*/}
-
-                    {/*        onChange={(e) => {*/}
-
-                    {/*            setGrantedOg(e)*/}
-                    {/*            // getToCurrenciesFunc(e?.value)*/}
-                    {/*        }}*/}
-                    {/*        value={grantedOg}*/}
-                    {/*        options={grantedOgOptions}*/}
-                    {/*        unstyled*/}
-                    {/*        styles={{*/}
-                    {/*            input: (base) => ({*/}
-                    {/*                ...base,*/}
-                    {/*                base: " hover:cursor-pointer",*/}
-                    {/*                fontSize: "9px",*/}
-                    {/*                "input:focus": {*/}
-                    {/*                    boxShadow: "none",*/}
-                    {/*                },*/}
-                    {/*            }),*/}
-                    {/*            multiValueLabel: (base) => ({*/}
-                    {/*                ...base,*/}
-                    {/*                whiteSpace: "normal",*/}
-                    {/*                overflow: "visible",*/}
-                    {/*            }),*/}
-                    {/*            control: (base) => ({*/}
-                    {/*                ...base,*/}
-                    {/*                transition: "none",*/}
-                    {/*            }),*/}
-                    {/*        }}*/}
-
-                    {/*        classNames={{*/}
-                    {/*            control: ({isFocused}) => ' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',*/}
-                    {/*            multiValueLabel: () => 'bg-white rounded-xl ',*/}
-                    {/*            option: ({isFocused, isSelected}) => 'bg-white px-4 py-1',*/}
-                    {/*        }}*/}
-                    {/*    />*/}
-                    {/*</div>*/}
-
-                    {/*<div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>*/}
-                    {/*    <div className=' text-[1.3rem] capitalize'>*/}
-                    {/*        {myTexts.typeCertification} <span className='text-secondary-red'>*</span>*/}
-                    {/*    </div>*/}
-                    {/*    <MainInput*/}
-                    {/*        register={register}*/}
-                    {/*        label={'typeCertification'}*/}
-                    {/*        error={errors?.typeCertification?.message}*/}
-                    {/*        name={'typeCertification'}*/}
-                    {/*        type={'text'}*/}
-                    {/*        placeholder={myTexts.typeCertification}*/}
-                    {/*    />*/}
-                    {/*</div>*/}
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.price} <span className='text-secondary-red'>*</span>
                         </div>
-                        <MainInput
-                            register={register}
-                            label={'price'}
-                            error={errors?.price?.message}
-                            name={'price'}
-                            type={'number'}
-                            placeholder={myTexts.price}
-                        />
+                        <div className='flex flex-row items-start justify-between gap-4'>
+                            <div className='w-9/12'>
+                                <MainInput
+                                    register={register}
+                                    label={'price'}
+                                    error={errors?.price?.message}
+                                    name={'price'}
+                                    type={'number'}
+                                    placeholder={myTexts.price}
+                                />
+                            </div>
+                            <Select
+                                className={`border border-1 border-slate-700 w-3/12 flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
+
+                                onChange={(e) => {
+                                    setSelectedPriceUnit(e)
+                                }}
+                                value={selectedPriceUnit}
+                                options={priceUnits}
+                                unstyled
+                                styles={{
+                                    input: (base) => ({
+                                        ...base,
+                                        base: " hover:cursor-pointer",
+                                        fontSize: "9px",
+                                        "input:focus": {
+                                            boxShadow: "none",
+                                        },
+                                    }),
+                                    multiValueLabel: (base) => ({
+                                        ...base,
+                                        whiteSpace: "normal",
+                                        overflow: "visible",
+                                    }),
+                                    control: (base) => ({
+                                        ...base,
+                                        transition: "none",
+                                    }),
+                                }}
+
+                                classNames={{
+                                    control: ({isFocused}) => ' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
+                                    multiValueLabel: () => 'bg-white rounded-xl ',
+                                    option: ({isFocused, isSelected}) => 'bg-white px-4 py-1',
+                                }}
+                            />
+
+                        </div>
                     </div>
 
 
@@ -660,7 +603,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
                             error={errors?.quality_type?.message}
                             name={'quality_type'}
                             type={'text'}
-                            placeholder={'Good / Normal / Bad'}
+                            placeholder={'Excellent / Good / Normal / Fair'}
                         />
                     </div>
 

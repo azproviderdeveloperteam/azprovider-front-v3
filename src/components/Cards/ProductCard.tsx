@@ -136,6 +136,7 @@ const ProductCard = ({item , theme , isService , type = 'product'} : any) => {
 
                         <span
                             className='font-bold'> {discount?.discounted_price ? discount?.discounted_price : item?.price ? item?.price : ' - '} </span>
+                        <span className={'mx-1 uppercase'}>{item?.price_unit}</span>
                     </div>
                 </div>
                 <div className={`flex flex-row items-center justify-start ${theme === 'dark' ? 'text-white' : 'text-primary-dark-b'} `}>
