@@ -8,6 +8,8 @@ const OurResponsive = () => {
     const myTexts = text.homePage.ourResponsive
     return (
         <div className='w-full py-[7rem] bg-[#ffffff]'>
+            <Image src={'/our-responsive.png'} alt={'az-provider-responsive'} width={500} height={123} className={'w-full  md:hidden'} />
+
             <div className='max-w-[71rem]   m-auto w-full flex flex-col  md:flex-row items-center justify-between px-[5%] lg:px-0'>
                 <div className='w-full md:w-1/2'>
                     <h2 className='w-full font-bold text-[2rem]  text-left text-primary-dark-b'>
@@ -41,7 +43,7 @@ const OurResponsive = () => {
                         }
                     </div>
                 </div>
-                <Image src={'/our-responsive.png'} alt={'az-provider-responsive'} width={500} height={123} className={'w-[90%] md:w-[38%]'} />
+                <Image src={'/our-responsive.png'} alt={'az-provider-responsive'} width={500} height={123} className={'w-[90%] md:w-[38%]  hidden md:block'} />
 
             </div>
 

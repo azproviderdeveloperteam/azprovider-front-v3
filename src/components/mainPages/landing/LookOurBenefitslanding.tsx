@@ -19,21 +19,21 @@ const LooksOurBenefitsLanding = () => {
 
 
     return (
-        <div className='w-full bg-white pb-10'>
+        <div className='w-full bg-white pb-10 px-6'>
             <div className='w-full max-w-[71.4rem]   m-auto w-full flex flex-col items-center justify-start text-primary-dark-b bg-gradient-to-b  from-primary-green-cb to-gray-50 p-1 rounded-[1.5rem] translate-y-[-5rem] shadow-[0px_55px_55px_13px_rgba(5,_25,_38,_0.20)]'>
                 <div className='w-full h-full rounded-[1.4rem] bg-white py-10'>
-                    <h3 className='w-full text-center text-[3.5rem] font-bold'>
+                    <h3 className='w-full text-center text-[1.5rem] md:text-[3.5rem] font-bold'>
                         {myTexts.title}
                     </h3>
                     <p className='w-full text-center px-[13%] text-[1.1rem] '>
                         {/*{myTexts.desc}*/}
                     </p>
-                    <div className='w-full flex flex-row items-start justify-start flex-wrap px-[13%] mt-10'>
+                    <div className='w-full grid grid-cols-4 flex-wrap px-6 md:px-[13%] mt-10'>
                         {
                             data?.data.map((item : any ,index : number)=>{
                                 return(
-                                    <div className={'w-[11rem] aspect-square rounded-2xl bg-[#D9D9D9] m-2 p-[3%] flex flex-col items-start justify-start benefit-icon.svg'} key={index+1}>
-                                        <Image src={'/benefit-icon.svg'} alt={`benefit-icon${index+1}`} width={30} height={30} />
+                                    <div className={'col-span-2 md:col-span-1 aspect-square rounded-2xl bg-[#D9D9D9] m-2 p-3 flex flex-col items-start justify-start  '} key={index+1}>
+                                        <Image src={'/benefit-icon.svg'} alt={`benefit-icon${index+1}`} width={30} height={30} className={'w-[1rem]'}/>
                                         <h5 className='mt-2 text-[1.1rem] font-bold'>
                                             {item.title}
                                         </h5>

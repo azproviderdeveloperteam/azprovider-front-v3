@@ -10,7 +10,7 @@ import Image from "next/image";
     return (
         <div className={`w-full flex flex-col items-center justify-center h-[45rem] bg-cover bg-center bg-no-repeat relative`} style={{backgroundImage:`url(${ship.src})`}}>
             <div className='bg-[#051926] bg-opacity-90  w-full h-full flex flex-col items-center justify-center'>
-                <h2 className='text-[4rem] w-full  lg:w-[73%] 2xl:w-[39%] font-bold text-center inline-block text-transparent bg-clip-text' style={{backgroundImage:"linear-gradient(88deg, #AE88FF 7.72%, #FFA3F7 48.06%, #FFCB8E 91.92%)"}}>
+                <h2 className='text-[3rem] w-full  lg:w-[73%] 2xl:w-[39%] font-bold text-center inline-block text-transparent bg-clip-text' style={{backgroundImage:"linear-gradient(88deg, #AE88FF 7.72%, #FFA3F7 48.06%, #FFCB8E 91.92%)"}}>
                     {myTexts.title}
                 </h2>
 
