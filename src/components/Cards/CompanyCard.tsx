@@ -6,21 +6,18 @@ import Image from "next/image";
 import Link from "next/link";
 import CompanyDetailsContacts from "@/components/mainPages/CompanyDetailsContacts";
 import {useAuth} from "../../contexts/AuthContext";
-const CompanyCard = ({item } : any) => {
+import {EditCompanyCardIcon, ViewCompanyCardIcon} from "@/components/icons";
+import {useRouter} from "next-nprogress-bar";
+const CompanyCard = ({item , topItem = false} : any) => {
 
-    const monthNamesFull = [ "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December" ];
-
-    const monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-
+    const router = useRouter()
     // const [onMouseIn , setOnMouseIn] = useState(false)
     //
     // const {user} = useAuth()
     //
     return (
-        <div  className='w-full bg-[#F8F8F8] min-h-[5.3rem] py-3 rounded-[1.2rem] shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.10)] flex flex-col md:flex-row items-center justify-between px-4'>
-            <Link href={`/companies/${item?.user}`} className='w-full md:w-3/12  px-2 flex flex-row items-center justify-start cursor-pointer'>
+        <div  className={`w-full bg-[#F8F8F8] min-h-[5.3rem] py-3 rounded-[1.2rem] shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.10)] flex flex-col md:flex-row items-center justify-between px-4 ${topItem ? 'border-l-4 border-l-primary-green-wgd mb-12' :''}`}>
+            <Link href={`/companies/${item?.user}${topItem ? '?edit=true' :""}`} className='w-full md:w-3/12  px-2 flex flex-row items-center justify-start cursor-pointer'>
                 {
                     item?.logo ?
                     <Avatar src={item?.logo ? `${item?.logo}` : noImage.src} />
@@ -87,7 +84,21 @@ const CompanyCard = ({item } : any) => {
                 {/*        null*/}
 
                 {/*}*/}
-                <CompanyDetailsContacts slug={item?.user}/>
+                {
+                    topItem ?
+                        <>
+                            <IconButton onClick={()=>router.push(`/companies/${item?.user}${topItem ? '?edit=true' :""}`)}   className={'bg-transparent shadow-none focus:shadow-none'}>
+                                <EditCompanyCardIcon />
+                            </IconButton>
+                            <IconButton onClick={()=>router.push(`/companies/${item?.user}`)} className={'bg-transparent shadow-none focus:shadow-none'}>
+                                <ViewCompanyCardIcon/>
+                            </IconButton>
+
+                        </>
+
+                        :
+                        <CompanyDetailsContacts slug={item?.user}/>
+                }
 
 
                 {/*{*/}
