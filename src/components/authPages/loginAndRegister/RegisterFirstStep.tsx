@@ -82,7 +82,7 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
 
 
 
-           nextStep(validateEmail(d?.email) ? d?.email :`${country.value}${d?.email}`)
+           nextStep(validateEmail(d?.email) ? d?.email :`${country?.value}${country?.value ==='+98' ? d?.email?.startsWith('0') ? d.email.slice(1) : d.email :d?.email}`)
        }catch (err){
             console.log(err)
            if(err instanceof AxiosError){
