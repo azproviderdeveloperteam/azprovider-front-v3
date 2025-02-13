@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, {useState} from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getCompanyDetails } from "@/services/companyServices";
 import Image from "next/image";
@@ -16,10 +16,12 @@ import FullPageLoading from "@/components/loaders/FullPageLoading";
 import {useAuth} from "../../../../contexts/AuthContext";
 import { useSearchParams } from "next/navigation";
 import {EditGreenIcon, EditInformationBtnIcon} from "@/components/icons";
-import {Button} from "@material-tailwind/react";
+import {Button, DialogBody, DialogHeader, IconButton} from "@material-tailwind/react";
 import RegisterBtn from "@/components/Buttons/RegisterBtn";
 import EmployeesList from "@/components/companyDetails/EmployeesList";
 import CompanyDetailsRightSide from "@/components/companyDetails/companyDetailsRightSide";
+import AzDialog from "@/components/dialog/AzDialog";
+import ProfileBInfo from "@/components/dashboard/profile/ProfileBInfo";
 
 const CompanyDetailPage = ({ params }: { params: { slug: string } }) => {
 
@@ -29,16 +31,18 @@ const CompanyDetailPage = ({ params }: { params: { slug: string } }) => {
     const monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
+
     const searchParams = useSearchParams();
     const {user} = useAuth()
-
+    const [openDialog ,setOpenDialog] = useState(false)
+    const [firstTime , setFirstTime ] = useState(true)
     const isEditMode = searchParams.get("edit") === "true";
     const checkUser = user?.userData?.user === params.slug
     const viewEditMode = isEditMode && checkUser
 
     const { data : d, isLoading, error } = useQuery({
-        queryKey: ["companyDetails", params.slug],
-        queryFn: () => getCompanyDetails(params.slug), // فرستادن توکن
+        queryKey: ["companyDetails", params.slug , openDialog === false],
+        queryFn: () => getCompanyDetails(params.slug),
     });
 
     const data = d?.data
@@ -61,11 +65,14 @@ const CompanyDetailPage = ({ params }: { params: { slug: string } }) => {
     };
 
 
-    if(isLoading) return <FullPageLoading/>
+    if(isLoading && firstTime) {
+        setFirstTime(false)
+        return <FullPageLoading/>
+    }
 
 
     return (
-        <div className='w-full py-28 px-5'>
+        <div className='w-full py-28 px-5 '>
             <div className='max-w-[95rem]   m-auto w-full  px-[5%] lg:px-0'>
                 <Image src={data?.logo ? `${data?.logo}` : noImage?.src} alt={data?.business_information?.name}
                        height={200} width={500} className={'w-full h-[17rem] object-cover rounded-[1.3rem]'}/>
@@ -75,6 +82,7 @@ const CompanyDetailPage = ({ params }: { params: { slug: string } }) => {
                     {
                         viewEditMode &&
                         <div
+                            onClick={()=>setOpenDialog(true)}
                             className='absolute bg-[#F3F3F3] border-4 border-white w-8 h-8 bottom-[-5%] left-[130%] rounded-full cursor-pointer'>
                             <EditGreenIcon/>
                         </div>
@@ -86,7 +94,7 @@ const CompanyDetailPage = ({ params }: { params: { slug: string } }) => {
                         {
                             viewEditMode &&
                             <div className='w-full flex flex-row items-center justify-center'>
-                                <Button variant="outlined"
+                                <Button onClick={()=>setOpenDialog(true)} variant="outlined"
                                         className={'border-2 border-primary-green-tb rounded-2xl text-primary-green-tb normal-case flex items-center gap-3'}>
                                     <EditInformationBtnIcon/> Edit Business info
                                 </Button>
@@ -145,12 +153,28 @@ const CompanyDetailPage = ({ params }: { params: { slug: string } }) => {
                         </div>
                     </div>
                     <div className='col-span-12 lg:col-span-9'>
-                        <CompanyDetailsRightSide data={data}/>
+                        <CompanyDetailsRightSide data={data} viewEditMode={viewEditMode}/>
                     </div>
                 </div>
 
 
             </div>
+
+            <AzDialog black={true} open={openDialog}  handler={()=>setOpenDialog(false)} size={'xxl'}>
+                <DialogHeader className={'w-full flex flex-row items-center justify-between px-5'}>
+                    Edit Profile
+                    <div className='absolute right-5 top-2'>
+                        <IconButton className={'bg-transparent focus:shadow-none'} onClick={() => setOpenDialog(false)}>
+                            <Image src={'/exit.svg'} alt={'exit.svg'} width={15} height={15}/>
+                        </IconButton>
+                    </div>
+
+
+                </DialogHeader>
+                <DialogBody>
+                    <ProfileBInfo bInfoData={data}/>
+                </DialogBody>
+            </AzDialog>
         </div>
     );
 };

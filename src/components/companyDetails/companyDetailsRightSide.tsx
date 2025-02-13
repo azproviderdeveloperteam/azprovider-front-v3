@@ -6,7 +6,7 @@ import CompanyDetailsMembership from "@/components/companyDetails/CompanyDetails
 import CompanyDetailsProducts from "@/components/companyDetails/CompanyDetailsProducts";
 import CompanyDetailsServices from "@/components/companyDetails/CompanyDetailsServices";
 
-const CompanyDetailsRightSide = ({ data }: any) => {
+const CompanyDetailsRightSide = ({ data ,viewEditMode}: any) => {
     const [activeTab, setActiveTab] = useState<any>('Products');
 
     // تعریف ref برای هر بخش
@@ -83,16 +83,16 @@ const CompanyDetailsRightSide = ({ data }: any) => {
 
             <div className={'w-full px-5'}>
                 <div ref={productsRef}>
-                    <CompanyDetailsProducts data={data} />
+                    <CompanyDetailsProducts data={data} viewEditMode={viewEditMode}/>
                 </div>
                 <div ref={servicesRef}>
-                    <CompanyDetailsServices data={data} />
+                    <CompanyDetailsServices data={data} viewEditMode={viewEditMode}/>
                 </div>
                 <div ref={certificatesRef}>
-                    <CompanyDetailsCertificates certificates={data?.certificates} />
+                    <CompanyDetailsCertificates certificates={data?.certificates} viewEditMode={viewEditMode}/>
                 </div>
                 <div ref={membershipRef}>
-                    <CompanyDetailsMembership data={data} />
+                    <CompanyDetailsMembership data={data} viewEditMode={viewEditMode}/>
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import {Dialog} from "@material-tailwind/react";
 import { ThemeProvider } from "@material-tailwind/react";
 
-const AzDialog = ({children , open , handler , size} : any) => {
+const AzDialog = ({children , open , handler , size , black} : any) => {
 
 
     const theme = {
@@ -95,7 +95,7 @@ const AzDialog = ({children , open , handler , size} : any) => {
         <ThemeProvider value={theme}>
         <Dialog
             open={open} handler={()=>handler(false)}
-            className='bg-white text-white flex flex-col items-center justify-start py-3 px-6 md:rounded-3xl font-roboto
+            className={`bg-white ${black ? 'text-black' :'text-white'} flex flex-col items-center justify-start py-3 px-6 md:rounded-3xl font-roboto
                     md:w-auto
                     absolute
                     md:relative
@@ -108,7 +108,7 @@ const AzDialog = ({children , open , handler , size} : any) => {
                     !left-0
                     !right-0
                     m-0
-                '
+                   `}
             size={size ? size : 'md'}
             animate={{
                 mount: { scale: 1, y: 0 },

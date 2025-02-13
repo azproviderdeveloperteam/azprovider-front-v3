@@ -1,12 +1,18 @@
 import React from 'react';
 import Image from "next/image";
 import noImage from "@/public/no-image.svg";
+import Link from "next/link";
+import SsrIconBtn from "@/components/Buttons/SsrIconBtn";
+import {GrayEditIcon} from "@/components/icons";
 
-const CompanyDetailsMembership = ({data} : any) => {
+const CompanyDetailsMembership = ({data , viewEditMode} : any) => {
     return (
         <div className={'w-full'}>
             <h3 className='mt-5 font-bold text-[1.1rem] text-primary-dark-b'>
                 Membership
+                {viewEditMode && <Link href={'/dashboard/profile'}
+                                       target={"_blank"}><SsrIconBtn><GrayEditIcon/></SsrIconBtn></Link>}
+
             </h3>
             <div className='w-full grid grid-cols-1 md:grid-cols-2 gap-4 my-4'>
 

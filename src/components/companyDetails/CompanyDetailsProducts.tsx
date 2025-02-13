@@ -1,15 +1,19 @@
 import React from 'react';
 import Link from "next/link";
 import ProductCard from "@/components/Cards/ProductCard";
+import {GrayEditIcon} from "@/components/icons";
+import SsrIconBtn from "@/components/Buttons/SsrIconBtn";
 
-const CompanyDetailsProducts = ({data} : any) => {
+const CompanyDetailsProducts = ({data , viewEditMode} : any) => {
+
     return (
         <div className={'w-full'}>
             {
                 data?.product && data?.product?.length > 0 ?
                     <div className='w-full mt-4'>
-                        <h3 className='text-[1.3rem] font-bold text-primary-dark-b inline'>
+                        <h3 className='text-[1.3rem] font-bold text-primary-dark-b text-center lg:text-left gap-2 flex flex-row'>
                             {`${data?.business_information?.brand_name ? data?.business_information?.brand_name : 'Company'} Products`}
+                            { viewEditMode && <Link href={'/dashboard/products'} target={"_blank"} ><SsrIconBtn><GrayEditIcon /></SsrIconBtn></Link>}
                         </h3>
                         <div className='w-full overflow-x-hidden'>
                             <div

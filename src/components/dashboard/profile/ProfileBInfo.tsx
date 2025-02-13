@@ -71,7 +71,7 @@ const ProfileBInfo = ({bInfoData} : any) => {
     });
     useEffect(() => {
         if (initialCities) {
-                setCities(initialCities?.data?.results ? initialCities?.data?.results?.map(x=>{return{value:x.id , label :x?.name}}) || [] : []);
+                setCities(initialCities?.data?.results ? initialCities?.data?.results?.map((x:any)=>{return{value:x.id , label :x?.name}}) || [] : []);
         }
     }, [initialCities]);
     useEffect(()=>{
@@ -83,7 +83,7 @@ const ProfileBInfo = ({bInfoData} : any) => {
         setValue('last_name',bInfoData?.last_name)
         setValue('business_register_code',bInfoData?.business_register_code)
         // setValue('business_role',bInfoData?.business_role)
-        setBRole(bInfoData?.business_role?.map(x=>{return{label:x.title , value : x?.id}}))
+        setBRole(bInfoData?.business_role?.map((x:any)=>{return{label:x.title , value : x?.id}}))
         setSelectedCity({label:bInfoData?.city , value:'1'})
         setSelectedCountry({label:bInfoData?.country , value:'2'})
         setValue('email',bInfoData?.email)
@@ -97,7 +97,7 @@ const ProfileBInfo = ({bInfoData} : any) => {
             last_name:d?.last_name,
             international_name:d?.international_name,
             business_register_code:d?.business_register_code,
-            business_role_id:bRole?.map(x => x?.value),
+            business_role_id:bRole?.map((x:any) => x?.value),
             country:selectedCountry?.label,
             city:selectedCity?.label
             // email:d?.email,
@@ -192,7 +192,7 @@ const ProfileBInfo = ({bInfoData} : any) => {
 
             if(cityName){
                 const moreCitiesResponse = await getCities(selectedCountry?.label?.toString(), nextPage , 50 , cityName);
-                const newCities = moreCitiesResponse?.data?.results?.map(x=>{return{value:x.id , label :x?.name}}) || [];
+                const newCities = moreCitiesResponse?.data?.results?.map((x:any)=>{return{value:x.id , label :x?.name}}) || [];
 
                 if (newCities.length === 0) {
                     setPage(1)
@@ -205,7 +205,7 @@ const ProfileBInfo = ({bInfoData} : any) => {
                 })
             }else {
                 const moreCitiesResponse = await getCities(selectedCountry?.label?.toString(), nextPage , 50 , undefined);
-                const newCities = moreCitiesResponse?.data?.results?.map(x=>{return{value:x.id , label :x?.name}}) || [];
+                const newCities = moreCitiesResponse?.data?.results?.map((x:any)=>{return{value:x.id , label :x?.name}}) || [];
 
                 if (newCities.length === 0) {
                     setPage(1)
@@ -252,7 +252,7 @@ const ProfileBInfo = ({bInfoData} : any) => {
 
 
 
-    const hasError = errors?.brandName?.message || errors?.interName?.message || errors?.cellPhone?.message || errors?.localName?.message || errors?.contactPerson?.message || errors?.email?.message
+    const hasError =  errors?.email?.message
     return (
         <div className='w-full pt-4'>
             <div className='w-full bg-[#F8F8F8] p-5 lg:p-8 rounded-[1rem]'>
@@ -295,7 +295,7 @@ const ProfileBInfo = ({bInfoData} : any) => {
                         <MainInput
                             register={register}
                             label={'international_name'}
-                            error={errors?.interName?.message}
+                            error={errors?.international_name?.message}
                             name={'international_name'}
                             type={'text'}
                             placeholder={myTexts.interName}
@@ -441,7 +441,7 @@ const ProfileBInfo = ({bInfoData} : any) => {
                                         // getToCurrenciesFunc(e?.value)
                                     }}
                                     value={selectedCountry}
-                                    options={countries?.data?.results ? countries?.data?.results?.map(x=>{return{value:x.id , label :x?.name}}) || [] : []}
+                                    options={countries?.data?.results ? countries?.data?.results?.map((x:any)=>{return{value:x.id , label :x?.name}}) || [] : []}
                                     unstyled
                                     styles={{
                                         input: (base) => ({
