@@ -1,10 +1,11 @@
 'use client'
-import React from 'react';
+import React, {useRef} from 'react';
 import {useQuery} from "@tanstack/react-query";
 import {getCompanyDetails} from "@/services/companyServices";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
+import {useDraggable} from "react-use-draggable-scroll";
 
 const DefaultIcon = L.icon({
     iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
@@ -24,17 +25,20 @@ const CompanyDetailsAddresses = ({slug}:any) => {
         retry: false,
         enabled: false, // This prevents re-fetching
     });
+    const ref = useRef<HTMLDivElement>(null as unknown as HTMLDivElement);
+
+    const { events } = useDraggable(ref);
 
 
     return (
-        data?.data?.addresses?.length > 0 ?
-        <div className='w-full grid grid-cols-12 mb-4 gap-4'>
-            {data?.data?.addresses?.map((itm : any , idx : number)=>{
-                return(
-                    <div className='col-span-12 md:col-span-6 lg:col-span-4 ' key={idx+1}>
-                        <div key={idx+1} className='mt-4 w-full p-4 rounded-md border border-[1px] border-[#000]/20  flex flex-row items-start justify-start gap-4'>
 
-                            <MapContainer style={{ height: 200, width: '50%', marginTop:"1rem" }} center={[itm?.latitude || 0 , itm?.longitude || 0 ]} zoom={8} scrollWheelZoom={true}>
+        <div {...events} ref={ref} className='w-full flex flex-row items-start justify-start overflow-x-auto no-scrollbar gap-3'>
+            { data?.data?.addresses?.length > 0 ? data?.data?.addresses?.map((itm : any , idx : number)=>{
+                return(
+                    <div className='w-10/12' key={idx+1}>
+                        <div key={idx+1} className='mt-4 w-full p-4 rounded-2xl shadow-2xl bg-gray-100 flex flex-col items-start justify-start gap-4'>
+
+                            <MapContainer style={{ height: 200, width: '100%', marginTop:"1rem" }} center={[itm?.latitude || 0 , itm?.longitude || 0 ]} zoom={8} scrollWheelZoom={true}>
                                 <TileLayer
                                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -56,12 +60,15 @@ const CompanyDetailsAddresses = ({slug}:any) => {
                         </div>
                     </div>
                 )
-            })}
-        </div>
+            })
 
-            :   <span className='ml-1 text-[0.8rem] text-[#8E8E8E] font-bold capitalize'>
+                :   <span className='ml-1 text-[0.8rem] text-[#8E8E8E] font-bold capitalize'>
                 {`no location`}
             </span>
+            }
+        </div>
+
+
     );
 };
 
