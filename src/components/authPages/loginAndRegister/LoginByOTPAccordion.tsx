@@ -20,6 +20,7 @@ import {app} from "@/services/instance";
 import Select from "react-select";
 import {GrayEyeIcon} from "@/components/icons";
 import ResecCodeSignUp from "@/components/authPages/ResecCodeSignUp";
+import {getProfile} from "@/services/userProfileServices";
 
 const LoginByOtpAccordion = () => {
 
@@ -102,6 +103,8 @@ const LoginByOtpAccordion = () => {
             Cookies.set('refreshJwt', refresh  , {expires:inFifteenMinutes});
             app.defaults.headers.Authorization = `Bearer ${token}`;
             dispatch({type:"SET_TOKEN" , value:token})
+            const user = await getProfile()
+            dispatch({type:"SIGNIN" , value:user?.data})
             setStep(1)
 
 
@@ -138,6 +141,8 @@ const LoginByOtpAccordion = () => {
             Cookies.set('cookieToken', token , {expires:inFifteenMinutes});
             Cookies.set('refreshJwt', refresh  , {expires:inFifteenMinutes});
             dispatch({type:"SET_TOKEN" , value:token})
+            const user = await getProfile()
+            dispatch({type:"SIGNIN" , value:user?.data})
             toast.success('Login Successfully !')
             router.push('/dashboard')
 
@@ -178,6 +183,8 @@ const LoginByOtpAccordion = () => {
             Cookies.set('refreshJwt', refresh  , {expires:inFifteenMinutes});
             dispatch({type:"SET_TOKEN" , value:token})
             app.defaults.headers.Authorization = `Bearer ${token}`;
+            const user = await getProfile()
+            dispatch({type:"SIGNIN" , value:user?.data})
             toast.success('Login Successfully !')
             router.push('/dashboard')
 
@@ -219,6 +226,8 @@ const LoginByOtpAccordion = () => {
             Cookies.set('refreshJwt', refresh  , {expires:inFifteenMinutes});
             dispatch({type:"SET_TOKEN" , value:token})
             app.defaults.headers.Authorization = `Bearer ${token}`;
+            const user = await getProfile()
+            dispatch({type:"SIGNIN" , value:user?.data})
             toast.success('Login Successfully !')
             router.push('/dashboard')
 

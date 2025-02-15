@@ -4,6 +4,7 @@ import {createContext, useContext, useEffect, useLayoutEffect, useReducer, useSt
 import Cookies from "js-cookie";
 import {app} from "@/services/instance";
 import { useRouter } from 'next/navigation'
+import {getProfile} from "@/services/userProfileServices";
 
 
 const AuthContext = createContext({})
@@ -37,13 +38,22 @@ const AuthProvider = ({children}:any)=>{
     const router = useRouter()
     const [loading ,setLoading] = useState(true)
 
+    const getUserData = async () =>{
+        try{
+            const user = await getProfile()
+            //@ts-ignore
+            dispatch({type:"SIGNIN" , value:user?.data})
+        }catch (e){
+
+        }
+    }
     useLayoutEffect(()=>{
         setLoading(true)
         const cookieToken = Cookies.get('cookieToken');
         const refreshJwt = Cookies.get('refreshJwt');
         if(cookieToken){
             app.defaults.headers.Authorization = `Bearer ${cookieToken}`;
-
+            getUserData()
             setLoading(false)
 
         }else {

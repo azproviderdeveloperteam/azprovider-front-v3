@@ -6,18 +6,18 @@ import { CircularProgressbar , buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import {useQueryClient} from "@tanstack/react-query";
 import {useRouter} from "next-nprogress-bar";
+import {useAuth} from "../../../contexts/AuthContext";
 
 const UserCard = () => {
 
 
-    const queryClient = useQueryClient()
     const router = useRouter()
-    const profile : any = queryClient.getQueryData(['get-user-profile-header'])
+    const {user} = useAuth()
 
     const percentage = 100;
 
     return (
-        profile ? profile?.data ?
+        user ? user?.userData ?
         <div className='w-full bg-primary-gray-100 p-5 rounded-[1.5rem] relative cursor-pointer' onClick={()=>router.push('/dashboard/profile?tab=bInfo')} style={{boxShadow:'0px 12px 20px 0px rgba(0, 0, 0, 0.08)'}}>
             <Image src={'/yellow-diamond.svg'} alt={'yellow-diamond'} width={40} height={40} className={'absolute left-[0.1rem] top-[0.2rem] z-10'}/>
             <div className='w-full flex flex-row items-center justify-start'>
@@ -50,7 +50,7 @@ const UserCard = () => {
 
                     </div>
 
-                    <Avatar className={'aspect-square'} src={profile?.data?.logo ? `${profile?.data?.logo}` :`/no-image.svg` } alt="avatar" size="lg"/>
+                    <Avatar className={'aspect-square'} src={user?.userData?.logo ? `${user?.userData?.logo}` :`/no-image.svg` } alt="avatar" size="lg"/>
 
                     <div className='text-[#45AB06] font-thin mt-2 text-center w-full text-[0.6rem]'>
                         {/*73% Completed*/}
@@ -59,7 +59,7 @@ const UserCard = () => {
 
                 <div className='ml-5'>
                     <div className='text-[1rem] font-bold'>
-                        {`${profile?.data?.first_name ? profile?.data?.first_name :""} ${profile?.data?.last_name ? profile?.data?.last_name :""}`}
+                        {`${user?.userData?.first_name ? user?.userData?.first_name :""} ${user?.userData?.last_name ? user?.userData?.last_name :""}`}
                     </div>
 
                     {/*<div className='text-[1.2rem] text-[#5F5F5F] font-bold mt-[-0.4rem]'>*/}

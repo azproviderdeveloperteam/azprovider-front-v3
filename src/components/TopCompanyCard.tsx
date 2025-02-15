@@ -8,6 +8,7 @@ const TopCompanyCard = ({data} : {data : any}) => {
     const {user} = useAuth()
    const item =  data?.find((x:any) => x.id === user?.userData?.id) || undefined
 
+
     return (
         item ?
         <div className={` w-full overflow-visible pt-4 pb-2 px-1`} >

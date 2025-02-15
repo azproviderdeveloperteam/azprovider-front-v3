@@ -12,10 +12,11 @@ import {useMutation} from "@tanstack/react-query";
 import {registerSetPassword} from "@/services/authServices";
 import {AxiosError} from "axios";
 import toast from "react-hot-toast";
-import {useAuth} from "../../../contexts/AuthContext";
+import {useAuth, useAuthActions} from "../../../contexts/AuthContext";
 import {useRouter} from "next/navigation";
 import {GrayEyeIcon} from "@/components/icons";
 import { Button} from "@material-tailwind/react";
+import {getProfile} from "@/services/userProfileServices";
 
 const RegisterFourthStep = ({nextStep , email}: any) => {
 
@@ -54,6 +55,7 @@ const RegisterFourthStep = ({nextStep , email}: any) => {
 
 
     const {user}= useAuth()
+    const dispatch = useAuthActions()
     const token = user?.token
     const router = useRouter()
 
@@ -69,6 +71,8 @@ const RegisterFourthStep = ({nextStep , email}: any) => {
         }
         try {
             const d = await mutateAsync({data:formData , token : token})
+            const user = await getProfile()
+            dispatch({type:"SIGNIN" , value:user?.data})
             toast.success('Register Successfully !')
             router.push('/dashboard')
             // nextStep(3)
@@ -151,8 +155,10 @@ const RegisterFourthStep = ({nextStep , email}: any) => {
 
 
                     <div className='w-full mt-10 px-3 flex flex-row items-center justify-between capitalize'>
-                        <div className='cursor-pointer text-primary-green-cb' onClick={()=>{
+                        <div className='cursor-pointer text-primary-green-cb' onClick={async ()=>{
                             toast.success('Register Successfully !')
+                            const user = await getProfile()
+                            dispatch({type:"SIGNIN" , value:user?.data})
                             router.push('/dashboard')
                         }}>
                             {myTexts.skip}

@@ -12,38 +12,10 @@ import Image from "next/image";
 const HeaderCheckUserLogin = ({text , black} : any) => {
 
     const {user} = useAuth()
-    const dispatch = useAuthActions()
-    const [view , setView] = useState(true)
 
-    const router = useRouter()
-    const {data , isLoading , error} = useQuery({
-        queryKey:['get-user-profile-header' , user?.token],
-        queryFn:getProfile,
-        retry:false ,
-        refetchOnWindowFocus: true
-    })
-
-    const cookieToken = Cookies.get('cookieToken')
-
-    useEffect(()=>{
-        if(cookieToken){
-            if(cookieToken?.toString()?.length){
-                if(cookieToken?.toString()?.length > 10){
-                    setView(true)
-                } else setView(false)
-            } else setView(false)
-
-        } else setView(false)
-    },[data , user , router])
-
-    useEffect(()=>{
-        if(data?.data?.user){
-            dispatch({type:"SIGNIN" ,value : data?.data})
-        }
-    },[data])
+    console.log(user)
      return (
-        isLoading ? null :
-        data?.data?.id  && view ?
+         user?.userData?.id ?
             <>
                 <Link href={'/dashboard'} className='hidden lg:block'>
                     <LightBtn border={true} otherClass={'mr-3'} black={black? black : false}>

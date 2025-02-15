@@ -18,6 +18,7 @@ const DashboardSIdeBarItem = ({icon , title , alt , href}  :any) => {
         Cookies.set('refreshJwt', ''  );
         app.defaults.headers.Authorization = `Bearer ${''}`;
         dispatch({type:"SET_TOKEN" , value:''})
+        dispatch({type:"LOGOUT"})
         router.push('/')
     }
     const active = pathname.toString().split('/')[2] === undefined ? title==='Dashboard'? true : false  :   href?.toString()?.toLowerCase()?.includes((pathname.toString().split('/')[2])?.toString()?.toLowerCase())
