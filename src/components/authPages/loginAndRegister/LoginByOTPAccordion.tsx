@@ -103,8 +103,7 @@ const LoginByOtpAccordion = () => {
             Cookies.set('refreshJwt', refresh  , {expires:inFifteenMinutes});
             app.defaults.headers.Authorization = `Bearer ${token}`;
             dispatch({type:"SET_TOKEN" , value:token})
-            const user = await getProfile()
-            dispatch({type:"SIGNIN" , value:user?.data})
+
             setStep(1)
 
 
