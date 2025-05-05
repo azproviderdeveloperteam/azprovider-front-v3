@@ -20,7 +20,7 @@ const ProductCard = ({item , theme , isService , type = 'product'} : any) => {
     return (
         <div className={`w-full aspect-[0.7334] flex flex-col items-center justify-between rounded-[1.6rem] ${theme==='dark' ?'bg-primary-dark-b shadow-[0px_12px_20px_0px_#062940]' : 'bg-white shadow-[0px_12px_20px_0px_rgba(0,_0,_0,_0.10)]' } `}>
             <div className='w-full flex flex-col items-center justify-start'>
-                <div className='relative w-full aspect-[1.4268] h-auto' >
+                <div className='relative w-full aspect-[1.4268] h-auto'>
                     {/*<Carousel*/}
                     {/*    transition={{ duration: 1 }} className="font-roboto rounded-[1.6rem] w-full h-full "*/}
                     {/*    autoplay={true}*/}
@@ -52,9 +52,13 @@ const ProductCard = ({item , theme , isService , type = 'product'} : any) => {
                     {/*</Carousel>*/}
                     {
                         item?.media_files?.[0]?.image
-                            ? <Image alt={'aaa'} src={`${item?.media_files?.[0]?.image?.includes("api.azprovider.com") ? "" :  process.env.MEDIA_URL}${item?.media_files?.[0]?.image}`} width={235} height={235}  className='w-full aspect-[1.4268] rounded-[1.6rem] object-center object-cover'/>
+                            ? <Image alt={'aaa'}
+                                     src={`${item?.media_files?.[0]?.image?.includes("api.azprovider.com") ? "" : process.env.MEDIA_URL}${item?.media_files?.[0]?.image}`}
+                                     width={235} height={235}
+                                     className='w-full aspect-[1.4268] rounded-[1.6rem] object-center object-cover'/>
                             :
-                            <Image alt={'aaa'} src={`/no-image.svg`} width={235} height={235} className='w-full aspect-[1.4268] object-center object-cover rounded-[1.6rem]' />
+                            <Image alt={'aaa'} src={`/no-image.svg`} width={235} height={235}
+                                   className='w-full aspect-[1.4268] object-center object-cover rounded-[1.6rem]'/>
                     }
                     <div className='absolute w-full h-full top-0 left-0'>
                         <div className='w-full flex flex-row items-center justify-between pt-3 px-[5%]'>
@@ -65,8 +69,9 @@ const ProductCard = ({item , theme , isService , type = 'product'} : any) => {
 
                                 {
                                     item?.capacity &&
-                                    <div className='bg-primary-dark-b py-[1px] px-2 text-white rounded-[5px] ml-[5px] text-[0.6rem]'>
-                                        {`${item?.capacity || ''} ${item?.measure_unit?.symbol ||''}`}
+                                    <div
+                                        className='bg-primary-dark-b py-[1px] px-2 text-white rounded-[5px] ml-[5px] text-[0.6rem]'>
+                                        {`${item?.capacity || ''} ${item?.measure_unit?.symbol || ''}`}
                                     </div>
                                 }
 
@@ -74,16 +79,18 @@ const ProductCard = ({item , theme , isService , type = 'product'} : any) => {
                             <div className={'w-1/2 flex flex-row items-center justify-center text-[0.8rem]'}>
                                 {
                                     remainingTime &&
-                                    <div className='bg-[#FF4A23] pl-2 pr-[16px]  translate-x-[12px] text-white rounded-[5px]'>
+                                    <div
+                                        className='bg-[#FF4A23] pl-2 pr-[16px]  translate-x-[12px] text-white rounded-[5px]'>
                                         {remainingTime}
                                     </div>
                                 }
 
 
                                 {
-                                   discount?.discounted_price &&
-                                    <div style={{backgroundImage:`url(${hexagon.src})`}} className='relative z-10 w-[30%] bg-center bg-cover aspect-square flex flex-row items-center justify-center text-white font-bold text-[0.8rem]'>
-                                        {`${(100 - Number(discount?.discounted_price) / Number(item?.price) * 100)?.toFixed(((100 - Number(discount?.discounted_price) / Number(item?.price) * 100))%1 === 0 ? 0 : 1)}%`}
+                                    discount?.discounted_price &&
+                                    <div style={{backgroundImage: `url(${hexagon.src})`}}
+                                         className='relative z-10 w-[30%] bg-center bg-cover aspect-square flex flex-row items-center justify-center text-white font-bold text-[0.8rem]'>
+                                        {`${(100 - Number(discount?.discounted_price) / Number(item?.price) * 100)?.toFixed(((100 - Number(discount?.discounted_price) / Number(item?.price) * 100)) % 1 === 0 ? 0 : 1)}%`}
                                     </div>
 
                                 }
@@ -96,35 +103,36 @@ const ProductCard = ({item , theme , isService , type = 'product'} : any) => {
                 </div>
 
 
-
-                    <div className='w-full flex flex-row items-center justify-start mt-2 px-[5%]'>
-                        <Image src={'/dark-medal.svg'} alt={'dark-medal'} width={20} height={20} />
-                        <div className={`${theme === 'dark' ? 'text-white' : 'text-primary-dark-b' } text-[0.7rem] ml-1 mt-1`}>
-                             { item?.quality_type  ? item?.quality_type : ' - '}
-                        </div>
+                <div className='w-full flex flex-row items-center justify-start mt-2 px-[5%]'>
+                    <Image src={'/dark-medal.svg'} alt={'dark-medal'} width={20} height={20}/>
+                    <div
+                        className={`${theme === 'dark' ? 'text-white' : 'text-primary-dark-b'} text-[0.7rem] ml-1 mt-1`}>
+                        {item?.quality_type ? item?.quality_type : ' - '}
                     </div>
+                </div>
 
 
                 <Tooltip content={item?.title} placement="top">
-                    <h4 className={`${theme === 'dark' ? 'text-white' : 'text-primary-dark-b' } w-full text-left text-[1.2rem] font-bold px-[5%] truncate`}>
+                    <h4 className={`${theme === 'dark' ? 'text-white' : 'text-primary-dark-b'} w-full text-left text-[1.2rem] font-bold px-[5%] truncate`}>
                         {item?.title}
                     </h4>
                 </Tooltip>
 
                 <div className='w-full px-[5%] flex flex-row items-center justify-start'>
-                    <div className='bg-[#A1A1A1]     px-2 text-[0.7rem] text-primary-dark-b rounded-[0.3rem] flex flex-row items-center justify-start'>
-                        <Image src={'/star.svg'} alt={'star'} width={11} height={11} />
+                    <div
+                        className='bg-[#A1A1A1]     px-2 text-[0.7rem] text-primary-dark-b rounded-[0.3rem] flex flex-row items-center justify-start'>
+                        <Image src={'/star.svg'} alt={'star'} width={11} height={11}/>
                         <div className='ml-1 font-bold mt-1'>
-                            { item?.rate  ? item?.rate : ' - '}
+                            {item?.rate ? item?.rate : ' - '}
 
                         </div>
                     </div>
                     <div className='text-[#A1A1A1] ml-1 truncate'>
-                        { item?.brand_name  ? item?.brand_name : ' - '}
+                        {item?.brand_name ? item?.brand_name : ' - '}
                     </div>
                 </div>
-                <p className={`w-full mt-2 px-[5%] text-[0.8rem] text-justify ${theme === 'dark' ? 'text-white' : 'text-primary-dark-b' } line-clamp`}>
-                    { item?.short_description  ? item?.short_description : item?.description ? item?.description : ' - '}
+                <p className={`w-full mt-2 px-[5%] text-[0.8rem] text-justify ${theme === 'dark' ? 'text-white' : 'text-primary-dark-b'} line-clamp-3`}>
+                    {item?.short_description || item?.description || '-'}
                 </p>
             </div>
 
