@@ -5,6 +5,7 @@ import Image from "next/image";
 import ProductCard from "@/components/Cards/ProductCard";
  import {getProductDetails} from "@/services/productSevices";
 import SendRequestProductPage from "@/components/dialog/SendRequestProductPage";
+import ProductComment from "@/components/ProductComment";
 
 export const dynamicParams = false
 export const dynamic = 'force-static'
@@ -167,8 +168,9 @@ const CompanyDetailPage = async ({ params }: { params: { slug: string } }) => {
                             :null
                     }
 
-
-
+                    <div className='w-full px-4 mx-auto mt-5 max-w-[73rem]'>
+                        <ProductComment id={params?.slug || ''} />
+                    </div>
             </div>
         </div>
     );

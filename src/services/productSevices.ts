@@ -46,6 +46,23 @@ export async function  getAllPreInvoices(params : any){
     return await  instance.get('v2/product/pre-invoice/list/',{params : params})
 }
 
-export async function  getPreInvoiceDetails(id : any){
+export async function getPreInvoiceDetails(id : any){
     return await  instance.get(`v2/product/pre-invoice/${id}`, )
+}
+
+export async function sendComment({payload , id} : any){
+    return await instance.post(`v2/product/${id}/comment/` ,payload )
+}
+
+export async function getProductComments(id:string){
+    return await instance.get(`v2/product/${id}/comment?limit=500` )
+}
+
+
+export async function sendCommentService({payload , id} : any){
+    return await instance.post(`v2/service/${id}/comment/` ,payload )
+}
+
+export async function getServiceComments(id:string){
+    return await instance.get(`v2/service/${id}/comment?limit=500` )
 }
