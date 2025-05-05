@@ -23,14 +23,15 @@ const SendRequestProductPage = ({data , preInvoice = false , service=false} : an
     const [toDate , setToDate] = useState(new Date())
 
     const router = useRouter()
-    const dateToFormatYMD = (d : Date | undefined)=>{
-        if( d instanceof Date){
-            const stingDate = d?.toLocaleDateString()?.split('/')
-            return `${stingDate[2]}-${stingDate[0]}-${stingDate[1]}`
+    const dateToFormatYMD = (d: Date | undefined) => {
+        if (d instanceof Date) {
+            const year = d.getFullYear();
+            const month = (d.getMonth() + 1).toString().padStart(2, '0');
+            const day = d.getDate().toString().padStart(2, '0');
+            return `${year}-${month}-${day}`;
         }
-        return ``
-    }
-
+        return '';
+    };
 
     const schema = Yup
         .object({
