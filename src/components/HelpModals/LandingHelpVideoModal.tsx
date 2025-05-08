@@ -25,7 +25,7 @@ const LandingHelpVideoModal = () => {
 
 
     const {data, isPending , error } = useQuery({
-        queryKey: ['get-all-Role' ],
+        queryKey: ['get-landing' ],
         queryFn: getLandingWelcomeVideo,
         retry:false,
     })

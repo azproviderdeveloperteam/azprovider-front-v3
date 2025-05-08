@@ -90,7 +90,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
 
 
     const {data : allRoleData, isPending :allRolePending, error : allRoleError} = useQuery({
-        queryKey: ['get-all-Role' ],
+        queryKey: ['get-all-Role-2' ],
         queryFn: getUserRoleList,
         retry:false,
     })
