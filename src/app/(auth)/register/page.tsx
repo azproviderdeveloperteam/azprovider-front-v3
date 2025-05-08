@@ -38,7 +38,7 @@ const Register = () => {
 
                         :
                         step === 1 ?
-                            <RegisterSecondStep nextStep={()=>setStep(2)} email={email}/>
+                            <RegisterSecondStep nextStep={()=>setStep(3)} email={email}/>
 
                             :
                             step === 2 ?
