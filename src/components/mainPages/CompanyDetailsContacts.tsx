@@ -13,6 +13,7 @@ const CompanyDetailsContacts = ({slug} : any) => {
     })
 
     const contacts = data?.data?.contact?.[0]
+
     const sendEmail = () => {
         window.location.href = `mailto:${data?.data?.email}`
     };
@@ -23,8 +24,10 @@ const CompanyDetailsContacts = ({slug} : any) => {
     const handleCallTell = () => {
         window.location.href = `tel:${contacts?.tel}`
     };
+
+
     return (
-        contacts ?
+
         <div className={'w-full lg:w-1/2 flex flex-row items-center justify-end'}>
             {data?.data?.email?.length > 1 &&     <SsrIconBtn className={'bg-transparent shadow-none focus:shadow-none'} onClick={sendEmail}>
                 <Image src={'/icon-for-send-email.svg'} alt={'icon-for-send-email.svg'} width={40} height={40} />
@@ -53,7 +56,7 @@ const CompanyDetailsContacts = ({slug} : any) => {
 
         </div>
 
-            : null
+
     );
 };
 

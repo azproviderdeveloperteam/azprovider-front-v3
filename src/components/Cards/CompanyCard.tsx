@@ -11,10 +11,38 @@ import {useRouter} from "next-nprogress-bar";
 const CompanyCard = ({item , topItem = false} : any) => {
 
     const router = useRouter()
-    // const [onMouseIn , setOnMouseIn] = useState(false)
+
     //
-    // const {user} = useAuth()
-    //
+    const {user} = useAuth()
+
+    const login = user?.login
+
+
+    const getRandomBgColor = () => {
+        const bgClasses = [
+            'bg-primary-green-lg100',
+            'bg-primary-green-lg400',
+            'bg-primary-green-sg900',
+            'bg-primary-green-wgd',
+            'bg-primary-green-mg',
+            'bg-primary-green-cb',
+            'bg-primary-green-shg',
+            'bg-primary-green-tb',
+            'bg-primary-purple-300',
+            'bg-primary-purple-600',
+            'bg-primary-purple-800',
+            'bg-primary-gray-400',
+            'bg-primary-dark-g',
+            'bg-primary-dark-b',
+            'bg-primary-dark-p',
+            'bg-secondary-red',
+            'bg-secondary-yellow',
+            'bg-secondary-peach',
+        ];
+        const randomIndex = Math.floor(Math.random() * bgClasses.length);
+        return bgClasses[randomIndex];
+    };
+
     return (
         <div  className={`w-full bg-[#F8F8F8] min-h-[5.3rem] py-3 rounded-[1.2rem] shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.10)] flex flex-col md:flex-row items-center justify-between px-4 ${topItem ? 'border-l-4 border-l-primary-green-wgd mb-12' :''}`}>
             <Link href={`/companies/${item?.user}${topItem ? '?edit=true' :""}`} className='w-full md:w-3/12  px-2 flex flex-row items-center justify-start cursor-pointer'>
@@ -22,8 +50,7 @@ const CompanyCard = ({item , topItem = false} : any) => {
                     item?.logo ?
                     <Avatar src={item?.logo ? `${item?.logo}` : noImage.src} />
                         :
-                        <div className={'w-[3rem] h-[3rem] rounded-full bg-primary-green-wgd flex flex-row items-center justify-center text-[1.1rem] text-[#ffffff]'}>
-                            {item?.international_name ? item?.international_name?.[0] : item?.first_name?.[0] +item?.last_name?.[0] || ''}
+                        <div className={`w-[3rem] h-[3rem] rounded-full ${getRandomBgColor()} flex flex-row items-center justify-center text-[1.1rem] text-[#ffffff]`}>                            {item?.international_name ? item?.international_name?.[0] : item?.first_name?.[0] +item?.last_name?.[0] || ''}
                         </div>
                 }
                 <div className={'flex flex-col items-start justify-center h-full ml-2'}>
@@ -97,7 +124,8 @@ const CompanyCard = ({item , topItem = false} : any) => {
                         </>
 
                         :
-                        <CompanyDetailsContacts slug={item?.user}/>
+                        login ? <CompanyDetailsContacts slug={item?.user}/>
+                            : null
                 }
 
 
