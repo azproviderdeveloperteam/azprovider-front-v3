@@ -54,12 +54,29 @@ const RegisterSecondStep = ({nextStep , email} : any) => {
         return re.test(email);
     }
 
+
+    const convertPersianToEnglishNumbers = (input: string): string => {
+        const persianNumbers = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+        const arabicNumbers = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+
+        return input.replace(/[۰-۹٠-٩]/g, (char) => {
+            const persianIndex = persianNumbers.indexOf(char);
+            if (persianIndex > -1) return persianIndex.toString();
+
+            const arabicIndex = arabicNumbers.indexOf(char);
+            if (arabicIndex > -1) return arabicIndex.toString();
+
+            return char;
+        });
+    };
+
+
     const submit = async (d : any) =>{
 
         const formData = validateEmail(email) ?
-            { email:email , code:d?.code}
+            { email:email , code:convertPersianToEnglishNumbers(d?.code)}
             :
-            {mobile:email ,code:d?.code}
+            {mobile:email ,code:convertPersianToEnglishNumbers(d?.code)}
 
         try{
             const da = await mutateAsync({data:formData , token : token} )

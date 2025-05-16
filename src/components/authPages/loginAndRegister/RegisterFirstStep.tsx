@@ -70,19 +70,35 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
 
 
 
+    const convertPersianToEnglishNumbers = (input: string): string => {
+        const persianNumbers = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+        const arabicNumbers = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+
+        return input.replace(/[۰-۹٠-٩]/g, (char) => {
+            const persianIndex = persianNumbers.indexOf(char);
+            if (persianIndex > -1) return persianIndex.toString();
+
+            const arabicIndex = arabicNumbers.indexOf(char);
+            if (arabicIndex > -1) return arabicIndex.toString();
+
+            return char;
+        });
+    };
+
     const submit = async (d : any) =>{
+
 
 
         const formData = validateEmail(d?.email) ?
             { email:d?.email , ...(d.invitationCode?.length > 1 && {ref_code : d?.invitationCode} )}
         :
-            {mobile:`${country?.value}${country?.value ==='+98' ? d?.email?.startsWith('0') ? d.email.slice(1) : d.email :d?.email}` , ...(d.invitationCode?.length > 1 && {ref_code : d?.invitationCode} )}
+            {mobile:convertPersianToEnglishNumbers(`${country?.value}${country?.value ==='+98' ? d?.email?.startsWith('0') ? d.email.slice(1) : d.email :d?.email}`) , ...(d.invitationCode?.length > 1 && {ref_code : d?.invitationCode} )}
        try{
            const da = await mutateAsync(formData)
 
 
 
-           nextStep(validateEmail(d?.email) ? d?.email :`${country?.value}${country?.value ==='+98' ? d?.email?.startsWith('0') ? d.email.slice(1) : d.email :d?.email}`)
+           nextStep(validateEmail(d?.email) ? d?.email : convertPersianToEnglishNumbers(`${country?.value}${country?.value ==='+98' ? d?.email?.startsWith('0') ? d.email.slice(1) : d.email :d?.email}`))
        }catch (err){
             console.log(err)
            if(err instanceof AxiosError){
