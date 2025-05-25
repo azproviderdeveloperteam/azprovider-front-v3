@@ -145,7 +145,7 @@ const RegisterFourthStep = ({nextStep , email}: any) => {
                             error={errors?.confirmPassword?.message}
                             name={'confirmPassword'}
                             placeholder={'confirmPassword'}
-                            type={visible ?'text' :'password'}
+                            type={visible2 ?'text' :'password'}
                             endContent={<Button onClick={()=>setVisible2(!visible2)} className={'bg-opacity-0'}><GrayEyeIcon /></Button>}
                          />
                     </div>
