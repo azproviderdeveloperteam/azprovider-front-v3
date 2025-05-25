@@ -158,27 +158,31 @@ const RegisterSecondStep = ({nextStep , email} : any) => {
            <div className='w-full lg:w-1/2 px-5 lg:px-0 text-white'>
                <div className='w-full flex flex-col items-center justify-center relative z-[1]'>
                    <div className='w-full p-6 rounded-[1.5rem] bg-[#02131E]'>
+
                        <div className={'w-full flex flex-row items-center justify-start'}>
-                           <Image src={'/register-title.svg'} alt={'register-title'} width={35} height={35} />
+                           <Image src={'/register-title.svg'} alt={'register-title'} width={35} height={35}/>
                            <h1 className='font-bold text-[1.7rem] ml-2'>
                                {myTexts.title}
                            </h1>
 
                        </div>
-
+                       <div className='w-full'>
+                           {`Code Sent to ${email}`}
+                       </div>
                        <div className='w-full flex flex-row items-center justify-between'>
                            <h3 className={'mt-4 text-[1.2rem]'}>
                                {myTexts.verificationCode}
                            </h3>
                            <span className='px-5'>
-                                        <ResecCodeSignUp pending={vPending} resendCode={()=>{
+                                        <ResecCodeSignUp pending={vPending} resendCode={() => {
                                             resendCode()
                                         }}/>
 
                                   </span>
                        </div>
 
-                       <form className='w-full flex flex-row items-start justify-between mt-2' onSubmit={handleSubmit(submit)}>
+                       <form className='w-full flex flex-row items-start justify-between mt-2'
+                             onSubmit={handleSubmit(submit)}>
                            <div className='w-3/4 pr-3 h-full'>
                                <MainInput
                                    register={register}
@@ -192,7 +196,8 @@ const RegisterSecondStep = ({nextStep , email} : any) => {
                            </div>
 
                            <div className='w-1/4 flex flex-row items-start justify-end'>
-                               <RegisterBtn loading={isPending} type={'submit'} disabled={getValues()?.code?.length < 1} otherClass={'w-full'}>
+                               <RegisterBtn loading={isPending} type={'submit'} disabled={getValues()?.code?.length < 1}
+                                            otherClass={'w-full'}>
                                    {myTexts.confirm}
                                </RegisterBtn>
                            </div>
@@ -208,8 +213,9 @@ const RegisterSecondStep = ({nextStep , email} : any) => {
                        </div>
                    </div>
 
-                   <div className='w-full flex flex-row items-center justify-between flex-wrap mt-3 text-[0.8rem] text-[#ACACAC] px-1'>
-                       <Link href={'/privacy-and-policy'}>
+                   <div
+                       className='w-full flex flex-row items-center justify-between flex-wrap mt-3 text-[0.8rem] text-[#ACACAC] px-1'>
+                   <Link href={'/privacy-and-policy'}>
                            {myTexts.privacy}
                        </Link>
 

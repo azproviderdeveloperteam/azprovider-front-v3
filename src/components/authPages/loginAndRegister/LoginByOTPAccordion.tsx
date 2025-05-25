@@ -361,43 +361,50 @@ const LoginByOtpAccordion = () => {
 
                           </>
                           : step === 1 ?
-                          <>
-                              <div className='w-full flex flex-row items-center justify-between'>
-                                  <div className='mt-4 font-bold text-[1.4rem] text-primary-dark-b capitalize'>
-
-                                      {myTexts.verificationInput.title}
-
+                              <>
+                                  <div className='w-full'>
+                                      {`Code Sent to ${getValues('email')}`}
                                   </div>
-                                  <span className='px-5'>
-                                        <ResecCodeSignUp pending={vPending} resendCode={()=>{
-                                            sendVerification({email:getValues('email')})
+                                  <div className='w-full flex flex-row items-center justify-between'>
+
+                                      <div className='mt-4 font-bold text-[1.4rem] text-primary-dark-b capitalize'>
+
+                                          {myTexts.verificationInput.title}
+
+                                      </div>
+
+                                      <span className='px-5'>
+                                        <ResecCodeSignUp pending={vPending} resendCode={() => {
+                                            sendVerification({email: getValues('email')})
                                         }}/>
 
                                   </span>
-                              </div>
-                              <form className='w-full flex flex-row items-start justify-between mt-2' onSubmit={handleSubmit( submitWithEmail )}>
-                                  <div className='w-3/4 pr-3 h-full'>
-                                      <MainInput
-                                          register={register}
-                                          label={'OTP'}
-                                          error={errors?.otp?.message}
-                                          name={'otp'}
-                                          // type={'password'}
-                                          placeholder={'******'}
-
-                                      />
                                   </div>
+                                  <form className='w-full flex flex-row items-start justify-between mt-2'
+                                        onSubmit={handleSubmit(submitWithEmail)}>
+                                      <div className='w-3/4 pr-3 h-full'>
+                                          <MainInput
+                                              register={register}
+                                              label={'OTP'}
+                                              error={errors?.otp?.message}
+                                              name={'otp'}
+                                              // type={'password'}
+                                              placeholder={'******'}
 
-                                  <div className='w-1/4'>
-                                      <RegisterBtn type={'submit'} loading={isPending} disabled={false}  otherClass={'!w-full'}>
-                                          {myTexts.confirm}
-                                      </RegisterBtn>
-                                  </div>
-                              </form>
+                                          />
+                                      </div>
 
-                          </>
+                                      <div className='w-1/4'>
+                                          <RegisterBtn type={'submit'} loading={isPending} disabled={false}
+                                                       otherClass={'!w-full'}>
+                                              {myTexts.confirm}
+                                          </RegisterBtn>
+                                      </div>
+                                  </form>
 
-                          :
+                              </>
+
+                              :
                               <>
                                   <div className='mt-4 font-bold text-[1.4rem] text-primary-dark-b capitalize'>
 
