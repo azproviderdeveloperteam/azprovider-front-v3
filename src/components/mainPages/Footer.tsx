@@ -40,19 +40,19 @@ const Footer = () => {
 
                         <div className={'w-full lg:w-2/12 h-full'}>
                             <div className='w-full h-full lg:!min-h-[28.5rem] flex flex-row lg:flex-col items-center justify-center lg:justify-end'>
-                                <Link href={'https://www.instagram.com/azprovider.mps?igsh=cXM2eXRncTR2NnZz'} target={'_blank'} className={'ml-3 lg:ml-0 mt-3'}>
+                                <Link href={'https://www.instagram.com/azprovider.official'} target={'_blank'} className={'ml-3 lg:ml-0 mt-3'}>
                                     <Image src={'/instagram.svg'} alt={'instagram'} width={20} height={20} />
                                 </Link>
 
-                                <Link href={'https://chat.whatsapp.com/JvQQTVwMFykHfwlzAKgnZ5'} target={'_blank'} className={'ml-3 lg:ml-0 mt-3'}>
+                                <Link href={'https://chat.whatsapp.com/azprovider.official'} target={'_blank'} className={'ml-3 lg:ml-0 mt-3'}>
                                     <Image src={'/whatsapp.svg'} alt={'whatsapp'} width={20} height={20} />
                                 </Link>
 
-                                <Link href={'https://t.me/+YD5sJ4OnKwUxZjlk'} target={'_blank'} className={'ml-3 lg:ml-0 mt-3'}>
+                                <Link href={'https://t.me/azprovider.official'} target={'_blank'} className={'ml-3 lg:ml-0 mt-3'}>
                                     <Image src={'/telegram.svg'} alt={'telegram'} width={20} height={20} />
                                 </Link>
 
-                                <Link href={'https://www.linkedin.com/in/az-provider-1021b6207/'} target={'_blank'} className={'ml-3 lg:ml-0 mt-3'}>
+                                <Link href={'https://www.linkedin.com/in/azprovider.official'} target={'_blank'} className={'ml-3 lg:ml-0 mt-3'}>
                                     <Image src={'/inkedin.svg'} alt={'facebook'} width={23} height={23} />
                                 </Link>
                             </div>
