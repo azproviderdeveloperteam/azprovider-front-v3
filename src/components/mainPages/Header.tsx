@@ -19,7 +19,7 @@ const Header = ({theme}:any) => {
 
                     <MainSIdeDrawer   black={theme === 'white-black' ? false :true}/>
                     <Link href={'/'} className={'flex flex-row items-center justify-center'}>
-                        <MainLogoImg theme={theme} className={'w-[10rem]'} black={theme === 'white-black' ? false : true}/>
+                        <MainLogoImg theme={theme} className={'w-[5rem]'} black={theme === 'white-black' ? false : true}/>
                     </Link>
                     <div className={'grow lg:flex flex-row items-center justify-end pr-12 hidden'}>
 

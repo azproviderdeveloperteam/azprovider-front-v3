@@ -16,6 +16,9 @@ import Script from 'next/script';
 export const metadata: Metadata = {
   title: 'AZ Provider',
   description: 'AZ Provider Website',
+    icons: {
+        icon: '/favicon.ico',
+    }
 }
 
 export default function RootLayout({
