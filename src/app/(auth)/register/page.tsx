@@ -10,6 +10,8 @@ import RegisterThirdStep from "@/components/authPages/loginAndRegister/RegisterT
 import RegisterFourthStep from "@/components/authPages/loginAndRegister/RegisterFourthStep";
 import {checkAuthUser} from "@/services/authServices";
 import {useQuery} from "@tanstack/react-query";
+import RegisterAddProduct from "@/components/authPages/loginAndRegister/RegisterAddProduct";
+import RegisterAddService from "@/components/authPages/loginAndRegister/RegisterAddService";
 const Register = () => {
 
     const [step , setStep] = useState(0)
@@ -47,7 +49,13 @@ const Register = () => {
                                 step === 3 ?
                                     <RegisterFourthStep nextStep={()=>setStep(4)} email={email}/>
                                     :
-                            null
+                                    step === 4 ?
+                                        <RegisterAddProduct nextStep={()=>setStep(5)} email={email}/>
+                                        :
+                                        step === 5 ?
+                                            <RegisterAddService nextStep={()=>setStep(6)} email={email}/>
+                                            :
+                                                 null
                 }
 
             </div>

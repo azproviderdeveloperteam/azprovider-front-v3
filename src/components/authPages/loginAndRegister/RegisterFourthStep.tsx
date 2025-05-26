@@ -74,7 +74,8 @@ const RegisterFourthStep = ({nextStep , email}: any) => {
             const user = await getProfile()
             dispatch({type:"SIGNIN" , value:user?.data})
             toast.success('Register Successfully !')
-            router.push('/dashboard')
+            // router.push('/dashboard')
+            nextStep()
             // nextStep(3)
         }catch (err) {
             if(err instanceof AxiosError){
