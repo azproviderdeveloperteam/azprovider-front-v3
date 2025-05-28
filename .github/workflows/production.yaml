@@ -1,4 +1,4 @@
-name: Next.js CI/CD
+name: Production CI/CD
 
 
 env:
