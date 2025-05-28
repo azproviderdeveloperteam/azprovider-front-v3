@@ -353,6 +353,7 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList 
                             {myTexts.productCode} <span className='text-secondary-red'>*</span>
                         </div>
                         <input  name={'productCode'}
+                                autoComplete={'off'}
                                 type={'text'}
                                 className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
                                 placeholder={''}
@@ -367,7 +368,7 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList 
                         {
                             openDrop &&
                             <>
-                                <div className='w-full top-[3.85rem] absolute max-h-[30rem] z-10 bg-white flex flex-vol items-center justify-start p-2 rounded-[1rem] shadow-[0px_12px_20px_0px_rgba(0,_0,_0,_0.10)]'>
+                                <div className='w-full top-[5rem] absolute max-h-[30rem] z-10 bg-white flex flex-vol items-center justify-start p-2 rounded-[1rem] shadow-[0px_12px_20px_0px_rgba(0,_0,_0,_0.10)]'>
                                     { isPending ?
                                         <div className='w-full h-[25rem] flex flex-row items-center justify-center'>
                                             <ThreeDotsLoaderGreen />
