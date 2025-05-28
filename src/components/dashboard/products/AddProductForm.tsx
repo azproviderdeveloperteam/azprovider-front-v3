@@ -372,6 +372,8 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
 
                         <div className='w-full flex flex-col items-start justify-start relative'>
                             <input name={'productCode'}
+                                   autoComplete={'off'}
+
                                    type={'text'}
                                    className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
                                    placeholder={myTexts.productCode}

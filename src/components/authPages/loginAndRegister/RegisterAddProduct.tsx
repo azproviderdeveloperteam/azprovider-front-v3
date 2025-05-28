@@ -28,8 +28,8 @@ const RegisterAddProduct = ({nextStep , email}: any) => {
             <div className='w-full text-white'>
                 Add Your First Product
             </div>
-            <AddProductForm  viewAddProductForm={undefined}  allGrantedList={getGrantedOrganisationListData} allMeasureData={allMeasureData} exitKey={false} onClose={()=>{
-                console.log(' ')
+            <AddProductForm  viewAddProductForm={null}  allGrantedList={getGrantedOrganisationListData} allMeasureData={allMeasureData} exitKey={false} onClose={()=>{
+                nextStep()
             }}/>
 
             <div className='w-full flex flex-row items-center justify-end'>

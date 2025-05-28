@@ -28,16 +28,16 @@ const RegisterAddService = ({nextStep , email}: any) => {
     })
 
     return (
-        <div className='w-full  p-6 rounded-[1.5rem] bg-[#02131E]  mt-16 md:mt-4'>
+        <div className='w-full  p-6 rounded-[1.5rem] bg-[#02131E]  mt-16 lg:mt-4'>
             <div className='w-full text-white'>
                 Add Your First Service
             </div>
-            <AddServiceForm viewAddProductForm={undefined}
+            <AddServiceForm viewAddProductForm={null}
                             allGrantedList={getGrantedOrganisationListData} allMeasureData={allMeasureData}
                             exitKey={false}
                             onClose={() => {
-                                console.log(' ')
-
+                                nextStep()
+                                router.push('/dashboard')
                             }}/>
 
             <div className='w-full flex flex-row items-center justify-end'>
