@@ -75,26 +75,6 @@ export async function  postCertificate(data : any){
             // 'Authorization': `Bearer ${jwt}`
         }})}
 
-
-export async function  getProjects(){
-    return await  instance.get('projects/get-user-projects/' ,{
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            // 'Authorization': `Bearer ${jwt}`
-        }
-    })
-}
-
-export async function  postProjects(data : any){
-    return await  instance.post('projects/create/' ,data ,{
-        headers:{
-            'Content-Type': 'multipart/form-data',
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${jwt}`}})
-}
-
-
 export async function  getMembership(){
     return await  instance.get('membership/get-data/' ,{
         headers: {
@@ -158,5 +138,21 @@ export async function  patchSocials({data  , id}:any){
 }
 
 export async function postEmployee (data : any){
-    return await  instance.post('v2/user/employees/' ,data )
+    return await instance.post('v2/user/employees/' ,data )
+}
+
+export async function  getProjects(){
+    return await instance.get('v2/user/project/?limit=100')
+}
+
+export async function postProjects (data : any){
+    return await instance.post('v2/user/project/' ,data )
+}
+
+export async function updateProjects ({data , id} : any){
+    return await instance.patch(`v2/user/project/${id}` ,data )
+}
+
+export async function deleteProjects ({data , id} : any){
+    return await instance.delete(`v2/user/project/${id}` ,data )
 }

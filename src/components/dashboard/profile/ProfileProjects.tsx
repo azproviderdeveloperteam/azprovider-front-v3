@@ -12,11 +12,14 @@ import * as Yup from "yup";
 import MainInput from "@/components/inputs/MainInput";
 import RegisterBtn from "@/components/Buttons/RegisterBtn";
 import AzDatePicker from "@/components/inputs/AzDatePicker";
+import {uploadV2} from "@/services/uploadService";
+import useImageResize from "@/hooks/useImageResize";
 
 const ProfileProjects = ({projectsData} : any) => {
     const [file ,setFile] = useState<any>(null)
     const [date, setDate] = React.useState<Date>();
-
+    const [img ,setImg] = useState<any>(null)
+    const [imgView ,setImgView] = useState<any>(null)
 
     const text = texts.eng
     const myTexts = text.dashboard.pages.profile.projects
@@ -44,6 +47,24 @@ const ProfileProjects = ({projectsData} : any) => {
         mutationFn : postProjects
     })
 
+
+    const {data : uploadImageData  , isPending : uploadImagePending , error :uploadImageError , mutateAsync : uploadImageMutateAsync } =useMutation({
+        mutationFn : uploadV2
+    })
+
+    const { resizedImage, resizeImage, loading, error : er } = useImageResize({
+        maxWidth: 500,
+        maxHeight: 500,
+        quality: 0.9,
+    });
+    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            // uploadImage(file);
+            resizeImage(file)
+
+        }
+    };
 
 
     useEffect(()=>{
@@ -102,7 +123,48 @@ const ProfileProjects = ({projectsData} : any) => {
     return (
         <div className='w-full pt-4'>
             <div className='w-full bg-[#F8F8F8] p-5 lg:p-8 rounded-[1rem]'>
-                <form className='w-full flex flex-row items-start justify-start flex-wrap mt-4 relative z-10' onSubmit={handleSubmit(submit)}>
+                <div className='w-full flex flex-row items-center justify-start'>
+                    {
+                        img ?
+
+                            <Image src={imgView} alt={'no-image.svg'} width={100} height={100}
+                                   className={'rounded-[1rem] object-cover aspect-square'}/>
+
+                            : <Image src={'/no-image.svg'} alt={'no-image.svg'} width={100} height={100}
+                                     className={'rounded-[1rem] object-cover aspect-square'}/>
+
+                    }
+
+                    <Button
+                        onClick={() => {
+                            if (inputRef) {
+                                if (inputRef.current) {
+                                    if (!uploadImagePending) {
+                                        inputRef.current.click()
+                                    }
+                                }
+                            }
+                        }}
+                        className='bg-transparent text-primary-purple-300 font-bold normal-case ml-3 capitalize  flex flex-row items-center justify-start'>
+                        <Image src={'/upload-svg.svg'} alt={'upload-svg.svg'} width={20} height={20}
+                               className={'mr-1'}/> {uploadImagePending ? 'uploading...' : myTexts.uploadLogo}
+                    </Button>
+                    <input className='hidden' ref={inputRef} type={'file'} onChange={(e) => {
+                        if (e.target.files) {
+                            if (e.target?.files[0]) {
+                                setImg(e.target?.files[0])
+                                handleImageUpload(e)
+                                setImgView(URL.createObjectURL(e.target?.files[0]))
+                            } else {
+                                setImg(null)
+                            }
+                        } else {
+                            setImg(null)
+                        }
+                    }}/>
+                </div>
+                <form className='w-full flex flex-row items-start justify-start flex-wrap mt-4 relative z-10'
+                      onSubmit={handleSubmit(submit)}>
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
@@ -136,7 +198,7 @@ const ProfileProjects = ({projectsData} : any) => {
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.date}
                         </div>
-                        <AzDatePicker   date={date} setDate={setDate}/>
+                        <AzDatePicker date={date} setDate={setDate}/>
                     </div>
 
                     <div className='w-full pr-2 mt-7'>
@@ -157,25 +219,26 @@ const ProfileProjects = ({projectsData} : any) => {
                     <div className='w-full mt-3 flex flex-row items-center justify-start'>
 
                         <Button
-                            onClick={()=>{
-                                if(inputRef){
-                                    if(inputRef.current){
+                            onClick={() => {
+                                if (inputRef) {
+                                    if (inputRef.current) {
                                         inputRef.current.click()
                                     }
                                 }
                             }}
                             className='bg-transparent text-primary-purple-300 font-bold normal-case ml-3 capitalize  flex flex-row items-center justify-start'>
-                            <Image src={'/upload-svg.svg'} alt={'upload-svg.svg'} width={20} height={20} className={'mr-1'} />    {myTexts.upload}
+                            <Image src={'/upload-svg.svg'} alt={'upload-svg.svg'} width={20} height={20}
+                                   className={'mr-1'}/> {myTexts.upload}
                         </Button>
-                        <input className='hidden' ref={inputRef} type={'file'} onChange={(e)=>{
-                            if(e.target.files){
+                        <input className='hidden' ref={inputRef} type={'file'} onChange={(e) => {
+                            if (e.target.files) {
                                 setFile(e?.target?.files[0])
                                 // uploadLogo(e?.target?.files[0])
                             }
                         }}/>
 
                         {
-                            file &&  <div className='ml-2'>
+                            file && <div className='ml-2'>
                                 {file?.name}
                             </div>
                         }
@@ -184,7 +247,7 @@ const ProfileProjects = ({projectsData} : any) => {
                     </div>
 
 
-                    <RegisterBtn loading={isPending} otherClass={'w-full lg:w-[12rem] mt-12'} type={'submit'} >
+                    <RegisterBtn loading={isPending} otherClass={'w-full lg:w-[12rem] mt-12'} type={'submit'}>
                         Save
                     </RegisterBtn>
                 </form>
