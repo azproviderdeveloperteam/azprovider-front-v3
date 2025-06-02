@@ -17,6 +17,8 @@ const ProductCard = ({item , theme , isService , type = 'product'} : any) => {
     const remainTime = useTimeRemaining(discount?.expire_datetime || new Date())  ;
 
     const remainingTime =  discount?.expire_datetime ? remainTime : undefined ;
+
+    console.log(item)
     return (
         <div className={`w-full aspect-[0.7334] flex flex-col items-center justify-between rounded-[1.6rem] ${theme==='dark' ?'bg-primary-dark-b shadow-[0px_12px_20px_0px_#062940]' : 'bg-white shadow-[0px_12px_20px_0px_rgba(0,_0,_0,_0.10)]' } `}>
             <div className='w-full flex flex-col items-center justify-start'>
@@ -107,7 +109,7 @@ const ProductCard = ({item , theme , isService , type = 'product'} : any) => {
                     <Image src={'/dark-medal.svg'} alt={'dark-medal'} width={20} height={20}/>
                     <div
                         className={`${theme === 'dark' ? 'text-white' : 'text-primary-dark-b'} text-[0.7rem] ml-1 mt-1`}>
-                        {item?.quality_type ? item?.quality_type : ' - '}
+                        {item?.quality_type ? item?.quality_type : item?.granted_organisation?.name ? item?.granted_organisation?.name : "-"}
                     </div>
                 </div>
 

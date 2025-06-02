@@ -380,6 +380,7 @@ export const texts = {
 
                     },
                     projects:{
+                        uploadLogo:"upload Image",
                         title:"title",
                         date:"date",
                         customerProjectName:"customer project name",
