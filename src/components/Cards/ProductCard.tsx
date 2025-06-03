@@ -55,7 +55,7 @@ const ProductCard = ({item , theme , isService , type = 'product'} : any) => {
                     {
                         item?.media_files?.[0]?.image
                             ? <Image alt={'aaa'}
-                                     src={`${item?.media_files?.[0]?.image?.includes("api.azprovider.com") ? "" : process.env.MEDIA_URL}${item?.media_files?.[0]?.image}`}
+                                     src={`${item?.media_files?.[0]?.image?.includes("api.azprovider.com") || item?.media_files?.[0]?.image?.includes("api.azprovider.ir") ? "" : process.env.MEDIA_URL}${item?.media_files?.[0]?.image}`}
                                      width={235} height={235}
                                      className='w-full aspect-[1.4268] rounded-[1.6rem] object-center object-cover'/>
                             :

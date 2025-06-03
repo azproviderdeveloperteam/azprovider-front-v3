@@ -10,7 +10,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import Link from "next/link";
 import {useMutation} from "@tanstack/react-query";
-import {loginSendOtp, loginUser} from "@/services/authServices";
+import {getRegisterWithGoogle, loginSendOtp, loginUser} from "@/services/authServices";
 import {AxiosError} from "axios";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
@@ -21,6 +21,7 @@ import Select from "react-select";
 import {GrayEyeIcon} from "@/components/icons";
 import ResecCodeSignUp from "@/components/authPages/ResecCodeSignUp";
 import {getProfile} from "@/services/userProfileServices";
+import ThreeDotsLoaderGreen from "@/components/loaders/ThreeDotsLoaderGreen";
 
 const LoginByOtpAccordion = () => {
 
@@ -243,6 +244,37 @@ const LoginByOtpAccordion = () => {
                 }else {
                     toast.error('An Error occurred')
                 }
+            }
+        }
+    }
+
+
+    const {data:registerGoogleData  , isPending :registerGoogleIsPending, error:registerGoogleError  , mutateAsync:registerGoogleMutateAsync} =useMutation({
+        mutationFn : getRegisterWithGoogle
+    })
+    const registerWithGoogle = async () => {
+        try {
+            const res = await registerGoogleMutateAsync()
+            if(res?.data?.auth_url){
+                window.location.href = res?.data?.auth_url;
+            }
+        }catch (err) {
+            if(err instanceof AxiosError){
+                if(err?.response?.data?.msg){
+                    toast.error(err?.response?.data?.msg)
+                }else if(err?.response?.data?.message){
+                    toast.error(err?.response?.data?.message)
+                }else if(err?.response?.data?.error){
+                    toast.error(err?.response?.data?.error)
+                }else if(err?.response?.data?.detail) {
+                    toast.error(err?.response?.data?.detail)
+                }else if(err?.response?.data?.email?.detail) {
+                    toast.error(err?.response?.data?.email?.detail)
+                }else {
+                    toast.error('An Error occurred')
+                }
+            }else {
+                toast.error('An Error occurred')
             }
         }
     }
@@ -472,6 +504,22 @@ const LoginByOtpAccordion = () => {
                       </Link>
                   </div>
               </div>
+
+                <Button onClick={registerWithGoogle} type={'button'} className={'min-h-[3.5rem] font-roboto font-normal normal-case shadow-none !w-full mt-5 flex flex-row items-center justify-center gap-4 bg-white text-black text-[1.2rem]'}>
+
+
+                    { registerGoogleIsPending ?
+                        <div className='w-full flex flex-row items-center justify-center'>
+                            <ThreeDotsLoaderGreen />
+                        </div>
+                        :
+                        <>
+                            <Image src={'/icons8-google-240.svg'} alt={'azp-login-google'} width={25} height={25} />
+                            {'Login with Google'}
+                        </>
+                    }
+                </Button>
+
             </AccordionBody>
         </Accordion>
     );

@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['azprovider.ir' ,'api.azprovider.ir'],
+        domains: ['azprovider.ir' ,'api.azprovider.ir' , 'azprovider.com' , 'api.azprovider.com'],
     },
     env:{
         BACKEND_URL:'api.azprovider.ir/api/',

@@ -10,7 +10,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import MainInput from "@/components/inputs/MainInput";
 import Link from "next/link";
 import {useMutation} from "@tanstack/react-query";
-import { registerSendOtp} from "@/services/authServices";
+import {getRegisterWithGoogle, registerSendOtp} from "@/services/authServices";
 import axios, {AxiosError} from "axios";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
@@ -23,6 +23,7 @@ import { useCookies } from 'next-client-cookies';
 import Select from "react-select";
 import {app} from "@/services/instance";
 import { useSearchParams } from "next/navigation";
+import ThreeDotsLoaderGreen from "@/components/loaders/ThreeDotsLoaderGreen";
 
 const  RegisterFirstStep =   ({nextStep } : any) => {
     const text = texts.eng
@@ -33,6 +34,7 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
     const searchParams = useSearchParams();
     const paramValue = searchParams.get("code")
 
+    const router = useRouter()
     const schema = Yup
         .object({
 
@@ -55,6 +57,10 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
         mutationFn : registerSendOtp
     })
 
+
+    const {data:registerGoogleData  , isPending :registerGoogleIsPending, error:registerGoogleError  , mutateAsync:registerGoogleMutateAsync} =useMutation({
+        mutationFn : getRegisterWithGoogle
+    })
 
     function validatePhone(phone : string)
     {
@@ -86,21 +92,14 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
     };
 
     const submit = async (d : any) =>{
-
-
-
         const formData = validateEmail(d?.email) ?
             { email:d?.email , ...(d.invitationCode?.length > 1 && {ref_code : d?.invitationCode} )}
         :
             {mobile:convertPersianToEnglishNumbers(`${country?.value}${country?.value ==='+98' ? d?.email?.startsWith('0') ? d.email.slice(1) : d.email :d?.email}`) , ...(d.invitationCode?.length > 1 && {ref_code : d?.invitationCode} )}
        try{
            const da = await mutateAsync(formData)
-
-
-
            nextStep(validateEmail(d?.email) ? d?.email : convertPersianToEnglishNumbers(`${country?.value}${country?.value ==='+98' ? d?.email?.startsWith('0') ? d.email.slice(1) : d.email :d?.email}`))
        }catch (err){
-            console.log(err)
            if(err instanceof AxiosError){
                if(err?.response?.data?.msg){
                    toast.error(err?.response?.data?.msg)
@@ -119,6 +118,32 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
        }
     }
 
+    const registerWithGoogle = async () => {
+        try {
+            const res = await registerGoogleMutateAsync()
+            if(res?.data?.auth_url){
+                window.location.href = res?.data?.auth_url;
+            }
+        }catch (err) {
+            if(err instanceof AxiosError){
+                if(err?.response?.data?.msg){
+                    toast.error(err?.response?.data?.msg)
+                }else if(err?.response?.data?.message){
+                    toast.error(err?.response?.data?.message)
+                }else if(err?.response?.data?.error){
+                    toast.error(err?.response?.data?.error)
+                }else if(err?.response?.data?.detail) {
+                    toast.error(err?.response?.data?.detail)
+                }else if(err?.response?.data?.email?.detail) {
+                    toast.error(err?.response?.data?.email?.detail)
+                }else {
+                    toast.error('An Error occurred')
+                }
+            }else {
+                toast.error('An Error occurred')
+            }
+        }
+    }
 
     useEffect(()=>{
 
@@ -133,6 +158,8 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
         //      console.log(res?.ip)
         // }).catch((err: any) => console.error('Problem fetching my IP', err))
     },[])
+
+
     return (
         <>
 
@@ -266,6 +293,22 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
                             {myTexts.copyRight}
                         </div>
                     </div>
+
+
+                    <Button onClick={registerWithGoogle} type={'button'} className={'min-h-[3.5rem] font-roboto font-normal normal-case shadow-none !w-full mt-5 flex flex-row items-center justify-center gap-4 bg-white text-black text-[1.2rem]'}>
+
+
+                        { registerGoogleIsPending ?
+                            <div className='w-full flex flex-row items-center justify-center'>
+                                <ThreeDotsLoaderGreen />
+                            </div>
+                            :
+                            <>
+                                <Image src={'/icons8-google-240.svg'} alt={'azp-login-google'} width={25} height={25} />
+                                {'Register with Google'}
+                            </>
+                        }
+                    </Button>
                 </div>
             </div>
         </>

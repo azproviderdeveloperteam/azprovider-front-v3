@@ -19,6 +19,7 @@ import {getMeasureList} from "@/services/measurementServices";
 import ThreeDotsLoader from "@/components/loaders/ThreeDotsLoader";
 import {getCities, getCountries} from "@/services/cityCountryServices";
 import {flushSync} from "react-dom";
+import {useSearchParams} from "next/navigation";
 
 const RegisterThirdStep = ({nextStep}:any) => {
 
@@ -31,12 +32,17 @@ const RegisterThirdStep = ({nextStep}:any) => {
     const [inputValue, setInputValue] = useState('');
     const [typingTimeout, setTypingTimeout] = useState<any>(null);
 
+
+    const searchParams = useSearchParams();
+    const firstName = searchParams.get('first_name');
+    const lastName = searchParams.get('last_name');
+
     const schema = Yup
         .object({
 
         }).shape({
-            firstName:Yup.string().matches(/^[a-zA-Z\s]+$/, 'Only English letters are allowed').required('Enter Your First Name'),
-            lastName:Yup.string().matches(/^[a-zA-Z\s]+$/, 'Only English letters are allowed').required('Enter Your Last Name'),
+            firstName:Yup.string().matches(/^[a-zA-Z\s]+$/, 'Only English letters are allowed').required('Enter Your First Name').default(firstName || ''),
+            lastName:Yup.string().matches(/^[a-zA-Z\s]+$/, 'Only English letters are allowed').required('Enter Your Last Name').default(lastName || ''),
             international_name:Yup.string().matches(/^[a-zA-Z\s]+$/, 'Only English letters are allowed').required('Enter Your International name'),
             businessRole:Yup.string(),
             cityOrCountry:Yup.string(),
@@ -48,13 +54,22 @@ const RegisterThirdStep = ({nextStep}:any) => {
         register,
         handleSubmit,
         formState: { errors,isSubmitting, isDirty, isValid },
-        getValues
+        getValues,
+        setValue
     } = useForm({ resolver: yupResolver(schema), mode:'onChange'})
 
     const {data  , isPending  , error  , mutateAsync} =useMutation({
         mutationFn : registerCompleteProfile
     })
 
+    useEffect(() => {
+        if(firstName){
+            setValue('firstName',firstName)
+        }
+        if (lastName) {
+            setValue('lastName', lastName)
+        }
+    }, [firstName , lastName]);
     const {user}= useAuth()
     const token = user?.token
 
