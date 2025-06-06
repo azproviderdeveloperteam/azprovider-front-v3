@@ -64,3 +64,7 @@ export async function getHsCodes(){
 export async function getUserRoleList(){
     return await instance.get('v2/metric/user-role/')
 }
+
+export async function getRegisterWithGoogle(){
+    return await instance.get('v2/auth/google-signin/')
+}
