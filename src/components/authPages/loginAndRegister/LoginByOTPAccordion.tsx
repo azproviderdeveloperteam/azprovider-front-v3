@@ -503,6 +503,7 @@ const LoginByOtpAccordion = () => {
                           {myTexts.register}
                       </Link>
                   </div>
+
               </div>
 
                 <Button onClick={registerWithGoogle} type={'button'} className={'min-h-[3.5rem] font-roboto font-normal normal-case shadow-none !w-full mt-5 flex flex-row items-center justify-center gap-4 bg-white text-black text-[1.2rem]'}>
