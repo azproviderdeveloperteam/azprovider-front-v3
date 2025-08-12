@@ -13,7 +13,6 @@ const HeaderCheckUserLogin = ({text , black} : any) => {
 
     const {user} = useAuth()
 
-    console.log(user)
      return (
          user?.userData?.id ?
             <>
