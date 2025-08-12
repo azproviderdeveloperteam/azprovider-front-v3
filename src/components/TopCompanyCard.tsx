@@ -6,15 +6,15 @@ import CompanyCard from "@/components/Cards/CompanyCard";
 const TopCompanyCard = ({data} : {data : any}) => {
 
     const {user} = useAuth()
-   const item =  data?.find((x:any) => x.id === user?.userData?.id) || undefined
 
 
     return (
-        item ?
+        user?.userData && user?.login ?
         <div className={` w-full overflow-visible pt-4 pb-2 px-1`} >
-            <CompanyCard topItem={true} item={item}/>
+            <CompanyCard topItem={true} item={user?.userData}/>
         </div>
-            : null
+            :null
+
     );
 };
 
