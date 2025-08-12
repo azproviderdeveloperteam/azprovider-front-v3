@@ -83,7 +83,7 @@ const CommentsLanding = () => {
                     </h2>
 
                     <p className='text-center text-[1.1rem] mt-2'>
-                        {myTexts.sub}
+                        {/*{myTexts.sub}*/}
                     </p>
                 </div>
 
