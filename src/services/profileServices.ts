@@ -1,5 +1,6 @@
 import instance from "@/services/instance";
 import {getJWT} from "@/utils/helpers";
+import axios from "axios";
 const jwt = getJWT('from getMeService')
 
 export async function  getBInfo(){
@@ -68,12 +69,8 @@ export async function  getCertificate(){
 }
 
 export async function  postCertificate(data : any){
-    return await  instance.post('certificates/create/' ,data ,{
-        headers:{
-            'Content-Type': 'multipart/form-data',
-            'Accept': 'application/json',
-            // 'Authorization': `Bearer ${jwt}`
-        }})}
+    return await  instance.post('v2/user/certificate/' ,data)
+}
 
 export async function  getMembership(){
     return await  instance.get('membership/get-data/' ,{
@@ -155,4 +152,8 @@ export async function updateProjects ({data , id} : any){
 
 export async function deleteProjects ({data , id} : any){
     return await instance.delete(`v2/user/project/${id}` ,data )
+}
+
+export async function getAllBlogs(){
+    return await axios.get('https://api.azprovider.com/api/blog/get-all-posts/')
 }

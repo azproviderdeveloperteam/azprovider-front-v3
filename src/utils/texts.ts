@@ -43,7 +43,7 @@ export const texts = {
                     },
                     {
                         title:"Blog and News",
-                        href:"/"
+                        href:"/blogs"
                     },
                     {
                         title:"Privacy and Policy",
