@@ -20,8 +20,9 @@ import ThreeDotsLoader from "@/components/loaders/ThreeDotsLoader";
 import {getCities, getCountries} from "@/services/cityCountryServices";
 import {flushSync} from "react-dom";
 import {useSearchParams} from "next/navigation";
+import {postContact} from "@/services/profileServices";
 
-const RegisterThirdStep = ({nextStep}:any) => {
+const RegisterThirdStep = ({nextStep , email}:any) => {
 
     const text = texts.eng
     const myTexts = text.register
@@ -32,6 +33,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
     const [inputValue, setInputValue] = useState('');
     const [typingTimeout, setTypingTimeout] = useState<any>(null);
 
+    console.log(email)
 
     const searchParams = useSearchParams();
     const firstName = searchParams.get('first_name');
@@ -46,7 +48,8 @@ const RegisterThirdStep = ({nextStep}:any) => {
             international_name:Yup.string().matches(/^[a-zA-Z\s]+$/, 'Only English letters are allowed').required('Enter Your International name'),
             businessRole:Yup.string(),
             cityOrCountry:Yup.string(),
-            acceptTerms:Yup.bool().required('')
+            acceptTerms:Yup.bool().required(''),
+            email:Yup.string().nullable()
 
         })
         .required()
@@ -73,6 +76,20 @@ const RegisterThirdStep = ({nextStep}:any) => {
     const {user}= useAuth()
     const token = user?.token
 
+
+    function validateEmail(email: string)
+    {
+        const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
+
+
+
+    const {mutateAsync : postContactMutate} =useMutation({
+        mutationFn : postContact
+    })
+
+
     const submit = async (d : any) =>{
         const formData = {
                 first_name:d?.firstName,
@@ -82,9 +99,19 @@ const RegisterThirdStep = ({nextStep}:any) => {
                 country:selectedCountry?.label,
                 city:selectedCity?.label,
 
+
         }
         try {
-            const d = await mutateAsync({data:formData , token :token})
+            const res = await mutateAsync({data:formData , token :token})
+            if (!validateEmail(email)){
+                if(validateEmail(d?.email ||'')){
+                    const payload = {
+                        email:d?.email
+                    }
+                    const a = await postContactMutate(payload)
+
+                }
+            }
             nextStep(3)
         }catch (err) {
             if(err instanceof AxiosError){
@@ -142,6 +169,8 @@ const RegisterThirdStep = ({nextStep}:any) => {
         queryKey: ['cities', selectedCountry],
         queryFn: () => getCities(selectedCountry?.label, page, 50 , undefined),
     });
+
+
 
     useEffect(() => {
         if (initialCities) {
@@ -229,7 +258,27 @@ const RegisterThirdStep = ({nextStep}:any) => {
                     </h1>
 
                 </div>
-                <form className='w-full flex flex-row items-start justify-start flex-wrap mt-4 relative z-10' onSubmit={handleSubmit(submit)}>
+                <form className='w-full flex flex-row items-start justify-start flex-wrap mt-4 relative z-10'
+                      onSubmit={handleSubmit(submit)}>
+
+                    {
+                        validateEmail(email) ? null :
+                            <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem] pr-2 h-full mt-7'>
+                                <div className=' text-[1.3rem]'>
+                                    {"Email"}
+                                </div>
+                                <MainInput
+                                    register={register}
+                                    label={'Email'}
+                                    error={errors?.email?.message}
+                                    name={'email'}
+                                    type={'text'}
+                                    placeholder={'info@example.com'}
+
+                                />
+                            </div>
+                    }
+
                     <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem] pr-2 h-full mt-7'>
                         <div className=' text-[1.3rem]'>
                             {myTexts.international_name}<span className='text-secondary-red'>*</span>
@@ -273,8 +322,6 @@ const RegisterThirdStep = ({nextStep}:any) => {
                     </div>
 
 
-
-
                     <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem] pr-2 h-full mt-7'>
                         <div className=' text-[1.3rem]'>
                             {myTexts.businessRole}<span className='text-secondary-red'>*</span>
@@ -282,9 +329,9 @@ const RegisterThirdStep = ({nextStep}:any) => {
                         <Select
                             className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
                             isMulti
-                            onChange={(e)=>{
+                            onChange={(e) => {
 
-                                setBRole( e)
+                                setBRole(e)
                                 // getToCurrenciesFunc(e?.value)
                             }}
                             value={bRole}
@@ -294,7 +341,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
                                 input: (base) => ({
                                     ...base,
                                     base: " hover:cursor-pointer",
-                                    fontSize:"9px",
+                                    fontSize: "9px",
                                     "input:focus": {
                                         boxShadow: "none",
                                     },
@@ -311,9 +358,9 @@ const RegisterThirdStep = ({nextStep}:any) => {
                             }}
 
                             classNames={{
-                                control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
+                                control: ({isFocused}) => ' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
                                 multiValueLabel: () => 'bg-primary-dark-b  rounded-xl shadow-md',
-                                option: ({ isFocused, isSelected }) =>'bg-primary-dark-b px-4 py-1',
+                                option: ({isFocused, isSelected}) => 'bg-primary-dark-b px-4 py-1',
                             }}
                         />
                     </div>
@@ -335,25 +382,27 @@ const RegisterThirdStep = ({nextStep}:any) => {
                             countriesPending ?
 
                                 <div className='w-full h-[3rem] flex flex-row items-center justify-center'>
-                                    <ThreeDotsLoader />
+                                    <ThreeDotsLoader/>
                                 </div>
 
-                                :<Select
+                                : <Select
                                     className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
 
-                                    onChange={(e)=>{
+                                    onChange={(e) => {
 
-                                        setSelectedCountry( e)
+                                        setSelectedCountry(e)
                                         // getToCurrenciesFunc(e?.value)
                                     }}
                                     value={selectedCountry}
-                                    options={countries?.data?.results ? countries?.data?.results?.map((x : any)=>{return{value:x.id , label :x?.name}}) || [] : []}
+                                    options={countries?.data?.results ? countries?.data?.results?.map((x: any) => {
+                                        return {value: x.id, label: x?.name}
+                                    }) || [] : []}
                                     unstyled
                                     styles={{
                                         input: (base) => ({
                                             ...base,
                                             base: " hover:cursor-pointer",
-                                            fontSize:"9px",
+                                            fontSize: "9px",
                                             "input:focus": {
                                                 boxShadow: "none",
                                             },
@@ -370,9 +419,9 @@ const RegisterThirdStep = ({nextStep}:any) => {
                                     }}
 
                                     classNames={{
-                                        control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
+                                        control: ({isFocused}) => ' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
                                         multiValueLabel: () => 'bg-primary-dark-b  rounded-xl shadow-md',
-                                        option: ({ isFocused, isSelected }) =>'bg-primary-dark-b px-4 py-1',
+                                        option: ({isFocused, isSelected}) => 'bg-primary-dark-b px-4 py-1',
                                     }}
                                 />
                         }
@@ -385,13 +434,13 @@ const RegisterThirdStep = ({nextStep}:any) => {
 
 
                         <Select
-                            onMenuScrollToBottom={()=>loadMoreCities(undefined)}  // Trigger when reaching the bottom of the list
+                            onMenuScrollToBottom={() => loadMoreCities(undefined)}  // Trigger when reaching the bottom of the list
                             className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
-                            onChange={(e)=>{
-                                setSelectedCity( e)
+                            onChange={(e) => {
+                                setSelectedCity(e)
                                 // getToCurrenciesFunc(e?.value)
                             }}
-                            onInputChange={(e)=>handleInputChange(e)}
+                            onInputChange={(e) => handleInputChange(e)}
 
                             value={selectedCity}
                             options={cities}
@@ -400,7 +449,7 @@ const RegisterThirdStep = ({nextStep}:any) => {
                                 input: (base) => ({
                                     ...base,
                                     base: " hover:cursor-pointer",
-                                    fontSize:"9px",
+                                    fontSize: "9px",
                                     "input:focus": {
                                         boxShadow: "none",
                                     },
@@ -417,23 +466,23 @@ const RegisterThirdStep = ({nextStep}:any) => {
                             }}
 
                             classNames={{
-                                control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
+                                control: ({isFocused}) => ' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
                                 multiValueLabel: () => 'bg-primary-dark-b  rounded-xl shadow-md',
-                                option: ({ isFocused, isSelected }) =>'bg-primary-dark-b px-4 py-1',
+                                option: ({isFocused, isSelected}) => 'bg-primary-dark-b px-4 py-1',
                             }}
                         />
 
                     </div>
 
-                <div className='w-full flex flex-row items-center justify-start mt-10'>
-                    <Checkbox color="green" {...register('acceptTerms')}/>
-                    <span>
+                    <div className='w-full flex flex-row items-center justify-start mt-10'>
+                        <Checkbox color="green" {...register('acceptTerms')}/>
+                        <span>
                         {myTexts.iAgreeAll}
                     </span>
-                    <Link href={'/terms-and-conditions'} className={'text-[#00E0FF] ml-2'} target="_blank">
-                        {myTexts.terms}
-                    </Link>
-                </div>
+                        <Link href={'/terms-and-conditions'} className={'text-[#00E0FF] ml-2'} target="_blank">
+                            {myTexts.terms}
+                        </Link>
+                    </div>
                     {
                         errors?.acceptTerms?.message &&
                         <div className='w-full text-[0.8rem] text-secondary-red px-4 mt-2'>
