@@ -185,8 +185,6 @@ const ProfileCertificates = ({certificateData}: any) => {
                     </div>
 
 
-
-
                     <div className='w-full '>
                         <RegisterBtn loading={isPending} otherClass={'w-full lg:w-[12rem] mt-12'} type={'submit'} disabled={hasError}>
                             {myTexts.save}
