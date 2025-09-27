@@ -122,7 +122,7 @@ const ServiceDetailPage = async ({ params }: { params: { slug: string } }) => {
                     <div className='col-span-11  lg:col-span-6'>
                         <Image
                             src={data?.media_files?.[0]?.image ? 'https://azprovider.com/' + data?.media_files?.[0]?.image : '/no-image.svg'}
-                            alt={'bookmark-not-fill.svg'} width={500} height={500}
+                            alt={data?.title || 'azp-service'} width={500} height={500}
                             className={'w-full aspect-[1.333] object-cover rounded-[2rem]'}/>
                         {/*<div className='mt-4 grid grid-cols-4 gap-2'>*/}
                         {/*    <Image src={'/no-image.svg'} alt={'bookmark-not-fill.svg'} width={500} height={500} className={'col-span-1  aspect-[1.333] object-cover rounded-[2rem]'}/>*/}
@@ -136,7 +136,7 @@ const ServiceDetailPage = async ({ params }: { params: { slug: string } }) => {
                         <div
                             className={'bg-[#F8F8F8] w-full flex flex-col items-center justify-start p-5 rounded-[1rem]'}>
                             <SsrIconBtn className={'bg-transparent shadow-none focus:shadow-none'}>
-                                <Image src={'/bookmark-not-fill.svg'} alt={'bookmark-not-fill.svg'} width={80}
+                                <Image src={'/bookmark-not-fill.svg'} alt={'azp-bookmark-service'} width={80}
                                        height={80}/>
                             </SsrIconBtn>
                         </div>

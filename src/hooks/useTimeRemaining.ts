@@ -16,7 +16,7 @@ const useTimeRemaining = (targetTime : any) => {
 
                 setRemainingTime(`${hours}:${minutes}:${seconds< 10 ? `0${seconds}` : seconds}`);
             } else {
-                setRemainingTime("زمان گذشته است.");
+                setRemainingTime("Timeout");
             }
         };
 
