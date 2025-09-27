@@ -106,7 +106,7 @@ const Register = () => {
                                         step === 5 ?
                                             <RegisterAddService nextStep={()=>setStep(6)} email={email}/>
                                             :
-                                                 null
+                                            null
                 }
 
             </div>

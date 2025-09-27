@@ -92,12 +92,13 @@ const RegisterThirdStep = ({nextStep , email}:any) => {
 
     const submit = async (d : any) =>{
         const formData = {
-                first_name:d?.firstName,
-                last_name:d?.lastName,
-                international_name:d?.international_name ,
-                business_role_id:bRole?.map((x : any) => x?.value),
-                country:selectedCountry?.label,
-                city:selectedCity?.label,
+            first_name:d?.firstName,
+            last_name:d?.lastName,
+            international_name:d?.international_name ,
+            business_role_id:bRole?.map((x : any) => x?.value),
+            country:selectedCountry?.label,
+            city:selectedCity?.label,
+
 
 
         }
