@@ -60,11 +60,11 @@ const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
 
         }).shape({
 
-            capacity:Yup.number().required('Enter capacity in number'),
-            price:Yup.number(),
+            capacity:Yup.number().notRequired(),
+            price:Yup.number().notRequired(),
             // grantedOrganization:Yup.string().required('Enter Local Name'),
-            typeCertification:Yup.string().required('Enter certification type'),
-            description:Yup.string().required('Enter description'),
+            typeCertification:Yup.string().notRequired(),
+            description:Yup.string().notRequired(),
 
         })
         .required()
@@ -403,7 +403,7 @@ const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.capacity} <span className='text-secondary-red'>*</span>
+                            {myTexts.capacity}
                         </div>
                         <MainInput
                             register={register}
@@ -487,7 +487,7 @@ const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.grantedOrganization} <span className='text-secondary-red'>*</span>
+                            {myTexts.grantedOrganization}
                         </div>
                         {/*<MainInput*/}
                         {/*    register={register}*/}
@@ -538,7 +538,7 @@ const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.typeCertification} <span className='text-secondary-red'>*</span>
+                            {myTexts.typeCertification}
                         </div>
                         <MainInput
                             register={register}
@@ -551,7 +551,7 @@ const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
                     </div>
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.price} <span className='text-secondary-red'>*</span>
+                            {myTexts.price}
                         </div>
                         <MainInput
                             register={register}
