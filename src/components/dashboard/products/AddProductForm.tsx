@@ -428,7 +428,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.capacity} <span className='text-secondary-red'>*</span>
+                            {myTexts.capacity}
                         </div>
                         <MainInput
                             register={register}
@@ -442,7 +442,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.measure} <span className='text-secondary-red'>*</span>
+                            {myTexts.measure}
                         </div>
                         <Select
                             className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
@@ -484,7 +484,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
                     </div>
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.brandName} <span className='text-secondary-red'>*</span>
+                            {myTexts.brandName}
                         </div>
                         <MainInput
                             register={register}
@@ -512,7 +512,7 @@ const AddProductForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.price} <span className='text-secondary-red'>*</span>
+                            {myTexts.price}
                         </div>
                         <div className='flex flex-row items-start justify-between gap-4'>
                             <div className='w-9/12'>
