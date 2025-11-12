@@ -106,7 +106,8 @@ const RegisterThirdStep = ({nextStep , email}:any) => {
             if (!validateEmail(email)){
                 if(validateEmail(d?.email ||'')){
                     const payload = {
-                        email:d?.email
+                        email:d?.email,
+                        is_default:false
                     }
                     const a = await postContactMutate(payload)
 
