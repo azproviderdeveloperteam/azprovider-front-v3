@@ -22,7 +22,7 @@ import {flushSync} from "react-dom";
 import {useSearchParams} from "next/navigation";
 import {postContact} from "@/services/profileServices";
 
-const RegisterThirdStep = ({nextStep , email}:any) => {
+const RegisterThirdStep = ({nextStep , email = 'example@text.com'}:any) => {
 
     const text = texts.eng
     const myTexts = text.register
@@ -33,7 +33,6 @@ const RegisterThirdStep = ({nextStep , email}:any) => {
     const [inputValue, setInputValue] = useState('');
     const [typingTimeout, setTypingTimeout] = useState<any>(null);
 
-    console.log(email)
 
     const searchParams = useSearchParams();
     const firstName = searchParams.get('first_name');
@@ -107,10 +106,22 @@ const RegisterThirdStep = ({nextStep , email}:any) => {
                 if(validateEmail(d?.email ||'')){
                     const payload = {
                         email:d?.email,
-                        is_default:false
                     }
-                    const a = await postContactMutate(payload)
+                    try {
+                        const a = await postContactMutate(payload)
+                    }catch (e) {
 
+                    }
+
+                }else {
+                    const payload = {
+                        tell:d?.email,
+                    }
+                    try {
+                        const a = await postContactMutate(payload)
+                    }catch (e) {
+
+                    }
                 }
             }
             nextStep(3)
@@ -263,7 +274,24 @@ const RegisterThirdStep = ({nextStep , email}:any) => {
                       onSubmit={handleSubmit(submit)}>
 
                     {
-                        validateEmail(email) ? null :
+                        validateEmail(email) ?
+
+                            <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem] pr-2 h-full mt-7'>
+                                <div className=' text-[1.3rem]'>
+                                    {"Email"}
+                                </div>
+                                <MainInput
+                                    register={register}
+                                    label={'Phone'}
+                                    error={errors?.email?.message}
+                                    name={'email'}
+                                    type={'text'}
+                                    placeholder={'+989123456789'}
+
+                                />
+                            </div>
+
+                            :
                             <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem] pr-2 h-full mt-7'>
                                 <div className=' text-[1.3rem]'>
                                     {"Email"}
