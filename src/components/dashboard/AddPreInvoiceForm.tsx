@@ -401,7 +401,7 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList 
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.capacity} <span className='text-secondary-red'>*</span>
+                            {myTexts.capacity}
                         </div>
                         <MainInput
                             register={register}
@@ -415,7 +415,7 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList 
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.measure} <span className='text-secondary-red'>*</span>
+                            {myTexts.measure}
                         </div>
                         <Select
                             className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
@@ -458,7 +458,7 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList 
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.brandName} <span className='text-secondary-red'>*</span>
+                            {myTexts.brandName}
                         </div>
                         <MainInput
                             register={register}
@@ -486,7 +486,7 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList 
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.grantedOrganization} <span className='text-secondary-red'>*</span>
+                            {myTexts.grantedOrganization}
                         </div>
                         {/*<MainInput*/}
                         {/*    register={register}*/}
@@ -537,7 +537,7 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList 
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.typeCertification} <span className='text-secondary-red'>*</span>
+                            {myTexts.typeCertification}
                         </div>
                         <MainInput
                             register={register}
@@ -550,7 +550,7 @@ const AddPreInvoiceForm = ({exitKey , onClose , allMeasureData , allGrantedList 
                     </div>
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.price} <span className='text-secondary-red'>*</span>
+                            {myTexts.price}
                         </div>
                         <MainInput
                             register={register}

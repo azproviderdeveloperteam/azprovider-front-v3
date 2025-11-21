@@ -185,6 +185,7 @@ const RegisterSecondStep = ({nextStep , email} : any) => {
                              onSubmit={handleSubmit(submit)}>
                            <div className='w-3/4 pr-3 h-full'>
                                <MainInput
+                                   maxLength={6}
                                    register={register}
                                    label={'******'}
                                    error={errors?.code?.message}
