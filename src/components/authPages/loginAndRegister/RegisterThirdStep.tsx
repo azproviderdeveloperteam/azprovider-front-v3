@@ -48,7 +48,8 @@ const RegisterThirdStep = ({nextStep , email = 'example@text.com'}:any) => {
             businessRole:Yup.string(),
             cityOrCountry:Yup.string(),
             acceptTerms:Yup.bool().required(''),
-            email:Yup.string().nullable()
+            email:Yup.string().nullable(),
+            website:Yup.string().nullable()
 
         })
         .required()
@@ -102,10 +103,11 @@ const RegisterThirdStep = ({nextStep , email = 'example@text.com'}:any) => {
         }
         try {
             const res = await mutateAsync({data:formData , token :token})
-            if (!validateEmail(email)){
+
                 if(validateEmail(d?.email ||'')){
                     const payload = {
                         email:d?.email,
+                        website : d?.website
                     }
                     try {
                         const a = await postContactMutate(payload)
@@ -116,6 +118,7 @@ const RegisterThirdStep = ({nextStep , email = 'example@text.com'}:any) => {
                 }else {
                     const payload = {
                         tell:d?.email,
+                        website : d?.website
                     }
                     try {
                         const a = await postContactMutate(payload)
@@ -123,7 +126,7 @@ const RegisterThirdStep = ({nextStep , email = 'example@text.com'}:any) => {
 
                     }
                 }
-            }
+
             nextStep(3)
         }catch (err) {
             if(err instanceof AxiosError){
@@ -278,7 +281,7 @@ const RegisterThirdStep = ({nextStep , email = 'example@text.com'}:any) => {
 
                             <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem] pr-2 h-full mt-7'>
                                 <div className=' text-[1.3rem]'>
-                                    {"Email"}
+                                    {"Phone"}
                                 </div>
                                 <MainInput
                                     register={register}
@@ -308,6 +311,21 @@ const RegisterThirdStep = ({nextStep , email = 'example@text.com'}:any) => {
                             </div>
                     }
 
+
+                    <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem] pr-2 h-full mt-7'>
+                        <div className=' text-[1.3rem]'>
+                            {"Website"}
+                        </div>
+                        <MainInput
+                            register={register}
+                            label={'Phone'}
+                            error={errors?.website?.message}
+                            name={'website'}
+                            type={'text'}
+                            placeholder={'www.example.com'}
+
+                        />
+                    </div>
                     <div className='min-w-full max-w-full  lg:max-w-[29%] lg:min-w-[22.5rem] pr-2 h-full mt-7'>
                         <div className=' text-[1.3rem]'>
                             {myTexts.international_name}<span className='text-secondary-red'>*</span>
