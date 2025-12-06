@@ -6,14 +6,21 @@ import ProductCard from "@/components/Cards/ProductCard";
 import CompanyCard from "@/components/Cards/CompanyCard";
 import TopCompanyCard from "@/components/TopCompanyCard";
 import AzPagination from "@/components/AzPagination";
+import CompanyListFilter from "@/components/CompanyListFilter";
 
 const CompaniesPage = async ({searchParams} : any) => {
-    const sort = searchParams?.sort
+
+    const sort_by = searchParams?.sort_by || "product_count";
+    const sort_type = searchParams?.sort_type || "desc";
     const offset = parseInt(searchParams?.offset || '0', 10);
-    const limit = 10; // مطابق با داده‌های API
-    const data = await getAllCompanies({ offset, limit });
+    const limit = 10;
 
-
+    const data = await getAllCompanies({
+        offset,
+        limit,
+        sort_by,
+        sort_type
+    });
 
     return (
         <div className='w-full py-28 '>
@@ -28,12 +35,18 @@ const CompaniesPage = async ({searchParams} : any) => {
                 {/*</div>*/}
 
                 <div className={`inline-block transition   w-full    ease-in delay-150 duration-1500  min-h-[calc(100vh-0px)] px-4`}>
-                    {/*<div className={`sticky z-[1] top-12 md:h-[112px] w-full  mx-3]`}>*/}
-                    {/*    <div className='w-full h-full md:px-0   lg:rounded-[15px]'>*/}
-                    {/*        <ProductsPageSortFilters companies={true} sort={searchParams?.sort} productsLength={data?.data?.results?.length}/>*/}
+                    <div className={`sticky z-[1] top-12 md:h-[112px] w-full  mx-3]`}>
+                        {/*<div className='w-full h-full md:px-0   lg:rounded-[15px]'>*/}
+                        {/*    <ProductsPageSortFilters companies={true} sort={searchParams?.sort} productsLength={data?.data?.results?.length}/>*/}
 
-                    {/*    </div>*/}
-                    {/*</div>*/}
+                        {/*</div>*/}
+
+                        <CompanyListFilter
+                            companies={true}
+                            sort_by={sort_by}
+                            sort_type={sort_type}
+                        />
+                    </div>
                     <div className='lg:w-full w-[95%] m-auto md:m-0 flex flex-col items-center justify-start'>
                         <TopCompanyCard key={'-1'} data={data?.data?.results}/>
                         {
