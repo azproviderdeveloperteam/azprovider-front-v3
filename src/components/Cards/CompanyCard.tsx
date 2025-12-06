@@ -8,6 +8,10 @@ import CompanyDetailsContacts from "@/components/mainPages/CompanyDetailsContact
 import {useAuth} from "../../contexts/AuthContext";
 import {EditCompanyCardIcon, ViewCompanyCardIcon} from "@/components/icons";
 import {useRouter} from "next-nprogress-bar";
+import SsrIconBtn from "@/components/Buttons/SsrIconBtn";
+import toast from "react-hot-toast";
+import SendRequestProductPage from "@/components/dialog/SendRequestProductPage";
+import RequestCompanyForm from "@/components/dialog/RequestCompanyForm";
 const CompanyCard = ({item , topItem = false} : any) => {
 
     const router = useRouter()
@@ -111,22 +115,35 @@ const CompanyCard = ({item , topItem = false} : any) => {
                 {/*        null*/}
 
                 {/*}*/}
-                {
-                    topItem ?
-                        <>
-                            <IconButton onClick={()=>router.push(`/companies/${item?.user}${topItem ? '?edit=true' :""}`)}   className={'bg-transparent shadow-none focus:shadow-none'}>
-                                <EditCompanyCardIcon />
-                            </IconButton>
-                            <IconButton onClick={()=>router.push(`/companies/${item?.user}`)} className={'bg-transparent shadow-none focus:shadow-none'}>
-                                <ViewCompanyCardIcon/>
-                            </IconButton>
+                {/*{*/}
+                {/*    topItem ?*/}
+                {/*        <>*/}
+                {/*            <IconButton onClick={()=>router.push(`/companies/${item?.user}${topItem ? '?edit=true' :""}`)}   className={'bg-transparent shadow-none focus:shadow-none'}>*/}
+                {/*                <EditCompanyCardIcon />*/}
+                {/*            </IconButton>*/}
+                {/*            <IconButton onClick={()=>router.push(`/companies/${item?.user}`)} className={'bg-transparent shadow-none focus:shadow-none'}>*/}
+                {/*                <ViewCompanyCardIcon/>*/}
+                {/*            </IconButton>*/}
 
-                        </>
+                {/*        </>*/}
 
-                        :
-                        login ? <CompanyDetailsContacts slug={item?.user}/>
-                            : null
-                }
+                {/*        :*/}
+
+                {/*            <SsrIconBtn className={'bg-transparent shadow-none focus:shadow-none'} onClick={()=>{*/}
+                {/*                if(login){*/}
+
+                {/*                }else {*/}
+                {/*                    toast.error('You Must Be Login First')*/}
+                {/*                }*/}
+
+                {/*            }}>*/}
+                {/*                <Image src={'/icon-for-send-email.svg'} alt={'icon-for-send-email.svg'} width={40} height={40} />*/}
+                {/*            </SsrIconBtn>*/}
+                {/*            // <CompanyDetailsContacts slug={item?.user}/>*/}
+
+                {/*}*/}
+
+                <RequestCompanyForm btnTitle={'Contact Request'} companyId={item?.id}/>
 
 
                 {/*{*/}

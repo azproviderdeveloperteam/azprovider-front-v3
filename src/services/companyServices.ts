@@ -13,3 +13,13 @@ export async function  getCompanyDetails(id : any){
         }
     } )
 }
+
+export async function sendRequestCompany({data , companyId} : {data : any , companyId : string | number}){
+    return await  instance.post(`/api/v2/feedback/companies/${companyId}/submit_feedback/`,data ,{
+        headers:{
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+            Accept:'application/json',
+        }
+    } )
+}
