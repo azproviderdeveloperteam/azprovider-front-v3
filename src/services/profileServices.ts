@@ -157,3 +157,7 @@ export async function deleteProjects ({data , id} : any){
 export async function getAllBlogs(){
     return await axios.get('https://api.azprovider.com/api/blog/get-all-posts/')
 }
+
+export async function getSiteStatistics(){
+    return await instance.get('v2/statistics/site-stats/')
+}
