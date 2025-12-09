@@ -20,7 +20,7 @@ const DashboardHeader = () => {
             <header className='w-full fixed top-0 left-0 px-3 backdrop-blur-md z-50  '>
                 <div className='px-4 lg:px-10 m-auto w-full h-20 flex flex-row item-center justify-between'>
                     <Link href={'/'} className={'hidden lg:flex flex-row items-center justify-center'}>
-                        <MainLogoImg className={'w-[10rem]'} black={true}/>
+                        <MainLogoImg className={'w-[8rem]'} black={true}/>
                     </Link>
                     <DashboardOpenMenu className={'lg:hidden w-[1.6rem] cursor-pointer'} black={true}/>
 
@@ -65,7 +65,7 @@ const DashboardHeader = () => {
 
 
                     <Link href={'/'} className={'lg:hidden h-ful flex flex-row items-center justify-center'}>
-                        <Image  src={true ? '/logo-black.svg' : '/logo-long-light.svg'} alt={'az provider'} width={10} height={10} className={'w-[10rem]'}  />
+                        <Image  src={'/az-p-logo.png'} alt={'az provider'} width={500} height={500} className={'w-[6rem]'}  />
 
                     </Link>
                 </div>
