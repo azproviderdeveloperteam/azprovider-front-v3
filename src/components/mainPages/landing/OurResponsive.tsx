@@ -2,6 +2,7 @@ import React from 'react';
 import {texts} from "@/utils/texts";
 import OurResponsiveAnalyticComponent from "@/components/mainPages/landing/OurResponsiveAnalyticComponent";
 import Image from "next/image";
+import OurResposiveStats from "@/components/mainPages/landing/OurResposiveStats";
 
 const OurResponsive = () => {
     const text = texts.eng
@@ -33,15 +34,7 @@ const OurResponsive = () => {
                     <p className='text-primary-dark-b font-bold'>
                         {myTexts.subDesc}
                     </p>
-                    <div className='w-full flex flex-row item-center justify-between flex-wrap'>
-                        {
-                            myTexts.analytics.map((item ,index)=>{
-                                return(
-                                    <OurResponsiveAnalyticComponent item={item} key={index+1} index={index} />
-                                )
-                            })
-                        }
-                    </div>
+                    <OurResposiveStats />
                 </div>
                 <Image src={'/our-responsive.png'} alt={'az-provider-responsive'} width={500} height={123} className={'w-[90%] md:w-[38%]  hidden md:block'} />
 

@@ -59,7 +59,7 @@ export async function  patchContact({data  , id}:any){
 
 
 export async function  getCertificate(){
-    return await  instance.get('certificates/get-data/' ,{
+    return await  instance.get('v2/user/certificate/?limit=100' ,{
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -69,11 +69,17 @@ export async function  getCertificate(){
 }
 
 export async function  postCertificate(data : any){
-    return await  instance.post('v2/user/certificate/' ,data)
+    return await  instance.post('v2/user/certificate/' ,data ,{
+        headers:{
+            'Content-Type': 'multipart/form-data',
+            'Accept': 'application/json',
+            // 'Authorization': `Bearer ${jwt}`
+        }
+    })
 }
 
 export async function  getMembership(){
-    return await  instance.get('membership/get-data/' ,{
+    return await  instance.get('v2/user/membership/?limit=100' ,{
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -91,7 +97,7 @@ export async function  getEmployees(){
     })
 }
 export async function  postMembership(data : any){
-    return await  instance.post('membership/update-info/' ,data ,{
+    return await  instance.post('v2/user/membership/' ,data ,{
         headers:{
             'Content-Type': 'multipart/form-data',
             'Accept': 'application/json',
@@ -143,7 +149,13 @@ export async function  getProjects(){
 }
 
 export async function postProjects (data : any){
-    return await instance.post('v2/user/project/' ,data )
+    return await instance.post('v2/user/project/' ,data ,{
+        headers:{
+            'Content-Type': 'multipart/form-data',
+            'Accept': 'application/json',
+            // 'Authorization': `Bearer ${jwt}`
+        }
+    })
 }
 
 export async function updateProjects ({data , id} : any){
@@ -156,4 +168,8 @@ export async function deleteProjects ({data , id} : any){
 
 export async function getAllBlogs(){
     return await axios.get('https://api.azprovider.com/api/blog/get-all-posts/')
+}
+
+export async function getSiteStatistics(){
+    return await instance.get('v2/statistics/site-stats/')
 }
