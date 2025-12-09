@@ -12,34 +12,36 @@ import * as Yup from "yup";
 import {Button} from "@material-tailwind/react";
 import Image from "next/image";
 import AzDatePicker from "@/components/inputs/AzDatePicker";
+import {format} from "date-fns";
 
 const ProfileMembership = ({membershipData} : any) => {
-
-    const [img ,setImg] = useState<any>(null)
-    const [imgView ,setImgView] = useState<any>(null)
-    const [date, setDate] = React.useState<Date>();
+    const membershipList = Array.isArray(membershipData) ? membershipData : membershipData ? [membershipData] : []
+    const [img ,setImg] = useState<File | null>(null)
+    const [imgView ,setImgView] = useState<string | null>(null)
+    const [date, setDate] = useState<Date>();
 
     const text = texts.eng
     const myTexts = text.dashboard.pages.profile.memberShip
-    const inputRef = useRef<any>(null)
+    const inputRef = useRef<HTMLInputElement | null>(null)
     const schema = Yup
         .object({
 
         }).shape({
-            type:Yup.string().required('Enter a title') ,
-            serialNumber:Yup.string(),
-            description:Yup.string(),
+            title:Yup.string().required('Enter a title') ,
+            serialNumber:Yup.string().required('Enter a serial number'),
+            sourceLink:Yup.string().required('Enter source link'),
+            publisherOrganization:Yup.string().required('Enter publisher organization'),
+            description:Yup.string().required('Enter description'),
         })
         .required()
     const {
         register,
         handleSubmit,
-        setValue,
-        formState: { errors,isSubmitting, isDirty, isValid },
-        getValues
+        reset,
+        formState: { errors },
     } = useForm({ resolver: yupResolver(schema), mode:'onChange'})
 
-    const {data  , isPending  , error  , mutateAsync} =useMutation({
+    const { isPending , mutateAsync} =useMutation({
         mutationFn : postMembership
     })
 
@@ -48,17 +50,26 @@ const ProfileMembership = ({membershipData} : any) => {
 
     const submit = async (d : any) =>{
 
-        const formData = {
-            serial_number : d?.serialNumber,
-            type:d?.type,
-            description:d?.description,
-            expire_date: date ,
-            file : img
-
+        const formData = new FormData()
+        formData.append('title' , d?.title)
+        if(date){
+            formData.append('date' , format(date , 'yyyy-MM-dd'))
         }
+        formData.append('serial_number' , d?.serialNumber)
+        formData.append('source_link' , d?.sourceLink)
+        formData.append('description' , d?.description)
+        formData.append('publisher_organization' , d?.publisherOrganization)
+        if(img){
+            formData.append('image' , img)
+        }
+
         try {
-            const d = await mutateAsync(formData)
+            await mutateAsync(formData)
             toast.success("Data Saved Successfully !")
+            reset()
+            setImg(null)
+            setImgView(null)
+            setDate(undefined)
 
         }catch (err) {
             if(err instanceof AxiosError){
@@ -74,24 +85,6 @@ const ProfileMembership = ({membershipData} : any) => {
         }
     }
 
-    const uploadLogo = async (e : any) =>{
-        // const formData = new FormData()
-        // formData.append('logo' , e)
-        // try {
-        //     const d = await mutateAsync(formData)
-        //     toast.success("Logo Uploaded Successfully !")
-        //
-        // }catch (err) {
-        //     if(err instanceof AxiosError){
-        //         if(err?.response?.data?.msg){
-        //             toast.error(err?.response?.data?.msg)
-        //         }else {
-        //             toast.error('An Error occurred')
-        //         }
-        //     }
-        // }
-
-    }
 
     const hasError =false
 
@@ -100,7 +93,7 @@ const ProfileMembership = ({membershipData} : any) => {
             <div className='w-full bg-[#F8F8F8] p-5 lg:p-8 rounded-[1rem]'>
                 <div className='w-full flex flex-row items-center justify-start'>
                     {
-                        img  ?
+                        imgView  ?
 
                             <Image src={imgView} alt={'no-image.svg'} width={100} height={100}  className={'rounded-[1rem] object-cover aspect-square'}/>
 
@@ -110,20 +103,21 @@ const ProfileMembership = ({membershipData} : any) => {
 
                     <Button
                         onClick={()=>{
-                            if(inputRef){
-                                if(inputRef.current){
-                                    inputRef.current.click()
-                                }
+                            if(inputRef?.current){
+                                inputRef.current.click()
                             }
                         }}
                         className='bg-transparent text-primary-purple-300 font-bold normal-case ml-3 capitalize  flex flex-row items-center justify-start'>
                         <Image src={'/upload-svg.svg'} alt={'upload-svg.svg'} width={20} height={20} className={'mr-1'} />    {myTexts.uploadLogo}
                     </Button>
-                    <input className='hidden' ref={inputRef} type={'file'} onChange={(e)=>{
-                        if(e.target.files){
+                    <input className='hidden' ref={inputRef} type={'file'} accept={'image/*'} onChange={(e)=>{
+                        if(e.target.files && e.target?.files[0]){
                             setImg(e.target?.files[0])
                             setImgView(URL.createObjectURL(e.target?.files[0]))
-                            uploadLogo(e.target?.files[0])                        }
+                        }else{
+                            setImg(null)
+                            setImgView(null)
+                        }
                     }}/>
                 </div>
 
@@ -133,22 +127,22 @@ const ProfileMembership = ({membershipData} : any) => {
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.type} <span className='text-secondary-red'>*</span>
+                            {myTexts.title} <span className='text-secondary-red'>*</span>
                         </div>
                         <MainInput
                             register={register}
-                            label={'type'}
-                            error={errors?.type?.message}
-                            name={'type'}
+                            label={'title'}
+                            error={errors?.title?.message}
+                            name={'title'}
                             type={'text'}
-                            placeholder={myTexts.type}
+                            placeholder={myTexts.title}
                         />
                     </div>
 
 
                     <div className='w-full lg:w-[33.3%] pr-[1.3%]  h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
-                            {myTexts.expireDate}
+                            {myTexts.date}
                         </div>
                         <AzDatePicker   date={date} setDate={setDate}/>
                     </div>
@@ -168,6 +162,35 @@ const ProfileMembership = ({membershipData} : any) => {
                             placeholder={myTexts.serialNumber}
                         />
                     </div>
+
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
+                        <div className=' text-[1.3rem] capitalize'>
+                            {myTexts.sourceLink} <span className='text-secondary-red'>*</span>
+                        </div>
+                        <MainInput
+                            register={register}
+                            label={'sourceLink'}
+                            error={errors?.sourceLink?.message}
+                            name={'sourceLink'}
+                            type={'text'}
+                            placeholder={myTexts.sourceLink}
+                        />
+                    </div>
+
+                    <div className='w-full lg:w-[33.3%] pr-[1.3%] h-full mt-7'>
+                        <div className=' text-[1.3rem] capitalize'>
+                            {myTexts.publisherOrganization} <span className='text-secondary-red'>*</span>
+                        </div>
+                        <MainInput
+                            register={register}
+                            label={'publisherOrganization'}
+                            error={errors?.publisherOrganization?.message}
+                            name={'publisherOrganization'}
+                            type={'text'}
+                            placeholder={myTexts.publisherOrganization}
+                        />
+                    </div>
+
 
                     <div className='w-full pr-[1.3%] h-full mt-7'>
                         <div className=' text-[1.3rem] capitalize'>
@@ -194,6 +217,62 @@ const ProfileMembership = ({membershipData} : any) => {
 
                 </form>
 
+                <div className='w-full mt-8'>
+                    <h3 className='text-[1.2rem] font-semibold text-primary-dark-b mb-4 capitalize'>
+                        {myTexts.title} list
+                    </h3>
+                    {
+                        membershipList.length > 0 ?
+                            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                                {membershipList.map((item: any, index: number) => {
+                                    const imageSrc = item?.image || item?.file
+                                    return (
+                                        <div key={item?.id || index}
+                                             className='w-full bg-white shadow-sm rounded-xl p-4 flex flex-row items-center gap-3 border border-[#F1F1F1]'>
+                                            <Image
+                                                src={imageSrc ? `${process.env.MEDIA_URL}${imageSrc}` : '/no-image.svg'}
+                                                alt={item?.title || 'membership'}
+                                                width={70}
+                                                height={70}
+                                                className='object-cover rounded-lg aspect-square'
+                                            />
+                                            <div className='flex flex-col w-full text-sm'>
+                                                {item?.title &&
+                                                    <div className='flex justify-between'>
+                                                        <span className='text-[#A1A1A1]'>Title:</span>
+                                                        <span className='text-primary-dark-b'>{item?.title}</span>
+                                                    </div>}
+                                                {item?.serial_number &&
+                                                    <div className='flex justify-between mt-1'>
+                                                        <span className='text-[#A1A1A1]'>Serial:</span>
+                                                        <span className='text-primary-dark-b'>{item?.serial_number}</span>
+                                                    </div>}
+                                                {item?.publisher_organization &&
+                                                    <div className='flex justify-between mt-1'>
+                                                        <span className='text-[#A1A1A1]'>Publisher:</span>
+                                                        <span className='text-primary-dark-b truncate max-w-[10rem]'>{item?.publisher_organization}</span>
+                                                    </div>}
+                                                {item?.source_link &&
+                                                    <div className='flex justify-between mt-1'>
+                                                        <span className='text-[#A1A1A1]'>Source:</span>
+                                                        <span className='text-primary-dark-b truncate max-w-[10rem]'>{item?.source_link}</span>
+                                                    </div>}
+                                                {item?.date &&
+                                                    <div className='flex justify-between mt-1'>
+                                                        <span className='text-[#A1A1A1]'>Date:</span>
+                                                        <span className='text-primary-dark-b'>{item?.date?.toString()?.split('T')[0]}</span>
+                                                    </div>}
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                            :
+                            <div className='text-[#8F8F8F] text-sm'>
+                                You don’t have any memberships yet.
+                            </div>
+                    }
+                </div>
 
 
             </div>

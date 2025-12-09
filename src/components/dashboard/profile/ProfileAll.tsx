@@ -1,5 +1,5 @@
 'use client'
-import React, {useRef, useState} from 'react';
+import React from 'react';
 import {texts} from "@/utils/texts";
 import Image from "next/image";
 
@@ -7,6 +7,9 @@ const ProfileAll = ({data , children}:any) => {
     const {projectsData , membershipData , bInfoData ,contactData , certificateData} = data
     const text = texts.eng
     const myTexts = text.dashboard.pages.profile.all
+    const certificateList = Array.isArray(certificateData) ? certificateData : certificateData ? [certificateData] : []
+    const projectList = Array.isArray(projectsData) ? projectsData : projectsData ? [projectsData] : []
+    const membershipList = Array.isArray(membershipData) ? membershipData : membershipData ? [membershipData] : []
 
 
     return (
@@ -273,97 +276,121 @@ const ProfileAll = ({data , children}:any) => {
                      </div>
                  }
 
-                 {
-                     certificateData &&
+                {
+                    certificateList.length > 0 &&
 
-                     <div  className='min-w-[36rem] bg-[#F8F8F8] aspect-[1.2] p-5 lg:p-8 rounded-[1rem] mr-4 snap-start overflow-auto'>
-                         <div className='w-full text-left font-bold text-primary-dark-b capitalize'>
-                             {myTexts.certificate.title}
-                         </div>
-                         <div className='w-full'>
-                             {
-                                 certificateData?.map((item : any , index : number)=>{
-                                     return(
-                                         <div key={index+1} className='w-full flex flex-col items-start justify-start border-b-[1px] border-dashed border-[#898989]'>
-                                             {
-                                                 item?.file
-                                                     ? <Image alt={item?.title ? item?.title : 'aa'} src={`${process.env.MEDIA_URL}${item?.file}`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
-                                                     :
-                                                     <Image alt={item?.title ? item?.title : 'aa'} src={`/no-image.svg`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
-                                             }
-                                             {
-                                                 item?.title &&
-                                                 <div className='w-full flex flex-row items-center justify-start my-1'>
-                                                     <div className='w-2/5 text-[0.9rem] text-[#898989]'>
-                                                         {`Title:`}
-                                                     </div>
+                    <div  className='min-w-[36rem] bg-[#F8F8F8] aspect-[1.2] p-5 lg:p-8 rounded-[1rem] mr-4 snap-start overflow-auto'>
+                        <div className='w-full text-left font-bold text-primary-dark-b capitalize'>
+                            {myTexts.certificate.title}
+                        </div>
+                        <div className='w-full'>
+                            {
+                                certificateList?.map((item : any , index : number)=>{
+                                    return(
+                                        <div key={index+1} className='w-full flex flex-col items-start justify-start border-b-[1px] border-dashed border-[#898989]'>
+                                            {
+                                                (item?.image || item?.file)
+                                                    ? <Image alt={item?.title ? item?.title : 'aa'} src={`${process.env.MEDIA_URL}${item?.image || item?.file}`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
+                                                    :
+                                                    <Image alt={item?.title ? item?.title : 'aa'} src={`/no-image.svg`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
+                                            }
+                                            {
+                                                item?.title &&
+                                                <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                    <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                        {`Title:`}
+                                                    </div>
 
-                                                     <div className='w-3/5 text-[1rem] truncate'>
-                                                         { item?.title}
-                                                     </div>
-                                                 </div>
-                                             }
+                                                    <div className='w-3/5 text-[1rem] truncate'>
+                                                        { item?.title}
+                                                    </div>
+                                                </div>
+                                            }
 
-                                             {
-                                                 item?.grade &&
-                                                 <div className='w-full flex flex-row items-center justify-start my-1'>
-                                                     <div className='w-2/5 text-[0.9rem] text-[#898989]'>
-                                                         {`Grade:`}
-                                                     </div>
+                                            {
+                                                item?.serial_number &&
+                                                <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                    <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                        {`Serial Number:`}
+                                                    </div>
 
-                                                     <div className='w-3/5 text-[1rem] truncate'>
-                                                         { item?.grade}
-                                                     </div>
-                                                 </div>
-                                             }
+                                                    <div className='w-3/5 text-[1rem] truncate'>
+                                                        { item?.serial_number}
+                                                    </div>
+                                                </div>
+                                            }
 
-                                             {
-                                                 item?.type &&
-                                                 <div className='w-full flex flex-row items-center justify-start my-1'>
-                                                     <div className='w-2/5 text-[0.9rem] text-[#898989]'>
-                                                         {`Type:`}
-                                                     </div>
+                                            {
+                                                item?.publisher_organization &&
+                                                <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                    <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                        {`Publisher:`}
+                                                    </div>
 
-                                                     <div className='w-3/5 text-[1rem] truncate'>
-                                                         { item?.type}
-                                                     </div>
-                                                 </div>
-                                             }
+                                                    <div className='w-3/5 text-[1rem] truncate'>
+                                                        { item?.publisher_organization}
+                                                    </div>
+                                                </div>
+                                            }
 
-                                             {
-                                                 item?.source &&
-                                                 <div className='w-full flex flex-row items-center justify-start my-1'>
-                                                     <div className='w-2/5 text-[0.9rem] text-[#898989]'>
-                                                         {`Source Link:`}
-                                                     </div>
+                                            {
+                                                item?.source_link &&
+                                                <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                    <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                        {`Source Link:`}
+                                                    </div>
 
-                                                     <div className='w-3/5 text-[1rem] truncate'>
-                                                         { item?.source}
-                                                     </div>
-                                                 </div>
-                                             }
-                                         </div>
-                                     )
-                                 })
-                             }
-                         </div>
-                     </div>
-                 }
+                                                    <div className='w-3/5 text-[1rem] truncate'>
+                                                        { item?.source_link}
+                                                    </div>
+                                                </div>
+                                            }
+                                            {
+                                                item?.date &&
+                                                <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                    <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                        {`Date:`}
+                                                    </div>
 
-                 {
-                     projectsData &&
+                                                    <div className='w-3/5 text-[1rem] truncate'>
+                                                        { item?.date?.toString()?.split('T')[0]}
+                                                    </div>
+                                                </div>
+                                            }
+                                            {
+                                                item?.description &&
+                                                <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                    <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                        {`Description:`}
+                                                    </div>
+
+                                                    <div className='w-3/5 text-[1rem] truncate'>
+                                                        { item?.description}
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                    </div>
+                }
+
+                {
+                    projectList.length > 0 &&
 
                      <div  className='min-w-[36rem] bg-[#F8F8F8] aspect-[1.2] p-5 lg:p-8 rounded-[1rem] mr-4 snap-start '>
                          <div className='w-full text-left font-bold text-primary-dark-b capitalize'>
                              {myTexts.projects.title}
                          </div>
-                         {
-                             projectsData?.map((item : any , index : number)=>{
+                        {
+                            projectList?.map((item : any , index : number)=>{
                                  return(
                                      <div key={index+1} className='w-full flex flex-col items-start justify-start border-b-[1px] border-dashed border-[#898989]'>
                                          {
-                                             item?.file
-                                                 ? <Image alt={item?.title ? item?.title : 'aa'} src={`${process.env.MEDIA_URL}${item?.file}`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
+                                             (item?.image || item?.file)
+                                                 ? <Image alt={item?.title ? item?.title : 'aa'} src={`${process.env.MEDIA_URL}${item?.image || item?.file}`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
                                                  :
                                                  <Image alt={item?.title ? item?.title : 'aa'} src={`/no-image.svg`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
                                          }
@@ -407,6 +434,32 @@ const ProfileAll = ({data , children}:any) => {
                                          }
 
                                          {
+                                             item?.serial_number &&
+                                             <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                 <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                     {`Serial Number:`}
+                                                 </div>
+
+                                                 <div className='w-3/5 text-[1rem] truncate'>
+                                                     { item?.serial_number}
+                                                 </div>
+                                             </div>
+                                         }
+
+                                         {
+                                             item?.source_link &&
+                                             <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                 <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                     {`Source Link:`}
+                                                 </div>
+
+                                                 <div className='w-3/5 text-[1rem] truncate'>
+                                                     { item?.source_link}
+                                                 </div>
+                                             </div>
+                                         }
+
+                                         {
                                              item?.description &&
                                              <div className='w-full flex flex-row items-center justify-start my-1'>
                                                  <div className='w-2/5 text-[0.9rem] text-[#898989]'>
@@ -425,78 +478,107 @@ const ProfileAll = ({data , children}:any) => {
                      </div>
                  }
 
-                 {
-                     membershipData &&
+                {
+                    membershipList.length > 0 &&
 
                      <div  className='min-w-[36rem] bg-[#F8F8F8] aspect-[1.2] p-5 lg:p-8 rounded-[1rem] mr-4 snap-start '>
                          <div className='w-full text-left font-bold text-primary-dark-b capitalize'>
                              {myTexts.memberShip.title}
                          </div>
 
-                         <div className='w-full'>
+                        <div className='w-full'>
+                            {
+                                membershipList.map((item: any, index: number) => (
+                                    <div key={index+1}   className='w-full flex flex-col items-start justify-start border-b-[1px] border-dashed border-[#898989]'>
+                                        {
+                                            (item?.image || item?.file)
+                                                ? <Image alt={item?.title ? item?.title : 'aa'} src={`${process.env.MEDIA_URL}${item?.image || item?.file}`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
+                                                :
+                                                <Image alt={item?.title ? item?.title : 'aa'} src={`/no-image.svg`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
+                                        }
+                                        {
+                                            item?.title &&
+                                            <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                    {`Title:`}
+                                                </div>
 
-                                         <div   className='w-full flex flex-col items-start justify-start border-b-[1px] border-dashed border-[#898989]'>
-                                             {
-                                                 membershipData?.file
-                                                     ? <Image alt={membershipData?.title ? membershipData?.title : 'aa'} src={`${process.env.MEDIA_URL}${membershipData?.file}`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
-                                                     :
-                                                     <Image alt={membershipData?.title ? membershipData?.title : 'aa'} src={`/no-image.svg`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
-                                             }
-                                             {
-                                                 membershipData?.type &&
-                                                 <div className='w-full flex flex-row items-center justify-start my-1'>
-                                                     <div className='w-2/5 text-[0.9rem] text-[#898989]'>
-                                                         {`Type:`}
-                                                     </div>
+                                                <div className='w-3/5 text-[1rem] truncate'>
+                                                    { item?.title}
+                                                </div>
+                                            </div>
+                                        }
 
-                                                     <div className='w-3/5 text-[1rem] truncate'>
-                                                         { membershipData?.type}
-                                                     </div>
-                                                 </div>
-                                             }
+                                        {
+                                            item?.serial_number &&
+                                            <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                    {`Serial Number:`}
+                                                </div>
 
-                                             {
-                                                 membershipData?.serial_number &&
-                                                 <div className='w-full flex flex-row items-center justify-start my-1'>
-                                                     <div className='w-2/5 text-[0.9rem] text-[#898989]'>
-                                                         {`Serial Number:`}
-                                                     </div>
+                                                <div className='w-3/5 text-[1rem] truncate'>
+                                                    { item?.serial_number}
+                                                </div>
+                                            </div>
+                                        }
 
-                                                     <div className='w-3/5 text-[1rem] truncate'>
-                                                         { membershipData?.serial_number}
-                                                     </div>
-                                                 </div>
-                                             }
+                                        {
+                                            item?.publisher_organization &&
+                                            <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                    {`Publisher:`}
+                                                </div>
 
-                                             {
-                                                 membershipData?.expire_date &&
-                                                 <div className='w-full flex flex-row items-center justify-start my-1'>
-                                                     <div className='w-2/5 text-[0.9rem] text-[#898989]'>
-                                                         {`Expire Date:`}
-                                                     </div>
+                                                <div className='w-3/5 text-[1rem] truncate'>
+                                                    { item?.publisher_organization}
+                                                </div>
+                                            </div>
+                                        }
 
-                                                     <div className='w-3/5 text-[1rem] truncate'>
-                                                         { membershipData?.expire_date?.toString()?.split('T')[0]}
-                                                     </div>
-                                                 </div>
-                                             }
+                                        {
+                                            item?.source_link &&
+                                            <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                    {`Source Link:`}
+                                                </div>
 
-                                             {
-                                                 membershipData?.description &&
-                                                 <div className='w-full flex flex-row items-center justify-start my-1'>
-                                                     <div className='w-2/5 text-[0.9rem] text-[#898989]'>
-                                                         {`Description:`}
-                                                     </div>
+                                                <div className='w-3/5 text-[1rem] truncate'>
+                                                    { item?.source_link}
+                                                </div>
+                                            </div>
+                                        }
 
-                                                     <div className='w-3/5 text-[1rem] truncate'>
-                                                         { membershipData?.description}
-                                                     </div>
-                                                 </div>
-                                             }
-                                         </div>
-                         </div>
-                     </div>
-                 }
+                                        {
+                                            item?.date &&
+                                            <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                    {`Date:`}
+                                                </div>
+
+                                                <div className='w-3/5 text-[1rem] truncate'>
+                                                    { item?.date?.toString()?.split('T')[0]}
+                                                </div>
+                                            </div>
+                                        }
+
+                                        {
+                                            item?.description &&
+                                            <div className='w-full flex flex-row items-center justify-start my-1'>
+                                                <div className='w-2/5 text-[0.9rem] text-[#898989]'>
+                                                    {`Description:`}
+                                                </div>
+
+                                                <div className='w-3/5 text-[1rem] truncate'>
+                                                    { item?.description}
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
+                }
 
              </div>
      );
