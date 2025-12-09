@@ -83,7 +83,7 @@ export async function  getMembership(){
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization': `Bearer ${jwt}`
+            // 'Authorization': `Bearer ${jwt}`
         }
     })
 }
