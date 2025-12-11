@@ -23,6 +23,7 @@ import toast from "react-hot-toast";
 import {AxiosError} from "axios";
 import useTimeRemaining from "@/hooks/useTimeRemaining";
 import instance from "@/services/instance";
+import resolveMediaUrl from "@/utils/resolveMediaUrl";
 
 const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , submitting} : any) => {
     const [dialog ,setDialog] = useState(false)
@@ -151,6 +152,7 @@ const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , sub
     const remainTime = useTimeRemaining(item?.hot_deal?.[0]?.expire_datetime || new Date())  ;
 
     const remainingTime =  item?.hot_deal?.[0]?.expire_datetime ? remainTime : undefined ;
+    const productImageSrc = resolveMediaUrl(item?.media_files?.[0]?.image);
     return (
         <>
 
@@ -189,8 +191,8 @@ const ProductCardHotDeal = ({item , theme , measureOptions , setSubmitting , sub
                             {/*    }*/}
                             {/*</Carousel>*/}
                             {
-                                item?.media_files?.[0]?.image
-                                    ? <Image alt={'aaa'} src={`${item?.media_files?.[0]?.image?.includes("api.azprovider.com") ? "" :  process.env.MEDIA_URL}${item?.media_files?.[0]?.image}`} width={235} height={235}  className='w-full aspect-[1.4268] rounded-[1.6rem] object-center object-cover'/>
+                                productImageSrc
+                                    ? <Image alt={'aaa'} src={productImageSrc} width={235} height={235}  className='w-full aspect-[1.4268] rounded-[1.6rem] object-center object-cover'/>
                                     :
                                     <Image alt={'aaa'} src={`/no-image.svg`} width={235} height={235} className='w-full aspect-[1.4268] object-center object-cover rounded-[1.6rem]' />
                             }
