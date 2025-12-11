@@ -18,7 +18,8 @@ export const metadata: Metadata = {
   description: 'AZ Provider Website',
     icons: {
         icon: '/favicon.ico',
-    }
+    },
+    robots: { index: false, follow: false }
 }
 
 export default function RootLayout({

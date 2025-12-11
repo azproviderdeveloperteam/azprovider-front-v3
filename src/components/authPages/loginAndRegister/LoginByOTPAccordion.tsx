@@ -166,9 +166,9 @@ const LoginByOtpAccordion = () => {
     const submitWithEmail = async (d : any) =>{
 
         const formData = validateEmail(d?.email) ? {
-                email:d?.email,
+            email:d?.email,
                 code:d?.otp
-            } :
+        } :
             {
                 mobile:`${country?.value}${country?.value ==='+98' ? d?.email?.startsWith('0') ? d.email.slice(1) : d.email :d?.email}`,
                 code:d?.otp
@@ -210,9 +210,9 @@ const LoginByOtpAccordion = () => {
     const submitWithEmailPassword = async (d : any) =>{
 
         const formData =  validateEmail(d?.email)  ? {
-                email:d?.email,
-                password:d?.password
-            }:
+            email:d?.email,
+            password:d?.password
+        }:
             {
                 mobile:`${country?.value}${country?.value ==='+98' ? d?.email?.startsWith('0') ? d.email.slice(1) : d.email :d?.email}`,
                 password:d?.password
@@ -287,7 +287,7 @@ const LoginByOtpAccordion = () => {
     },[step])
     return (
         <Accordion className={'text-primary-dark-b bg-[#F8F8F8] rounded-[1.4rem] py-4 px-10 font-roboto'} open={open === 1}
-            // icon={<Image src={'/carousel-arrow.svg'} alt={'acc-otp-arrow'} width={10} height={10} className={`${open === 1 ? 'rotate-[-90deg]' :'rotate-90'} transition duration-500`} />  }
+                   // icon={<Image src={'/carousel-arrow.svg'} alt={'acc-otp-arrow'} width={10} height={10} className={`${open === 1 ? 'rotate-[-90deg]' :'rotate-90'} transition duration-500`} />  }
         >
             <AccordionHeader className={'border-none'} onClick={() => console.log(1)}>
                 <div className='w-full flex flex-row items-center justify-start'>
@@ -300,210 +300,211 @@ const LoginByOtpAccordion = () => {
             </AccordionHeader>
             <AccordionBody>
 
-                <div className='text-primary-dark-b'>
-                    {
-                        step === 0 ?
-                            <>
+              <div className='text-primary-dark-b'>
+                  {
+                      step === 0 ?
+                          <>
 
-                                <div className='  font-bold text-[1.4rem] text-primary-dark-b capitalize'>
-                                    Phone Or Email
-                                </div>
+                              <div className='  font-bold text-[1.4rem] text-primary-dark-b capitalize'>
+                                  Phone Or Email
+                              </div>
 
-                                {
+                              {
 
-                                    <form className='w-full flex flex-col items-start justify-between mt-2' onSubmit={handleSubmit(sendVerification)}>
-                                        <div className='w-full flex flex-col md:flex-row items-center justify-center gap-4'>
-                                            <div className='w-full md:w-1/3 h-full '>
-                                                <div className=' text-[1.3rem] capitalize'>
+                                      <form className='w-full flex flex-col items-start justify-between mt-2' onSubmit={handleSubmit(sendVerification)}>
+                                          <div className='w-full flex flex-col md:flex-row items-center justify-center gap-4'>
+                                              <div className='w-full md:w-1/3 h-full '>
+                                                  <div className=' text-[1.3rem] capitalize'>
 
-                                                </div>
-                                                <Select
-                                                    className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
+                                                  </div>
+                                                  <Select
+                                                      className={`border border-1 border-slate-700 w-full flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
 
-                                                    onChange={(e)=>{
+                                                      onChange={(e)=>{
 
-                                                        setCountry( e)
-                                                        // getToCurrenciesFunc(e?.value)
-                                                    }}
-                                                    value={country}
-                                                    options={COUNTRIES}
-                                                    unstyled
-                                                    styles={{
-                                                        input: (base) => ({
-                                                            ...base,
-                                                            base: " hover:cursor-pointer",
-                                                            fontSize:"9px",
-                                                            "input:focus": {
-                                                                boxShadow: "none",
-                                                            },
-                                                        }),
-                                                        multiValueLabel: (base) => ({
-                                                            ...base,
-                                                            whiteSpace: "normal",
-                                                            overflow: "visible",
-                                                        }),
-                                                        control: (base) => ({
-                                                            ...base,
-                                                            transition: "none",
-                                                        }),
-                                                    }}
+                                                          setCountry( e)
+                                                          // getToCurrenciesFunc(e?.value)
+                                                      }}
+                                                      value={country}
+                                                      options={COUNTRIES}
+                                                      unstyled
+                                                      styles={{
+                                                          input: (base) => ({
+                                                              ...base,
+                                                              base: " hover:cursor-pointer",
+                                                              fontSize:"9px",
+                                                              "input:focus": {
+                                                                  boxShadow: "none",
+                                                              },
+                                                          }),
+                                                          multiValueLabel: (base) => ({
+                                                              ...base,
+                                                              whiteSpace: "normal",
+                                                              overflow: "visible",
+                                                          }),
+                                                          control: (base) => ({
+                                                              ...base,
+                                                              transition: "none",
+                                                          }),
+                                                      }}
 
-                                                    classNames={{
-                                                        control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
-                                                        multiValueLabel: () => 'bg-white  rounded-xl shadow-md',
-                                                        option: ({ isFocused, isSelected }) =>'bg-white px-4 py-1',
-                                                    }}
-                                                />
-                                            </div>
-                                            <div className='w-full md:w-2/3 md:pr-3 h-full'>
-                                                <MainInput
-                                                    register={register}
-                                                    label={'Your Email'}
-                                                    error={errors?.email?.message}
-                                                    name={'email'}
-                                                    type={'mail'}
-                                                    placeholder={'example@email.com Or +989123456789'}
+                                                      classNames={{
+                                                          control: ({isFocused}) =>' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
+                                                          multiValueLabel: () => 'bg-white  rounded-xl shadow-md',
+                                                          option: ({ isFocused, isSelected }) =>'bg-white px-4 py-1',
+                                                      }}
+                                                  />
+                                              </div>
+                                              <div className='w-full md:w-2/3 md:pr-3 h-full'>
+                                                  <MainInput
+                                                      register={register}
+                                                      label={'Your Email'}
+                                                      error={errors?.email?.message}
+                                                      name={'email'}
+                                                      type={'mail'}
+                                                      placeholder={'example@email.com Or +989123456789'}
 
-                                                />
-                                            </div>
-                                        </div>
-
-
-
-                                        <div className={'w-full flex flex-col md:flex-row items-start justify-between mt-3'}>
-                                            <div className='w-full md:w-5/12'>
-                                                <RegisterBtn type={'submit'} loading={vPending} disabled={false}  otherClass={'!w-full'}>
-                                                    {myTexts.sendCode}
-                                                </RegisterBtn>
-                                            </div>
-                                            <div className='w-full md:w-[1rem] h-full flex flex-row items-center justify-center min-h-[3.85rem]'>
-                                                Or
-                                            </div>
-                                            <div className='w-full md:w-5/12'>
-                                                <RegisterBtn onClick={()=>setStep(2)}  loading={false} disabled={false}  otherClass={'!w-full'}>
-                                                    Enter Password
-                                                </RegisterBtn>
-                                            </div>
-                                        </div>
+                                                  />
+                                              </div>
+                                          </div>
 
 
 
-                                    </form>
-                                }
+                                          <div className={'w-full flex flex-col md:flex-row items-start justify-between mt-3'}>
+                                              <div className='w-full md:w-5/12'>
+                                                  <RegisterBtn type={'submit'} loading={vPending} disabled={false}  otherClass={'!w-full'}>
+                                                      {myTexts.sendCode}
+                                                  </RegisterBtn>
+                                              </div>
+                                              <div className='w-full md:w-[1rem] h-full flex flex-row items-center justify-center min-h-[3.85rem]'>
+                                                  Or
+                                              </div>
+                                              <div className='w-full md:w-5/12'>
+                                                  <RegisterBtn onClick={()=>setStep(2)}  loading={false} disabled={false}  otherClass={'!w-full'}>
+                                                      Enter Password
+                                                  </RegisterBtn>
+                                              </div>
+                                          </div>
 
-                            </>
-                            : step === 1 ?
-                                <>
-                                    <div className='w-full'>
-                                        {`Code Sent to ${getValues('email')}`}
-                                    </div>
-                                    <div className='w-full flex flex-row items-center justify-between'>
 
-                                        <div className='mt-4 font-bold text-[1.4rem] text-primary-dark-b capitalize'>
 
-                                            {myTexts.verificationInput.title}
+                                      </form>
+                              }
 
-                                        </div>
+                          </>
+                          : step === 1 ?
+                              <>
+                                  <div className='w-full'>
+                                      {`Code Sent to ${getValues('email')}`}
+                                  </div>
+                                  <div className='w-full flex flex-row items-center justify-between'>
 
-                                        <span className='px-5'>
+                                      <div className='mt-4 font-bold text-[1.4rem] text-primary-dark-b capitalize'>
+
+                                          {myTexts.verificationInput.title}
+
+                                      </div>
+
+                                      <span className='px-5'>
                                         <ResecCodeSignUp pending={vPending} resendCode={() => {
                                             sendVerification({email: getValues('email')})
                                         }}/>
 
                                   </span>
-                                    </div>
-                                    <form className='w-full flex flex-row items-start justify-between mt-2'
-                                          onSubmit={handleSubmit(submitWithEmail)}>
-                                        <div className='w-3/4 pr-3 h-full'>
-                                            <MainInput
-                                                register={register}
-                                                label={'OTP'}
-                                                error={errors?.otp?.message}
-                                                name={'otp'}
-                                                // type={'password'}
-                                                placeholder={'******'}
+                                  </div>
+                                  <form className='w-full flex flex-row items-start justify-between mt-2'
+                                        onSubmit={handleSubmit(submitWithEmail)}>
+                                      <div className='w-3/4 pr-3 h-full'>
+                                          <MainInput
+                                              register={register}
+                                              label={'OTP'}
+                                              error={errors?.otp?.message}
+                                              name={'otp'}
+                                              // type={'password'}
+                                              placeholder={'******'}
 
-                                            />
-                                        </div>
+                                          />
+                                      </div>
 
-                                        <div className='w-1/4'>
-                                            <RegisterBtn type={'submit'} loading={isPending} disabled={false}
-                                                         otherClass={'!w-full'}>
-                                                {myTexts.confirm}
-                                            </RegisterBtn>
-                                        </div>
-                                    </form>
+                                      <div className='w-1/4'>
+                                          <RegisterBtn type={'submit'} loading={isPending} disabled={false}
+                                                       otherClass={'!w-full'}>
+                                              {myTexts.confirm}
+                                          </RegisterBtn>
+                                      </div>
+                                  </form>
 
-                                </>
+                              </>
 
-                                :
-                                <>
-                                    <div className='mt-4 font-bold text-[1.4rem] text-primary-dark-b capitalize'>
+                              :
+                              <>
+                                  <div className='mt-4 font-bold text-[1.4rem] text-primary-dark-b capitalize'>
 
-                                        Email Or Phone
+                                      Email Or Phone
 
-                                    </div>
-                                    <form className='w-full flex flex-col items-start justify-between mt-2' onSubmit={handleSubmit(submitWithEmailPassword)}>
+                                  </div>
+                                  <form className='w-full flex flex-col items-start justify-between mt-2' onSubmit={handleSubmit(submitWithEmailPassword)}>
 
-                                        <div className='w-full  mt-3 h-full'>
-                                            <MainInput
-                                                register={register}
-                                                label={'Your Email'}
-                                                error={errors?.email?.message}
-                                                name={'email'}
-                                                type={'mail'}
-                                                placeholder={'example@email.com Or +989123456789'}
+                                      <div className='w-full  mt-3 h-full'>
+                                          <MainInput
+                                              register={register}
+                                              label={'Your Email'}
+                                              error={errors?.email?.message}
+                                              name={'email'}
+                                              type={'mail'}
+                                              placeholder={'example@email.com Or +989123456789'}
 
-                                            />
-                                        </div>
-                                        <div className='mt-4 font-bold text-[1.4rem] text-primary-dark-b capitalize'>
+                                          />
+                                      </div>
+                                      <div className='mt-4 font-bold text-[1.4rem] text-primary-dark-b capitalize'>
 
-                                            Password
+                                          Password
 
-                                        </div>
-                                        <div className='w-full  h-full mt-3'>
-                                            <MainInput
-                                                register={register}
-                                                label={'Password'}
-                                                error={errors?.password?.message}
-                                                name={'password'}
-                                                type={visible ?'text' :'password'}
-                                                placeholder={'* * * * * * * *'}
-                                                endContent={<Button onClick={()=>setVisible(!visible)} className={'bg-opacity-0'}><GrayEyeIcon /></Button>}
+                                      </div>
+                                      <div className='w-full  h-full mt-3'>
+                                          <MainInput
+                                              register={register}
+                                              label={'Password'}
+                                              error={errors?.password?.message}
+                                              name={'password'}
+                                              type={visible ?'text' :'password'}
+                                              placeholder={'* * * * * * * *'}
+                                              endContent={<Button onClick={()=>setVisible(!visible)} className={'bg-opacity-0'}><GrayEyeIcon /></Button>}
 
-                                            />
-                                        </div>
-                                        <div className='mt-4 w-full flex flex-row items-center justify-start font-bold text-[1rem]'>
+                                          />
+                                      </div>
+                                      <div className='mt-4 w-full flex flex-row items-center justify-start font-bold text-[1rem]'>
 
-                                            <Link href={'/forget-password'} className={'ml-2 text-[#0038FF] capitalize'}>
-                                                Forgot Your Password?
-                                            </Link>
-                                        </div>
-                                        <div className='w-full mt-3'>
-                                            <RegisterBtn type={'submit'} loading={isPending} disabled={false}  otherClass={'!w-full'}>
-                                                Submit
-                                            </RegisterBtn>
-                                        </div>
-                                        <div className='w-full mt-3 flex flex-row items-center justify-center'>
-                                            --------- Or --------
-                                        </div>
-                                        <div className='w-full mt-3' onClick={()=>setStep(0)}>
-                                            <RegisterBtn  loading={false} disabled={false}  otherClass={'!w-full !bg-[#3F3F3F] !text-[#fff] '}>
-                                                Login With OTP
-                                            </RegisterBtn>
-                                        </div>
-                                    </form>
-                                </>
+                                          <Link href={'/forget-password'} className={'ml-2 text-[#0038FF] capitalize'}>
+                                              Forgot Your Password?
+                                          </Link>
+                                      </div>
+                                      <div className='w-full mt-3'>
+                                          <RegisterBtn type={'submit'} loading={isPending} disabled={false}  otherClass={'!w-full'}>
+                                              Submit
+                                          </RegisterBtn>
+                                      </div>
+                                      <div className='w-full mt-3 flex flex-row items-center justify-center'>
+                                          --------- Or --------
+                                      </div>
+                                      <div className='w-full mt-3' onClick={()=>setStep(0)}>
+                                          <RegisterBtn  loading={false} disabled={false}  otherClass={'!w-full !bg-[#3F3F3F] !text-[#fff] '}>
+                                              Login With OTP
+                                          </RegisterBtn>
+                                      </div>
+                                  </form>
+                              </>
 
-                    }
+                  }
 
-                    <div className='mt-4 w-full flex flex-row items-center justify-start font-bold text-[1rem]'>
-                        <div>{myTexts.havAcc}</div>
-                        <Link href={'/register'} className={'ml-2 text-[#0038FF] capitalize'}>
-                            {myTexts.register}
-                        </Link>
-                    </div>
-                </div>
+                  <div className='mt-4 w-full flex flex-row items-center justify-start font-bold text-[1rem]'>
+                      <div>{myTexts.havAcc}</div>
+                      <Link href={'/register'} className={'ml-2 text-[#0038FF] capitalize'}>
+                          {myTexts.register}
+                      </Link>
+                  </div>
+
+              </div>
 
                 <Button onClick={registerWithGoogle} type={'button'} className={'min-h-[3.5rem] font-roboto font-normal normal-case shadow-none !w-full mt-5 flex flex-row items-center justify-center gap-4 bg-white text-black text-[1.2rem]'}>
 

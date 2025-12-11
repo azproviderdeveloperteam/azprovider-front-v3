@@ -100,6 +100,7 @@ const RegisterThirdStep = ({nextStep , email = 'example@text.com'}:any) => {
             city:selectedCity?.label,
 
 
+
         }
         try {
             const res = await mutateAsync({data:formData , token :token})

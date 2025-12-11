@@ -94,28 +94,28 @@ const  RegisterFirstStep =   ({nextStep } : any) => {
     const submit = async (d : any) =>{
         const formData = validateEmail(d?.email) ?
             { email:d?.email , ...(d.invitationCode?.length > 1 && {ref_code : d?.invitationCode} )}
-            :
+        :
             {mobile:convertPersianToEnglishNumbers(`${country?.value}${country?.value ==='+98' ? d?.email?.startsWith('0') ? d.email.slice(1) : d.email :d?.email}`) , ...(d.invitationCode?.length > 1 && {ref_code : d?.invitationCode} )}
-        try{
-            const da = await mutateAsync(formData)
-            nextStep(validateEmail(d?.email) ? d?.email : convertPersianToEnglishNumbers(`${country?.value}${country?.value ==='+98' ? d?.email?.startsWith('0') ? d.email.slice(1) : d.email :d?.email}`))
-        }catch (err){
-            if(err instanceof AxiosError){
-                if(err?.response?.data?.msg){
-                    toast.error(err?.response?.data?.msg)
-                }else if(err?.response?.data?.message){
-                    toast.error(err?.response?.data?.message)
-                }else if(err?.response?.data?.error){
-                    toast.error(err?.response?.data?.error)
-                }else if(err?.response?.data?.detail) {
-                    toast.error(err?.response?.data?.detail)
-                }else if(err?.response?.data?.email?.detail) {
-                    toast.error(err?.response?.data?.email?.detail)
-                }else {
-                    toast.error('An Error occurred')
-                }
-            }
-        }
+       try{
+           const da = await mutateAsync(formData)
+           nextStep(validateEmail(d?.email) ? d?.email : convertPersianToEnglishNumbers(`${country?.value}${country?.value ==='+98' ? d?.email?.startsWith('0') ? d.email.slice(1) : d.email :d?.email}`))
+       }catch (err){
+           if(err instanceof AxiosError){
+               if(err?.response?.data?.msg){
+                   toast.error(err?.response?.data?.msg)
+               }else if(err?.response?.data?.message){
+                   toast.error(err?.response?.data?.message)
+               }else if(err?.response?.data?.error){
+                   toast.error(err?.response?.data?.error)
+               }else if(err?.response?.data?.detail) {
+                   toast.error(err?.response?.data?.detail)
+               }else if(err?.response?.data?.email?.detail) {
+                   toast.error(err?.response?.data?.email?.detail)
+               }else {
+                   toast.error('An Error occurred')
+               }
+           }
+       }
     }
 
     const registerWithGoogle = async () => {
