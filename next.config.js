@@ -1,11 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['azprovider.ir' ,'api.azprovider.ir' , 'azprovider.com' , 'api.azprovider.com'],
+        domains: ['azprovider.com' ,'api.azprovider.com' , 'azprovider.com' , 'api.azprovider.com'],
     },
     env:{
-        BACKEND_URL:'api.azprovider.ir/api/',
-        MEDIA_URL:'https://api.azprovider.ir'
+        BACKEND_URL:'api.azprovider.com/api/',
+        MEDIA_URL:'https://api.azprovider.com'
     },
     typescript: {
         // !! WARN !!
