@@ -39,6 +39,15 @@ const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
     const [selectedMeasure , setSelectedMeasure] = useState<any>({value:'kilogram', label : 'kilogram'} )
     const [measureOptions , setMeasureOptions] = useState<any>([{value:'kilogram', label : 'kilogram'}] )
     const [grantedOgOptions , setGrantedOgOptions] = useState<any>( )
+    const [selectedPriceUnit , setSelectedPriceUnit] = useState<any>({value:'irt' , label : 'IRT Iran Toman'})
+
+    const priceUnits : {value : string , label : string}[] = [
+        {value:'irt' , label : 'IRT Iran Toman'},
+        {value:'usd' , label : 'USD U.S Dollar'},
+        {value:'aed' , label : 'USD Arab Emirates Dirham'},
+        {value:'eur' , label : 'EUR Euro'},
+        {value:'cny' , label : 'CNY Chinese Yuan'},
+    ]
 
     const [productInput ,setProductInput] = useState<any>(
         {value:"" , code:"" , label:"",
@@ -112,6 +121,7 @@ const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
             setValue('typeCertification',viewAddProductForm?.certification)
             setValue('price',viewAddProductForm?.price)
             setValue('description',viewAddProductForm?.description)
+            setSelectedPriceUnit(priceUnits.find((x:any) => x.value === viewAddProductForm?.price_unit) || {value:'irt' , label : 'IRT Iran Toman'})
 
 
         }
@@ -189,6 +199,7 @@ const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
              granted_organisation_id:grantedOg?.value,
             certification:d?.typeCertification,
             price:d?.price,
+            price_unit:selectedPriceUnit?.value,
             description:d?.description,
             svc_code:productInput?.value
 
@@ -553,14 +564,53 @@ const AddServiceForm = ({exitKey , onClose , allMeasureData , allGrantedList , v
                         <div className=' text-[1.3rem] capitalize'>
                             {myTexts.price}
                         </div>
-                        <MainInput
-                            register={register}
-                            label={'price'}
-                            error={errors?.price?.message}
-                            name={'price'}
-                            type={'number'}
-                            placeholder={myTexts.price}
-                        />
+                        <div className='flex flex-row items-start justify-between gap-4'>
+                            <div className='w-9/12'>
+                                <MainInput
+                                    register={register}
+                                    label={'price'}
+                                    error={errors?.price?.message}
+                                    name={'price'}
+                                    type={'number'}
+                                    placeholder={myTexts.price}
+                                />
+                            </div>
+                            <Select
+                                className={`border border-1 border-slate-700 w-3/12 flex px-3 min-h-[3.85rem] flex-row items-center justify-between bg-transparent rounded-[1.2rem] text-[#A1A1A1] border-[#A1A1A1]`}
+
+                                onChange={(e) => {
+                                    setSelectedPriceUnit(e)
+                                }}
+                                value={selectedPriceUnit}
+                                options={priceUnits}
+                                unstyled
+                                styles={{
+                                    input: (base) => ({
+                                        ...base,
+                                        base: " hover:cursor-pointer",
+                                        fontSize: "9px",
+                                        "input:focus": {
+                                            boxShadow: "none",
+                                        },
+                                    }),
+                                    multiValueLabel: (base) => ({
+                                        ...base,
+                                        whiteSpace: "normal",
+                                        overflow: "visible",
+                                    }),
+                                    control: (base) => ({
+                                        ...base,
+                                        transition: "none",
+                                    }),
+                                }}
+
+                                classNames={{
+                                    control: ({isFocused}) => ' w-full xl:h-[46px] focus:outline-none  text-[16px] px-2 md:px-1  ',
+                                    multiValueLabel: () => 'bg-white rounded-xl ',
+                                    option: ({isFocused, isSelected}) => 'bg-white px-4 py-1',
+                                }}
+                            />
+                        </div>
                     </div>
 
                     <div className='w-full pr-2 mt-7'>

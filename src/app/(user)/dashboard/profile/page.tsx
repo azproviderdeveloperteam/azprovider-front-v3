@@ -148,17 +148,23 @@ const ProfilePage = () => {
             <div className='w-full h-auto'>
                 {
                     activeTab === 'All' ?
-                        <ProfileAll data={{projectsData :projectsData?.data?.results, membershipData  :membershipData?.data , bInfoData : bInfoData?.data ,contactData :contactData?.data, certificateData  :certificateData?.data}} />
+                        <ProfileAll data={{
+                            projectsData :projectsData?.data?.results,
+                            membershipData  :membershipData?.data?.results ?? membershipData?.data ,
+                            bInfoData : bInfoData?.data ,
+                            contactData :contactData?.data,
+                            certificateData  :certificateData?.data?.results ?? certificateData?.data
+                        }} />
                         : activeTab === 'Business Information' ?
                          <ProfileBInfo bInfoData={bInfoData?.data}/>
                             : activeTab === 'Contact' ?
                                 <ProfileContact contactData={contactData?.data}/>
                                 : activeTab === 'certificates' ?
-                                    <ProfileCertificates  certificateData={certificateData?.data}/>
+                                    <ProfileCertificates  certificateData={certificateData?.data?.results ?? certificateData?.data}/>
                                     : activeTab === 'projects' ?
-                                        <ProfileProjects  projectsData={projectsData?.data?.results}/>
+                                        <ProfileProjects  projectsData={projectsData?.data?.results ?? projectsData?.data}/>
                                         : activeTab === 'membership' ?
-                                            <ProfileMembership  membershipData={membershipData?.data}/>
+                                            <ProfileMembership  membershipData={membershipData?.data?.results ?? membershipData?.data}/>
                                             :activeTab === 'employees' ?
                                             <ProfileEmployees employeesData={employeesData}/>
                                             : null

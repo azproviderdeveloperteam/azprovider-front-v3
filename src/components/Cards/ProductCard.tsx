@@ -4,6 +4,7 @@ import {Carousel, Tooltip} from "@material-tailwind/react";
 import hexagon from '@/public/red-hexagon.svg'
 import Image from "next/image";
 import useTimeRemaining from "@/hooks/useTimeRemaining";
+import resolveMediaUrl from "@/utils/resolveMediaUrl";
 const ProductCard = ({item , theme , isService , type = 'product'} : any) => {
 
     const monthNamesFull = [ "January", "February", "March", "April", "May", "June",
@@ -17,6 +18,8 @@ const ProductCard = ({item , theme , isService , type = 'product'} : any) => {
     const remainTime = useTimeRemaining(discount?.expire_datetime || new Date())  ;
 
     const remainingTime =  discount?.expire_datetime ? remainTime : undefined ;
+
+    const productImageSrc = resolveMediaUrl(item?.media_files?.[0]?.image);
 
     console.log(item)
     return (
@@ -53,9 +56,9 @@ const ProductCard = ({item , theme , isService , type = 'product'} : any) => {
                     {/*    }*/}
                     {/*</Carousel>*/}
                     {
-                        item?.media_files?.[0]?.image
+                        productImageSrc
                             ? <Image alt={'aaa'}
-                                     src={`${item?.media_files?.[0]?.image?.includes("api.azprovider.com") ? "" : process.env.MEDIA_URL}${item?.media_files?.[0]?.image}`}
+                                     src={`${item?.media_files?.[0]?.image?.includes("api.azprovider.com") || item?.media_files?.[0]?.image?.includes("api.azprovider.ir") ? "" : process.env.MEDIA_URL}${item?.media_files?.[0]?.image}`}
                                      width={235} height={235}
                                      className='w-full aspect-[1.4268] rounded-[1.6rem] object-center object-cover'/>
                             :
@@ -130,7 +133,7 @@ const ProductCard = ({item , theme , isService , type = 'product'} : any) => {
                         </div>
                     </div>
                     <div className='text-[#A1A1A1] ml-1 truncate'>
-                        {item?.brand_name ? item?.brand_name : ' - '}
+                        {item?.creator_user?.international_name || (item?.brand_name ? item?.brand_name : ' - ')}
                     </div>
                 </div>
                 <p className={`w-full mt-2 px-[5%] text-[0.8rem] text-justify ${theme === 'dark' ? 'text-white' : 'text-primary-dark-b'} line-clamp-3`}>

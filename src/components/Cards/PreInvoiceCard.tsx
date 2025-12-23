@@ -132,7 +132,7 @@ const PreInvoiceCard = ({item , theme} : any) => {
                         </div>
                     </div>
                     <div className='text-[#A1A1A1] ml-1 truncate'>
-                        { item?.brand_name  ? item?.brand_name : ' - '}
+                        { item?.creator_user?.international_name || (item?.brand_name  ? item?.brand_name : ' - ')}
                     </div>
                 </div>
                 <p className={`w-full mt-2 px-[1%] text-[0.8rem] text-justify ${theme === 'dark' ? 'text-white' : 'text-primary-dark-b' } line-clamp-3`}>
