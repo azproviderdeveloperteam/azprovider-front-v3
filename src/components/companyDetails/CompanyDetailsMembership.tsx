@@ -23,7 +23,7 @@ const CompanyDetailsMembership = ({data , viewEditMode} : any) => {
                             return (
                                 <div key={index+1} className='flex flex-row items-center justify-start'>
                                     <Image
-                                        src={imageSrc ? `${process.env.MEDIA_URL}${imageSrc}` : noImage?.src}
+                                        src={imageSrc ? `${(imageSrc)?.startsWith("http") ? "" : process.env.MEDIA_URL}${ imageSrc }` : noImage?.src}
                                         alt={item?.title} height={80} width={80}
                                         className={'object-cover rounded-[0.6rem] aspect-square'}/>
                                     <div className='flex flex-col items-start justify-start ml-2'>

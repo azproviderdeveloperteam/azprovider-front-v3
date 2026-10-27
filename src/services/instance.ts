@@ -1,72 +1,62 @@
 import axios from "axios";
-import {baseUrl} from "@/utils/config";
-axios.defaults.withCredentials = true
+import { baseUrl } from "@/utils/config";
 import Cookies from "js-cookie";
+import { getCookie } from "cookies-next";
 
-
-import { getCookie } from "cookies-next"; // For server-side cookies
+axios.defaults.withCredentials = true;
 const isServer = typeof window === "undefined";
-const cookieToken2 =  Cookies.get('cookieToken')
-const cookieToken = isServer ? getCookie("cookieToken") : null
 
-
-
-export const app =  axios.create({
-    withCredentials:true,
-    baseURL:`https://${baseUrl}`,
-    headers:{
+export const app = axios.create({
+    withCredentials: true,
+    baseURL: baseUrl,
+    headers: {
         accept: 'application/json',
         'Content-Type': 'application/json',
-        Accept:'application/json',
-        ...(cookieToken2 && { Authorization: `Bearer ${cookieToken2}` }),
+        Accept: 'application/json',
     }
-})
+});
 
 app.interceptors.request.use(
-    (res)=> res,
-    (error)=> Promise.reject(error)
-)
+    (config) => {
+        let token = null;
 
+        if (isServer) {
+            try {
+                token = getCookie("cookieToken");
+            } catch (e) {
+                token = null;
+            }
+        } else {
+            token = Cookies.get('cookieToken');
+        }
 
+        if (token && token !== "undefined" && token !== "null") {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
 
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
+
+// 🔍 رهگیر پاسخ با قابلیت لاگ‌گیری دقیق خطاها در ترمینال
 app.interceptors.response.use(
-    (res)=>{return  res},
-    async (error)=>{
-        const originalConfig = error.config
+    (res) => res,
+    async (error) => {
+        console.error("\n================= ❌ AXIOS ERROR DETECTED ❌ =================");
+        if (error.response) {
+            console.error("🔹 Status Code:", error.response.status);
+            console.error("🔹 Failed URL:", error.config?.url);
+            console.error("🔹 Base URL Used:", error.config?.baseURL);
+            console.error("🔹 Server Error Data (علت خطا از سمت سرور شما):", JSON.stringify(error.response.data, null, 2));
+        } else {
+            console.error("🔹 Network/Other Error Message:", error.message);
+            console.error("🔹 Config:", error.config);
+        }
+        console.error("=============================================================\n");
 
-        // if(error.response.status === 401 && !originalConfig._retry){
-        //     originalConfig._retry = true
-        //     try{
-        //         const data = await axios.post(`https://${baseUrl}/user/refresh-jwt`,
-        //             {'refresh':localStorage.getItem('CFRToken')}
-        //             ,
-        //             {
-        //                 withCredentials : true,
-        //                 headers:{
-        //                     Authorization :`Bearer ${localStorage.getItem('CFAToken')}`,
-        //                 }
-        //             })
-        //         localStorage.setItem('CFAToken' , data?.data?.access)
-        //         if(data) return app(originalConfig)
-        //     }
-        //     catch (err){
-        //         if(!originalConfig.url.toString().includes('user')){
-        //         }
-        //         return Promise.reject(error)
-        //     }
-        //
-        //
-        // }
-        return Promise.reject(error)
+        return Promise.reject(error);
     }
+);
 
-)
-
-const instance = {
-    get: app.get ,
-    post : app.post ,
-    delete : app.delete ,
-    put : app.put ,
-    patch : app.patch
-}
-export default instance
+export default app;

@@ -1,17 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['azprovider.com' ,'api.azprovider.com' , 'azprovider.com' , 'api.azprovider.com'],
+        // اضافه کردن دامنه‌های دات‌کام و رانفلر به لیست مجاز
+        domains: [
+            'azprovider.ir',
+            'api.azprovider.ir',
+            'azprovider.com',
+            'api.azprovider.com',
+            'azp-django.runflare.run',
+            'mpsgroup.ir' // تایید دامنه تصاویر سرور رانفلر
+        ],
     },
-    env:{
-        BACKEND_URL:'api.azprovider.com/api/',
-        MEDIA_URL:'https://api.azprovider.com'
+    env: {
+        BACKEND_URL: 'https://mpsgroup.ir/api/',
+        MEDIA_URL: 'https://api.azprovider.com'
     },
     typescript: {
-        // !! WARN !!
-        // Dangerously allow production builds to successfully complete even if
-        // your project has type errors.
-        // !! WARN !!
         ignoreBuildErrors: true,
     },
 }

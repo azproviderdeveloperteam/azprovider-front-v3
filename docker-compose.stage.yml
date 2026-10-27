@@ -31,5 +31,5 @@ services:
       - "traefik.http.routers.nextjs-secure.service=nextjs-secure"
       - "traefik.http.services.nextjs-secure.loadbalancer.server.port=3000"
       - "traefik.http.middlewares.redirect-to-non-www.redirectregex.regex=^https?://www.azprovider.ir/(.*)"
-      - "traefik.http.middlewares.redirect-to-non-www.redirectregex.replacement=https://azprovider.ir/$${1}"
+      - "traefik.http.middlewares.redirect-to-non-www.redirectregex.replacement=https://azp-django.runflare.run/$${1}"
       - "traefik.http.middlewares.redirect-to-non-www.redirectregex.permanent=true"

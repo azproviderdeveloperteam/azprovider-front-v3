@@ -1,9 +1,9 @@
 'use client'
 import React from 'react';
-import {useMegaMenu, useMegaMenuAction} from "../../contexts/MegaMenuContext";
+import { useMegaMenu, useMegaMenuAction } from "../../contexts/MegaMenuContext";
 import {
-    Drawer ,
-    ThemeProvider ,
+    Drawer,
+    ThemeProvider,
     Typography,
     IconButton,
 } from "@material-tailwind/react";
@@ -11,9 +11,9 @@ import LightBtn from "@/components/Buttons/LightBtn";
 import Link from "next/link";
 
 type ResponsiveMainDrawerProps = {
-    text : any
+    text: any
 }
-const ResponsiveMainDrawer = ({text}  :ResponsiveMainDrawerProps) => {
+const ResponsiveMainDrawer = ({ text }: ResponsiveMainDrawerProps) => {
 
     const theme = {
         drawer: {
@@ -57,12 +57,12 @@ const ResponsiveMainDrawer = ({text}  :ResponsiveMainDrawerProps) => {
         },
     };
 
-    const {menu} = useMegaMenu()
+    const { menu } = useMegaMenu()
     const dispatch = useMegaMenuAction()
 
 
-    const closeDrawer = () =>{
-        dispatch({type:"CLOSE_MAIN_DRAWER"})
+    const closeDrawer = () => {
+        dispatch({ type: "CLOSE_MAIN_DRAWER" })
     }
 
     return (
@@ -123,6 +123,11 @@ const ResponsiveMainDrawer = ({text}  :ResponsiveMainDrawerProps) => {
                     <Link href={'/companies'}>
                         <LightBtn border={false} otherClass={'mt-2'} black={false}>
                             {text.companies}
+                        </LightBtn>
+                    </Link>
+                    <Link href={'/logistics'}>
+                        <LightBtn border={false} otherClass={'mt-2'} black={false}>
+                            {'Logistics'}
                         </LightBtn>
                     </Link>
 

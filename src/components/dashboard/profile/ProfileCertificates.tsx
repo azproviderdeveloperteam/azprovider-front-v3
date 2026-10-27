@@ -227,7 +227,7 @@ const ProfileCertificates = ({certificateData}: any) => {
                                             <div key={item?.id || index}
                                                  className='w-full bg-white shadow-sm rounded-xl p-4 flex flex-row items-center gap-3 border border-[#F1F1F1]'>
                                                 <Image
-                                                    src={itemImage ? `${process.env.MEDIA_URL}${itemImage}` : '/no-image.svg'}
+                                                    src={itemImage ? `${(itemImage)?.startsWith("http") ? "" : process.env.MEDIA_URL}${ itemImage }` : '/no-image.svg'}
                                                     alt={item?.title || 'certificate'}
                                                     width={70}
                                                     height={70}

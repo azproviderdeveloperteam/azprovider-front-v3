@@ -14,22 +14,22 @@ services:
       dockerfile: Dockerfile
     command: npm start
     environment:
-      - BACKEND_URL=api.azprovider.com
+      - BACKEND_URL=api.azprovider.ir
     restart: always
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=web_net"
       - "traefik.http.routers.nextjs.entrypoints=http"
-      - "traefik.http.routers.nextjs.rule=Host(`azprovider.com`) || Host(`www.azprovider.com`)"
+      - "traefik.http.routers.nextjs.rule=Host(`azprovider.ir`) || Host(`www.azprovider.ir`)"
       - "traefik.http.routers.nextjs.service=nextjs-secure"
       - "traefik.http.routers.nextjs.middlewares=https-redirect"
       - "traefik.http.routers.nextjs-secure.entrypoints=https"
-      - "traefik.http.routers.nextjs-secure.rule=Host(`azprovider.com`) || Host(`www.azprovider.com`)"
+      - "traefik.http.routers.nextjs-secure.rule=Host(`azprovider.ir`) || Host(`www.azprovider.ir`)"
       - "traefik.http.routers.nextjs-secure.tls=true"
       - "traefik.http.routers.nextjs-secure.tls.options=default"
       - "traefik.http.routers.nextjs-secure.tls.certresolver=mycert"
       - "traefik.http.routers.nextjs-secure.service=nextjs-secure"
       - "traefik.http.services.nextjs-secure.loadbalancer.server.port=3000"
-      - "traefik.http.middlewares.redirect-to-non-www.redirectregex.regex=^https?://www.azprovider.com/(.*)"
-      - "traefik.http.middlewares.redirect-to-non-www.redirectregex.replacement=https://azprovider.com/$${1}"
+      - "traefik.http.middlewares.redirect-to-non-www.redirectregex.regex=^https?://www.azprovider.ir/(.*)"
+      - "traefik.http.middlewares.redirect-to-non-www.redirectregex.replacement=https://azp-django.runflare.run/$${1}"
       - "traefik.http.middlewares.redirect-to-non-www.redirectregex.permanent=true"

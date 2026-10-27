@@ -290,7 +290,7 @@ const ProfileAll = ({data , children}:any) => {
                                         <div key={index+1} className='w-full flex flex-col items-start justify-start border-b-[1px] border-dashed border-[#898989]'>
                                             {
                                                 (item?.image || item?.file)
-                                                    ? <Image alt={item?.title ? item?.title : 'aa'} src={`${process.env.MEDIA_URL}${item?.image || item?.file}`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
+                                                    ? <Image alt={item?.title ? item?.title : 'aa'} src={`${(item?.image || item?.file)?.startsWith("http") ? "" : process.env.MEDIA_URL}${ item?.image || item?.file }`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
                                                     :
                                                     <Image alt={item?.title ? item?.title : 'aa'} src={`/no-image.svg`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
                                             }
@@ -390,7 +390,7 @@ const ProfileAll = ({data , children}:any) => {
                                      <div key={index+1} className='w-full flex flex-col items-start justify-start border-b-[1px] border-dashed border-[#898989]'>
                                          {
                                              (item?.image || item?.file)
-                                                 ? <Image alt={item?.title ? item?.title : 'aa'} src={`${process.env.MEDIA_URL}${item?.image || item?.file}`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
+                                                 ? <Image alt={item?.title ? item?.title : 'aa'} src={`${(item?.image || item?.file)?.startsWith("http") ? "" : process.env.MEDIA_URL}${ item?.image || item?.file }`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
                                                  :
                                                  <Image alt={item?.title ? item?.title : 'aa'} src={`/no-image.svg`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
                                          }
@@ -492,7 +492,7 @@ const ProfileAll = ({data , children}:any) => {
                                     <div key={index+1}   className='w-full flex flex-col items-start justify-start border-b-[1px] border-dashed border-[#898989]'>
                                         {
                                             (item?.image || item?.file)
-                                                ? <Image alt={item?.title ? item?.title : 'aa'} src={`${process.env.MEDIA_URL}${item?.image || item?.file}`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
+                                                ? <Image alt={item?.title ? item?.title : 'aa'} src={`${(item?.image || item?.file)?.startsWith("http") ? "" : process.env.MEDIA_URL}${ item?.image || item?.file }`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
                                                 :
                                                 <Image alt={item?.title ? item?.title : 'aa'} src={`/no-image.svg`} width={35} height={35} className={'rounded-full object-cover aspect-square mt-2'} />
                                         }

@@ -214,7 +214,7 @@ const ProfileProjects = ({projectsData} : any) => {
                                         <div key={item?.id || index}
                                              className='w-full bg-white shadow-sm rounded-xl p-4 flex flex-row items-center gap-3 border border-[#F1F1F1]'>
                                             <Image
-                                                src={imageSrc ? `${process.env.MEDIA_URL}${imageSrc}` : '/no-image.svg'}
+                                                src={imageSrc ? `${(imageSrc)?.startsWith("http") ? "" : process.env.MEDIA_URL}${ imageSrc }` : '/no-image.svg'}
                                                 alt={item?.title || 'project'}
                                                 width={70}
                                                 height={70}
